@@ -9,7 +9,7 @@
         @if(\Request::route()->getName() == 'homepage')
         <div class="mdk-header__bg">
             <div class="mdk-header__bg-front"
-                style="background-image: url({{ asset('assets/img/photodune-4161018-group-of-students-m.jpg') }});">
+                style="background-image: url({{ asset('assets/img/hero-background-elearning.jpg') }});">
             </div>
         </div>
         <div class="mdk-header__content justify-content-center">
@@ -45,22 +45,28 @@
 
                     @if(!auth()->check())
 
-                    <ul class="nav navbar-nav ml-auto mr-0">
+                    <ul class="nav navbar-nav ml-auto mr-0 desktop-only">
                         <li class="nav-item">
-                            <a href="{{ route('register') }}?r=t" class="btn btn-outline-secondary" >Join As Teacher</a>
+                            <a href="{{ route('register') }}?r=t" class="btn btn-outline-nav" >Join As Teacher</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('register') }}?r=s" class="btn btn-outline-secondary">Join As Student</a>
+                            <a href="{{ route('register') }}?r=s" class="btn btn-outline-nav">Join As Student</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('login') }}" class="btn btn-outline-secondary">Login To Account</a>
+                            <a href="{{ route('login') }}" class="btn btn-outline-nav">Login To Account</a>
                         </li>
-                        <!-- <li class="nav-item">
-                                <a href="{{ route('login') }}" class="nav-link" data-toggle="tooltip" data-title="Login"
-                                    data-placement="bottom" data-boundary="window"><i class="material-icons">lock_open</i>
-                                </a>
-                            </li> -->
                     </ul>
+
+                    <div class="nav-item dropdown ml-auto mr-0 mobile-only">
+                        <a href="#" class="btn btn-outline-nav dropdown-toggle"
+                            data-toggle="dropdown" data-caret="false">Account
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="fixed-edit-account.html">Join As Teacher</a>
+                            <a class="dropdown-item" href="fixed-billing.html">Join As Student</a>
+                            <a class="dropdown-item" href="fixed-billing-history.html">Login</a>
+                        </div>
+                    </div>
 
                     @else
 
@@ -287,10 +293,10 @@
                 </div>
 
                 @if(\Request::route()->getName() == 'homepage')
-                <div class="hero container page__container text-center text-md-left py-112pt">
-                    <div class="col-lg-10 mx-auto py-112pt" style="min-height: 500px;">
+                <div class="hero container page__container text-center text-md-left py-112pt" style="min-height: 540px;">
+                    <div class="col-lg-10 mx-auto">
                         <h1 class="text-white text-shadow py-16pt text-center">Learn anything on online.</h1>
-                        <div class="form-group pb-112pt">
+                        <div class="form-group">
                             <div class="search-form input-group-lg">
                                 <input type="text" class="form-control" placeholder="Search icons" id="searchSample01">
                                 <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
