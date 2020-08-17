@@ -47,13 +47,13 @@
 
                     <ul class="nav navbar-nav ml-auto mr-0">
                         <li class="nav-item">
-                            <a href="{{ route('register') }}?r=t" class="btn btn-outline-white" >Join As Teacher</a>
+                            <a href="{{ route('register') }}?r=t" class="btn btn-outline-secondary" >Join As Teacher</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('register') }}?r=s" class="btn btn-outline-white">Join As Student</a>
+                            <a href="{{ route('register') }}?r=s" class="btn btn-outline-secondary">Join As Student</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('login') }}" class="btn btn-outline-white">Login To Account</a>
+                            <a href="{{ route('login') }}" class="btn btn-outline-secondary">Login To Account</a>
                         </li>
                         <!-- <li class="nav-item">
                                 <a href="{{ route('login') }}" class="nav-link" data-toggle="tooltip" data-title="Login"
