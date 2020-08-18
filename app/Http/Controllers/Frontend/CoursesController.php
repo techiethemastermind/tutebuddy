@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Course;
+use App\Models\Review;
 
 class CoursesController extends Controller
 {
@@ -29,6 +30,39 @@ class CoursesController extends Controller
             $total_ratings = $course->reviews()->where('rating', '!=', "")->get()->count();
         }
 
-        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings'));
+        $is_reviewed = false;
+        if(auth()->check() && $course->reviews()->where('user_id', '=', auth()->user()->id)->first()){
+            $is_reviewed = true;
+        }
+
+        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed'));
+    }
+
+    public function addReview(Request $request, $id) {
+
+        $course = Course::findORFail($id);
+
+        $review_data = [
+            'user_id' => auth()->user()->id,
+            'reviewable_id' => $course->id,
+            'reviewable_type' => Course::class,
+            'rating' => $request->rating,
+            'content' => $request->review
+        ];
+
+        try {
+            $review = Review::create($review_data);
+            return response()->json([
+                'success' => true,
+                'review' => $review
+            ]);
+
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 }

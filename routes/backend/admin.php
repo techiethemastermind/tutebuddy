@@ -73,5 +73,6 @@ Route::get('settings/general', 'ConfigController@getGeneralSettings')->name('set
 Route::post('settings/general', 'ConfigController@saveGeneralSettings')->name('settings.general.save');
 
 // Review
-Route::post('reviews/{id}/new', 'ReviewController@addReview')->name('review.add');
-Route::post('reviews/{id}/update', 'ReviewController@updateReview')->name('review.update');
+Route::resource('reviews', 'ReviewController');
+Route::get('ajax/reviews/{id}/publish', 'ReviewController@publish')->name('publishByAjax');
+Route::get('ajax/reviews/list', 'ReviewController@getTableData')->name('getReviewsByAjax');

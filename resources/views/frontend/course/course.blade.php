@@ -488,7 +488,7 @@
     </div>
 
     @if(auth()->check())
-    <div class="page-section border-bottom-2 bg-alt">
+    <div id="review_section" class="page-section border-bottom-2 bg-alt @if($is_reviewed == true) d-none @endif">
 
         <div class="container page__container">
             <!-- Add Reviews -->
@@ -537,10 +537,10 @@
 
                 <div class="col-md-12">
                     @php
-                        if(isset($review)){
-                            $review_route = route('admin.review.update',['id'=>$review->id]);
-                        }else{
-                            $review_route = route('admin.review.add', ['id'=>$course->id]);
+                        if(isset($review) && ($is_reviewed == true)) {
+                            $review_route = route('courses.review.update', ['id'=>$review->id]);
+                        } else {
+                            $review_route = route('courses.review', ['id'=>$course->id]);
                         }
                     @endphp
                     <form method="POST" action="{{ $review_route }}" id="frm_review">@csrf

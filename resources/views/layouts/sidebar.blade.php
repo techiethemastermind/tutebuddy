@@ -97,7 +97,7 @@
 
                 <!-- reviews for course -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/review*') ? 'active' : '' }}">
-                    <a class="sidebar-menu-button" href="">
+                    <a class="sidebar-menu-button" href="{{ route('admin.reviews.index') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">star_half</span>
                         <span class="sidebar-menu-text">Reviews</span>
                     </a>
