@@ -22,6 +22,6 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'namespace' => 'Backend
 
 });
 
-Route::group(['namespace' => 'FrontEnd'], function () {
+Route::group(['namespace' => 'Frontend'], function () {
     include_route_files(__DIR__ . '/frontend/');
 });
