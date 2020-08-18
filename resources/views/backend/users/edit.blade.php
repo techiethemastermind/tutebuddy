@@ -71,7 +71,7 @@
                 <div class="media align-items-center">
                     <a href="" class="media-left mr-16pt">
                         @if($user->avatar)
-                        <img src="{{asset('/storage/avatars')}}/{{$user->avatar}}" id="user_avatar" alt="people" width="56" class="rounded-circle" />
+                        <img src="{{asset('/storage/avatars/' . $user->avatar) }}" id="user_avatar" alt="people" width="56" class="rounded-circle" />
                         @else
                         <img src="{{asset('/storage/avatars/no-avatar.jpg')}}" id="user_avatar" alt="people" width="56" class="rounded-circle" />
                         @endif

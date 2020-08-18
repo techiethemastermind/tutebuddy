@@ -6,6 +6,7 @@
 
 //===== Users Routes =====//
 Route::resource('users','UserController');
+Route::get('account', 'UserController@myAccount')->name('myaccount');
 
 //===== Roles Routes =====//
 Route::resource('roles','RoleController');

@@ -161,4 +161,10 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')
                         ->with('success','User deleted successfully');
     }
+
+    public function myAccount()
+    {
+        $user = auth()->user();
+        return view('backend.users.account', compact('user'));
+    }
 }

@@ -69,9 +69,9 @@
                             data-toggle="dropdown" data-caret="false">Account
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="fixed-edit-account.html">Join As Teacher</a>
-                            <a class="dropdown-item" href="fixed-billing.html">Join As Student</a>
-                            <a class="dropdown-item" href="fixed-billing-history.html">Login</a>
+                            <a class="dropdown-item" href="{{ route('register') }}?r=t">Join As Teacher</a>
+                            <a class="dropdown-item" href="{{ route('register') }}?r=s">Join As Student</a>
+                            <a class="dropdown-item" href="{{ route('login') }}">Login</a>
                         </div>
                     </div>
 
@@ -282,11 +282,11 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-header"><strong>Account</strong></div>
-                                <a class="dropdown-item" href="fixed-edit-account.html">Edit Account</a>
-                                <a class="dropdown-item" href="fixed-billing.html">Billing</a>
-                                <a class="dropdown-item" href="fixed-billing-history.html">Payments</a>
+                                <a class="dropdown-item" href="{{ route('admin.myaccount') }}?active=account">Edit Account</a>
+                                <a class="dropdown-item" href="{{ route('admin.myaccount') }}?active=billing">Billing</a>
+                                <a class="dropdown-item" href="{{ route('admin.myaccount') }}?active=payment">Payments</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
+                                    document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -302,7 +302,7 @@
                 @if(\Request::route()->getName() == 'homepage')
                 <div class="hero container page__container text-center text-md-left py-112pt" style="min-height: 540px;">
                     <div class="col-lg-10 mx-auto">
-                        <h1 class="text-white text-shadow py-16pt text-center">Learn anything on online.</h1>
+                        <h1 class="text-white text-shadow py-16pt text-center">Learn anything online.</h1>
                         <div class="form-group">
                             <div class="search-form input-group-lg">
                                 <input type="text" class="form-control" placeholder="Search icons" id="searchSample01">
