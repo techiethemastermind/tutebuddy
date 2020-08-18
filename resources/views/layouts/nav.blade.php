@@ -34,12 +34,19 @@
                     <a href="{{ config('app.url') }}" class="navbar-brand mr-16pt">
                         <!-- <img class="navbar-brand-icon" src="assets/images/logo/white-100@2x.png" width="30" alt="Luma"> -->
 
+                        <?php
+                            $nav_logo = asset('assets/img/logo/tutebuddy-logo-full.png');
+                            if(\Request::route()->getName() == 'homepage' && !empty(config('nav_logo_dark'))) {
+                                $nav_logo = asset('storage/logos/' . config('nav_logo_dark'));
+                            }
+
+                            if(\Request::route()->getName() != 'homepage' && !empty(config('nav_logo'))) {
+                                $nav_logo = asset('storage/logos/'.config('nav_logo'));
+                            }
+                        ?>
+
                         <span class="avatar avatar-sm navbar-brand-icon mr-0 mr-lg-8pt">
-                            <img src="@if(!empty(config('nav_logo'))) 
-                                {{ asset('storage/logos/'.config('nav_logo')) }}
-                            @else 
-                                {{asset('assets/img/logo/tutebuddy-logo-full.png')}}
-                            @endif" alt="logo" class="img-fluid" />
+                            <img src="{{ $nav_logo }}" alt="logo" class="img-fluid" />
                         </span>
                     </a>
 

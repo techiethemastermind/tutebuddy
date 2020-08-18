@@ -160,12 +160,34 @@
                                         @endif" alt="Avatar" class="avatar-img rounded" id="file_nav_logo_preview">
                                 </div>
                                 <div class="from-group col">
-                                    <label for="" class="form-label text-left">Logo for Nav menu: </label>
+                                    <label for="" class="form-label text-left">Logo for Nav menu (Light version): </label>
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="file_nav_logo" name="nav_logo"
                                             accept="image/jpeg,image/gif,image/png"
                                             data-preview="#file_nav_logo_preview">
                                         <label for="file_nav_logo" class="custom-file-label">Choose file</label>
+                                    </div>
+                                    <small class="text-muted">Note : Upload logo with transparent background
+                                        in .png format and 300x100(WxH) pixels.
+                                        Height should be fixed, width according to your aspect ratio.</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="avatar avatar-xxl avatar-2by1">
+                                    <img src="@if(!empty(config('nav_logo_dark'))) 
+                                            {{ asset('storage/logos/'.config('nav_logo_dark')) }}
+                                        @else 
+                                            {{asset('/storage/uploads/no-image.jpg')}}
+                                        @endif" alt="Avatar" class="avatar-img rounded" id="file_nav_logo_dark_preview">
+                                </div>
+                                <div class="from-group col">
+                                    <label for="" class="form-label text-left">Logo for Nav menu (dark version): </label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="file_nav_logo_dark" name="nav_logo_dark"
+                                            accept="image/jpeg,image/gif,image/png"
+                                            data-preview="#file_nav_logo_dark_preview">
+                                        <label for="file_nav_logo_dark" class="custom-file-label">Choose file</label>
                                     </div>
                                     <small class="text-muted">Note : Upload logo with transparent background
                                         in .png format and 300x100(WxH) pixels.
