@@ -47,12 +47,11 @@ class CourseController extends Controller
     }
 
     /**
-     * Show (preview) Selected Course
+     * Show Selected Course
      */
     public function show($id) {
 
-        $course = Course::find($id);
-        return view('backend.course.show', compact('course'));
+        // Show course
     }
 
     /**
@@ -448,7 +447,7 @@ class CourseController extends Controller
                                 </div>';
             }
 
-            $show_route = route('admin.courses.show', $course->id);
+            $show_route = route('courses.show', $course->slug);
             $edit_route = route('admin.courses.edit', $course->id);
             $delete_route = route('admin.courses.destroy', $course->id);
 

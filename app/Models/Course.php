@@ -77,4 +77,9 @@ class Course extends Model
     {
         return $this->hasMany(Schedule::class);
     }
+
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
 }

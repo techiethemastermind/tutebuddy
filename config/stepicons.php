@@ -1,7 +1,7 @@
 <?php
 
 return [
-        'text' => 'text_format',
+        'text' => 'brush',
         'video' => 'play_arrow',
         'quiz' => 'call_split',
         'test' => 'hourglass_empty'

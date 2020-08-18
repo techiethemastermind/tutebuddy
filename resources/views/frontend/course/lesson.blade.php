@@ -3,7 +3,16 @@
 @section('content')
 
 @push('after-styles')
-
+<style>
+    [dir=ltr] .course-nav a.active {
+        background-color: #5567ff;
+        border: 2px solid #fff;
+    }
+    [dir=ltr] .course-nav a.active .material-icons {
+        font-weight: bold;
+        color: #fff;
+    }
+</style>
 @endpush
 
 <!-- Header Layout Content -->
@@ -15,7 +24,7 @@
                 <div class="nav-item py-16pt py-sm-0">
                     <div class="media flex-nowrap">
                         <div class="media-left mr-16pt">
-                            <a href="{{ route('admin.courses.show', $lesson->course->id) }}">
+                            <a href="{{ route('courses.show', $lesson->course->slug) }}">
                                 @if(!empty($lesson->course->course_image))
                                 <img src="{{ asset('storage/uploads/thumb/' . $lesson->course->course_image) }}"
                                     width="40" alt="Angular" class="rounded">
@@ -29,7 +38,7 @@
                             </a>
                         </div>
                         <div class="media-body d-flex flex-column">
-                            <a href="{{ route('admin.courses.show', $lesson->course->id) }}" class="card-title">
+                            <a href="{{ route('courses.show', $lesson->course->slug) }}" class="card-title">
                                 @if(strlen($lesson->course->title) > 60)
                                 {{ substr($lesson->course->title, 0, 60) . '...' }}
                                 @else
@@ -70,7 +79,7 @@
         <div class="container page__container">
             <nav class="course-nav">
                 @foreach($lesson->steps as $item)
-                <a data-toggle="tooltip" data-placement="bottom" data-title="{{ $item->title }}" 
+                <a data-toggle="tooltip" data-placement="bottom" data-title="{{ $item->title }}" class="@if($item->id == $step->id) active @endif"
                     href="{{ route('admin.lessons.show', $lesson->id) }}?step={{ $item->id }}">
                     @if($item->id == $step->id)
                     <span class="material-icons">done</span>

@@ -12,18 +12,22 @@
     top: 4rem;
     display: block;
 }
+
 [dir=ltr] .review-stars-item .rating label input {
     position: absolute;
     top: 0;
     left: 0;
     opacity: 0;
 }
+
 [dir=ltr] .review-stars-item .rating__item {
     color: rgb(39 44 51 / 0.2);
 }
+
 [dir=ltr] .review-stars-item .rating label {
     display: inherit;
 }
+
 [dir=ltr] .rating label {
     position: absolute;
     top: 0;
@@ -31,25 +35,32 @@
     height: 100%;
     cursor: pointer;
 }
+
 [dir=ltr] .rating label:nth-child(1) {
     z-index: 4;
 }
+
 [dir=ltr] .rating label:nth-child(2) {
     z-index: 3;
 }
+
 [dir=ltr] .rating label:nth-child(3) {
     z-index: 2;
 }
+
 [dir=ltr] .rating label:nth-child(4) {
     z-index: 1;
 }
+
 [dir=ltr] .rating label:last-child {
     position: static;
 }
-[dir=ltr] .rating:hover label:hover input ~ .rating__item {
+
+[dir=ltr] .rating:hover label:hover input~.rating__item {
     color: #f9c32c;
 }
-[dir=ltr] .rating:not(:hover) label input:checked ~ .rating__item {
+
+[dir=ltr] .rating:not(:hover) label input:checked~.rating__item {
     color: #ffc926;
 }
 </style>
@@ -74,14 +85,16 @@
                             <div class="media align-items-center">
                                 <div class="avatar avatar-sm avatar-online media-left mr-16pt">
                                     @if(empty($course->teachers[0]->avatar))
-                                    <span class="avatar-title rounded-circle">{{ substr($course->teachers[0]->name, 0, 2) }}</span>
+                                    <span
+                                        class="avatar-title rounded-circle">{{ substr($course->teachers[0]->name, 0, 2) }}</span>
                                     @else
                                     <img src="{{ asset('/storage/avatars') }}/{{ $course->teachers[0]->avatar }}"
                                         alt="$course->teachers[0]->name" class="avatar-img rounded-circle">
                                     @endif
                                 </div>
                                 <div class="media-body">
-                                    <a class="card-title m-0" href="fixed-teacher-profile.html">{{ $course->teachers[0]->name }}</a>
+                                    <a class="card-title m-0"
+                                        href="fixed-teacher-profile.html">{{ $course->teachers[0]->name }}</a>
                                     <p class="text-50 lh-1 mb-0">Instructor</p>
                                 </div>
                             </div>
@@ -96,19 +109,19 @@
                         </li>
                         <li class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item">
                             <div class="rating rating-24">
-                                @for($r = 1; $r <= $course_rating; $r++)
-                                <span class="rating__item"><span class="material-icons">star</span></span>
-                                @endfor
+                                @for($r = 1; $r <= $course_rating; $r++) <span class="rating__item"><span
+                                        class="material-icons">star</span></span>
+                                    @endfor
 
-                                @if($course_rating > ($r-1))
-                                <span class="rating__item"><span class="material-icons">star_half</span></span>
-                                @else
-                                <span class="rating__item"><span class="material-icons">star_border</span></span>
-                                @endif
-                                
-                                @for($r_a = $r; $r < 5; $r++)
-                                <span class="rating__item"><span class="material-icons">star_border</span></span>
-                                @endfor
+                                    @if($course_rating > ($r-1))
+                                    <span class="rating__item"><span class="material-icons">star_half</span></span>
+                                    @else
+                                    <span class="rating__item"><span class="material-icons">star_border</span></span>
+                                    @endif
+
+                                    @for($r_a = $r; $r < 5; $r++) <span class="rating__item"><span
+                                            class="material-icons">star_border</span></span>
+                                        @endfor
                             </div>
                             <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} ratings</small></p>
                         </li>
@@ -118,6 +131,67 @@
         </div>
     </div>
 
+    @if(!auth()->check())
+
+    <div class="page-section">
+        <div class="container page__container">
+
+            <div class="page-separator">
+                <div class="page-separator__text">Table of Contents</div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-7">
+                    @foreach($course->lessons as $lesson)
+                    <div class="mb-32pt">
+                        <ul class="accordion accordion--boxed js-accordion mb-0" id="toc-{{ $lesson->id }}">
+                            <li class="accordion__item @if($loop->iteration == 1) open @endif">
+                                <a class="accordion__toggle" data-toggle="collapse" data-parent="#toc-{{ $lesson->id }}"
+                                    href="#toc-content-{{ $lesson->id }}">
+                                    <span class="flex">{{ $lesson->steps->count() }} Steps</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu">
+                                    <ul class="list-unstyled collapse @if($loop->iteration == 1) show @endif"
+                                        id="toc-content-{{ $lesson->id }}">
+
+                                        @foreach( $lesson->steps as $step )
+
+                                        <li class="accordion__menu-link">
+                                            <span class="material-icons icon-16pt icon--left text-body">lock</span>
+                                            <a class="flex"
+                                                href="{{ route('admin.lessons.show', $lesson->id) }}?step={{ $step->id }}">
+                                                Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
+                                            </a>
+                                            <span class="text-muted">1h 30m</span>
+                                        </li>
+
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    @endforeach
+                </div>
+                <div class="col-lg-5 justify-content-center">
+                    <div class="card">
+                        <div class="card-body py-16pt text-center">
+                            <span
+                                class="icon-holder icon-holder--outline-secondary rounded-circle d-inline-flex mb-8pt">
+                                <i class="material-icons">timer</i>
+                            </span>
+                            <h4 class="card-title"><strong>Unlock Library</strong></h4>
+                            <p class="card-subtitle text-70 mb-24pt">Get access to all videos in the library</p>
+                            <a href="fixed-pricing.html" class="btn btn-accent mb-8pt">Sign Up - Only $19.00/mo</a>
+                            <p class="mb-0">Have an account? <a href="fixed-login.html">Login</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @else
     <div class="container page__container">
         <div class="row">
             <div class="col-lg-7">
@@ -135,18 +209,22 @@
                     <div class="mb-32pt">
                         <ul class="accordion accordion--boxed js-accordion mb-0" id="toc-{{ $lesson->id }}">
                             <li class="accordion__item @if($loop->iteration == 1) open @endif">
-                                <a class="accordion__toggle" data-toggle="collapse" data-parent="#toc-{{ $lesson->id }}" href="#toc-content-{{ $lesson->id }}">
+                                <a class="accordion__toggle" data-toggle="collapse" data-parent="#toc-{{ $lesson->id }}"
+                                    href="#toc-content-{{ $lesson->id }}">
                                     <span class="flex">{{ $lesson->steps->count() }} Steps</span>
                                     <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
                                 </a>
                                 <div class="accordion__menu">
-                                    <ul class="list-unstyled collapse @if($loop->iteration == 1) show @endif" id="toc-content-{{ $lesson->id }}">
-                                        
+                                    <ul class="list-unstyled collapse @if($loop->iteration == 1) show @endif"
+                                        id="toc-content-{{ $lesson->id }}">
+
                                         @foreach( $lesson->steps as $step )
 
                                         <li class="accordion__menu-link">
-                                            <span class="material-icons icon-16pt icon--left text-body">{{ config('stepicons')[$step['type']] }}</span>
-                                            <a class="flex" href="{{ route('admin.lessons.show', $lesson->id) }}?step={{ $step->id }}">
+                                            <span
+                                                class="material-icons icon-16pt icon--left text-body">{{ config('stepicons')[$step['type']] }}</span>
+                                            <a class="flex"
+                                                href="{{ route('lessons.show', [$course->slug, $lesson->slug, $step->step]) }}">
                                                 Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
                                             </a>
                                             <span class="text-muted">1h 30m</span>
@@ -197,8 +275,8 @@
                                 @if(empty($teacher->avatar))
                                 <span class="avatar-title rounded-circle">{{ substr($teacher->name, 0, 2) }}</span>
                                 @else
-                                    <img src="{{ asset('/storage/avatars') }}/{{ $teacher->avatar }}" 
-                                        alt="{{ $teacher->name }}" class="avatar-img rounded-circle">
+                                <img src="{{ asset('/storage/avatars') }}/{{ $teacher->avatar }}"
+                                    alt="{{ $teacher->name }}" class="avatar-img rounded-circle">
                                 @endif
                             </div>
                             <h4 class="m-0">{{ $teacher->name }}</h4>
@@ -214,11 +292,12 @@
 
                         @endforeach
                     </div>
-                    
+
                 </div>
             </div>
         </div>
     </div>
+    @endif
 
     <div class="page-section bg-alt border-top-2 border-bottom-2">
 
@@ -230,19 +309,23 @@
                 <div class="col-md-3 mb-32pt mb-md-0">
                     <div class="display-1">{{ number_format($course_rating, 1) }}</div>
                     <div class="rating rating-24">
-                        @for($r = 1; $r <= $course_rating; $r++)
-                        <span class="rating__item"><span class="material-icons">star</span></span>
-                        @endfor
+                        @for($r = 1; $r <= $course_rating; $r++) <span class="rating__item">
+                            <span class="material-icons">star</span>
+                            </span>
+                            @endfor
 
-                        @if($course_rating > ($r-1))
-                        <span class="rating__item"><span class="material-icons">star_half</span></span>
-                        @else
-                        <span class="rating__item"><span class="material-icons">star_border</span></span>
-                        @endif
+                            @if($course_rating > ($r-1))
+                            <span class="rating__item">
+                                <span class="material-icons">star_half</span>
+                            </span>
+                            @else
+                            <span class="rating__item"><span class="material-icons">star_border</span></span>
+                            @endif
 
-                        @for($r_a = $r; $r < 5; $r++)
-                        <span class="rating__item"><span class="material-icons">star_border</span></span>
-                        @endfor
+                            @for($r_a = $r; $r < 5; $r++) <span class="rating__item">
+                                <span class="material-icons">star_border</span>
+                                </span>
+                                @endfor
                     </div>
                     <p class="text-muted mb-0">{{ $total_ratings }} ratings</p>
                 </div>
@@ -260,12 +343,13 @@
                         $ratings_1 = $course->reviews()->where('rating', '=', 1)->get()->count();
                         $percent_1 = number_format(($ratings_1 / $total_ratings) * 100, 1);
                     ?>
-                    <div class="row align-items-center mb-8pt" data-toggle="tooltip" data-title="{{ $percent_5 }}% rated 5/5"
-                        data-placement="top">
+                    <div class="row align-items-center mb-8pt" data-toggle="tooltip"
+                        data-title="{{ $percent_5 }}% rated 5/5" data-placement="top">
                         <div class="col-md col-sm-6">
                             <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ $percent_5 }}"
-                                    style="width: {{ $percent_5 }}%" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-secondary" role="progressbar"
+                                    aria-valuenow="{{ $percent_5 }}" style="width: {{ $percent_5 }}%" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-md-auto col-sm-6 d-none d-sm-flex align-items-center">
@@ -278,12 +362,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row align-items-center mb-8pt" data-toggle="tooltip" data-title="{{ $percent_4 }}% rated 4/5"
-                        data-placement="top">
+                    <div class="row align-items-center mb-8pt" data-toggle="tooltip"
+                        data-title="{{ $percent_4 }}% rated 4/5" data-placement="top">
                         <div class="col-md col-sm-6">
                             <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ $percent_4 }}"
-                                    style="width: {{ $percent_4 }}%" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-secondary" role="progressbar"
+                                    aria-valuenow="{{ $percent_4 }}" style="width: {{ $percent_4 }}%" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-md-auto col-sm-6 d-none d-sm-flex align-items-center">
@@ -296,12 +381,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row align-items-center mb-8pt" data-toggle="tooltip" data-title="{{ $percent_3 }}% rated 3/5"
-                        data-placement="top">
+                    <div class="row align-items-center mb-8pt" data-toggle="tooltip"
+                        data-title="{{ $percent_3 }}% rated 3/5" data-placement="top">
                         <div class="col-md col-sm-6">
                             <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ $percent_3 }}"
-                                    style="width: {{ $percent_3 }}%" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-secondary" role="progressbar"
+                                    aria-valuenow="{{ $percent_3 }}" style="width: {{ $percent_3 }}%" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-md-auto col-sm-6 d-none d-sm-flex align-items-center">
@@ -314,12 +400,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row align-items-center mb-8pt" data-toggle="tooltip" data-title="{{ $percent_2 }}% rated 2/5"
-                        data-placement="top">
+                    <div class="row align-items-center mb-8pt" data-toggle="tooltip"
+                        data-title="{{ $percent_2 }}% rated 2/5" data-placement="top">
                         <div class="col-md col-sm-6">
                             <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ $percent_2 }}"
-                                    style="width: {{ $percent_2 }}%" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-secondary" role="progressbar"
+                                    aria-valuenow="{{ $percent_2 }}" style="width: {{ $percent_2 }}%" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-md-auto col-sm-6 d-none d-sm-flex align-items-center">
@@ -332,12 +419,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row align-items-center mb-8pt" data-toggle="tooltip" data-title="{{ $percent_1 }}% rated 0/5"
-                        data-placement="top">
+                    <div class="row align-items-center mb-8pt" data-toggle="tooltip"
+                        data-title="{{ $percent_1 }}% rated 0/5" data-placement="top">
                         <div class="col-md col-sm-6">
                             <div class="progress" style="height: 8px;">
-                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ $percent_1 }}"
-                                    aria-valuemin="{{ $percent_1 }}" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-secondary" role="progressbar"
+                                    aria-valuenow="{{ $percent_1 }}" aria-valuemin="{{ $percent_1 }}"
+                                    aria-valuemax="100"></div>
                             </div>
                         </div>
                         <div class="col-md-auto col-sm-6 d-none d-sm-flex align-items-center">
@@ -360,7 +448,8 @@
                     <div class="d-flex">
                         <a href="fixed-student-profile.html" class="avatar avatar-sm mr-12pt">
                             @if(!empty($review->user->avatar))
-                            <img src="{{ asset('storage/avatars/' . $review->user->avatar ) }}" alt="avatar" class="avatar-img rounded-circle">
+                            <img src="{{ asset('storage/avatars/' . $review->user->avatar ) }}" alt="avatar"
+                                class="avatar-img rounded-circle">
                             @else
                             <span class="avatar-title rounded-circle">{{ substr($review->user->name, 0, 2) }}</span>
                             @endif
@@ -374,7 +463,9 @@
                 <div class="col-md-9">
                     <div class="rating mb-8pt">
                         @for($r = 1; $r <= $review->rating; $r++)
-                        <span class="rating__item"><span class="material-icons">star</span></span>
+                        <span class="rating__item">
+                            <span class="material-icons">star</span>
+                        </span>
                         @endfor
 
                         @if($review->rating > ($r-1))
@@ -383,9 +474,10 @@
                         <span class="rating__item"><span class="material-icons">star_border</span></span>
                         @endif
 
-
                         @for($r_a = $r; $r < 5; $r++)
-                        <span class="rating__item"><span class="material-icons">star_border</span></span>
+                        <span class="rating__item">
+                            <span class="material-icons">star_border</span>
+                        </span>
                         @endfor
                     </div>
                     <p class="text-70 mb-0">{{ $review->content }}</p>
@@ -395,6 +487,7 @@
         </div>
     </div>
 
+    @if(auth()->check())
     <div class="page-section border-bottom-2 bg-alt">
 
         <div class="container page__container">
@@ -453,13 +546,15 @@
                     <form method="POST" action="{{ $review_route }}" id="frm_review">@csrf
                         <input type="hidden" name="rating" id="rating" value="0">
                         <label for="review" class="form-label">Message:</label>
-                        <textarea name="review" class="form-control bg-light mb-3" id="review" rows="5" cols="20"></textarea>
+                        <textarea name="review" class="form-control bg-light mb-3" id="review" rows="5"
+                            cols="20"></textarea>
                         <button type="submit" class="btn btn-primary" value="Submit">Add review Now</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    @endif
 
     <div class="page-section">
         <div class="container page__container">
@@ -532,8 +627,8 @@
                             <div class="popoverContainer d-none">
                                 <div class="media">
                                     <div class="media-left mr-12pt">
-                                        <img src="{{ asset('assets/img/paths/angular_40x40@2x.png') }}" width="40" height="40"
-                                            alt="Angular" class="rounded">
+                                        <img src="{{ asset('assets/img/paths/angular_40x40@2x.png') }}" width="40"
+                                            height="40" alt="Angular" class="rounded">
                                     </div>
                                     <div class="media-body">
                                         <div class="card-title mb-0">Learn Angular fundamentals</div>
@@ -653,8 +748,8 @@
                             <div class="popoverContainer d-none">
                                 <div class="media">
                                     <div class="media-left mr-12pt">
-                                        <img src="{{ asset('assets/img/paths/swift_40x40@2x.png') }}" width="40" height="40"
-                                            alt="Angular" class="rounded">
+                                        <img src="{{ asset('assets/img/paths/swift_40x40@2x.png') }}" width="40"
+                                            height="40" alt="Angular" class="rounded">
                                     </div>
                                     <div class="media-body">
                                         <div class="card-title mb-0">Build an iOS Application in Swift</div>
@@ -774,8 +869,8 @@
                             <div class="popoverContainer d-none">
                                 <div class="media">
                                     <div class="media-left mr-12pt">
-                                        <img src="{{ asset('assets/img/paths/wordpress_40x40@2x.png') }}" width="40" height="40"
-                                            alt="Angular" class="rounded">
+                                        <img src="{{ asset('assets/img/paths/wordpress_40x40@2x.png') }}" width="40"
+                                            height="40" alt="Angular" class="rounded">
                                     </div>
                                     <div class="media-body">
                                         <div class="card-title mb-0">Build a WordPress Website</div>
@@ -895,8 +990,8 @@
                             <div class="popoverContainer d-none">
                                 <div class="media">
                                     <div class="media-left mr-12pt">
-                                        <img src="{{ asset('assets/img/paths/react_40x40@2x.png') }}" width="40" height="40"
-                                            alt="Angular" class="rounded">
+                                        <img src="{{ asset('assets/img/paths/react_40x40@2x.png') }}" width="40"
+                                            height="40" alt="Angular" class="rounded">
                                     </div>
                                     <div class="media-body">
                                         <div class="card-title mb-0">Become a React Native Developer</div>
@@ -1016,8 +1111,8 @@
                             <div class="popoverContainer d-none">
                                 <div class="media">
                                     <div class="media-left mr-12pt">
-                                        <img src="{{ asset('assets/img/paths/react_40x40@2x.png') }}" width="40" height="40"
-                                            alt="Angular" class="rounded">
+                                        <img src="{{ asset('assets/img/paths/react_40x40@2x.png') }}" width="40"
+                                            height="40" alt="Angular" class="rounded">
                                     </div>
                                     <div class="media-body">
                                         <div class="card-title mb-0">Become a React Native Developer</div>
@@ -1107,29 +1202,28 @@
 <script src="{{ asset('assets/js/quill.js') }}"></script>
 
 <script>
+$(document).ready(function(e) {
 
-    $(document).ready(function(e) {
+    var json_description = JSON.parse($('#course_description').val());
+    var course_quill = new Quill('#course_editor');
+    course_quill.setContents(json_description);
+    var description_html = course_quill.root.innerHTML;
+    $('div.course-description').html(description_html);
 
-        var json_description = JSON.parse($('#course_description').val());
-        var course_quill = new Quill('#course_editor');
-        course_quill.setContents(json_description);
-        var description_html = course_quill.root.innerHTML;
-        $('div.course-description').html(description_html);
-
-        $('input[name="stars"]').on('click', function(){
-            $('#rating').val($(this).val());
-        });
+    $('input[name="stars"]').on('click', function() {
+        $('#rating').val($(this).val());
     });
+});
 
-    $('#frm_review').on('submit', function(e) {
-        e.preventDefault();
-        $(this).ajaxSubmit({
-            success: function(res) {
-                console.log(res);
+$('#frm_review').on('submit', function(e) {
+    e.preventDefault();
+    $(this).ajaxSubmit({
+        success: function(res) {
+            console.log(res);
 
-            }
-        });
+        }
     });
+});
 </script>
 @endpush
 
