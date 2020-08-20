@@ -88,8 +88,8 @@
                                     <span
                                         class="avatar-title rounded-circle">{{ substr($course->teachers[0]->name, 0, 2) }}</span>
                                     @else
-                                    <img src="{{ asset('/storage/avatars') }}/{{ $course->teachers[0]->avatar }}"
-                                        alt="$course->teachers[0]->name" class="avatar-img rounded-circle">
+                                    <img src="{{ asset('/storage/avatars/' . $course->teachers[0]->avatar) }}"
+                                        alt="{{ $course->teachers[0]->name }}" class="avatar-img rounded-circle">
                                     @endif
                                 </div>
                                 <div class="media-body">
@@ -160,10 +160,10 @@
                                         <li class="accordion__menu-link">
                                             <span class="material-icons icon-16pt icon--left text-body">lock</span>
                                             <a class="flex"
-                                                href="{{ route('admin.lessons.show', $lesson->id) }}?step={{ $step->id }}">
+                                                href="{{ route('lessons.show', [$course->slug, $lesson->slug, $step->step]) }}">
                                                 Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
                                             </a>
-                                            <span class="text-muted">1h 30m</span>
+                                            <span class="material-icons icon-16pt icon--left text-body text-muted">alarm</span>
                                         </li>
 
                                         @endforeach
@@ -227,7 +227,7 @@
                                                 href="{{ route('lessons.show', [$course->slug, $lesson->slug, $step->step]) }}">
                                                 Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
                                             </a>
-                                            <span class="text-muted">1h 30m</span>
+                                            <span class="material-icons icon-16pt icon--left text-body text-muted">alarm</span>
                                         </li>
 
                                         @endforeach
@@ -275,7 +275,7 @@
                                 @if(empty($teacher->avatar))
                                 <span class="avatar-title rounded-circle">{{ substr($teacher->name, 0, 2) }}</span>
                                 @else
-                                <img src="{{ asset('/storage/avatars') }}/{{ $teacher->avatar }}"
+                                <img src="{{ asset('/storage/avatars/'. $teacher->avatar) }}"
                                     alt="{{ $teacher->name }}" class="avatar-img rounded-circle">
                                 @endif
                             </div>

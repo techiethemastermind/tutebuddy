@@ -25,4 +25,17 @@ class Test extends Model
     {
         return $this->hasMany(Question::class)->withTrashed();
     }
+
+    public function step()
+    {
+        return $this->hasOne(Step::class, 'test', 'id');
+    }
+
+    public function isCompleted(){
+        $isCompleted = $this->chapterStudents()->where('user_id', \Auth::id())->count();
+        if($isCompleted > 0){
+            return true;
+        }
+        return false;
+    }
 }

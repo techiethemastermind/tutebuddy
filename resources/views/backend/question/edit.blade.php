@@ -330,6 +330,9 @@ $('#frm_option').submit(function(e) {
                             <ul class="list-group stack mb-40pt">`+ res.html +`</ul>`
                         );
                     }
+
+                    $('input[name="option_text"]').val('');
+                    $('textarea[name="explanation"]').val('');
                 }
             } else {
                 swal('Warning!', res.message, 'warning');

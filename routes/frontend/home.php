@@ -14,7 +14,11 @@ Route::get('courses/review/{id}/delete', 'CoursesController@deleteReview')->name
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('lesson/{course_slug}/{slug}/{step}', 'LessonsController@show')->name('lessons.show');
+    Route::get('course/{course_slug}/lesson/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');
+    Route::get('test/{test_id}/{index}', 'LessonsController@getQuestion')->name('lessons.question');
+    Route::post('test/questions/{id}', 'LessonsController@completeQuestion')->name('lessons.complete');
+    Route::get('test-result/{test_id}', 'LessonsController@testResult')->name('test.result');
+
     Route::post('lesson/{slug}/test', 'LessonsController@test')->name('lessons.test');
     Route::post('lesson/{slug}/retest', 'LessonsController@retest')->name('lessons.retest');
     Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');

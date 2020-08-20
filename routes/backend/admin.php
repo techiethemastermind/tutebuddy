@@ -7,6 +7,7 @@
 //===== Users Routes =====//
 Route::resource('users','UserController');
 Route::get('account', 'UserController@myAccount')->name('myaccount');
+Route::post('account/{id}/update', 'UserController@updateAccount')->name('myaccount.update');
 
 //===== Roles Routes =====//
 Route::resource('roles','RoleController');
@@ -38,8 +39,9 @@ Route::get('ajax/courses/list/{type}', 'CourseController@getList')->name('getCou
 
 //===== Lessons Routes =====//
 Route::resource('lessons', 'LessonController');
-Route::get('lessons/delete/{id}', 'LessonController@delete')->name('lessons.delete');
+Route::get('lessons/delete/{id}', 'LessonController@deleteLesson')->name('lessons.delete');
 Route::get('lessons/lesson/{id}', 'LessonController@getLesson')->name('lesson.getById');
+Route::get('steps/delete/{id}', 'LessonController@deleteStep')->name('steps.delete');
 
 //===== Schedule Routes ====//
 Route::get('schedule', 'ScheduleController@index')->name('schedule');

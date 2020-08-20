@@ -240,7 +240,7 @@ class CourseController extends Controller
         
         $schedules = $calendarService->getOnePeriodSchedule($id);
         
-        return view('backend.course.edit', compact('course', 'parentCategories', 'tags', 'levels', 'types', 'schedules'));
+        return view('backend.course.edit', compact('course', 'parentCategories', 'tags', 'levels', 'schedules'));
     }
 
     /**

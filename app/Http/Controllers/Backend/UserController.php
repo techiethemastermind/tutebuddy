@@ -167,4 +167,24 @@ class UserController extends Controller
         $user = auth()->user();
         return view('backend.users.account', compact('user'));
     }
+
+    public function updateAccount(Request $request, $id)
+    {
+        $input = $request->all();
+
+        $user = User::find($id);
+        $user->update($input);
+
+        $avatar = $request->has('avatar') ? $request->file('avatar') : false;
+        if($avatar) {
+            $avatar_url = $this->saveImage($avatar, 'avatar');
+            $user->avatar = $avatar_url;
+            $user->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'action' => 'update'
+        ]);
+    }
 }

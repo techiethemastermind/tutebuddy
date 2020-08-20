@@ -27,7 +27,7 @@ class QuestionOption extends Model
 
     public function answered($result_id)
     {
-        $result = TestsResultsAnswer::where('tests_result_id', '=', $result_id)
+        $result = TestResultAnswers::where('test_result_id', '=', $result_id)
             ->where('option_id', '=', $this->id)
             ->first();
 

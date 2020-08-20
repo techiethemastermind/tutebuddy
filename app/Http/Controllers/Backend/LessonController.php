@@ -180,10 +180,31 @@ class LessonController extends Controller
     /**
      * Delete a lesson
      */
-    public function delete($id) {
+    public function deleteLesson($id) {
 
         try {
             Lesson::find($id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Delete a Step
+     */
+    public function deleteStep($id) {
+
+        try {
+            Step::find($id)->delete();
 
             return response()->json([
                 'success' => true,

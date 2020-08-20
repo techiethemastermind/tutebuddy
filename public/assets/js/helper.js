@@ -122,15 +122,10 @@ function makeId(length) {
 }
 
 // ===  Global Element Events === //
+$(document).on('change', 'input[data-preview]', function() {
+    display_image(this, $($(this).attr('data-preview')));
+});
 
-$('input[type="file"]').on('change', function() {
-    var file = this.files[0];
-    var reader  = new FileReader();
-    var target = $($(this).attr('data-preview'));
-
-    reader.onload = function(e)  {
-        target.attr('src', e.target.result);
-    }
-    // declear file loading
-    reader.readAsDataURL(file);
+$(document).on('change', 'input[data-video-preview]', function() {
+    display_iframe($(this).val(), $($(this).attr('data-video-preview')));
 });

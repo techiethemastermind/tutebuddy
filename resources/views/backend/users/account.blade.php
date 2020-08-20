@@ -82,7 +82,7 @@
                         <!-- Tab Content for General Setting -->
                         <div id="account" class="tab-pane p-4 fade text-70 active show">
 
-                            {!! Form::model($user, ['method' => 'PATCH', 'files' => true, 'route' => ['admin.users.update', $user->id]]) !!}
+                            {!! Form::model($user, ['method' => 'POST', 'files' => true, 'route' => ['admin.myaccount.update', $user->id]]) !!}
 
                             <div class="form-group">
                                 <label class="form-label">Your photo</label>
@@ -96,7 +96,8 @@
                                     </a>
                                     <div class="media-body">
                                         <div class="custom-file">
-                                            <input type="file" name="avatar" class="custom-file-input" id="avatar_file">
+                                            <input type="file" name="avatar" class="custom-file-input" id="avatar_file"
+                                                data-preview="#user_avatar">
                                             <label class="custom-file-label" for="avatar_file">Choose file</label>
                                         </div>
                                     </div>
@@ -106,11 +107,33 @@
                             <div class="form-group">
                                 <label class="form-label">Profile name</label>
                                 {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                                <small class="form-text text-muted">Your profile name will be used as part of your public profile URL address.</small>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Email Address</label>
                                 {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">About you</label>
+                                <textarea name="about" rows="3" class="form-control" placeholder="About you ...">{{ $user->about }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" checked="" id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1">Display your real name on your profile</label>
+                                    <small class="form-text text-muted">If unchecked, your profile name will be displayed instead of your full name.</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" checked="" id="customCheck2">
+                                    <label class="custom-control-label" for="customCheck2">Allow everyone to see your profile</label>
+                                    <small class="form-text text-muted">If unchecked, your profile will be private and no one except you will be able to view it.</small>
+                                </div>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -285,35 +308,29 @@
     
 $(document).ready(function() {
 
-    // Init code
+    var active_tab = '{{ $_GET["active"] }}';
+    $('div[role="tablist"]').find('a').removeClass('active');
+    $('div[role="tablist"]').find('a[href="#' + active_tab + '"]').addClass('active');
+
+    $('div.tab-pane').removeClass('show');
+    $('div.tab-pane').removeClass('active');
+    $('#' + active_tab).addClass('active');
+    $('#' + active_tab).addClass('show');
 });
 
-$('#frm_setting').submit(function(e) {
+$('#account form').submit(function(e){
     e.preventDefault();
 
     $(this).ajaxSubmit({
         success: function(res) {
-
-            if (res.success) {
+            console.log(res);
+            if(res.success) {
                 swal("Success!", "Successfully updated", "success");
             }
         }
     });
 });
 
-$('.custom-checkbox-toggle').on('click', 'input[type="checkbox"]', function() {
-
-    var id = $(this).attr('id');
-
-    if ($(this).prop('checked')) {
-        $(this).val('1');
-        $('div.wrap[for="' + id + '"').removeClass('d-none');
-    } else {
-        $(this).val('0');
-        $('div.wrap[for="' + id + '"').addClass('d-none');
-    }
-
-});
 </script>
 
 @endpush

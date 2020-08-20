@@ -127,10 +127,6 @@
 
             <div class="card card-body" id="step_content"></div>
 
-            @elseif($step->type == 'test')
-
-            <div>test</div>
-
             @endif
         
             @if(!empty($next))
@@ -149,8 +145,8 @@
                             @if(empty($lesson->course->teachers[0]->avatar))
                             <span class="avatar-title rounded-circle">{{ substr($lesson->course->teachers[0]->name, 0, 2) }}</span>
                             @else
-                            <img src="{{ asset('/storage/avatars' . $course->teachers[0]->avatar) }}"
-                                alt="$course->teachers[0]->name" class="rounded-circle">
+                            <img src="{{ asset('/storage/avatars/' . $lesson->course->teachers[0]->avatar) }}"
+                                alt="{{ $lesson->course->teachers[0]->name }}" class="avatar-img rounded-circle">
                             @endif
                         </span>
                         <div class="media-body">

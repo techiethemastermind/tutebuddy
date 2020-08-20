@@ -252,7 +252,7 @@ class QuestionController extends Controller
                                 </div>
                             </div>';
 
-            $temp['options'] = 4;
+            $temp['options'] = $question->options->count();
 
             $show_route = route('admin.questions.show', $question->id);
             $edit_route = route('admin.questions.edit', $question->id);

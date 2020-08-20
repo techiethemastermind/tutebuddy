@@ -20,11 +20,9 @@
     max-height: 80vh;
     overflow: auto;
 }
-
 .select2-container {
     display: block;
 }
-
 .accordion .btn-actions {
     margin: 0 10px;
 }
@@ -165,8 +163,7 @@
                         @endforeach
                     </div>
 
-                    <button type="button" id="btn_add_lesson"
-                        class="btn btn-outline-secondary btn-block mb-24pt mb-sm-0">+ Add Lesson</button>
+                    <button type="button" id="btn_add_lesson" class="btn btn-outline-secondary btn-block mb-24pt mb-sm-0">+ Add Lesson</button>
                 </div>
 
                 <!-- Side bar for information -->
@@ -387,8 +384,7 @@
                                  @endif" id="img_course_image" width="100%" alt="">
                         <div class="card-body">
                             <div class="custom-file">
-                                <input type="file" name="course_image" id="course_file_image" class="custom-file-input"
-                                    data-preview="#display_course_image">
+                                <input type="file" name="course_image" id="course_file_image" class="custom-file-input">
                                 <label for="course_file_image" class="custom-file-label">Choose file</label>
                             </div>
                         </div>
@@ -404,7 +400,7 @@
                             <?php
                                 $embed = Embed::make($course->mediaVideo->url)->parseUrl();
                                 $embed->setAttribute([
-                                    'id'=>'iframe_course_video',
+                                    'id'=>'display_course_video',
                                     'class'=>'embed-responsive-item',
                                     'allowfullscreen' => ''
                                 ]);
@@ -414,21 +410,20 @@
                         <div class="card-body">
                             <label class="form-label">URL</label>
                             <input type="text" class="form-control" name="course_video" id="course_video_url"
-                                data-video-preview="#iframe_course_video"
                                 value="{{ $course->mediaVideo->url }}" placeholder="Enter Video URL">
                             <small class="form-text text-muted">Enter a valid video URL.</small>
                         </div>
                         @else
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe class="embed-responsive-item no-video" id="iframe_course_video" src=""
+                            <iframe class="embed-responsive-item no-video" id="iframe_course_video"
+                                src=""
                                 allowfullscreen="">
                             </iframe>
                         </div>
                         <div class="card-body">
                             <label class="form-label">URL</label>
-                            <input type="text" class="form-control" name="course_video" id="course_video_url" value=""
-                                data-video-preview="#iframe_course_video"
-                                placeholder="Enter Video URL">
+                            <input type="text" class="form-control" name="course_video" id="course_video_url"
+                                value="" placeholder="Enter Video URL">
                             <small class="form-text text-muted">Enter a valid video URL.</small>
                         </div>
                         @endif
@@ -482,16 +477,13 @@
                             <div class="flex" style="max-width: 100%">
                                 <div class="btn-group" id="lesson_add_step" style="width: 100%;">
                                     <button type="button" class="btn btn-block btn-outline-secondary dropdown-toggle"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">+ Add Step
-                                    </button>
+                                        data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">+ Add Step </button>
                                     <div class="dropdown-menu" style="width: 100%;">
-                                        <a class="dropdown-item" href="javascript:void(0)" section-type="video">Video
-                                            Section</a>
-                                        <a class="dropdown-item" href="javascript:void(0)" section-type="text">Full Text
-                                            Section</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" section-type="video">Video Section</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" section-type="text">Full Text Section</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="javascript:void(0)" section-type="test">Test for
-                                            this lesson</a>
+                                        <a class="dropdown-item" href="javascript:void(0)" section-type="test">Test for this lesson</a>
                                     </div>
                                 </div>
                             </div>
@@ -517,8 +509,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox">
-                                            <input id="chk_liveLesson" type="checkbox" name="chk_live_lesson" value="0"
-                                                class="custom-control-input">
+                                            <input id="chk_liveLesson" type="checkbox" name="chk_live_lesson" value="0" class="custom-control-input">
                                             <label for="chk_liveLesson" class="custom-control-label">Check this for Live
                                                 Session</label>
                                         </div>
@@ -544,7 +535,7 @@
                                 <div class="card-body">
                                     <div class="custom-file">
                                         <input type="file" id="lesson_file_image" name="lesson_file_image"
-                                            class="custom-file-input" data-preview="#display_lesson_image">
+                                            class="custom-file-input">
                                         <label for="file" class="custom-file-label">Choose file</label>
                                     </div>
                                 </div>
@@ -555,14 +546,14 @@
                             <label class="form-label">Introduce Video</label>
                             <div class="card">
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item no-video lesson-video"
-                                        id="iframe_lesson_intro_video" src="" allowfullscreen=""></iframe>
+                                    <iframe class="embed-responsive-item no-video lesson-video" id="iframe_lesson_intro_video" src=""
+                                        allowfullscreen=""></iframe>
                                 </div>
                                 <div class="card-body">
                                     <label class="form-label">URL</label>
-                                    <input type="text" class="form-control" name="lesson_intro_video"
-                                        data-video-preview="#iframe_lesson_intro_video"
-                                        value="" placeholder="Enter Video URL">
+                                    <input type="text" class="form-control" id="lesson_intro_video" name="lesson_intro_video"
+                                        value=""
+                                        placeholder="Enter Video URL">
                                     <small class="form-text text-muted">Enter a valid video URL.</small>
                                 </div>
                             </div>
@@ -621,12 +612,8 @@
 <script src="{{ asset('assets/js/timezones.full.js') }}"></script>
 
 <script>
+$(document).ready(function() {
 
-// Init Elements
-$(function() {
-
-    // Global Variable for this page
-    var course_quill;
     var status = {
         lesson_id: '',
         lesson_modal: 'new',
@@ -635,7 +622,7 @@ $(function() {
     };
 
     // Init Quill Editor for Course description
-    course_quill = new Quill('#course_editor', {
+    var course_quill = new Quill('#course_editor', {
         theme: 'snow',
         placeholder: 'Course description'
     });
@@ -643,25 +630,13 @@ $(function() {
     var json_course_description = JSON.parse($('#description').val());
     course_quill.setContents(json_course_description);
 
-    // Single Select for category
-    $('select[name="category"]').select2();
-
     // Multiselect for Tags
     $('#course_tags').select2({
         tags: true
     });
 
-    // Single Select for Level
-    $('select[name="level"]').select2();
-
-    // Timezone
-    $('select[name="timezone"]').timezones();
-    $('select[name="timezone"]').val('{{ $course->timezone }}').change();
-
-    // Schedule Select on Lesson Modal
-    $('select[name="lesson_schedule"]').select2();
-
-    // Load level when category changed
+    // Single Select for category
+    $('select[name="category"]').select2();
     $('select[name="category"]').on('change', function(e) {
 
         $.ajax({
@@ -677,6 +652,12 @@ $(function() {
             }
         });
     });
+
+    // Single Select for Level
+    $('select[name="level"]').select2();
+
+    // Timezone
+    $('select[name="timezone"]').timezones();
 
     // Course Type
     $('#chk_private').on('change', function(e) {
@@ -697,6 +678,35 @@ $(function() {
         $('div[for="chk_repeat"]').css('display', style);
     });
 
+    // Timezone
+    $('select[name="timezone"]').val('{{ $course->timezone }}').change();
+
+    // Blob image for Course image
+    $('#course_file_image').on('change', function(e) {
+        var target = $('#display_course_image');
+        display_image(this, target);
+    });
+    $('#lesson_file_image').on('change', function(e) {
+        var target = $('#display_lesson_image');
+        display_image(this, target);
+    });
+
+    // Display Videos to Iframe
+    $('#course_video_url').on('change', function(e) {
+        target = $('#iframe_course_video');
+        display_iframe($(this).val(), target);
+    });
+
+    $('#lesson_intro_video').on('change', function() {
+        target = $('#iframe_lesson_intro_video');
+        display_iframe($(this).val(), target);
+    });
+
+    $('#lesson_contents').on('change', 'input.step-video', function(e) {
+        target = $(this).closest('.card-body').find('iframe.lesson-video');
+        display_iframe($(this).val(), target);
+    });
+
     // Event when click save course button id="btn_save_course"
     $('#frm_course').submit(function(e) {
 
@@ -715,10 +725,26 @@ $(function() {
                 }
             },
             error: function(err) {
-                var errMsg = getErrorMessage(err);
-                swal("Error!", errMsg, "error");
+                console.log(err);
+                var errors = JSON.parse(err.responseText).errors;
+                if (errors != undefined) {
+                    var msg = '';
+                    $.each(errors, function(key, item) {
+                        msg += item[0] + '\n';
+                    });
+
+                    swal("Error!", msg, "error");
+                } else {
+                    swal("Error!", err.responseJSON.message, "error");
+                }
+
             }
         });
+    });
+
+    $('#frm_lesson').on('keyup', 'input[name="lesson_title"]', function() {
+        $(this).removeClass('is-invalid');
+        $('#frm_lesson').find('div.invalid-feedback').remove();
     });
 
     // Add New lesson
@@ -728,36 +754,6 @@ $(function() {
         }
         status.lesson_modal = 'new';
         $('#modal_lesson').modal('toggle');
-    });
-
-    // Delete a Lesson
-    $('.accordion').on('click', '.accordion__item a.btn-delete', function(e) {
-        e.preventDefault();
-        var url = $(this).attr('href');
-        var accordion_item = $(this).closest('div.accordion__item');
-
-        swal({
-            title: "Are you sure?",
-            text: "This lesson will removed from this course",
-            type: 'warning',
-            showCancelButton: true,
-            showConfirmButton: true,
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Cancel',
-            dangerMode: false,
-        }, function(val) {
-            if (val) {
-                $.ajax({
-                    method: 'GET',
-                    url: url,
-                    success: function(res) {
-                        if (res.success) {
-                            accordion_item.remove();
-                        }
-                    }
-                });
-            }
-        });
     });
 
     // Click save in modal
@@ -855,11 +851,37 @@ $(function() {
         });
     });
 
-    // Lesson Modal Title Validation
-    $('#frm_lesson').on('keyup', 'input[name="lesson_title"]', function() {
-        $(this).removeClass('is-invalid');
-        $('#frm_lesson').find('div.invalid-feedback').remove();
+    // Delete a Lesson
+    $('.accordion').on('click', '.accordion__item a.btn-delete', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+        var accordion_item = $(this).closest('div.accordion__item');
+
+        swal({
+            title: "Are you sure?",
+            text: "This lesson will removed from this course",
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
+        }, function(val) {
+            if (val) {
+                $.ajax({
+                    method: 'GET',
+                    url: url,
+                    success: function(res) {
+                        if (res.success) {
+                            accordion_item.remove();
+                        }
+                    }
+                });
+            }
+        });
     });
+
+    $('select[name="lesson_schedule"]').select2();
 
     $('#chk_liveLesson').on('change', function(e) {
         var chk_css = ($(this).prop('checked')) ? 'block' : 'none';
@@ -927,7 +949,7 @@ $(function() {
                                             </div>`;
 
                             if(item.type == 'text') {
-                                var ele = `<div class="form-group step" section-type="text" data-step-id="`+ item.id +`">
+                                var ele = `<div class="form-group step" section-type="text">
                                             `+ ele_sep +`
                                             <div class="card">
                                                 <div class="card-header">
@@ -969,7 +991,7 @@ $(function() {
                                     ifrm_video = '<?php echo $embed->getHtml() ?>';
                                 }
 
-                                var ele = `<div class="form-group step" section-type="video" data-step-id="`+ item.id +`">
+                                var ele = `<div class="form-group step" section-type="video">
                                             `+ ele_sep +`
                                             <div class="card">
                                                 <div class="card-header">
@@ -1000,7 +1022,7 @@ $(function() {
                             }
 
                             if(item.type == 'test') {
-                                var ele = `<div class="form-group step" section-type="test" data-step-id="`+ item.id +`">
+                                var ele = `<div class="form-group step" section-type="test">
                                         `+ ele_sep +`
                                             <div class="card">
                                                 <div class="card-header">
@@ -1064,29 +1086,14 @@ $(function() {
     });
 
     $('#lesson_contents').on('click', 'button.close', function(e) {
+        $(this).closest('.form-group').remove();
 
-        var step_ele = $(this).closest('.form-group');
-        var step_id = step_ele.attr('data-step-id');
-
-        $.ajax({
-            method: 'get',
-            url: '/dashboard/steps/delete/' + step_id,
-            success: function(res) {
-
-                step_ele.toggle( function() { 
-                    
-                    $(this).remove();
-
-                    // Adjust Steps:
-                    var steps = $('#lesson_contents').find('div.step');
-                    $.each(steps, function(idx, item) {
-                        idx++;
-                        $(item).find('.page-separator__text').text('Step: ' + idx);
-                        status.lesson_step = idx;
-                    });
-                });
-                console.log(res);
-            }
+        // Adjust Steps:
+        var steps = $('#lesson_contents').find('div.step');
+        $.each(steps, function(idx, item) {
+            idx++;
+            $(item).find('.page-separator__text').text('Step: ' + idx);
+            status.lesson_step = idx;
         });
     });
 
@@ -1209,7 +1216,6 @@ $(function() {
         $('#lesson_contents').html('');
     }
 });
-
 </script>
 
 @endpush
