@@ -135,6 +135,28 @@
                 </li>
                 @endif
 
+                @if(auth()->user()->hasRole('Student'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#learn_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                        Learn
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul class="sidebar-submenu collapse sm-indent" id="learn_menu" style="">
+
+                        <li class="sidebar-menu-item {{ Request::is('courses*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('courses.all') }}">
+                                <span class="sidebar-menu-text">Browse Courses</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                @endif
+
                 <!-- Coupon -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/coupon*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="">

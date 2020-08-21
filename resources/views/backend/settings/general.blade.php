@@ -101,6 +101,7 @@
                                         value="{{ config('app.name') }}">
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <div class="controls form-inline">
                                     <label for="" class="form-label col-lg-3 text-left">App URL: </label>
@@ -108,6 +109,23 @@
                                         value="{{ config('app.url') }}">
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-left">Video Conference APP URL: </label>
+                                    <input type="text" name="liveapp__url" class="form-control col-lg-8"
+                                        value="{{ config('liveapp.url') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-left">Video Conference Key: </label>
+                                    <input type="text" name="liveapp__key" class="form-control col-lg-8"
+                                        value="{{ config('liveapp.key') }}">
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <div class="controls form-inline">
                                     <label for="" class="form-label col-lg-3 text-left">Google Analytics ID: </label>

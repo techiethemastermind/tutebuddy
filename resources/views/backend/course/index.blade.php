@@ -179,6 +179,8 @@
                         $.each(res.responseJSON.count, function(key, count){
                             $('#tbl_selector').find('span.count-' + key).text(count);
                         });
+
+                        $('[data-toggle="tooltip"]').tooltip();
                     }
                 },
                 columns: [
@@ -233,6 +235,30 @@
                             }
                         }
                     });
+                }
+            });
+        });
+
+        $('#tbl_courses').on('click', 'a[data-action="publish"]', function(e) {
+
+            e.preventDefault();
+
+            var url = $(this).attr('href');
+
+            $.ajax({
+                method: 'get',
+                url: url,
+                success: function(res) {
+                    console.log(res);
+                    if(res.success) {
+                        if(res.published == 1) {
+                            swal("Success!", 'Published successfully', "success");
+                        } else {
+                            swal("Success!", 'Unpublished successfully', "success");
+                        }
+                        
+                        table.ajax.reload();
+                    }
                 }
             });
         });

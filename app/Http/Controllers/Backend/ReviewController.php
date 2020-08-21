@@ -72,7 +72,7 @@ class ReviewController extends Controller
         return response()->json([
             'success' => true,
             'action' => 'publish',
-            'publish' => $review->published
+            'published' => $review->published
         ]);
     }
 

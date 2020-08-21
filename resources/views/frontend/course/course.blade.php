@@ -206,6 +206,30 @@
 
                     <p class="text-70 mb-24pt">{{ $lesson->short_text }}</p>
 
+                    @if($lesson->lesson_type == 1)
+
+                    <?php
+                        $schedule = $lesson->schedule;
+                    ?>
+                    <p class="text-70 mb-24pt">
+                        <span class="mr-20pt">
+                            <i class="material-icons text-muted icon--left">schedule</i>
+                            Start: {{ $schedule->start_time }}
+                        </span>
+
+                        <span>
+                            <i class="material-icons text-muted icon--left">schedule</i>
+                            End: {{ $schedule->end_time }}
+                        </span>
+                    </p>
+
+                    <div class="mb-32pt">
+                        <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank"
+                            class="btn btn-outline-accent-dodger-blue btn-block">Join To Live Session</a>
+                    </div>
+
+                    @else
+
                     <div class="mb-32pt">
                         <ul class="accordion accordion--boxed js-accordion mb-0" id="toc-{{ $lesson->id }}">
                             <li class="accordion__item @if($loop->iteration == 1) open @endif">
@@ -236,6 +260,8 @@
                             </li>
                         </ul>
                     </div>
+
+                    @endif
 
                     @endforeach
                 </div>

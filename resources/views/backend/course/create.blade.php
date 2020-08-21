@@ -400,10 +400,8 @@
                                             </div>
                                         </div>
                                         <div class="form-group" for="dv_liveLesson" style="display: none;">
-                                            <span
-                                                class="text-muted">http://localhost:8000/bigbluebutton/{{ Crypt::encryptString('?a=1&b=2&c=3') }}</span>
-                                            <input type="hidden" class="form-control" name="live_lesson"
-                                                value="http://localhost:8000/bigbluebutton/{{ Crypt::encryptString('?a=1&b=2&c=3') }}">
+                                            <span class="text-muted"></span>
+                                            <input type="hidden" class="form-control" name="live_lesson" value="0">
                                             <p class="mt-2">
                                                 <a href="#" class="btn btn-primary btn-md">Go To Room</a>
                                             </p>
@@ -798,7 +796,12 @@ $(document).ready(function() {
     // Event when click save course button id="btn_save_course"
     $('#frm_course').submit(function() {
         var course_description = JSON.stringify(course_quill.getContents().ops);
-        ele_course_description.val(course_description);
+        var input_description = $("<input>").attr("type", "hidden")
+               .attr("name", "course_description").val(course_description);
+        $(this).append(input_description);
+        var input_type = $("<input>").attr("type", "hidden")
+               .attr("name", "send_type").val('submit');
+        $(this).append(input_type);
         course.send_type = 'submit';
     });
 
@@ -1031,6 +1034,14 @@ $(document).ready(function() {
                 }
             }
         });
+    });
+
+    $('#chk_liveLesson').on('change', function(e) {
+        if($(this).prop('checked')) {
+            $('input[name="live_lesson"]').val('1');
+        } else {
+            $('input[name="live_lesson"]').val('0');
+        }
     });
 
     function init_lesson_modal() {

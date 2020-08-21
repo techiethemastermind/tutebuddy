@@ -1,6 +1,8 @@
 <button type="button"
     class="btn btn-danger btn-sm"
     data-action="delete"
+    data-toggle="tooltip"
+    data-title="delete"
     onclick="doSubmit_action_delete(this)"
 >
 

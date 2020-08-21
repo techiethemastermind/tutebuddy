@@ -146,8 +146,8 @@
                                         {{ \Carbon\Carbon::createFromTimeStamp(strtotime($lesson->updated_at))->diffForHumans() }}
                                     </span>
                                     <span class="btn-actions">
-                                        <a href="{{ route('admin.lessons.show', $lesson->id) }}"
-                                            class="btn btn-outline-secondary btn-sm btn-preview">
+                                        <a href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, 1]) }}"
+                                            class="btn btn-outline-secondary btn-sm btn-preview" target="_blank">
                                             <i class="material-icons">remove_red_eye</i>
                                         </a>
                                         <a href="{{ route('admin.lesson.getById', $lesson->id) }}"
@@ -174,7 +174,7 @@
                     <div class="card">
                         <div class="card-header text-center">
                             <button id="btn_save_course" class="btn btn-accent">Save changes</button>
-                            <a href="{{ route('admin.courses.show', $course->id) }}" target="_blank"
+                            <a href="{{ route('courses.show', $course->slug) }}" target="_blank"
                                 class="btn btn-primary">Preview Course</a>
                         </div>
 
@@ -524,12 +524,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group" for="dv_liveLesson" style="display: none;">
-                                        <span
-                                            class="text-muted">http://localhost:8000/bigbluebutton/{{ Crypt::encryptString('?a=1&b=2&c=3') }}</span>
-                                        <input type="hidden" class="form-control" name="live_lesson"
-                                            value="http://localhost:8000/bigbluebutton/{{ Crypt::encryptString('?a=1&b=2&c=3') }}">
+                                        <span class="text-muted"></span>
+                                        <input type="hidden" class="form-control" name="live_lesson" value="0">
                                         <p class="mt-2">
-                                            <a href="#" class="btn btn-primary btn-md">Go To Room</a>
+                                            <a href="" target="_blank" class="btn btn-primary btn-md">Create Room</a>
                                         </p>
                                     </div>
                                 </div>
@@ -862,8 +860,25 @@ $(function() {
     });
 
     $('#chk_liveLesson').on('change', function(e) {
-        var chk_css = ($(this).prop('checked')) ? 'block' : 'none';
-        $('div[for="dv_liveLesson').css('display', chk_css);
+
+        if(status.lesson_modal == 'edit') {
+            if($(this).prop('checked')) {
+                var live_url = '{{ config("app.url") }}' + 'lesson/live/' + status.lesson_slug + '/' + status.lesson_id;
+                $('div[for="dv_liveLesson').find('.text-muted').text(live_url);
+                $('div[for="dv_liveLesson').find('a').attr('href', live_url);
+                $('div[for="dv_liveLesson').css('display', 'block');
+                $('input[name="live_lesson"]').val('1');
+            } else {
+                $('div[for="dv_liveLesson').css('display', 'none');
+                $('input[name="live_lesson"]').val('0');
+            }
+        } else {
+            if($(this).prop('checked')) {
+                $('input[name="live_lesson"]').val('1');
+            } else {
+                $('input[name="live_lesson"]').val('0');
+            }
+        }
     });
 
     // Lesson Edit
@@ -911,6 +926,21 @@ $(function() {
                         $('#frm_lesson').find('input[name="lesson_intro_video"]').addClass('no-video');
                         $('#frm_lesson').find('input[name="lesson_intro_video"]').val('');
                         $('#frm_lesson').find('iframe.lesson-video').attr('src', '');
+                    }
+
+                    if(res.lesson.lesson_type == 1) {
+                        $('#chk_liveLesson').prop('checked', true);
+                        var live_url = '{{ config("app.url") }}' + 'lesson/live/' + res.lesson.slug + '/' + res.lesson.id;
+                        $('div[for="dv_liveLesson').find('.text-muted').text(live_url);
+                        $('div[for="dv_liveLesson').find('a').attr('href', live_url);
+                        $('div[for="dv_liveLesson').css('display', 'block');
+                        $('input[name="live_lesson"]').val('1');
+                    } else {
+                        $('#chk_liveLesson').prop('checked', false);
+                        $('div[for="dv_liveLesson').find('.text-muted').text('');
+                        $('div[for="dv_liveLesson').find('a').attr('href', '#');
+                        $('div[for="dv_liveLesson').css('display', 'none');
+                        $('input[name="live_lesson"]').val('0');
                     }
 
                     // add Steps
@@ -1057,6 +1087,7 @@ $(function() {
 
                     status.lesson_step = lesson_step;
                     status.lesson_current = res.lesson.id;
+                    status.lesson_slug = res.lesson.slug;
                     $('#modal_lesson').modal('toggle');
                 }
             }
@@ -1141,10 +1172,12 @@ $(function() {
                                     <div class="form-group">
                                         <label class="form-label">Video:</label>
                                         <div class="embed-responsive embed-responsive-16by9 mb-2">
-                                            <iframe class="embed-responsive-item no-video lesson-video" src="" allowfullscreen=""></iframe>
+                                            <iframe class="embed-responsive-item no-video lesson-video" src="" allowfullscreen="" 
+                                            id="iframe_`+ status.lesson_step +`"></iframe>
                                         </div>
                                         <label class="form-label">URL</label>
-                                        <input type="text" class="form-control step-video" name="lesson_video__`+ status.lesson_step +`" value="" placeholder="Enter Video URL">
+                                        <input type="text" class="form-control step-video" name="lesson_video__`+ status.lesson_step +`" 
+                                        value="" placeholder="Enter Video URL" data-video-preview="#iframe_`+ status.lesson_step +`">
                                         <small class="form-text text-muted">Enter a valid video URL.</small>
                                     </div>
                                 </div>
@@ -1207,6 +1240,12 @@ $(function() {
         $('#frm_lesson').find('select').val('').change();
         $('#display_lesson_image').attr('src', "{{asset('/storage/uploads/no-image.jpg')}}");
         $('#lesson_contents').html('');
+
+        $('#chk_liveLesson').prop('checked', false);
+        $('div[for="dv_liveLesson').find('.text-muted').text('');
+        $('div[for="dv_liveLesson').find('a').attr('href', '#');
+        $('div[for="dv_liveLesson').css('display', 'none');
+        $('input[name="live_lesson"]').val('0');
     }
 });
 

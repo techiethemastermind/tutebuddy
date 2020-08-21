@@ -56,7 +56,8 @@ class LessonController extends Controller
             'title' => $data['lesson_title'],
             'slug' => str_slug($data['lesson_title']),
             'video' => $data['lesson_intro_video'],
-            'short_text' => $data['lesson_short_description']
+            'short_text' => $data['lesson_short_description'],
+            'lesson_type' => $data['live_lesson']
         ];
 
         if(!empty($data['lesson_file_image'])) {
@@ -127,7 +128,7 @@ class LessonController extends Controller
                 $lesson = Lesson::find($data['lesson_id'])->update($lesson_data);
                 if(!empty($data['lesson_schedule'])) {
                     $schedule = Schedule::find($data['lesson_schedule']);
-                    $schedule->lesson_id = $lesson->id;
+                    $schedule->lesson_id = $data['lesson_id'];
                     $schedule->save();
                 }
 

@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('test/{test_id}/{index}', 'LessonsController@getQuestion')->name('lessons.question');
     Route::post('test/questions/{id}', 'LessonsController@completeQuestion')->name('lessons.complete');
     Route::get('test-result/{test_id}', 'LessonsController@testResult')->name('test.result');
+    Route::get('lesson/live/{lesson_slug}/{lesson_id}', 'LessonsController@liveSession')->name('lessons.live');
 
     Route::post('lesson/{slug}/test', 'LessonsController@test')->name('lessons.test');
     Route::post('lesson/{slug}/retest', 'LessonsController@retest')->name('lessons.retest');

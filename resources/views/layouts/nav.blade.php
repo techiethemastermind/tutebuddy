@@ -77,6 +77,8 @@
 
                     @else
 
+                    @if(Request::is('dashboard*'))
+
                     @if(auth()->user()->roles->pluck('slug')[0] == 'student')
 
                     <span class="d-none d-md-flex align-items-center mr-16pt">
@@ -119,6 +121,8 @@
                             <span class="navbar-text-50">264</span>
                         </small>
                     </span>
+
+                    @endif
 
                     @endif
 

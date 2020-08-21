@@ -43,7 +43,24 @@ class CourseController extends Controller
             'pending' => Course::where('published', 0)->count(),
             'deleted' => Course::onlyTrashed()->count()
         ];
+
         return view('backend.course.index', compact('count'));
+    }
+
+    public function browse() {
+        $parentCategories = Category::where('parent', 0)->get();
+        $popular_courses = Course::where('popular', 1)->orderBy('created_at', 'desc')->limit(5)->get();
+        $trending_courses = Course::where('trending', 1)->orderBy('created_at', 'desc')->limit(5)->get();
+        $feattured_courses = Course::where('popular', 1)->orderBy('created_at', 'desc')->limit(5)->get();
+        return view(
+            'backend.course.student.index', 
+            compact(
+                'parentCategories',
+                'popular_courses',
+                'trending_courses',
+                'feattured_courses'
+            )
+        );
     }
 
     /**
@@ -389,6 +406,27 @@ class CourseController extends Controller
         }
     }
 
+    /**
+     * Publish or Unpublish
+     */
+    public function publish($id)
+    {
+        $course = Course::find($id);
+        if($course->published == 1) {
+            $course->published = 0;
+        } else {
+            $course->published = 1;
+        }
+
+        $course->save();
+
+        return response()->json([
+            'success' => true,
+            'action' => 'publish',
+            'published' => $course->published
+        ]);
+    }
+
     public function getArrayData($courses) {
         $data = [];
         $i = 0;
@@ -450,10 +488,19 @@ class CourseController extends Controller
             $show_route = route('courses.show', $course->slug);
             $edit_route = route('admin.courses.edit', $course->id);
             $delete_route = route('admin.courses.destroy', $course->id);
+            $publish_route = route('admin.courses.publish', $course->id);
 
             $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
             $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
             $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
+
+            if($course->published == 0) {
+                $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
+                    data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
+            } else {
+                $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
+                    data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
+            }
 
             if($course->trashed()) {
                 $restore_route = route('admin.courses.restore', $course->id);
@@ -461,7 +508,11 @@ class CourseController extends Controller
                     data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
             }
 
-            $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+            if(auth()->user()->hasRole('Administrator')) {
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+            } else {
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+            }
 
             array_push($data, $temp);
         }

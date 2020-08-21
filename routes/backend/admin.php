@@ -36,6 +36,7 @@ Route::resource('media', 'MediaController');
 Route::resource('courses', 'CourseController');
 Route::get('courses/restore/{id}', 'CourseController@restore')->name('courses.restore');
 Route::get('ajax/courses/list/{type}', 'CourseController@getList')->name('getCoursesByAjax');
+Route::get('ajax/courses/publish/{id}', 'CourseController@publish')->name('courses.publish');
 
 //===== Lessons Routes =====//
 Route::resource('lessons', 'LessonController');

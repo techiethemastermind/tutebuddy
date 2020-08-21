@@ -30,4 +30,9 @@ class Lesson extends Model
     {
         return $this->hasMany(Test::class);
     }
+
+    public function schedule()
+    {
+        return $this->hasOne(Schedule::class);
+    }
 }

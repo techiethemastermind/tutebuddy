@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Course;
 use App\Models\Lesson;
@@ -144,6 +145,71 @@ class LessonsController extends Controller
             'success' => true
         ]);
         
+    }
+
+
+    public function liveSession($slug, $id)
+    {
+        $lesson = Lesson::find($id);
+
+        $attendeePW = 'ap';
+        $moderatorPW = 'mp';
+        $meeting_name = preg_replace('/\s+/', '+', $lesson->title);
+        
+        if(auth()->user()->hasRole('Instructor') || auth()->user()->hasRole('Administrator')) {
+
+            $meeting_id = 'live-' . substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 9);
+            $room_str = 'name=' . $meeting_name . '&meetingID=' . $meeting_id . '&attendeePW=' . $attendeePW . '&moderatorPW=' . $moderatorPW;
+            
+            $create_room_str = 'create' . $room_str . config('liveapp.key');
+            $checksum = sha1($create_room_str);
+            $room_str_checksum = $room_str . '&checksum=' . $checksum;
+
+            $endpoint = config('liveapp.url') . 'bigbluebutton/api/create?' . $room_str_checksum;
+
+            // Create room
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $endpoint);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+            $output = curl_exec($ch);
+            curl_close($ch);
+
+            $json = json_encode(simplexml_load_string($output));
+            $array = json_decode($json, true);
+
+            if($array['returncode'] == 'SUCCESS') {
+                $meetingId = $array['meetingID'];
+                $lesson->meeting_id = $meetingId;
+                $lesson->save();
+            }
+
+            // Load with Manager
+            $url = config('liveapp.url') . 'bigbluebutton/api/join?';
+            $room_str = 'fullName=' . preg_replace('/\s+/', '+', auth()->user()->name) 
+                            . '&meetingID=' . $lesson->meeting_id . '&password=' . $moderatorPW;
+
+            $join_room_str = 'join' . $room_str . config('liveapp.key');
+            
+            $checksum = sha1($join_room_str);
+            $join_room = json_encode($url . $room_str . '&checksum=' . $checksum);
+
+            return view('frontend.live', compact('join_room'));
+        }
+
+        if(auth()->user()->hasRole('Student')) {
+
+            $url = config('liveapp.url') . 'bigbluebutton/api/join?';
+            $room_str = 'fullName=' . preg_replace('/\s+/', '+', auth()->user()->name) 
+                            . '&meetingID=' . $lesson->meeting_id . '&password=' . $attendeePW;
+
+            $join_room_str = 'join' . $room_str . config('liveapp.key');
+            
+            $checksum = sha1($join_room_str);
+            $join_room = $url . $room_str . '&checksum=' . $checksum;
+
+            return Redirect::to($join_room);
+        }
     }
 
     function getOptionHtml($options)
