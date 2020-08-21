@@ -178,7 +178,7 @@ class LessonsController extends Controller
             $json = json_encode(simplexml_load_string($output));
             $array = json_decode($json, true);
 
-            dd($array);
+            dd($output);
 
             if($array['returncode'] == 'SUCCESS') {
                 $meetingId = $array['meetingID'];
