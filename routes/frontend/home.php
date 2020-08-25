@@ -11,6 +11,11 @@ Route::get('courses/review/{id}/edit', 'CoursesController@editReview')->name('co
 Route::post('courses/review/{id}/edit', 'CoursesController@updateReview')->name('courses.review.update');
 Route::get('courses/review/{id}/delete', 'CoursesController@deleteReview')->name('courses.review.delete');
 
+// ==== Ajax for Search Form ==== //
+Route::get('ajax/courses/search/{key}', 'CoursesController@getSearchFormData')->name('ajax.search.form');
+
+// ==== Search Result ====//
+Route::get('search', 'CoursesController@searchPage')->name('search.page');
 
 Route::group(['middleware' => 'auth'], function () {
 

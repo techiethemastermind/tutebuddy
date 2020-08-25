@@ -77,60 +77,6 @@
 
                     @else
 
-                    @if(Request::is('dashboard*'))
-
-                    @if(auth()->user()->roles->pluck('slug')[0] == 'student')
-
-                    <span class="d-none d-md-flex align-items-center mr-16pt">
-
-                        <span class="avatar avatar-sm mr-12pt">
-                            <span class="avatar-title rounded navbar-avatar"><i
-                                    class="material-icons">opacity</i></span>
-                        </span>
-
-                        <small class="flex d-flex flex-column">
-                            <strong class="navbar-text-100">Experience IQ</strong>
-                            <span class="navbar-text-50">2,300 points</span>
-                        </small>
-                    </span>
-
-                    @else
-
-                    <span class="d-none d-md-flex align-items-center mr-16pt">
-
-                        <span class="avatar avatar-sm mr-12pt">
-                            <span class="avatar-title rounded navbar-avatar"><i
-                                    class="material-icons">trending_up</i></span>
-                        </span>
-
-                        <small class="flex d-flex flex-column">
-                            <strong class="navbar-text-100">Earnings</strong>
-                            <span class="navbar-text-50">&dollar;12.3k</span>
-                        </small>
-                    </span>
-
-                    <span class="d-none d-md-flex align-items-center mr-16pt">
-
-                        <span class="avatar avatar-sm mr-12pt">
-                            <span class="avatar-title rounded navbar-avatar"><i
-                                    class="material-icons">receipt</i></span>
-                        </span>
-
-                        <small class="flex d-flex flex-column">
-                            <strong class="navbar-text-100">Sales</strong>
-                            <span class="navbar-text-50">264</span>
-                        </small>
-                    </span>
-
-                    @endif
-
-                    @endif
-
-                    <form class="search-form navbar-search d-none d-md-flex mr-16pt" action="fixed-index.html">
-                        <button class="btn" type="submit"><i class="material-icons">search</i></button>
-                        <input type="text" class="form-control" placeholder="Search ...">
-                    </form>
-
                     <div class="flex"></div>
 
                     <div class="nav navbar-nav flex-nowrap d-flex mr-16pt">
@@ -307,9 +253,9 @@
                 <div class="hero container page__container text-center text-md-left py-112pt" style="min-height: 540px;">
                     <div class="col-lg-10 mx-auto">
                         <h1 class="text-white text-shadow py-16pt text-center">Learn anything online.</h1>
-                        <div class="form-group">
+                        <div class="form-group" style="position: relative;">
                             <div class="search-form input-group-lg">
-                                <input type="text" class="form-control" placeholder="Search icons" id="searchSample01">
+                                <input type="text" class="form-control" placeholder="What do you wan to learn today?" id="search_homepage">
                                 <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
                             </div>
                         </div>

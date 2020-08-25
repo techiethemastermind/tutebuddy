@@ -73,6 +73,26 @@
     background-color: #303956;
     border-color: #303956;
 }
+[dir=ltr] .search-form.input-group-lg .btn {
+    font-size: 1.5rem;
+    text-align: center;
+}
+[dir=ltr] ul.search_result {
+    position: absolute;
+    background-color: #fff;
+    font-size: 1rem;
+    margin-top: -3px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 2px 0px black;
+    width: 100%;
+}
+[dir=ltr] ul.search_result li {
+    padding: .5rem 1rem .5rem 1.5rem;
+    cursor: pointer;
+}
+[dir=ltr] ul.search_result li:hover {
+    background-color: #e9edf2;
+}
 
 /** Modal **/
 [dir=ltr] .modal-content {

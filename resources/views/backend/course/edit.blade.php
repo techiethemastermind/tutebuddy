@@ -988,15 +988,9 @@ $(function() {
                                 var ifrm_video = '<iframe class="embed-responsive-item no-video lesson-video" src="" allowfullscreen=""></iframe>';
 
                                 if(item.video != '') {
-                                    <?php
-                                        $embed = Embed::make($course->mediaVideo->url)->parseUrl();
-                                        $embed->setAttribute([
-                                            'id'=>'display_course_video',
-                                            'class'=>'embed-responsive-item',
-                                            'allowfullscreen' => ''
-                                        ]);
-                                    ?>
-                                    ifrm_video = '<?php echo $embed->getHtml() ?>';
+                                    
+                                    ifrm_video = `<iframe class="embed-responsive-item lesson-video" src=""
+                                         allowfullscreen="" id="step_video_`+ lesson_step +`"></iframe>`;
                                 }
 
                                 var ele = `<div class="form-group step" section-type="video" data-step-id="`+ item.id +`">
@@ -1020,7 +1014,9 @@ $(function() {
                                                             ` + ifrm_video + `
                                                         </div>
                                                         <label class="form-label">URL</label>
-                                                        <input type="text" class="form-control step-video" name="lesson_video__`+ lesson_step +`" value="` + item.video + `" placeholder="Enter Video URL">
+                                                        <input type="text" class="form-control step-video" name="lesson_video__`+ lesson_step +`" 
+                                                        value="` + item.video + `" placeholder="Enter Video URL"
+                                                        data-video-preview="#step_video_`+ lesson_step +`">
                                                         <small class="form-text text-muted">Enter a valid video URL.</small>
                                                         <input type="hidden" name="lesson_video_id__` + lesson_step + `" value="`+ item.id +`">
                                                     </div>
@@ -1082,6 +1078,11 @@ $(function() {
                         $.each(selects, function(idx, item) {
                             var val = $(item).attr('data-selected');
                             $(this).val(val).change();
+                        });
+
+                        var step_videos = lesson_contents.find('input.step-video');
+                        $.each(step_videos, function(idx, item) {
+                            $(this).change();
                         });
                     }
 

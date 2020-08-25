@@ -49,16 +49,16 @@ class CourseController extends Controller
 
     public function browse() {
         $parentCategories = Category::where('parent', 0)->get();
-        $popular_courses = Course::where('popular', 1)->orderBy('created_at', 'desc')->limit(5)->get();
-        $trending_courses = Course::where('trending', 1)->orderBy('created_at', 'desc')->limit(5)->get();
-        $feattured_courses = Course::where('popular', 1)->orderBy('created_at', 'desc')->limit(5)->get();
+        $popular_courses = Course::where('popular', 1)->orderBy('created_at', 'desc')->limit(8)->get();
+        $trending_courses = Course::where('trending', 1)->orderBy('created_at', 'desc')->limit(8)->get();
+        $featured_courses = Course::where('featured', 1)->orderBy('created_at', 'desc')->limit(8)->get();
         return view(
             'backend.course.student.index', 
             compact(
                 'parentCategories',
                 'popular_courses',
                 'trending_courses',
-                'feattured_courses'
+                'featured_courses'
             )
         );
     }
@@ -130,6 +130,18 @@ class CourseController extends Controller
         // Title
         $title = (empty($data['title'])) ? 'Untitled Course' : $data['title'];
 
+        if(!isset($data['tags'])) {
+            $data['tags'] = ['Default'];
+        }
+
+        // Set tags
+        foreach($data['tags'] as $item) {
+            $count = DB::table('tags')->where('name', $item)->count();
+            if($count < 1) {
+                DB::table('tags')->insert($item);
+            }
+        }
+
         // Course Data
         $course_data = [
             'category_id' => $data['category'],
@@ -138,7 +150,7 @@ class CourseController extends Controller
             'short_description' => $data['short_description'],
             'description' => $data['course_description'],
             'level_id' => $data['level'],
-            'tags' => json_encode($request->tags),
+            'tags' => $data['tags'],
             'private_price' => $data['private_price'],
             'group_price' => $data['group_price'],
             'timezone' => $data['timezone'],
@@ -269,6 +281,18 @@ class CourseController extends Controller
 
         $data = $request->all();
 
+        if(!isset($data['tags'])) {
+            $data['tags'] = ['Default'];
+        }
+
+        // Set tags
+        foreach($data['tags'] as $item) {
+            $count = DB::table('tags')->where('name', $item)->count();
+            if($count < 1) {
+                DB::table('tags')->insert($item);
+            }
+        }
+
         // Course Data
         $course_data = [
             'category_id' => $data['category'],
@@ -277,7 +301,7 @@ class CourseController extends Controller
             'short_description' => $data['short_description'],
             'description' => $data['course_description'],
             'level_id' => $data['level'],
-            'tags' => json_encode($data['tags']),
+            'tags' => $data['tags'],
             'private_price' => $data['private_price'],
             'group_price' => $data['group_price'],
             'timezone' => $data['timezone'],
