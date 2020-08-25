@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    @if(!auth()->check())
+    @if(!auth()->check() || !$is_enrolled)
 
     <div class="page-section">
         <div class="container page__container">
@@ -142,13 +142,22 @@
 
             <div class="row">
                 <div class="col-lg-7">
+
+                    @if(isset($course->mediaVideo))
+                    <div class="form-group mb-32pt">
+                        <button class="btn btn-block btn-primary" data-toggle="modal"
+                            data-target="#mdl_intro_video">Watch Intro Video</button>
+                    </div>
+                    @endif
+
                     @foreach($course->lessons as $lesson)
                     <div class="mb-32pt">
                         <ul class="accordion accordion--boxed js-accordion mb-0" id="toc-{{ $lesson->id }}">
                             <li class="accordion__item @if($loop->iteration == 1) open @endif">
                                 <a class="accordion__toggle" data-toggle="collapse" data-parent="#toc-{{ $lesson->id }}"
                                     href="#toc-content-{{ $lesson->id }}">
-                                    <span class="flex">{{ $lesson->steps->count() }} Steps</span>
+                                    <span class="flex">{{$lesson->position}} - {{ $lesson->title }}
+                                        <small>({{ $lesson->steps->count() }} Steps)</small></span>
                                     <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
                                 </a>
                                 <div class="accordion__menu">
@@ -159,11 +168,11 @@
 
                                         <li class="accordion__menu-link">
                                             <span class="material-icons icon-16pt icon--left text-body">lock</span>
-                                            <a class="flex"
-                                                href="{{ route('lessons.show', [$course->slug, $lesson->slug, $step->step]) }}">
+                                            <a class="flex" href="javascript:void(0)">
                                                 Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
                                             </a>
-                                            <span class="material-icons icon-16pt icon--left text-body text-muted">alarm</span>
+                                            <span
+                                                class="material-icons icon-16pt icon--left text-body text-muted">alarm</span>
                                         </li>
 
                                         @endforeach
@@ -175,27 +184,45 @@
                     @endforeach
                 </div>
                 <div class="col-lg-5 justify-content-center">
+
                     <div class="card">
                         <div class="card-body py-16pt text-center">
                             <span
                                 class="icon-holder icon-holder--outline-secondary rounded-circle d-inline-flex mb-8pt">
                                 <i class="material-icons">timer</i>
                             </span>
-                            <h4 class="card-title"><strong>Unlock Library</strong></h4>
-                            <p class="card-subtitle text-70 mb-24pt">Get access to all videos in the library</p>
-                            <a href="fixed-pricing.html" class="btn btn-accent mb-8pt">Sign Up - Only $19.00/mo</a>
-                            <p class="mb-0">Have an account? <a href="fixed-login.html">Login</a></p>
+                            <h4 class="card-title"><strong>Unlock Course</strong></h4>
+                            <p class="card-subtitle text-70 mb-24pt">Get access to all videos in the Course</p>
+
+                            @if(!auth()->check())
+                            <a href="{{ route('register') }}" class="btn btn-accent mb-8pt">Sign up - only
+                                ${{ $course->group_price }}</a>
+                            <p class="mb-0">Have an account? <a href="{{ route('login') }}">Login</a></p>
+                            @else
+                            <button class="btn btn-primary mb-8pt btn-enroll" enroll-type="group" course-id="{{ $course->id }}">Group -
+                                ${{ $course->group_price }}</button>
+                            <button class="btn btn-accent mb-8pt btn-enroll" enroll-type="private" course-id="{{ $course->id }}">Private -
+                                ${{ $course->private_price }}</button>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     @else
     <div class="container page__container">
         <div class="row">
             <div class="col-lg-7">
                 <div class="border-left-2 page-section pl-32pt">
+
+                    @if(isset($course->mediaVideo))
+                    <div class="form-group mb-32pt">
+                        <button class="btn btn-block btn-primary" data-target="#mdl_intro_video">Watch Intro
+                            Video</button>
+                    </div>
+                    @endif
 
                     @foreach($course->lessons as $lesson)
 
@@ -251,7 +278,8 @@
                                                 href="{{ route('lessons.show', [$course->slug, $lesson->slug, $step->step]) }}">
                                                 Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
                                             </a>
-                                            <span class="material-icons icon-16pt icon--left text-body text-muted">alarm</span>
+                                            <span
+                                                class="material-icons icon-16pt icon--left text-body text-muted">alarm</span>
                                         </li>
 
                                         @endforeach
@@ -301,8 +329,8 @@
                                 @if(empty($teacher->avatar))
                                 <span class="avatar-title rounded-circle">{{ substr($teacher->name, 0, 2) }}</span>
                                 @else
-                                <img src="{{ asset('/storage/avatars/'. $teacher->avatar) }}"
-                                    alt="{{ $teacher->name }}" class="avatar-img rounded-circle">
+                                <img src="{{ asset('/storage/avatars/'. $teacher->avatar) }}" alt="{{ $teacher->name }}"
+                                    class="avatar-img rounded-circle">
                                 @endif
                             </div>
                             <h4 class="m-0">{{ $teacher->name }}</h4>
@@ -489,22 +517,21 @@
                 <div class="col-md-9">
                     <div class="rating mb-8pt">
                         @for($r = 1; $r <= $review->rating; $r++)
-                        <span class="rating__item">
-                            <span class="material-icons">star</span>
-                        </span>
-                        @endfor
+                            <span class="rating__item">
+                                <span class="material-icons">star</span>
+                            </span>
+                            @endfor
 
-                        @if($review->rating > ($r-1))
-                        <span class="rating__item"><span class="material-icons">star_half</span></span>
-                        @else
-                        <span class="rating__item"><span class="material-icons">star_border</span></span>
-                        @endif
+                            @if($review->rating > ($r-1))
+                            <span class="rating__item"><span class="material-icons">star_half</span></span>
+                            @else
+                            <span class="rating__item"><span class="material-icons">star_border</span></span>
+                            @endif
 
-                        @for($r_a = $r; $r < 5; $r++)
-                        <span class="rating__item">
-                            <span class="material-icons">star_border</span>
-                        </span>
-                        @endfor
+                            @for($r_a = $r; $r < 5; $r++) <span class="rating__item">
+                                <span class="material-icons">star_border</span>
+                                </span>
+                                @endfor
                     </div>
                     <p class="text-70 mb-0">{{ $review->content }}</p>
                 </div>
@@ -563,11 +590,11 @@
 
                 <div class="col-md-12">
                     @php
-                        if(isset($review) && ($is_reviewed == true)) {
-                            $review_route = route('courses.review.update', ['id'=>$review->id]);
-                        } else {
-                            $review_route = route('courses.review', ['id'=>$course->id]);
-                        }
+                    if(isset($review) && ($is_reviewed == true)) {
+                    $review_route = route('courses.review.update', ['id'=>$review->id]);
+                    } else {
+                    $review_route = route('courses.review', ['id'=>$course->id]);
+                    }
                     @endphp
                     <form method="POST" action="{{ $review_route }}" id="frm_review">@csrf
                         <input type="hidden" name="rating" id="rating" value="0">
@@ -1217,6 +1244,47 @@
     </div>
 
 </div>
+
+<div id="mdl_intro_video" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="js-player bg-primary embed-responsive embed-responsive-16by9"
+                    data-domfactory-upgraded="player">
+                    <div class="player embed-responsive-item">
+                        <div class="player__content">
+                            <div class="player__image"
+                                style="--player-image: url({{ asset('storage/uploads/' . $course->course_image) }})">
+                            </div>
+                            <a href="" class="player__play bg-primary">
+                                <span class="material-icons">play_arrow</span>
+                            </a>
+                        </div>
+                        <div class="player__embed d-none">
+                            <?php
+                        $embed = Embed::make($course->mediaVideo->url)->parseUrl();
+                        $embed->setAttribute([
+                            'id'=>'display_course_video',
+                            'class'=>'embed-responsive-item',
+                            'allowfullscreen' => true
+                        ]);
+
+                        echo $embed->getHtml();
+                    ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- // END Header Layout Content -->
 
 <input type="hidden" id="course_description" value="{{ $course->description }}">
@@ -1239,15 +1307,47 @@ $(document).ready(function(e) {
     $('input[name="stars"]').on('click', function() {
         $('#rating').val($(this).val());
     });
-});
 
-$('#frm_review').on('submit', function(e) {
-    e.preventDefault();
-    $(this).ajaxSubmit({
-        success: function(res) {
-            console.log(res);
+    $('#frm_review').on('submit', function(e) {
+        e.preventDefault();
+        $(this).ajaxSubmit({
+            success: function(res) {
+                console.log(res);
+            }
+        });
+    });
 
+    $('.player__play').on('click', function(e) {
+        e.preventDefault();
+        $(this).closest('.player').find('.player__embed').removeClass('d-none');
+    });
+
+    // Ajax Header for Ajax Call
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
+    });
+
+    // Subscribe Course
+    $('.btn-enroll').on('click', function(){
+
+        var route = "{{ route('ajax.course.subscribe') }}";
+        var type = $(this).attr('enroll-type');
+        var course_id = $(this).attr('course-id');
+
+        $.ajax({
+            method: 'post',
+            url: route,
+            data: {
+                course_id : course_id,
+                type: type
+            },
+            success: function(res) {
+                console.log(res);
+            }
+        });
+
     });
 });
 </script>

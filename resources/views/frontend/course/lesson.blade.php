@@ -93,7 +93,7 @@
             <div class="js-player bg-primary embed-responsive embed-responsive-16by9 mb-32pt">
                 <div class="player embed-responsive-item">
                     <div class="player__content">
-                        <div class="player__image" style="--player-image: url(assets/images/illustration/player.svg)">
+                        <div class="player__image" style="--player-image: url({{ asset('storage/uploads/' . $lesson->image) }})">
                         </div>
                         <a href="" class="player__play bg-primary">
                             <span class="material-icons">play_arrow</span>

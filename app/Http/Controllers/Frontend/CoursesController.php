@@ -36,8 +36,9 @@ class CoursesController extends Controller
         if(auth()->check() && $course->reviews()->where('user_id', '=', auth()->user()->id)->first()){
             $is_reviewed = true;
         }
+        $is_enrolled = auth()->check() && $course->students()->where('user_id', auth()->user()->id)->count() > 0;
 
-        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed'));
+        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed', 'is_enrolled'));
     }
 
     public function addReview(Request $request, $id) {
@@ -146,5 +147,13 @@ class CoursesController extends Controller
         }
 
         return view('frontend.search.index', compact('parentCategories', 'courses'));
+    }
+
+    public function subscribe(Request $request) {
+        $data = $request->all();
+
+        $course = Course::find($data['course_id']);
+        $price = ($data['type'] == 'group') ? $course->group_price : $course->private_price;
+
     }
 }

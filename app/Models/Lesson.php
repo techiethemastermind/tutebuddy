@@ -35,4 +35,9 @@ class Lesson extends Model
     {
         return $this->hasOne(Schedule::class);
     }
+
+    public function chapterStudents()
+    {
+        return $this->morphMany(ChapterStudent::class, 'model');
+    }
 }

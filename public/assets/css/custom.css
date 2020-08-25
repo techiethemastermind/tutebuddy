@@ -93,6 +93,13 @@
 [dir=ltr] ul.search_result li:hover {
     background-color: #e9edf2;
 }
+[dir=ltr] .player__image {
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-size: contain;
+}
 
 /** Modal **/
 [dir=ltr] .modal-content {
