@@ -38,7 +38,7 @@ class CoursesController extends Controller
         }
         $is_enrolled = auth()->check() && $course->students()->where('user_id', auth()->user()->id)->count() > 0;
 
-        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed', 'is_enrolled'));
+        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed', 'is_enrolled', 'courseDuration'));
     }
 
     public function addReview(Request $request, $id) {
@@ -116,6 +116,25 @@ class CoursesController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        $params = $request->all();
+        if(isset($params['_q'])) {
+            $courses_me = Course::where('title', 'like', '%' . $params['_q'] . '%')->where('published', 1);
+            $categories = Category::where('name', 'like', '%' . $params['_q'] . '%')->get();
+            foreach($categories as $category) {
+                $courses_c = Course::where('category_id', $category->id)->where('published', 1);
+                $courses_me = $courses_me->union($courses_c);
+            }
+            $courses = $courses_me->paginate(20);
+            $courses->setPath('search/courses?_q='. $params['_q']);
+        } else {
+            $courses = Course::where('published', 1)->paginate('20');
+        }
+        
+        return view('backend.course.student.index', compact('courses'));
+    }
+
     public function searchPage(Request $request)
     {
         $parentCategories = Category::where('parent', 0)->get();
@@ -149,11 +168,8 @@ class CoursesController extends Controller
         return view('frontend.search.index', compact('parentCategories', 'courses'));
     }
 
-    public function subscribe(Request $request) {
-        $data = $request->all();
-
-        $course = Course::find($data['course_id']);
-        $price = ($data['type'] == 'group') ? $course->group_price : $course->private_price;
+    function getCoursesByKey()
+    {
 
     }
 }

@@ -683,6 +683,12 @@ $(document).ready(function() {
                                                         <div style="min-height: 200px;" id="lesson_editor__` + lesson_step + `" class="mb-0"></div>
                                                         <textarea name="lesson_description__` + lesson_step + `" style="display:none;">`+ item.text +`</textarea>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Duration (minutes):</label>
+                                                        <input type="number" class="form-control" name="lesson_description_duration__` + lesson_step + `" 
+                                                            value="`+ item.duration +`" placeholder="15">
+                                                        <small class="form-text text-muted">Time duration for this step</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>`;
@@ -716,26 +722,12 @@ $(document).ready(function() {
                                                         <input type="text" class="form-control step-video" name="lesson_video__`+ lesson_step +`" value="" placeholder="Enter Video URL">
                                                         <small class="form-text text-muted">Enter a valid video URL.</small>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>`;
-                            }
-
-                            if(item.type == 'quiz') {
-                                var ele = `<div class="form-group step" section-type="quiz">
-                                            `+ ele_sep +`
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <label class="form-label mb-0">Quiz:</label>
-                                                    <button type="button" class="close">
-                                                        <span aria-hidden="true">×</span>
-                                                    </button>
-                                                </div>
-                                                <div class="card-body">
-                                                    <label class="form-label">Title:</label>
-                                                    <input type="text" class="form-control" name="quiz_title__` + lesson_step + `" 
-                                                        value="`+ item.title +`" placeholder="title for quiz step">
-                                                    <input type="hidden" name="quiz__`+ lesson_step +`" value="1">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Duration (minutes):</label>
+                                                        <input type="number" class="form-control" name="lesson_video_duration__` + lesson_step + `" 
+                                                            value="`+ item.duration +`" placeholder="15">
+                                                        <small class="form-text text-muted">Time duration for this step</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>`;
@@ -832,6 +824,12 @@ $(document).ready(function() {
                                         <div style="min-height: 200px;" id="lesson_editor__` + lesson_step + `" class="mb-0"></div>
                                         <textarea name="lesson_description__` + lesson_step + `" style="display: none;"></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Duration (minutes):</label>
+                                        <input type="number" class="form-control" name="lesson_description_duration__` + lesson_step + `" 
+                                            value="15" placeholder="15">
+                                        <small class="form-text text-muted">Time duration for this step</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>`;
@@ -860,24 +858,12 @@ $(document).ready(function() {
                                         <input type="text" class="form-control step-video" name="lesson_video__`+ lesson_step +`" value="" placeholder="Enter Video URL">
                                         <small class="form-text text-muted">Enter a valid video URL.</small>
                                     </div>
-                                </div>
-                            </div>
-                        </div>`;
-
-        var ele_quiz = `<div class="form-group step" section-type="quiz">
-                            `+ ele_sep +`
-                            <div class="card">
-                                <div class="card-header">
-                                    <label class="form-label mb-0">Quiz:</label>
-                                    <button type="button" class="close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <div class="card-body">
-                                    <label class="form-label">Title:</label>
-                                    <input type="text" class="form-control" name="quiz_title__` + lesson_step + `" 
-                                            value="" placeholder="title for quiz step">
-                                    <input type="hidden" name="quiz__`+ lesson_step +`" value="1">
+                                    <div class="form-group">
+                                        <label class="form-label">Duration (minutes):</label>
+                                        <input type="number" class="form-control" name="lesson_video_duration__` + lesson_step + `" 
+                                            value="15" placeholder="15">
+                                        <small class="form-text text-muted">Time duration for this step</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>`;

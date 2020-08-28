@@ -18,4 +18,12 @@ class Step extends Model
     {
         return $this->hasOne(Test::class, 'id', 'test');
     }
+
+    /**
+     * Get completed Step
+     */
+    public function status()
+    {
+        return $this->hasOne(ChapterStudent::class, 'model_id');
+    }
 }

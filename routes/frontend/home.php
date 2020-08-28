@@ -11,24 +11,28 @@ Route::get('courses/review/{id}/edit', 'CoursesController@editReview')->name('co
 Route::post('courses/review/{id}/edit', 'CoursesController@updateReview')->name('courses.review.update');
 Route::get('courses/review/{id}/delete', 'CoursesController@deleteReview')->name('courses.review.delete');
 
-Route::post('ajax/course/subscribe', 'CoursesController@subscribe')->name('ajax.course.subscribe');
-
 // ==== Ajax for Search Form ==== //
 Route::get('ajax/courses/search/{key}', 'CoursesController@getSearchFormData')->name('ajax.search.form');
 
 // ==== Search Result ====//
 Route::get('search', 'CoursesController@searchPage')->name('search.page');
+Route::get('search/courses', 'CoursesController@search')->name('search.course');
 
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('course/{course_slug}/lesson/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');
-    Route::get('test/{test_id}/{index}', 'LessonsController@getQuestion')->name('lessons.question');
-    Route::post('test/questions/{id}', 'LessonsController@completeQuestion')->name('lessons.complete');
+    Route::get('test/{test_id}/{index}', 'LessonsController@getQuestion')->name('test.questions.get');
+    Route::post('test/questions/{id}', 'LessonsController@completeQuestion')->name('test.complete');
     Route::get('test-result/{test_id}', 'LessonsController@testResult')->name('test.result');
     Route::get('lesson/live/{lesson_slug}/{lesson_id}', 'LessonsController@liveSession')->name('lessons.live');
+
+    Route::get('ajax/step/{id}/complete/{type}', 'LessonsController@completeStep')->name('ajax.step.complete');
 
     Route::post('lesson/{slug}/test', 'LessonsController@test')->name('lessons.test');
     Route::post('lesson/{slug}/retest', 'LessonsController@retest')->name('lessons.retest');
     Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');
     Route::post('lesson/progress', 'LessonsController@courseProgress')->name('update.course.progress');
 });
+
+// ==== Course Subscribe ==== //
+Route::post('ajax/course/subscribe', 'EnrollController@subscribe')->name('ajax.course.subscribe');

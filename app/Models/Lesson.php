@@ -40,4 +40,9 @@ class Lesson extends Model
     {
         return $this->morphMany(ChapterStudent::class, 'model');
     }
+
+    public function lessonDuration()
+    {
+        return $this->steps->sum('duration');
+    }
 }

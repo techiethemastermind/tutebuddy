@@ -93,7 +93,8 @@ class LessonController extends Controller
                     $new_data = [
                         'lesson_id' => $lesson->id,
                         'type' => $step['type'],
-                        'step' => $step['step']
+                        'step' => $step['step'],
+                        'duration' => $step['duration']
                     ];
 
                     $new_data['title'] = empty($step['title']) ? 'Untitled' : $step['title'];
@@ -141,7 +142,8 @@ class LessonController extends Controller
                         $new_data = [
                             'lesson_id' => $data['lesson_id'],
                             'type' => $step['type'],
-                            'step' => $step['step']
+                            'step' => $step['step'],
+                            'duration' => $step['duration']
                         ];
 
                         $new_data['title'] = empty($step['title']) ? 'Untitled' : $step['title'];
@@ -153,6 +155,7 @@ class LessonController extends Controller
                         $update_data[$step['type']] = $step['content'];
                         $title = empty($step['title']) ? 'Untitled' : $step['title'];
                         $update_data['title'] = $title;
+                        $update_data['duration'] = $step['duration'];
                         $editStep = Step::find($step['id'])->update($update_data);
                     }
 
@@ -243,7 +246,7 @@ class LessonController extends Controller
 
         foreach($data as $key => $content) {
 
-            if(preg_match('/__/', $key) && !preg_match('/id__/', $key) && !preg_match('/title__/', $key)) {
+            if(preg_match('/__/', $key) && !preg_match('/id__/', $key) && !preg_match('/title__/', $key) && !preg_match('/duration__/', $key)) {
 
                 $itemData = [
                     'content' => $content,
@@ -258,16 +261,19 @@ class LessonController extends Controller
                     $itemData['type'] = 'text';
                     $itemData['id'] = $this->getValue($data, '/lesson_description_id__' . $itemData['step'] . '/');
                     $itemData['title'] = $this->getValue($data, '/lesson_description_title__'. $itemData['step'] .'/');
+                    $itemData['duration'] = $this->getValue($data, '/lesson_description_duration__'. $itemData['step'] .'/');
                 }
                 if(preg_match('/lesson_video__/', $key)) {
                     $itemData['type'] = 'video';
                     $itemData['id'] = $this->getValue($data, '/lesson_video_id__' . $itemData['step'] . '/');
                     $itemData['title'] = $this->getValue($data, '/lesson_video_title__' . $itemData['step'] . '/');
+                    $itemData['duration'] = $this->getValue($data, '/lesson_video_duration__' . $itemData['step'] . '/');
                 }
                 if(preg_match('/test__/', $key)) {
                     $itemData['type'] = 'test';
                     $itemData['id'] = $this->getValue($data, '/test_id__' . $itemData['step'] . '/');
                     $itemData['title'] = $this->getValue($data, '/test_title__' . $itemData['step'] . '/');
+                    $itemData['duration'] = $this->getValue($data, '/test_duration__' . $itemData['step'] . '/');
                 }
                 
                 array_push($stepData, $itemData);

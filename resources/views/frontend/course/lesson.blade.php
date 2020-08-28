@@ -116,7 +116,9 @@
 
             <div class="d-flex flex-wrap align-items-end mb-16pt">
                 <h1 class="text-white flex m-0">{{ $step->title }}</h1>
-                <p class="h1 text-white-50 font-weight-light m-0">50:13</p>
+                @if($step->duration)
+                <p class="h1 text-white-50 font-weight-light m-0">{{ $step->duration }} min</p>
+                @endif
             </div>
 
             @if($step->type == 'video')
@@ -128,12 +130,38 @@
             <div class="card card-body" id="step_content"></div>
 
             @endif
-        
-            @if(!empty($next))
-            <a href="{{ route('admin.lessons.show', $lesson->id) }}?step={{ $next->id }}" class="btn btn-white">Next</a>
-            @else
-            <a href="{{ route('admin.courses.show', $lesson->course->id) }}" class="btn btn-white">Finish</a>
+
+            @if(!empty($prev))
+                <a href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, $prev->step]) }}" class="btn btn-outline-white">
+                    Prev <i class="material-icons icon--right">chevron_left</i>
+                </a>
             @endif
+
+            @if(!empty($next))
+            <a href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, $next->step]) }}" class="btn btn-outline-white">
+                Next <i class="material-icons icon--right">chevron_right</i>
+            </a>
+            @else
+            <a href="{{ route('courses.show', $lesson->course->slug) }}" class="btn btn-outline-white">
+                Finish <i class="material-icons icon--right">pause</i>
+            </a>
+            @endif
+
+            @if(empty($step->status))
+            <a href="javascript:void(0)" id="btn_complete" class="btn btn-outline-white">
+                Complete <i class="material-icons icon--right">done_outline</i>
+            </a>
+            @else
+
+            <a href="javascript:void(0)" id="btn_uncomplete" class="btn btn-outline-white">
+                Uncomplete <i class="material-icons icon--right">redo</i>
+            </a>
+
+            <button disabled="disabled" class="btn btn-white">
+                Completed <i class="material-icons icon--right">done</i>
+            </button>
+            @endif
+
         </div>
     </div>
     <div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center">
@@ -293,7 +321,7 @@
 
 <script>
 
-$(document).ready(function(){
+$(function() {
     
     var stepType = '{{ $step->type }}';
 
@@ -303,6 +331,29 @@ $(document).ready(function(){
         quill.setContents(stepText);
         var content_html = quill.root.innerHTML;
         $('#step_content').html(content_html);
+    }
+
+    $('#btn_complete').on('click', function() {
+        sendGet('/ajax/step/{{ $step->id }}/complete/1');
+    });
+
+    $('#btn_uncomplete').on('click', function() {
+        sendGet('/ajax/step/{{ $step->id }}/complete/0');
+    });
+
+    function sendGet(route) {
+
+        $.ajax({
+            method: 'get',
+            url: route,
+            success: function(res) {
+                console.log(res.success);
+                
+                if(res.success) {
+                    window.location.reload();
+                }
+            }
+        });
     }
 });
 

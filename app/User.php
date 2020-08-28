@@ -39,13 +39,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function role()
-    {
-        return $this->belongsTo(Models\Role::class);
-    }
-
     public function courses()
     {
         return $this->belongsToMany(Models\Course::class, 'course_user');
+    }
+
+    public function purchasedCourses(){
+        $orders = Order::where('status','=',1)
+            ->where('user_id','=',$this->id)
+            ->pluck('id');
+        $courses_id = OrderItem::whereIn('order_id',$orders)
+            ->where('item_type','=',"App\Models\Course")
+            ->pluck('item_id');
+        $courses = Course::whereIn('id',$courses_id)
+            ->get();
+        return $courses;
     }
 }

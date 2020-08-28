@@ -47,22 +47,6 @@ class CourseController extends Controller
         return view('backend.course.index', compact('count'));
     }
 
-    public function browse() {
-        $parentCategories = Category::where('parent', 0)->get();
-        $popular_courses = Course::where('popular', 1)->orderBy('created_at', 'desc')->limit(8)->get();
-        $trending_courses = Course::where('trending', 1)->orderBy('created_at', 'desc')->limit(8)->get();
-        $featured_courses = Course::where('featured', 1)->orderBy('created_at', 'desc')->limit(8)->get();
-        return view(
-            'backend.course.student.index', 
-            compact(
-                'parentCategories',
-                'popular_courses',
-                'trending_courses',
-                'featured_courses'
-            )
-        );
-    }
-
     /**
      * Show Selected Course
      */
@@ -138,7 +122,7 @@ class CourseController extends Controller
         foreach($data['tags'] as $item) {
             $count = DB::table('tags')->where('name', $item)->count();
             if($count < 1) {
-                DB::table('tags')->insert($item);
+                DB::table('tags')->insert(['name' => $item]);
             }
         }
 
@@ -150,7 +134,7 @@ class CourseController extends Controller
             'short_description' => $data['short_description'],
             'description' => $data['course_description'],
             'level_id' => $data['level'],
-            'tags' => $data['tags'],
+            'tags' => json_encode($data['tags']),
             'private_price' => $data['private_price'],
             'group_price' => $data['group_price'],
             'timezone' => $data['timezone'],
@@ -301,7 +285,7 @@ class CourseController extends Controller
             'short_description' => $data['short_description'],
             'description' => $data['course_description'],
             'level_id' => $data['level'],
-            'tags' => $data['tags'],
+            'tags' => json_encode($data['tags']),
             'private_price' => $data['private_price'],
             'group_price' => $data['group_price'],
             'timezone' => $data['timezone'],

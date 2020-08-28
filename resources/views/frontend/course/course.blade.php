@@ -3,6 +3,7 @@
 @section('content')
 
 @push('after-styles')
+
 <style>
 [dir=ltr] .dv-sticky {
     z-index: 0;
@@ -74,7 +75,9 @@
                 <div class="container page__container">
                     <h1 class="text-white">{{ $course->title }}</h1>
                     <p class="lead text-white-50 measure-hero-lead mb-24pt">{{ $course->short_description }}</p>
-                    <a href="#" class="btn btn-white">Resume course</a>
+                    <a href="#" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">favorite_border</i> Add Wishlist</a>
+                    <a href="#" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i> Share</a>
+                    <a href="#" class="btn btn-outline-white">Take Course</a>
                 </div>
             </div>
             <div
@@ -101,7 +104,7 @@
                         </li>
                         <li class="nav-item navbar-list__item">
                             <i class="material-icons text-muted icon--left">schedule</i>
-                            {{ Carbon\Carbon::now()->format('H') }}h {{ Carbon\Carbon::now()->format('i') }}m
+                            {{ $course->duration() }}
                         </li>
                         <li class="nav-item navbar-list__item">
                             <i class="material-icons text-muted icon--left">assessment</i>
@@ -109,19 +112,7 @@
                         </li>
                         <li class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item">
                             <div class="rating rating-24">
-                                @for($r = 1; $r <= $course_rating; $r++) <span class="rating__item"><span
-                                        class="material-icons">star</span></span>
-                                    @endfor
-
-                                    @if($course_rating > ($r-1))
-                                    <span class="rating__item"><span class="material-icons">star_half</span></span>
-                                    @else
-                                    <span class="rating__item"><span class="material-icons">star_border</span></span>
-                                    @endif
-
-                                    @for($r_a = $r; $r < 5; $r++) <span class="rating__item"><span
-                                            class="material-icons">star_border</span></span>
-                                        @endfor
+                                @include('layouts.parts.rating', ['rating' => $course_rating])
                             </div>
                             <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} ratings</small></p>
                         </li>
@@ -133,7 +124,34 @@
 
     @if(!auth()->check() || !$is_enrolled)
 
-    <div class="page-section">
+    <div class="page-section bg-alt border-bottom-2">
+
+        <div class="container page__container">
+            <div class="row ">
+                <div class="col-md-7">
+                    <div class="page-separator">
+                        <div class="page-separator__text">About this course</div>
+                    </div>
+                    <div class="course-description"></div>
+                </div>
+                <div class="col-md-5">
+                    <div class="page-separator">
+                        <div class="page-separator__text bg-alt">What you’ll learn</div>
+                    </div>
+                    <ul class="list-unstyled">
+                        @foreach($course->lessons as $lesson)
+                        <li class="d-flex align-items-center">
+                            <span class="material-icons text-50 mr-8pt">check</span>
+                            <span class="text-70">{{ $lesson->title }}</span>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-section border-bottom-2">
         <div class="container page__container">
 
             <div class="page-separator">
@@ -171,8 +189,15 @@
                                             <a class="flex" href="javascript:void(0)">
                                                 Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
                                             </a>
-                                            <span
-                                                class="material-icons icon-16pt icon--left text-body text-muted">alarm</span>
+                                            @if($step['duration'])
+                                            <span class="text-muted">
+                                                {{ $step['duration'] }} min
+                                            </span>
+                                            @else
+                                            <span class="material-icons icon-16pt icon--left text-body text-muted">
+                                                alarm
+                                            </span>
+                                            @endif
                                         </li>
 
                                         @endforeach
@@ -196,13 +221,13 @@
 
                             @if(!auth()->check())
                             <a href="{{ route('register') }}" class="btn btn-accent mb-8pt">Sign up - only
-                                ${{ $course->group_price }}</a>
+                                {{ config('app.currency') . $course->group_price }}</a>
                             <p class="mb-0">Have an account? <a href="{{ route('login') }}">Login</a></p>
                             @else
                             <button class="btn btn-primary mb-8pt btn-enroll" enroll-type="group" course-id="{{ $course->id }}">Group -
-                                ${{ $course->group_price }}</button>
+                                {{ config('app.currency') . $course->group_price }}</button>
                             <button class="btn btn-accent mb-8pt btn-enroll" enroll-type="private" course-id="{{ $course->id }}">Private -
-                                ${{ $course->private_price }}</button>
+                                {{ config('app.currency') . $course->private_price }}</button>
                             @endif
                         </div>
                     </div>
@@ -212,7 +237,7 @@
     </div>
 
     @else
-    <div class="container page__container">
+    <div class="container page__container border-bottom-2">
         <div class="row">
             <div class="col-lg-7">
                 <div class="border-left-2 page-section pl-32pt">
@@ -278,8 +303,15 @@
                                                 href="{{ route('lessons.show', [$course->slug, $lesson->slug, $step->step]) }}">
                                                 Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
                                             </a>
-                                            <span
-                                                class="material-icons icon-16pt icon--left text-body text-muted">alarm</span>
+                                            @if($step['duration'])
+                                            <span class="text-muted">
+                                                {{ $step['duration'] }} min
+                                            </span>
+                                            @else
+                                            <span class="material-icons icon-16pt icon--left text-body text-muted">
+                                                alarm
+                                            </span>
+                                            @endif
                                         </li>
 
                                         @endforeach
@@ -363,39 +395,33 @@
                 <div class="col-md-3 mb-32pt mb-md-0">
                     <div class="display-1">{{ number_format($course_rating, 1) }}</div>
                     <div class="rating rating-24">
-                        @for($r = 1; $r <= $course_rating; $r++) <span class="rating__item">
-                            <span class="material-icons">star</span>
-                            </span>
-                            @endfor
-
-                            @if($course_rating > ($r-1))
-                            <span class="rating__item">
-                                <span class="material-icons">star_half</span>
-                            </span>
-                            @else
-                            <span class="rating__item"><span class="material-icons">star_border</span></span>
-                            @endif
-
-                            @for($r_a = $r; $r < 5; $r++) <span class="rating__item">
-                                <span class="material-icons">star_border</span>
-                                </span>
-                                @endfor
+                        @include('layouts.parts.rating', ['rating' => $course_rating])
                     </div>
                     <p class="text-muted mb-0">{{ $total_ratings }} ratings</p>
                 </div>
                 <div class="col-md-9">
 
                     <?php
-                        $ratings_5 = $course->reviews()->where('rating', '=', 5)->get()->count();
-                        $percent_5 = number_format(($ratings_5 / $total_ratings) * 100, 1);
-                        $ratings_4 = $course->reviews()->where('rating', '=', 4)->get()->count();
-                        $percent_4 = number_format(($ratings_4 / $total_ratings) * 100, 1);
-                        $ratings_3 = $course->reviews()->where('rating', '=', 3)->get()->count();
-                        $percent_3 = number_format(($ratings_3 / $total_ratings) * 100, 1);
-                        $ratings_2 = $course->reviews()->where('rating', '=', 2)->get()->count();
-                        $percent_2 = number_format(($ratings_2 / $total_ratings) * 100, 1);
-                        $ratings_1 = $course->reviews()->where('rating', '=', 1)->get()->count();
-                        $percent_1 = number_format(($ratings_1 / $total_ratings) * 100, 1);
+                        
+                        if($total_ratings > 0) {
+                            $ratings_5 = $course->reviews()->where('rating', '=', 5)->get()->count();
+                            $percent_5 = number_format(($ratings_5 / $total_ratings) * 100, 1);
+                            $ratings_4 = $course->reviews()->where('rating', '=', 4)->get()->count();
+                            $percent_4 = number_format(($ratings_4 / $total_ratings) * 100, 1);
+                            $ratings_3 = $course->reviews()->where('rating', '=', 3)->get()->count();
+                            $percent_3 = number_format(($ratings_3 / $total_ratings) * 100, 1);
+                            $ratings_2 = $course->reviews()->where('rating', '=', 2)->get()->count();
+                            $percent_2 = number_format(($ratings_2 / $total_ratings) * 100, 1);
+                            $ratings_1 = $course->reviews()->where('rating', '=', 1)->get()->count();
+                            $percent_1 = number_format(($ratings_1 / $total_ratings) * 100, 1);
+                        } else {
+                            $percent_5 = 0;
+                            $percent_4 = 0;
+                            $percent_3 = 0;
+                            $percent_2 = 0;
+                            $percent_1 = 0;
+                        }
+                        
                     ?>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
                         data-title="{{ $percent_5 }}% rated 5/5" data-placement="top">
@@ -1245,6 +1271,7 @@
 
 </div>
 
+<!-- Add Video Modal -->
 <div id="mdl_intro_video" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -1268,15 +1295,15 @@
                         </div>
                         <div class="player__embed d-none">
                             <?php
-                        $embed = Embed::make($course->mediaVideo->url)->parseUrl();
-                        $embed->setAttribute([
-                            'id'=>'display_course_video',
-                            'class'=>'embed-responsive-item',
-                            'allowfullscreen' => true
-                        ]);
+                                $embed = Embed::make($course->mediaVideo->url)->parseUrl();
+                                $embed->setAttribute([
+                                    'id'=>'display_course_video',
+                                    'class'=>'embed-responsive-item',
+                                    'allowfullscreen' => true
+                                ]);
 
-                        echo $embed->getHtml();
-                    ?>
+                                echo $embed->getHtml();
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -1336,15 +1363,31 @@ $(document).ready(function(e) {
         var type = $(this).attr('enroll-type');
         var course_id = $(this).attr('course-id');
 
-        $.ajax({
-            method: 'post',
-            url: route,
-            data: {
-                course_id : course_id,
-                type: type
-            },
-            success: function(res) {
-                console.log(res);
+        swal({
+            title: "Unlock This Course!",
+            text: "This Course will be unlocked",
+            type: 'success',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
+        }, function(val) {
+            if (val) {
+                $.ajax({
+                    method: 'post',
+                    url: route,
+                    data: {
+                        course_id : course_id,
+                        type: type
+                    },
+                    success: function(res) {
+                        
+                        if(res.success) {
+                            window.location.reload();
+                        }
+                    }
+                });
             }
         });
 

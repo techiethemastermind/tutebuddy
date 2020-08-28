@@ -14,6 +14,8 @@ Route::resource('roles','RoleController');
 
 //===== Dashboard Routes =====//
 Route::get('/', 'DashboardController@index')->name('dashboard');
+Route::get('/ajax/student/schedule', 'DashboardController@getStudentScheduleData')->name('dashboard.table.getScheduleByAjax');
+Route::get('/ajax/student/instructors', 'DashboardController@getStudentInstructorsData')->name('dashboard.table.getInstructorsByAjax');
 
 //===== Categories Routes =====//
 Route::resource('categories', 'CategoryController');
@@ -35,7 +37,6 @@ Route::resource('media', 'MediaController');
 //===== Courses Routes =====//
 Route::resource('courses', 'CourseController');
 Route::get('courses/restore/{id}', 'CourseController@restore')->name('courses.restore');
-Route::get('courses/browser/all', 'CourseController@browse')->name('courses.browse');
 Route::get('ajax/courses/list/{type}', 'CourseController@getList')->name('getCoursesByAjax');
 Route::get('ajax/courses/publish/{id}', 'CourseController@publish')->name('courses.publish');
 

@@ -92,4 +92,18 @@ class Course extends Model
     {
         return $this->morphMany(Review::class, 'reviewable');
     }
+
+    public function duration()
+    {
+        $d = 0;
+
+        foreach($this->lessons as $lesson) {
+            $d += $lesson->lessonDuration();
+        }
+
+        $hours = floor($d / 60);
+        $minutes = ($d % 60);
+
+        return $hours . 'h ' . $minutes . 'm';
+    }
 }

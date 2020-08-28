@@ -31,6 +31,11 @@ class Test extends Model
         return $this->hasOne(Step::class, 'test', 'id');
     }
 
+    public function result()
+    {
+        return $this->hasOne(TestResults::class);
+    }
+
     public function isCompleted(){
         $isCompleted = $this->chapterStudents()->where('user_id', \Auth::id())->count();
         if($isCompleted > 0){

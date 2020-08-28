@@ -145,8 +145,8 @@
 
                     <ul class="sidebar-submenu collapse sm-indent" id="learn_menu" style="">
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/courses*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.courses.browse') }}">
+                        <li class="sidebar-menu-item {{ Request::is('search/courses*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('search.course') }}">
                                 <span class="sidebar-menu-text">Browse Courses</span>
                             </a>
                         </li>

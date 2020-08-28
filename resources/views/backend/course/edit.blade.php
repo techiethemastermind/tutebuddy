@@ -978,6 +978,12 @@ $(function() {
                                                         <textarea name="lesson_description__` + lesson_step + `" style="display: none;">` + item.text + `</textarea>
                                                         <input type="hidden" name="lesson_description_id__` + lesson_step + `" value="`+ item.id +`">
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Duration (minutes):</label>
+                                                        <input type="number" class="form-control" name="lesson_description_duration__` + lesson_step + `" 
+                                                            value="`+ item.duration +`" placeholder="15">
+                                                        <small class="form-text text-muted">Time duration for this step</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>`;
@@ -1020,6 +1026,12 @@ $(function() {
                                                         <small class="form-text text-muted">Enter a valid video URL.</small>
                                                         <input type="hidden" name="lesson_video_id__` + lesson_step + `" value="`+ item.id +`">
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Duration (minutes):</label>
+                                                        <input type="number" class="form-control" name="lesson_video_duration__` + lesson_step + `" 
+                                                            value="`+ item.duration +`" placeholder="15">
+                                                        <small class="form-text text-muted">Time duration for this step</small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>`;
@@ -1051,6 +1063,12 @@ $(function() {
                                                             </option>
                                                             @endforeach
                                                         </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Duration (minutes):</label>
+                                                        <input type="number" class="form-control" name="test_duration__` + lesson_step + `" 
+                                                            value="`+ item.duration +`" placeholder="15">
+                                                        <small class="form-text text-muted">Time duration for this step</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1151,6 +1169,12 @@ $(function() {
                                         <div style="min-height: 200px;" id="lesson_editor__` + status.lesson_step + `" class="mb-0"></div>
                                         <textarea name="lesson_description__` + status.lesson_step + `" style="display: none;"></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Duration (minutes):</label>
+                                        <input type="number" class="form-control" name="lesson_description_duration__` + status.lesson_step + `" 
+                                            value="15" placeholder="15">
+                                        <small class="form-text text-muted">Time duration for this step</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>`;
@@ -1181,6 +1205,12 @@ $(function() {
                                         value="" placeholder="Enter Video URL" data-video-preview="#iframe_`+ status.lesson_step +`">
                                         <small class="form-text text-muted">Enter a valid video URL.</small>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Duration (minutes):</label>
+                                        <input type="number" class="form-control" name="lesson_video_duration__` + status.lesson_step + `" 
+                                            value="15" placeholder="15">
+                                        <small class="form-text text-muted">Time duration for this step</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>`;
@@ -1207,6 +1237,12 @@ $(function() {
                                             <option value="{{ $test->id }}">{{ $test->title }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Duration (minutes):</label>
+                                        <input type="number" class="form-control" name="test_duration__` + status.lesson_step + `" 
+                                            value="15" placeholder="15">
+                                        <small class="form-text text-muted">Time duration for this step</small>
                                     </div>
                                 </div>
                             </div>
