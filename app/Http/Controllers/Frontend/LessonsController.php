@@ -294,7 +294,42 @@ class LessonsController extends Controller
                 ]);
             }
         }
-        
-        
+    }
+
+    public function completeLesson($id)
+    {
+        $lesson = Lesson::find($id);
+        $update_data = [
+            'model_type' => Lesson::class,
+            'model_id' => $id,
+            'user_id' => auth()->user()->id,
+            'course_id' => $lesson->course->id
+        ];
+
+        try {
+            ChapterStudent::updateOrCreate($update_data, $update_data);
+            return redirect()->route('courses.show', $lesson->course->slug);
+        } catch (Exception $e) {
+
+            return back()->withErrors([$e->getMessage()]);
+        }
+    }
+
+    public function testComplete($id)
+    {
+        $test = Test::find($id);
+        $update_data = [
+            'model_type' => Test::class,
+            'model_id' => $id,
+            'user_id' => auth()->user()->id,
+            'course_id' => $test->course->id
+        ];
+
+        try {
+            ChapterStudent::updateOrCreate($update_data, $update_data);
+            return redirect()->route('courses.show', $test->course->slug);
+        } catch (Exception $e) {
+            return back()->withErrors([$e->getMessage()]);
+        }
     }
 }

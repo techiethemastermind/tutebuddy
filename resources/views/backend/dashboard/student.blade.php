@@ -91,7 +91,7 @@
                                         <a href="{{ route('courses.show', $course->slug) }}" class="js-image"
                                             data-position="">
                                             <img src="{{ asset('storage/uploads/' . $course->course_image) }}"
-                                                alt="course" height="168">
+                                                alt="course" height="164">
                                             <span class="overlay__content align-items-start justify-content-start">
                                                 <span class="overlay__action card-body d-flex align-items-center">
                                                     <i class="material-icons mr-4pt">play_circle_outline</i>
@@ -100,10 +100,17 @@
                                             </span>
                                         </a>
 
+                                        @if($course->created_at->gt(date(Carbon\Carbon::now()->subDays(3))))
                                         <span
                                             class="corner-ribbon corner-ribbon--default-right-top corner-ribbon--shadow bg-accent text-white">
                                             NEW
                                         </span>
+                                        @endif
+
+                                        <div class="progress rounded-0" style="height: 4px;">
+                                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $course->progress() }}%;" 
+                                                aria-valuenow="{{ $course->progress() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
 
                                         <div class="mdk-reveal__content">
                                             <div class="card-body">
@@ -220,7 +227,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-schedule"
                     data-lists-sort-desc="true" data-lists-values='["js-lists-values-no"]'>
-                    <table id="tbl_schedule" class="table mb-0 thead-border-top-0 table-nowrap">
+                    <table id="tbl_schedule" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0">
@@ -327,7 +334,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-name"
                 data-lists-sort-desc="true" data-lists-values='["js-lists-values-no"]'>
-                    <table id="tbl_instructors" class="table mb-0 thead-border-top-0 table-nowrap">
+                    <table id="tbl_instructors" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0">

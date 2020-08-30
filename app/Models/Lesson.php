@@ -45,4 +45,18 @@ class Lesson extends Model
     {
         return $this->steps->sum('duration');
     }
+
+    /**
+     * Get completed status
+     */
+    public function isCompleted()
+    {
+        $c = ChapterStudent::where('model_type', Lesson::class)->where('model_id', $this->id)->get();
+
+        if(count($c) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

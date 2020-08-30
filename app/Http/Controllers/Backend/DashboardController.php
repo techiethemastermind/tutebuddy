@@ -49,7 +49,7 @@ class DashboardController extends Controller
 
                 // Get purchased Courses
                 $courses_id = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
-                $purchased_courses = Course::whereIn('id', $courses_id)->limit(4)->get();
+                $purchased_courses = Course::whereIn('id', $courses_id)->orderBy('created_at', 'desc')->limit(4)->get();
 
                 $purchased_courses_count = Course::whereIn('id', $courses_id)->count();
                 $total_courses_count = Course::all()->count();

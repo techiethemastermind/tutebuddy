@@ -20,10 +20,16 @@ class Step extends Model
     }
 
     /**
-     * Get completed Step
+     * Get completed status
      */
-    public function status()
+    public function isCompleted()
     {
-        return $this->hasOne(ChapterStudent::class, 'model_id');
+        $c = ChapterStudent::where('model_type', Step::class)->where('model_id', $this->id)->get();
+
+        if(count($c) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

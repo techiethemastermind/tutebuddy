@@ -24,8 +24,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('test/{test_id}/{index}', 'LessonsController@getQuestion')->name('test.questions.get');
     Route::post('test/questions/{id}', 'LessonsController@completeQuestion')->name('test.complete');
     Route::get('test-result/{test_id}', 'LessonsController@testResult')->name('test.result');
+    Route::get('test-result/{id}/complete', 'LessonsController@testComplete')->name('test.result.complete');
+
     Route::get('lesson/live/{lesson_slug}/{lesson_id}', 'LessonsController@liveSession')->name('lessons.live');
 
+    Route::get('lesson/{id}/complete', 'LessonsController@completeLesson')->name('lesson.complete');
     Route::get('ajax/step/{id}/complete/{type}', 'LessonsController@completeStep')->name('ajax.step.complete');
 
     Route::post('lesson/{slug}/test', 'LessonsController@test')->name('lessons.test');

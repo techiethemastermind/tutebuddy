@@ -68,9 +68,17 @@
                     <p class="lead text-white-50 measure-lead-max mb-0">Submited on
                         {{ Carbon\Carbon::parse($test_result->updated_at)->diffForHumans() }}</p>
                     <h1 class="text-white mb-24pt">Your Score: {{ $test_result->test_result }}</h1>
-                    <a href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, $step->step]) }}"
-                        class="btn btn-outline-white">Restart Test</a>
-                </div>
+
+                    <div class="flex">
+                        <a href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, $step->step]) }}"
+                            class="btn btn-outline-white">Restart Test</a>
+
+                        <a href="{{ route('test.result.complete', $test->id) }}" class="btn btn-outline-white">
+                            Complete <i class="material-icons icon--right">done_outline</i>
+                        </a>
+                    </div>
+                    
+                </div>                
             </div>
         </div>
     </div>
@@ -156,6 +164,7 @@ $(document).ready(function() {
         var content_html = quill.root.innerHTML;
         $('#question_wrap__' + question_id).html(content_html);
     });
+
 });
 </script>
 

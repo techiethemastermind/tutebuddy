@@ -142,12 +142,12 @@
                 Next <i class="material-icons icon--right">chevron_right</i>
             </a>
             @else
-            <a href="{{ route('courses.show', $lesson->course->slug) }}" class="btn btn-outline-white">
+            <a href="{{ route('lesson.complete', $lesson->id) }}" class="btn btn-outline-white">
                 Finish <i class="material-icons icon--right">pause</i>
             </a>
             @endif
 
-            @if(empty($step->status))
+            @if(!$step->isCompleted())
             <a href="javascript:void(0)" id="btn_complete" class="btn btn-outline-white">
                 Complete <i class="material-icons icon--right">done_outline</i>
             </a>

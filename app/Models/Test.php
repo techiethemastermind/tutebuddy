@@ -36,6 +36,11 @@ class Test extends Model
         return $this->hasOne(TestResults::class);
     }
 
+    public function chapterStudents()
+    {
+        return $this->morphMany(ChapterStudent::class, 'model');
+    }
+
     public function isCompleted(){
         $isCompleted = $this->chapterStudents()->where('user_id', \Auth::id())->count();
         if($isCompleted > 0){
