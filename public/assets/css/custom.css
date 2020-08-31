@@ -208,6 +208,18 @@ iframe.no-video {
     left: 1.25rem;
 }
 
+[dir=ltr] ul.footer-menu{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+[dir=ltr] li.footer-menu-item {
+    line-height: 32px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
 
 /** Responsive CSS **/
 [dir=ltr] .desktop-only {

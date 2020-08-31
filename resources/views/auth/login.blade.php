@@ -10,6 +10,17 @@
                     <div class="page-separator__text">Login To Account</div>
                 </div>
 
+                @error('captcha')
+                <div class="alert alert-accent" role="alert">
+                    <div class="d-flex flex-wrap align-items-center">
+                        <i class="material-icons mr-8pt">error</i>
+                        <div class="media-body" style="min-width: 180px">
+                            {{ $message }}
+                        </div>
+                    </div>
+                </div>
+                @enderror
+
                 <form method="POST" action="{{ route('login') }}" class="card card-body p-5">
                     @csrf
 
@@ -43,6 +54,7 @@
                         </p>
                     </div>
                     <button class="btn btn-primary">Login</button>
+                    <input type="hidden" name="recaptcha_v3" id="recaptcha_v3">
                 </form>
             </div>
         </div>
@@ -52,12 +64,28 @@
     </div>
     <div class="bg-body pt-32pt pb-32pt pb-md-64pt text-center">
         <div class="container page__container">
-            <a href="fixed-index.html" class="btn btn-secondary btn-block-xs">Facebook</a>
-            <a href="fixed-index.html" class="btn btn-secondary btn-block-xs">Twitter</a>
-            <a href="fixed-index.html" class="btn btn-secondary btn-block-xs">Google+</a>
+            <a href="" class="btn btn-secondary btn-block-xs">Facebook</a>
+            <a href="" class="btn btn-secondary btn-block-xs">Twitter</a>
+            <a href="" class="btn btn-secondary btn-block-xs">Google+</a>
         </div>
     </div>
 </div>
 <!-- // END Header Layout Content -->
+
+@push('after-scripts')
+
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('captcha.key') }}"></script>
+
+<script>
+    grecaptcha.ready(function() {
+        grecaptcha.execute("{{ config('captcha.key') }}", {action: 'login'}).then(function(token) {
+            if(token) {
+                $("#recaptcha_v3").val(token);
+            }
+        });
+    });
+</script>
+
+@endpush
 
 @endsection

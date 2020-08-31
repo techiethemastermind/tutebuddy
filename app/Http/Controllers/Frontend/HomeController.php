@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Course;
+use App\Models\Review;
 
 class HomeController extends Controller
 {
@@ -19,6 +22,16 @@ class HomeController extends Controller
 
     // Load Homepage
     public function index() {
-        return view('frontend.index');
+
+        // Parent Categories
+        $parentCategories = Category::where('parent', 0)->limit(8)->get();
+
+        // Get Featured Courses
+        $featuredCourses = Course::where('featured', 1)->limit(8)->get();
+
+        // Top reviews
+        $reviews = Review::orderBy('rating', 'desc')->limit(4)->get();
+
+        return view('frontend.index', compact('parentCategories', 'featuredCourses', 'trendingCourses', 'reviews'));
     }
 }

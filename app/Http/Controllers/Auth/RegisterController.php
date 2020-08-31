@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+
+use Mail;
+use App\Mail\VerifyMail;
+
 class RegisterController extends Controller
 {
     /*
@@ -69,9 +75,37 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'remember_token' => str_random(40)
         ]);
 
         $user->assignRole($data['role']);
+
+        Mail::to($user->email)->send(new VerifyMail($user));
+
         return $user;
+    }
+
+    public function verifyUser($token)
+    {
+        $user = User::where('remember_token', $token)->first();
+        if(isset($user) ) {
+            if(!$user->verified) {
+                $user->verified = 1;
+                $user->save();
+                $status = "Your e-mail is verified. You can now login.";
+            } else {
+                $status = "Your e-mail is already verified. You can now login.";
+            }
+        } else {
+            return redirect()->route('login')->with('warning', "Sorry your email cannot be identified.");
+        }
+
+        return redirect()->route('login')->with('success', $status);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $this->guard()->logout();
+        return redirect()->route('login')->with('success', 'We sent you an activation code. Check your email and click on the link to verify.');
     }
 }

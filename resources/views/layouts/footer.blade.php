@@ -1,16 +1,76 @@
     <div class="js-fix-footer2 bg-white border-top-2">
         <div class="container page__container page-section d-flex flex-column">
-            <p class="text-70 brand mb-24pt">
-                <img class="brand-icon" src="{{ asset('assets/img/logo/black-70@2x.png') }}" width="30" alt="Luma"> Luma
-            </p>
-            <p class="measure-lead-max text-50 small mr-8pt">Luma is a beautifully crafted user interface for modern
-                Education Platforms, including Courses & Tutorials, Video Lessons, Student and Teacher Dashboard, Curriculum
-                Management, Earnings and Reporting, ERP, HR, CMS, Tasks, Projects, eCommerce and more.</p>
-            <p class="mb-8pt d-flex">
-                <a href="" class="text-70 text-underline mr-8pt small">Terms</a>
-                <a href="" class="text-70 text-underline small">Privacy policy</a>
-            </p>
-            <p class="text-50 small mt-n1 mb-0">Copyright 2019 &copy; All rights reserved.</p>
+            <div class="row pb-16pt mb-16pt border-bottom-2">
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <a href="{{ config('app.url') }}" class="">
+                        <span class="avatar avatar-xl sidebar-brand-icon h-auto">
+                            <img src="@if(!empty(config('sidebar_logo'))) 
+                                    {{ asset('storage/logos/'.config('sidebar_logo')) }}
+                                @else 
+                                    {{ asset('assets/img/logo/tutebuddy-menu-logo.png') }}
+                                @endif" alt="logo" class="img-fluid" />
+                        </span>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <ul class="footer-menu">
+                        <li class="footer-menu-item">
+                            <a href="#" >About Us</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Support</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >FAQs</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <ul class="footer-menu">
+                        <li class="footer-menu-item">
+                            <a href="#" >How It Works</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Teach on TuteBuddy</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Solutions for Business</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Solutions for Institutions</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <ul class="footer-menu">
+                        <li class="footer-menu-item">
+                            <a href="#" >Terms of Service</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Privacy Policy</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Cookies</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Student Safety</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12 pt-2">
+                    <p class="text-50 small mt-n1 mb-0">Copyright 2019 &copy; All rights reserved.</p>
+                </div>
+            </div>            
         </div>
     </div>
 </div>

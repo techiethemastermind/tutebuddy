@@ -10,31 +10,33 @@
                 <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                     <div
                         class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
-                        <i class="material-icons text-white">subscriptions</i>
+                        <span class="h3 text-white m-0">1</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">8,000+ Courses</div>
-                        <p class="card-subtitle text-black-70">Explore a wide range of skills.</p>
+                        <div class="card-title mb-4pt">Select Course</div>
+                        <p class="card-subtitle text-black-70">Wide selection of subjects you can learn from expert
+                            tutors.</p>
                     </div>
                 </div>
                 <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                     <div
                         class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
-                        <i class="material-icons text-white">verified_user</i>
+                        <span class="h3 text-white m-0">2</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">By Industry Experts</div>
-                        <p class="card-subtitle text-black-70">Professional development from the best people.</p>
+                        <div class="card-title mb-4pt">Find an Expert</div>
+                        <p class="card-subtitle text-black-70">Select from the most experienced & requted Instructors.
+                        </p>
                     </div>
                 </div>
                 <div class="d-flex col-md align-items-center">
                     <div
                         class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
-                        <i class="material-icons text-white">update</i>
+                        <span class="h3 text-white m-0">3</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Unlimited Access</div>
-                        <p class="card-subtitle text-black-70">Unlock Library and learn any topic with one subscription.
+                        <div class="card-title mb-4pt">Start Learning</div>
+                        <p class="card-subtitle text-black-70">Get personal instruction on your chosen course.
                         </p>
                     </div>
                 </div>
@@ -42,149 +44,32 @@
         </div>
     </div>
 
+    <!-- Categories -->
+
     <div class="page-section border-bottom-2">
         <div class="container page__container">
 
-            <div class="page-separator">
-                <div class="page-separator__text">From the blog</div>
-            </div>
-
             <div class="row card-group-row">
-                <div class="col-md-6 col-lg-4 card-group-row__col">
-                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
-                        <img src="{{ asset('assets/img/paths/sketch_430x168.png') }}" alt="" class="card-img">
-                        <div class="fullbleed bg-primary" style="opacity: .5"></div>
-                        <div class="posts-card-popular__content">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="avatar-group flex">
-                                    <div class="avatar avatar-xs" data-toggle="tooltip" data-placement="top"
-                                        title="Janell D.">
-                                        <a href=""><img
-                                                src="{{ asset('assets/img/256_luke-porter-261779-unsplash.jpg') }}"
-                                                alt="Avatar" class="avatar-img rounded-circle"></a>
-                                    </div>
+                @foreach($parentCategories as $category)
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="card card-body p-2">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded mr-12pt">
+                                <div class="avatar avatar-sm mr-3">
+                                    <a href="/search?_q={{ $category->name }}&_t=category&_k={{ $category->id }}">
+                                        <img src="{{ asset('/storage/uploads/' . $category->thumb) }}" alt="avatar"
+                                            class="avatar-img rounded">
+                                    </a>
                                 </div>
-                                <a style="text-decoration: none;" class="d-flex align-items-center" href=""><i
-                                        class="material-icons mr-1" style="font-size: inherit;">remove_red_eye</i>
-                                    <small>327</small></a>
                             </div>
-                            <div class="posts-card-popular__title card-body">
-                                <small class="text-muted text-uppercase">sketch</small>
-                                <a class="card-title" href="fixed-blog-post.html">Merge Duplicates Inconsistent
-                                    Symbols</a>
+                            <div class="flex">
+                                <a href="/search?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="card-title mr-3">{{ $category->name }}</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-6 col-lg-4 card-group-row__col">
-                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
-                        <img src="{{ asset('assets/img/paths/invision_430x168.png') }}" alt="" class="card-img">
-                        <div class="fullbleed bg-primary" style="opacity: .5"></div>
-                        <div class="posts-card-popular__content">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="avatar-group flex">
-                                    <div class="avatar avatar-xs" data-toggle="tooltip" data-placement="top"
-                                        title="Janell D.">
-                                        <a href=""><img
-                                                src="{{ asset('assets/img/256_michael-dam-258165-unsplash.jpg') }}"
-                                                alt="Avatar" class="avatar-img rounded-circle"></a>
-                                    </div>
-                                </div>
-                                <a style="text-decoration: none;" class="d-flex align-items-center" href=""><i
-                                        class="material-icons mr-1" style="font-size: inherit;">remove_red_eye</i>
-                                    <small>327</small></a>
-                            </div>
-                            <div class="posts-card-popular__title card-body">
-                                <small class="text-muted text-uppercase">invision</small>
-                                <a class="card-title" href="fixed-blog-post.html">Design Systems Essentials</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-md-6 col-lg-4 card-group-row__col">
-                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
-                        <img src="{{ asset('assets/img/paths/photoshop_430x168.png') }}" alt="" class="card-img">
-                        <div class="fullbleed bg-primary" style="opacity: .5"></div>
-                        <div class="posts-card-popular__content">
-                            <div class="card-body d-flex align-items-center">
-                                <div class="avatar-group flex">
-                                    <div class="avatar avatar-xs" data-toggle="tooltip" data-placement="top"
-                                        title="Janell D.">
-                                        <a href=""><img
-                                                src="{{ asset('assets/img/256_rsz_1andy-lee-642320-unsplash.jpg') }}"
-                                                alt="Avatar" class="avatar-img rounded-circle"></a>
-                                    </div>
-                                </div>
-                                <a style="text-decoration: none;" class="d-flex align-items-center" href=""><i
-                                        class="material-icons mr-1" style="font-size: inherit;">remove_red_eye</i>
-                                    <small>327</small></a>
-                            </div>
-                            <div class="posts-card-popular__title card-body">
-                                <small class="text-muted text-uppercase">photoshop</small>
-                                <a class="card-title" href="fixed-blog-post.html">Semantic Logo Design</a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
+                @endforeach
             </div>
-
-            <div class="posts-cards">
-
-                <div class="card posts-card mb-0">
-                    <div class="posts-card__content d-flex align-items-center flex-wrap">
-                        <div class="avatar avatar-lg mr-3">
-                            <a href="fixed-blog-post.html"><img
-                                    src="{{ asset('assets/img/paths/invision_200x168.png') }}" alt="avatar"
-                                    class="avatar-img rounded"></a>
-                        </div>
-                        <div class="posts-card__title flex d-flex flex-column">
-                            <a href="fixed-blog-post.html" class="card-title mr-3">Design Systems Essentials</a>
-                            <small class="text-50">35 views last week</small>
-                        </div>
-                        <div class="d-flex align-items-center flex-column flex-sm-row posts-card__meta">
-                            <div class="mr-3 text-50 text-uppercase posts-card__tag d-flex align-items-center">
-                                <i class="material-icons text-muted-light mr-1">folder_open</i> inVision
-                            </div>
-                            <div class="mr-3 text-50 posts-card__date">
-                                <small>11 Nov, 2018 07:46 AM</small>
-                            </div>
-                            <div class="media ml-sm-auto align-items-center">
-                                <div class="media-left mr-2 avatar-group">
-
-                                    <div class="avatar avatar-xs" data-toggle="tooltip" data-placement="top"
-                                        title="Janell D.">
-                                        <img src="{{ asset('assets/img/256_rsz_1andy-lee-642320-unsplash.jpg') }}"
-                                            alt="Avatar" class="avatar-img rounded-circle">
-                                    </div>
-
-                                    <div class="avatar avatar-xs" data-toggle="tooltip" data-placement="top"
-                                        title="Janell D.">
-                                        <img src="{{ asset('assets/img/256_michael-dam-258165-unsplash.jpg') }}"
-                                            alt="Avatar" class="avatar-img rounded-circle">
-                                    </div>
-
-                                    <div class="avatar avatar-xs" data-toggle="tooltip" data-placement="top"
-                                        title="Janell D.">
-                                        <img src="{{ asset('assets/img/256_luke-porter-261779-unsplash.jpg') }}"
-                                            alt="Avatar" class="avatar-img rounded-circle">
-                                    </div>
-
-                                </div>
-                                <div class="media-body">
-                                    <a href="">+2 more</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
         </div>
     </div>
 
@@ -706,484 +591,216 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
             <div class="page-separator">
-                <div class="page-separator__text">Design Courses</div>
+                <div class="page-separator__text">Featured Courses</div>
             </div>
 
             <div class="row card-group-row">
+                <div class="col-lg-12">
+                    <div class="position-relative carousel-card">
+                        <div class="js-mdk-carousel row d-block" id="carousel-courses">
 
-                <div class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
-                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary-dodger-blue js-overlay card-group-row__card"
-                        data-toggle="popover" data-trigger="click">
+                            <a class="carousel-control-next js-mdk-carousel-control mt-n24pt" href="#carousel-courses"
+                                role="button" data-slide="next">
+                                <span class="carousel-control-icon material-icons"
+                                    aria-hidden="true">keyboard_arrow_right</span>
+                                <span class="sr-only">Next</span>
+                            </a>
 
-                        <a href="fixed-student-course.html" class="card-img-top js-image" data-position=""
-                            data-height="140">
-                            <img src="{{ asset('assets/img/paths/sketch_430x168.png') }}" alt="course">
-                            <span class="overlay__content">
-                                <span class="overlay__action d-flex flex-column text-center">
-                                    <i class="material-icons icon-32pt">play_circle_outline</i>
-                                    <span class="card-title text-white">Preview</span>
-                                </span>
-                            </span>
-                        </a>
+                            <div class="mdk-carousel__content">
 
-                        <div class="card-body flex">
-                            <div class="d-flex">
-                                <div class="flex">
-                                    <a class="card-title" href="fixed-student-course.html">Learn Sketch</a>
-                                    <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
-                                </div>
-                                <a href="fixed-student-course.html" data-toggle="tooltip" data-title="Add Favorite"
-                                    data-placement="top" data-boundary="window"
-                                    class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
-                            </div>
-                            <div class="d-flex">
-                                <div class="rating flex">
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star_border</span></span>
-                                </div>
-                                <!-- <small class="text-50">6 hours</small> -->
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row justify-content-between">
-                                <div class="col-auto d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>6 hours</small></p>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <span
-                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="popoverContainer d-none">
-                        <div class="media">
-                            <div class="media-left mr-12pt">
-                                <img src="{{ asset('assets/img/paths/sketch_40x40@2x.png') }}" width="40" height="40"
-                                    alt="Angular" class="rounded">
-                            </div>
-                            <div class="media-body">
-                                <div class="card-title mb-0">Learn Sketch</div>
-                                <p class="lh-1 mb-0">
-                                    <span class="text-black-50 small">with</span>
-                                    <span class="text-black-50 small font-weight-bold">Elijah Murray</span>
-                                </p>
-                            </div>
-                        </div>
+                                @foreach($featuredCourses as $course)
 
-                        <p class="my-16pt text-black-70">Learn the fundamentals of working with Angular and how to
-                            create basic applications.</p>
+                                <div class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
 
-                        <div class="mb-16pt">
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with
-                                        Angular</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular
-                                        applications</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency
-                                        Injection</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p>
-                            </div>
-                        </div>
+                                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary-dodger-blue js-overlay card-group-row__card" data-toggle="popover" data-trigger="click">
+
+                                        <a href="{{ route('courses.show', $course->slug) }}" class="card-img-top js-image" data-position="" data-height="140">
+                                            <img src="{{ asset('storage/uploads/' . $course->course_image) }}" alt="course">
+                                            <span class="overlay__content">
+                                                <span class="overlay__action d-flex flex-column text-center">
+                                                    <i class="material-icons icon-32pt">play_circle_outline</i>
+                                                    <span class="card-title text-white">Preview</span>
+                                                </span>
+                                            </span>
+                                        </a>
+
+                                        <div class="card-body flex">
+                                            <div class="d-flex">
+                                                <div class="flex">
+                                                    <a class="card-title" href="{{ route('courses.show', $course->slug) }}">{{ $course->title }}</a>
+                                                    <small class="text-50 font-weight-bold mb-4pt">{{ $course->teachers[0]->title }}</small>
+                                                </div>
+                                                <a href="{{ route('courses.show', $course->slug) }}" data-toggle="tooltip" data-title="Add Favorite" data-placement="top" data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
+                                            </div>
+                                            @if($course->reviews->count() > 0)
+                                            <div class="d-flex">
+                                                <div class="rating flex">
+                                                    @include('layouts.parts.rating', ['rating' =>
+                                                    $course->reviews->avg('rating')])
+                                                </div>
+                                            </div>
+                                            @endif
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row justify-content-between">
+                                                <div class="col-auto d-flex align-items-center">
+                                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
+                                                    <p class="flex text-black-50 lh-1 mb-0"><small>{{ $course->duration() }}</small></p>
+                                                </div>
+                                                <div class="col-auto d-flex align-items-center">
+                                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
+                                                    <p class="flex text-black-50 lh-1 mb-0"><small>{{ $course->lessons->count() }} lessons</small></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="popoverContainer d-none">
+                                        <div class="media">
+                                            <div class="media-left mr-12pt">
+                                                <img src="{{ asset('storage/uploads/thumb/' . $course->course_image) }}" width="40" height="40" alt="{{ $course->title }}" class="rounded">
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="card-title mb-0">{{ $course->title }}</div>
+                                                <p class="lh-1 mb-0">
+                                                    <span class="text-black-50 small">with</span>
+                                                    <span class="text-black-50 small font-weight-bold">{{ $course->teachers[0]->name }}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <p class="my-16pt text-black-70">{{ $course->short_description }}</p>
+
+                                        <div class="mb-16pt">
+                                            @foreach($course->lessons as $lesson)
+                                            <div class="d-flex align-items-center">
+                                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
+                                                <p class="flex text-black-50 lh-1 mb-0">
+                                                    <small>{{ $lesson->title }}</small></p>
+                                            </div>
+                                            @endforeach
+                                        </div>
 
 
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <div class="d-flex align-items-center mb-4pt">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>6 hours</small></p>
-                                </div>
-                                <div class="d-flex align-items-center mb-4pt">
-                                    <span
-                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">assessment</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>Beginner</small></p>
-                                </div>
-                            </div>
-                            <div class="col text-right">
-                                <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <div class="d-flex align-items-center mb-4pt">
+                                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
+                                                    <p class="flex text-black-50 lh-1 mb-0"><small>{{ $course->duration() }} hours</small></p>
+                                                </div>
+                                                <div class="d-flex align-items-center mb-4pt">
+                                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
+                                                    <p class="flex text-black-50 lh-1 mb-0"><small>{{ $course->lessons->count() }} lessons</small></p>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">assessment</span>
+                                                    <p class="flex text-black-50 lh-1 mb-0"><small>Beginner</small></p>
+                                                </div>
+                                            </div>
+                                            <div class="col text-right">
+                                                <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">Watch trailer</a>
+                                            </div>
+                                        </div>
 
-                <div class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
 
-                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary-dodger-blue js-overlay card-group-row__card"
-                        data-toggle="popover" data-trigger="click">
 
-                        <a href="fixed-student-course.html" class="card-img-top js-image" data-position=""
-                            data-height="140">
-                            <img src="{{ asset('assets/img/paths/flinto_430x168.png') }}" alt="course">
-                            <span class="overlay__content">
-                                <span class="overlay__action d-flex flex-column text-center">
-                                    <i class="material-icons icon-32pt">play_circle_outline</i>
-                                    <span class="card-title text-white">Preview</span>
-                                </span>
-                            </span>
-                        </a>
+                                    </div>
 
-                        <div class="card-body flex">
-                            <div class="d-flex">
-                                <div class="flex">
-                                    <a class="card-title" href="fixed-student-course.html">Learn Flinto</a>
-                                    <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
                                 </div>
-                                <a href="fixed-student-course.html" data-toggle="tooltip" data-title="Add Favorite"
-                                    data-placement="top" data-boundary="window"
-                                    class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
-                            </div>
-                            <div class="d-flex">
-                                <div class="rating flex">
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star_border</span></span>
-                                </div>
-                                <!-- <small class="text-50">6 hours</small> -->
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row justify-content-between">
-                                <div class="col-auto d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>6 hours</small></p>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <span
-                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="popoverContainer d-none">
-                        <div class="media">
-                            <div class="media-left mr-12pt">
-                                <img src="{{ asset('assets/img/paths/flinto_40x40@2x.png') }}" width="40" height="40"
-                                    alt="Angular" class="rounded">
-                            </div>
-                            <div class="media-body">
-                                <div class="card-title mb-0">Learn Flinto</div>
-                                <p class="lh-1 mb-0">
-                                    <span class="text-black-50 small">with</span>
-                                    <span class="text-black-50 small font-weight-bold">Elijah Murray</span>
-                                </p>
-                            </div>
-                        </div>
 
-                        <p class="my-16pt text-black-70">Learn the fundamentals of working with Angular and how to
-                            create basic applications.</p>
+                                @endforeach
 
-                        <div class="mb-16pt">
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with
-                                        Angular</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular
-                                        applications</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency
-                                        Injection</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <div class="d-flex align-items-center mb-4pt">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>6 hours</small></p>
-                                </div>
-                                <div class="d-flex align-items-center mb-4pt">
-                                    <span
-                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">assessment</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>Beginner</small></p>
-                                </div>
-                            </div>
-                            <div class="col text-right">
-                                <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                <div class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
+    <div class="page-section border-bottom-2">
+        <div class="container page__container">
 
-                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary-dodger-blue js-overlay card-group-row__card"
-                        data-toggle="popover" data-trigger="click">
+            <div class="row card-group-row">
+                <div class="col-md-6 col-lg-4">
 
-                        <a href="fixed-student-course.html" class="card-img-top js-image" data-position=""
-                            data-height="140">
-                            <img src="{{ asset('assets/img/paths/photoshop_430x168.png') }}" alt="course">
-                            <span class="overlay__content">
-                                <span class="overlay__action d-flex flex-column text-center">
-                                    <i class="material-icons icon-32pt">play_circle_outline</i>
-                                    <span class="card-title text-white">Preview</span>
-                                </span>
-                            </span>
-                        </a>
-
-                        <div class="card-body flex">
-                            <div class="d-flex">
-                                <div class="flex">
-                                    <a class="card-title" href="fixed-student-course.html">Learn Photoshop</a>
-                                    <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
-                                </div>
-                                <a href="fixed-student-course.html" data-toggle="tooltip" data-title="Add Favorite"
-                                    data-placement="top" data-boundary="window"
-                                    class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
-                            </div>
-                            <div class="d-flex">
-                                <div class="rating flex">
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star_border</span></span>
-                                </div>
-                                <!-- <small class="text-50">6 hours</small> -->
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row justify-content-between">
-                                <div class="col-auto d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>6 hours</small></p>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <span
-                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="page-separator">
+                        <div class="page-separator__text">For Instructors</div>
                     </div>
-                    <div class="popoverContainer d-none">
-                        <div class="media">
-                            <div class="media-left mr-12pt">
-                                <img src="{{ asset('assets/img/paths/photoshop_40x40@2x.png') }}/" width="40"
-                                    height="40" alt="Angular" class="rounded">
-                            </div>
-                            <div class="media-body">
-                                <div class="card-title mb-0">Learn Photoshop</div>
-                                <p class="lh-1 mb-0">
-                                    <span class="text-black-50 small">with</span>
-                                    <span class="text-black-50 small font-weight-bold">Elijah Murray</span>
-                                </p>
-                            </div>
-                        </div>
 
-                        <p class="my-16pt text-black-70">Learn the fundamentals of working with Angular and how to
-                            create basic applications.</p>
-
-                        <div class="mb-16pt">
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with
-                                        Angular</small></p>
+                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
+                        <img src="{{ asset('/assets/img/course-16.jpg') }}" alt="" class="card-img" 
+                            style="border-bottom-right-radius: 0; border-bottom-left-radius:0;">
+                        <div class="card-body">
+                            <div class="text-black-70 mt-16pt">
+                                <p class="text-black-70">Join the most innovative and effective e-learning platform to deliver education and training to year students.</p>
+                                <p class="text-black-70">Create rich learning content or engage your students in live classrooms.</p>
                             </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular
-                                        applications</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency
-                                        Injection</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p>
-                            </div>
-                        </div>
-
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <div class="d-flex align-items-center mb-4pt">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>6 hours</small></p>
-                                </div>
-                                <div class="d-flex align-items-center mb-4pt">
-                                    <span
-                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">assessment</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>Beginner</small></p>
-                                </div>
-                            </div>
-                            <div class="col text-right">
-                                <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
-                            </div>
+                            <a href="#" class="btn btn-primary mt-16pt">Start Teaching</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-6 col-lg-4 col-xl-3 card-group-row__col">
+                <div class="col-md-6 col-lg-4">
 
-                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary-dodger-blue js-overlay card-group-row__card"
-                        data-toggle="popover" data-trigger="click">
+                    <div class="page-separator">
+                        <div class="page-separator__text">For Business</div>
+                    </div>
 
-
-                        <a href="fixed-student-course.html" class="card-img-top js-image" data-position=""
-                            data-height="140">
-                            <img src="{{ asset('assets/img/paths/figma_430x168.png') }}" alt="course">
-                            <span class="overlay__content">
-                                <span class="overlay__action d-flex flex-column text-center">
-                                    <i class="material-icons icon-32pt">play_circle_outline</i>
-                                    <span class="card-title text-white">Preview</span>
-                                </span>
-                            </span>
-                        </a>
-
-                        <div class="card-body flex">
-                            <div class="d-flex">
-                                <div class="flex">
-                                    <a class="card-title" href="fixed-student-course.html">Learn Figma</a>
-                                    <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
-                                </div>
-                                <a href="fixed-student-course.html" data-toggle="tooltip" data-title="Add Favorite"
-                                    data-placement="top" data-boundary="window"
-                                    class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
+                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
+                        <img src="{{ asset('/assets/img/course-5.jpg') }}" alt="" class="card-img" 
+                            style="border-bottom-right-radius: 0; border-bottom-left-radius:0;">
+                        <div class="card-body">
+                            <div class="text-black-70 mt-16pt">
+                                <p class="text-black-70">The most powerful platform to deliver self-placed or live training to your employees.</p>
+                                <p class="text-black-70">Keep your employees updated with the latest skills and technologies.</p>
                             </div>
-                            <div class="d-flex">
-                                <div class="rating flex">
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star</span></span>
-                                    <span class="rating__item"><span class="material-icons">star_border</span></span>
-                                </div>
-                                <!-- <small class="text-50">6 hours</small> -->
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row justify-content-between">
-                                <div class="col-auto d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>6 hours</small></p>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <span
-                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                </div>
-                            </div>
+                            <a href="#" class="btn btn-primary mt-16pt">Start Training</a>
                         </div>
                     </div>
-                    <div class="popoverContainer d-none">
-                        <div class="media">
-                            <div class="media-left mr-12pt">
-                                <img src="{{ asset('assets/img/paths/figma_40x40@2x.png') }}" width="40" height="40"
-                                    alt="Angular" class="rounded">
-                            </div>
-                            <div class="media-body">
-                                <div class="card-title mb-0">Learn Figma</div>
-                                <p class="lh-1 mb-0">
-                                    <span class="text-black-50 small">with</span>
-                                    <span class="text-black-50 small font-weight-bold">Elijah Murray</span>
-                                </p>
-                            </div>
-                        </div>
+                </div>
 
-                        <p class="my-16pt text-black-70">Learn the fundamentals of working with Angular and how to
-                            create basic applications.</p>
+                <div class="col-md-6 col-lg-4">
 
-                        <div class="mb-16pt">
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Fundamentals of working with
-                                        Angular</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Create complete Angular
-                                        applications</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Working with the Angular CLI</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Understanding Dependency
-                                        Injection</small></p>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                <p class="flex text-black-50 lh-1 mb-0"><small>Testing with Angular</small></p>
-                            </div>
-                        </div>
-
-
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <div class="d-flex align-items-center mb-4pt">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>6 hours</small></p>
-                                </div>
-                                <div class="d-flex align-items-center mb-4pt">
-                                    <span
-                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>12 lessons</small></p>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <span class="material-icons icon-16pt text-black-50 mr-4pt">assessment</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>Beginner</small></p>
-                                </div>
-                            </div>
-                            <div class="col text-right">
-                                <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
-                            </div>
-                        </div>
-
+                    <div class="page-separator">
+                        <div class="page-separator__text">For Students</div>
                     </div>
+
+                    <div class="card card--elevated posts-card-popular overlay card-group-row__card">
+                        <img src="{{ asset('/assets/img/course-9.jpg') }}" alt="" class="card-img" 
+                            style="border-bottom-right-radius: 0; border-bottom-left-radius:0;">
+                        <div class="card-body">
+                            <div class="text-black-70 mt-16pt">
+                                <p class="text-black-70">From vocational to formal education, you can depend on experienced instructors for all your learning needs.</p>
+                                <p class="text-black-70">Find an Instructor and start learning through self-placed or live classrooms.</p>
+                            </div>
+                            <a href="#" class="btn btn-primary mt-16pt">Start Learning</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-section border-bottom-2 bg-white">
+        <div class="container page__container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-separator">
+                        <div class="page-separator__text bg-white">Education for all</div>
+                    </div>
+
+                    <div>
+                        <p class="text-black-70">Private Lessons from experienced & verified teachers delivered to your home at convenient times.</p>
+                        <p class="text-black-70">Classroom lessons for large groups and institutions.</p>
+                        <p class="text-black-70">Personalized lessons for those who need extra attention and tailor made lessons.</p>
+                        <p class="text-black-70">Learn at your own pace with your teacher.</p>
+                    </div>
+
+                    <a href="" class="btn btn-accent">Check Now</a>
+                </div>
+
+                <div class="col-lg-6">
+                    <img src="{{ asset('/assets/img/course-6.jpg') }}" alt="" class="card-img">
                 </div>
             </div>
         </div>
@@ -1207,92 +824,35 @@
                     </a>
                     <div class="mdk-carousel__content">
 
-                        <div class="col-12 col-md-6">
-
-                            <div class="card card-feedback card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p class="text-70 small mb-0">A wonderful course on how to start. Eddie beautifully
-                                        conveys all essentials of a becoming a good Angular developer. Very glad to have
-                                        taken this course. Thank you Eddie Bryan.</p>
-                                </blockquote>
-                            </div>
-                            <div class="media ml-12pt">
-                                <div class="media-left mr-12pt">
-                                    <a href="fixed-student-profile.html" class="avatar avatar-sm">
-                                        <span class="avatar-title rounded-circle">UK</span>
-                                    </a>
-                                </div>
-                                <div class="media-body media-middle">
-                                    <a href="fixed-student-profile.html" class="card-title">Umberto Kass</a>
-                                    <div class="rating mt-4pt">
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span
-                                                class="material-icons">star_border</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @foreach($reviews as $review)
 
                         <div class="col-12 col-md-6">
 
                             <div class="card card-feedback card-body">
                                 <blockquote class="blockquote mb-0">
-                                    <p class="text-70 small mb-0">A wonderful course on how to start. Eddie beautifully
-                                        conveys all essentials of a becoming a good Angular developer. Very glad to have
-                                        taken this course. Thank you Eddie Bryan.</p>
+                                    <p class="text-70 small mb-0">{{ $review->content }}</p>
                                 </blockquote>
                             </div>
                             <div class="media ml-12pt">
                                 <div class="media-left mr-12pt">
                                     <a href="fixed-student-profile.html" class="avatar avatar-sm">
-                                        <span class="avatar-title rounded-circle">UK</span>
+                                        @if(!empty($review->user->avatar))
+                                        <img src="{{asset('/storage/avatars/' . $review->user->avatar )}}" alt="Avatar" class="avatar-img rounded-circle">
+                                        @else
+                                        <span class="avatar-title rounded-circle">{{ substr($review->user->name, 0, 2) }}</span>
+                                        @endif
                                     </a>
                                 </div>
                                 <div class="media-body media-middle">
                                     <a href="fixed-student-profile.html" class="card-title">Umberto Kass</a>
                                     <div class="rating mt-4pt">
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span
-                                                class="material-icons">star_border</span></span>
+                                        @include('layouts.parts.rating', ['rating' => $review->rating])
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-6">
-
-                            <div class="card card-feedback card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p class="text-70 small mb-0">A wonderful course on how to start. Eddie beautifully
-                                        conveys all essentials of a becoming a good Angular developer. Very glad to have
-                                        taken this course. Thank you Eddie Bryan.</p>
-                                </blockquote>
-                            </div>
-                            <div class="media ml-12pt">
-                                <div class="media-left mr-12pt">
-                                    <a href="fixed-student-profile.html" class="avatar avatar-sm">
-                                        <span class="avatar-title rounded-circle">UK</span>
-                                    </a>
-                                </div>
-                                <div class="media-body media-middle">
-                                    <a href="fixed-student-profile.html" class="card-title">Umberto Kass</a>
-                                    <div class="rating mt-4pt">
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span class="material-icons">star</span></span>
-                                        <span class="rating__item"><span
-                                                class="material-icons">star_border</span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -1305,59 +865,57 @@
 @push('after-scripts')
 
 <script>
+$(function() {
 
-    $(function() {
+    var search_ele;
 
-        var search_ele;
-
-        $('.search-form input[type="text"]').on('keyup', function(e) {
-            search_ele = $(this).closest('.search-form');
-            var key = $(this).val();
-            if(e.which == 13) {
-                location.href = '{{ config("app.url") }}' + 'search?_q=' + key;
-            } else {
-                if(key.length > 1) {
+    $('.search-form input[type="text"]').on('keyup', function(e) {
+        search_ele = $(this).closest('.search-form');
+        var key = $(this).val();
+        if (e.which == 13) {
+            location.href = '{{ config("app.url") }}' + 'search?_q=' + key;
+        } else {
+            if (key.length > 1) {
                 send_ajax(key);
-                } else {
-                    $(document).find('#search___result').remove();
-                }
+            } else {
+                $(document).find('#search___result').remove();
             }
-            
-        });
-
-        $(document).on('click', '#search___result li', function() {
-            var id = $(this).attr('data-id');
-            var type = $(this).attr('data-type');
-            var name = $(this).text();
-
-            $('#search_homepage').val(name);
-            $(document).find('#search___result').remove();
-
-            location.href = '{{ config("app.url") }}' + 'search?_q=' + name + '&_t=' + type + '&_k=' + id;
-        });
-
-        function send_ajax(key) {
-
-            var route = 'ajax/courses/search/' + key;
-
-            $.ajax({
-                method: 'get',
-                url: route,
-                success: function(res) {
-                    if(res.success) {
-                        var rlt = $(document).find('#search___result');
-                        if(rlt.length > 0) {
-                            rlt.remove();
-                        }
-
-                        $(res.html).insertAfter(search_ele);
-                        
-                    }
-                }
-            })
         }
+
     });
 
+    $(document).on('click', '#search___result li', function() {
+        var id = $(this).attr('data-id');
+        var type = $(this).attr('data-type');
+        var name = $(this).text();
+
+        $('#search_homepage').val(name);
+        $(document).find('#search___result').remove();
+
+        location.href = '{{ config("app.url") }}' + 'search?_q=' + name + '&_t=' + type + '&_k=' + id;
+    });
+
+    function send_ajax(key) {
+
+        var route = 'ajax/courses/search/' + key;
+
+        $.ajax({
+            method: 'get',
+            url: route,
+            success: function(res) {
+                if (res.success) {
+                    var rlt = $(document).find('#search___result');
+                    if (rlt.length > 0) {
+                        rlt.remove();
+                    }
+
+                    $(res.html).insertAfter(search_ele);
+
+                }
+            }
+        })
+    }
+});
 </script>
 
 @endpush

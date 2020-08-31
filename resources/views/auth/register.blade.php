@@ -59,6 +59,7 @@
                         </div>
                         <input type="hidden" name="role" value="{{ $reg_type }}">
                         <button type="submit" class="btn btn-primary">Create account</button>
+                        <input type="hidden" name="recaptcha_v3" id="recaptcha_v3">
                     </form>
                 </div>
 
@@ -97,7 +98,7 @@
                 @else
                 <div class="col-lg-7">
                     <div class="card card-body p-4">
-                        <img src="{{ asset('assets/img/photodune-4161018-group-of-students-m.jpg') }}" alt="" class="avatar-img rounded">
+                        <img src="{{ asset('assets/img/bg_register_now_1.jpg') }}" alt="" class="avatar-img rounded">
                     </div>
                 </div>
                 @endif
@@ -115,5 +116,21 @@
         </div>
     </div>
 </div>
+
+@push('after-scripts')
+
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('captcha.key') }}"></script>
+
+<script>
+    grecaptcha.ready(function() {
+        grecaptcha.execute("{{ config('captcha.key') }}", {action: 'register'}).then(function(token) {
+            if(token) {
+                $("#recaptcha_v3").val(token);
+            }
+        });
+    });
+</script>
+
+@endpush
 
 @endsection

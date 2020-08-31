@@ -2,7 +2,7 @@
     <div class="mdk-drawer__content">
         <div class="sidebar sidebar-light sidebar-light-dodger-blue sidebar-left" data-perfect-scrollbar>
 
-            <a href="{{ config('app.url') }}" class="sidebar-brand ">
+            <a href="{{ route('admin.dashboard') }}" class="sidebar-brand ">
                 <span class="avatar avatar-xl sidebar-brand-icon h-auto">
                     <img src="@if(!empty(config('sidebar_logo'))) 
                                 {{ asset('storage/logos/'.config('sidebar_logo')) }}
@@ -153,6 +153,14 @@
 
                     </ul>
 
+                </li>
+
+                <!-- Cert -->
+                <li class="sidebar-menu-item {{ Request::is('dashboard/certificate*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">new_releases</span>
+                        <span class="sidebar-menu-text">My Certificates</span>
+                    </a>
                 </li>
 
                 @endif

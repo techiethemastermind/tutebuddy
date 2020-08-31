@@ -151,16 +151,16 @@
                                 for="captcha_status">
                                 <div class="form-group offset-3">
                                     <div class="controls form-inline">
-                                        <label class="form-label col-lg-3 content-left">Captcha Key:</label>
+                                        <label class="form-label col-lg-3 content-left">Captcha Site Key:</label>
                                         <input class="form-control col-lg-8" type="text" name="captcha__key"
-                                            placeholder="Captcha Key" value="">
+                                            placeholder="Captcha Key" value="{{ config('captcha.key') }}">
                                     </div>
                                 </div>
                                 <div class="form-group offset-3">
                                     <div class="controls form-inline">
                                         <label class="form-label col-lg-3 content-left">Captcha Secret:</label>
                                         <input class="form-control col-lg-8" type="text" name="captcha__secret"
-                                            placeholder="Captcha Secret" value="">
+                                            placeholder="Captcha Secret" value="{{ config('captcha.secret') }}">
                                     </div>
                                 </div>
                             </div>
