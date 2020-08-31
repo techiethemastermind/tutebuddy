@@ -4,6 +4,7 @@
  * Frontend Routes
  */
 Route::get('/', 'Frontend\HomeController@index')->name('homepage');
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
 Auth::routes();
 

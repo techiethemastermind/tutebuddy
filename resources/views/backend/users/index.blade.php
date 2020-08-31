@@ -98,7 +98,7 @@
                         </td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            @if($user->active)
+                            @if($user->verified)
                             <label class="badge badge-success">Yes</label>
                             @else
                             <label class="badge badge-warning">No</label>

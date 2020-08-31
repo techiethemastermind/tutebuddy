@@ -100,6 +100,30 @@
                 {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control', 'multiple', 'data-toggle'=>'select')) !!}
             </div>
 
+            <div class="form-group">
+                <div class="flex form-inline" style="max-width: 100%">
+                    <label class="form-label" for="user_verified">Verify Status: </label>
+                    <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                        <input type="checkbox" id="user_verified" name="verified" @if($user->verified) checked="" @endif
+                            class="custom-control-input" value="{{ $user->verified }} ">
+                        <label class="custom-control-label" for="user_verified">&nbsp;</label>
+                    </div>
+                    <label class="form-label mb-0" for="user_verified">Yes</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="flex form-inline" style="max-width: 100%">
+                    <label class="form-label" for="user_active">User Status: </label>
+                    <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                        <input type="checkbox" id="user_active" name="active" @if($user->active) checked="" @endif
+                            class="custom-control-input" value="{{ $user->active }} ">
+                        <label class="custom-control-label" for="user_active">&nbsp;</label>
+                    </div>
+                    <label class="form-label mb-0" for="user_active">Yes</label>
+                </div>
+            </div>
+
             <button type="submit" class="btn btn-primary">Save changes</button>
 
             {!! Form::close() !!}
@@ -121,6 +145,20 @@
     $('#avatar_file').on('change', function() {
         var target = $('#user_avatar');
         display_image(this, target);
+    });
+
+    $('.custom-checkbox-toggle').on('click', 'input[type="checkbox"]', function() {
+
+        var id = $(this).attr('id');
+
+        if ($(this).prop('checked')) {
+            $(this).val('1');
+            $('div.wrap[for="' + id + '"').removeClass('d-none');
+        } else {
+            $(this).val('0');
+            $('div.wrap[for="' + id + '"').addClass('d-none');
+        }
+
     });
 </script>
 @endpush

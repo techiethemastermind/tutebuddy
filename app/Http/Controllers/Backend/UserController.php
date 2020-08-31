@@ -127,7 +127,7 @@ class UserController extends Controller
         $input = $request->all();
         if(!empty($input['password'])){ 
             $input['password'] = Hash::make($input['password']);
-        }else{
+        } else {
             $input = array_except($input,array('password'));    
         }
 
