@@ -140,7 +140,7 @@
                                     <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
                                         <input type="checkbox" @if(config('access.captcha.registration')==1) checked=""
                                             @endif id="captcha_status" name="access__captcha__registration"
-                                            class="custom-control-input" value="config('access.captcha.registration')">
+                                            class="custom-control-input" value="{{ config('access.captcha.registration') }} ">
                                         <label class="custom-control-label" for="captcha_status">&nbsp;</label>
                                     </div>
                                     <label class="form-label mb-0" for="captcha_status">Yes</label>
