@@ -32,6 +32,6 @@ class HomeController extends Controller
         // Top reviews
         $reviews = Review::orderBy('rating', 'desc')->limit(4)->get();
 
-        return view('frontend.index', compact('parentCategories', 'featuredCourses', 'trendingCourses', 'reviews'));
+        return view('frontend.index', compact('parentCategories', 'featuredCourses', 'reviews'));
     }
 }
