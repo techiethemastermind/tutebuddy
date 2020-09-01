@@ -100,7 +100,7 @@
                                             </span>
                                         </a>
 
-                                        @if($course->created_at->gt(date(Carbon\Carbon::now()->subDays(3))))
+                                        @if($course->created_at->gt(date(Carbon\Carbon::now()->subDays(7))))
                                         <span
                                             class="corner-ribbon corner-ribbon--default-right-top corner-ribbon--shadow bg-accent text-white">
                                             NEW

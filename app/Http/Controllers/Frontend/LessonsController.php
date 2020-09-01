@@ -29,9 +29,20 @@ class LessonsController extends Controller
         $next = Step::where('lesson_id', $lesson->id)->where('step', $order + 1)->first();
 
         if($step->type == 'test') {
+
             $test = $step->getTest;
-            $testStep = 0;
-            return view('frontend.course.test', compact('lesson', 'step', 'test', 'testStep'));
+            $completed = $test->isCompleted();
+
+            if($completed) {
+                $test_result = TestResults::where('test_id', $test->id)->where('user_id', auth()->user()->id)->first();
+                $test_answers = TestResultAnswers::where('test_result_id', $test_result->id)->get();
+                $questions = $test->questions;
+                return view('frontend.course.test_result', compact('lesson', 'test', 'test_result', 'step', 'test_answers', 'questions', 'next'));
+            } else {
+                $testStep = 0;
+                return view('frontend.course.test', compact('lesson', 'step', 'test', 'testStep'));
+            }
+            
         } else {
             return view('frontend.course.lesson', compact('lesson', 'step', 'prev', 'next'));
         }
@@ -75,7 +86,8 @@ class LessonsController extends Controller
         $test_answers = TestResultAnswers::where('test_result_id', $test_result->id)->get();
         $questions = $test->questions;
         $step = $test->step;
-        return view('frontend.course.test_result', compact('lesson', 'test', 'test_result', 'step', 'test_answers', 'questions'));
+        $next = Step::where('lesson_id', $lesson->id)->where('step', $step->step + 1)->first();
+        return view('frontend.course.test_result', compact('lesson', 'test', 'test_result', 'step', 'test_answers', 'questions', 'next'));
     }
 
     /**
@@ -200,6 +212,16 @@ class LessonsController extends Controller
         }
 
         if(auth()->user()->hasRole('Student')) {
+
+            // Set lesson completed
+            $update_data = [
+                'model_type' => Lesson::class,
+                'model_id' => $lesson->id,
+                'user_id' => auth()->user()->id,
+                'course_id' => $lesson->course->id
+            ];
+
+            ChapterStudent::updateOrCreate($update_data, $update_data);
 
             $url = config('liveapp.url') . 'bigbluebutton/api/join?';
             $room_str = 'fullName=' . preg_replace('/\s+/', '+', auth()->user()->name) 

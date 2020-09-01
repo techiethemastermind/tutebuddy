@@ -336,8 +336,8 @@
                                 <div class="controls form-inline">
                                     <label for="" class="form-label col-lg-3 text-left">Mail Encryption: </label>
                                     <select class="form-control col-lg-8" name="mail__encryption">
-                                        <option value="tls" selected="selected">tls</option>
-                                        <option value="ssl">ssl</option>
+                                        <option value="tls" @if(config('mail.encryption') == 'tls') selected="selected" @endif>tls</option>
+                                        <option value="ssl" @if(config('mail.encryption') == 'ssl') selected="selected" @endif>ssl</option>
                                     </select>
                                     <small class="offset-3 col-lg-8 text-muted">
                                         Use tls if your site uses HTTP protocol and ssl if you site uses HTTPS protocol

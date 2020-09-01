@@ -77,7 +77,24 @@
                     <p class="lead text-white-50 measure-hero-lead mb-24pt">{{ $course->short_description }}</p>
                     <a href="#" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">favorite_border</i> Add Wishlist</a>
                     <a href="#" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i> Share</a>
-                    <a href="#" class="btn btn-outline-white">Take Course</a>
+
+                    @if($course->progress() == 100)
+                        @if(!$course->isUserCertified())
+                            <form method="post" action="{{route('admin.certificates.generate')}}" style="display: inline-block;">
+                                @csrf
+                                <input type="hidden" value="{{$course->id}}" name="course_id">
+                                <button class="btn btn-outline-white" id="finish">
+                                    <i class="material-icons icon--left">done</i>
+                                    @lang('labels.frontend.course.finish_course')
+                                </button>
+                            </form>
+                        @else
+                            <button disabled="disabled" class="btn btn-white">
+                                <i class="material-icons icon--left">done</i> @lang('labels.frontend.course.certified')
+                            </button>
+                        @endif
+                    @endif
+
                 </div>
             </div>
             <div
@@ -282,8 +299,8 @@
                     </p>
 
                     <div class="mb-32pt">
-                        <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank"
-                            class="btn btn-outline-accent-dodger-blue btn-block">Join To Live Session</a>
+                        <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank" data-lesson-id=""
+                            class="btn btn-outline-accent-dodger-blue btn-block btn-live-session">Join To Live Session</a>
                     </div>
 
                     @else
@@ -1363,7 +1380,7 @@ $(document).ready(function(e) {
     });
 
     // Subscribe Course
-    $('.btn-enroll').on('click', function(){
+    $('.btn-enroll').on('click', function() {
 
         var route = "{{ route('ajax.course.subscribe') }}";
         var type = $(this).attr('enroll-type');

@@ -82,3 +82,9 @@ Route::post('settings/general', 'ConfigController@saveGeneralSettings')->name('s
 Route::resource('reviews', 'ReviewController');
 Route::get('ajax/reviews/{id}/publish', 'ReviewController@publish')->name('publishByAjax');
 Route::get('ajax/reviews/list', 'ReviewController@getTableData')->name('getReviewsByAjax');
+
+// Certificate
+Route::get('certificates', 'CertificateController@index')->name('certificates.index');
+Route::get('ajax/certificates', 'CertificateController@getCertificates')->name('table.getCertsByAjax');
+Route::post('certificates/generate', 'CertificateController@generateCertificate')->name('certificates.generate');
+Route::get('certificates/download', ['uses' => 'CertificateController@download', 'as' => 'certificates.download']);

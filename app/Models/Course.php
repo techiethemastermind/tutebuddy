@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use App\User;
+use App\Models\Lesson;
+use App\Models\Certificate;
 
 class Course extends Model
 {
@@ -110,10 +112,10 @@ class Course extends Model
     public function progress()
     {
         if(auth()->check()) {
-            $completed_lessons = auth()->user()->chapters()
-            ->where('model_type', Models\Lesson::class)
-            ->where('course_id', $this->id)
-            ->pluck('model_id')->toArray();
+            $completed_lessons = \Auth::user()->chapters()
+                ->where('model_type', Lesson::class)
+                ->where('course_id', $this->id)
+                ->pluck('model_id')->toArray();
             
             if (count($completed_lessons) > 0) {
                 return intval(count($completed_lessons) / $this->lessons->count() * 100);
@@ -124,5 +126,15 @@ class Course extends Model
             return 0;
         }
         
+    }
+
+    public function isUserCertified()
+    {
+        $status = false;
+        $certified = auth()->user()->certificates()->where('course_id', '=', $this->id)->first();
+        if ($certified != null) {
+            $status = true;
+        }
+        return $status;
     }
 }

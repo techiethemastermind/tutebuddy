@@ -65,20 +65,33 @@
         <div class="mdk-box__content">
             <div class="py-64pt text-center text-sm-left">
                 <div class="container d-flex flex-column justify-content-center align-items-center">
+                    <h3 class="text-white-70">{{ $step->title }}</h3>
                     <p class="lead text-white-50 measure-lead-max mb-0">Submited on
                         {{ Carbon\Carbon::parse($test_result->updated_at)->diffForHumans() }}</p>
                     <h1 class="text-white mb-24pt">Your Score: {{ $test_result->test_result }}</h1>
 
                     <div class="flex">
+                        
+                        @if($test->isCompleted())
                         <a href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, $step->step]) }}"
                             class="btn btn-outline-white">Restart Test</a>
-
+                        <button disabled="disabled" class="btn btn-white">
+                            Completed <i class="material-icons icon--right">done</i>
+                        </button>
+                        @else
                         <a href="{{ route('test.result.complete', $test->id) }}" class="btn btn-outline-white">
                             Complete <i class="material-icons icon--right">done_outline</i>
                         </a>
+                        @endif
+
+                        @if(!empty($next))
+                        @else
+                        <a href="{{ route('lesson.complete', $lesson->id) }}" class="btn btn-outline-white">
+                            Finish Lesson <i class="material-icons icon--right">pause</i>
+                        </a>
+                        @endif
                     </div>
-                    
-                </div>                
+                </div>
             </div>
         </div>
     </div>
