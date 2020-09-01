@@ -38,7 +38,7 @@ class CoursesController extends Controller
         }
         $is_enrolled = auth()->check() && $course->students()->where('user_id', auth()->user()->id)->count() > 0;
 
-        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed', 'is_enrolled', 'courseDuration'));
+        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed', 'is_enrolled'));
     }
 
     public function addReview(Request $request, $id) {
