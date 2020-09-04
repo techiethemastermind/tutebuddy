@@ -183,9 +183,9 @@
                                     class="form-control" data-placeholder="Select course ...">
                                     @foreach($courses as $course)
                                     <option data-avatar-src="@if(!empty($course->course_image)) 
-                                        {{asset('/storage/uploads')}}/{{ $course->course_image }}
+                                        {{ asset('/storage/uploads' . $course->course_image) }}
                                         @else 
-                                            {{asset('/storage/uploads/no-image.jpg')}}
+                                            {{asset('/assets/img/no-image.jpg')}}
                                         @endif" @if($test->course_id == $course->id) selected="" @endif value="{{$course->id}}">
                                         {{ $course->title }}</option>
                                     @endforeach

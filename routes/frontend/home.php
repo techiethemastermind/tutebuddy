@@ -35,6 +35,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('lesson/{slug}/retest', 'LessonsController@retest')->name('lessons.retest');
     Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');
     Route::post('lesson/progress', 'LessonsController@courseProgress')->name('update.course.progress');
+
+    // Cart and Checkout
+    Route::post('cart/checkout', 'CartController@checkout')->name('cart.checkout');
+    Route::post('cart/add', 'CartController@addToCart')->name('cart.addToCart');
+
+    Route::get('cart', 'CartController@index')->name('cart.index');
+    Route::get('cart/remove', 'CartController@remove')->name('cart.remove');
+    Route::get('cart/clear', 'CartController@clear')->name('cart.clear');
+
 });
 
 // ==== Course Subscribe ==== //

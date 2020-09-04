@@ -303,7 +303,7 @@
                     </div>
 
                     <div class="card">
-                        <img src="{{asset('/storage/uploads/no-image.jpg')}}" id="img_course_image" alt="" width="100%">
+                        <img src="{{asset('/assets/img/no-image.jpg')}}" id="img_course_image" alt="" width="100%">
                         <div class="card-body">
                             <div class="custom-file">
                                 <input type="file" name="course_image" id="course_image" class="custom-file-input">
@@ -412,7 +412,7 @@
                             <div class="form-group">
                                 <label class="form-label">Thumbnail</label>
                                 <div class="card">
-                                    <img src="{{asset('/storage/uploads/no-image.jpg')}}" id="display_lesson_image" width="100%" id="img_lesson_image" alt="">
+                                    <img src="{{asset('/assets/img/no-image.jpg')}}" id="display_lesson_image" width="100%" id="img_lesson_image" alt="">
                                     <div class="card-body">
                                         <div class="custom-file">
                                             <input type="file" id="lesson_file_image" name="lesson_file_image" class="custom-file-input">
@@ -642,7 +642,7 @@ $(document).ready(function() {
                             'http://localhost:8000/storage/uploads/' + res.lesson.image);
                     else
                         $('#display_lesson_image').attr('src',
-                            "{{asset('/storage/uploads/no-image.jpg')}}");
+                            "{{asset('/assets/img/no-image.jpg')}}");
 
                             if (res.lesson.video != null) {
                         $('#frm_lesson').find('input[name="lesson_intro_video"]').val(res.lesson.video).change();
@@ -1036,7 +1036,7 @@ $(document).ready(function() {
         $('#frm_lesson').find('input[name="lesson_title"]').val('');
         $('#frm_lesson').find('textarea').val('');
         $('#frm_lesson').find('select').val('').change();
-        $('#display_lesson_image').attr('src', "{{asset('/storage/uploads/no-image.jpg')}}");
+        $('#display_lesson_image').attr('src', "{{asset('/assets/img/no-image.jpg')}}");
         $('#lesson_contents').html('');
     }
 });

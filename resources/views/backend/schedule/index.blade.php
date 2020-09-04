@@ -289,7 +289,7 @@ $(document).ready(function() {
         initialView: 'timeGridWeek',
         timeZone: 'UTC',
         allDaySlot: false,
-        slotMinTime: '05:00:00',
+        slotMinTime: '01:00:00',
         selectable: true,
         eventSources: [{
             url: '{{ route("admin.getScheduleData") }}',

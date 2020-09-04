@@ -225,7 +225,7 @@
             </div>
 
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
-                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-schedule"
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true" data-lists-values='["js-lists-values-no"]'>
                     <table id="tbl_schedule" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
                         <thead>
@@ -254,6 +254,38 @@
                         </thead>
 
                         <tbody class="list" id="schedule_list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="page-separator">
+                <div class="page-separator__text">Assignments</div>
+            </div>
+
+            <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-schedule"
+                    data-lists-sort-desc="true" data-lists-values='["js-lists-values-no"]'>
+                    <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
+                        <thead>
+                            <tr>
+                                <th style="width: 18px;" class="pr-0">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
+                                            data-target="#assignment" data-domfactory-upgraded="toggle-check-all">
+                                        <label class="custom-control-label">
+                                            <span class="text-hide">Toggle all</span>
+                                        </label>
+                                    </div>
+                                </th>
+
+                                <th>Subject</th>
+                                <th>Due Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="list" id="assignment"></tbody>
                     </table>
                 </div>
             </div>
@@ -304,12 +336,19 @@
                                     <div class="card card-body">
                                         <div class="text-center">
                                             <p class="mb-16pt">
-                                                <img src="{{ asset('/storage/avatars/' . $user->avatar) }}"
-                                                    class="rounded-circle" width="64" height="64">
+                                                @if($user->avatar)
+                                                <img src="{{asset('/storage/avatars/' . $user->avatar) }}" width="64" height="64" class="rounded-circle" />
+                                                @else
+                                                <img src="{{asset('/storage/avatars/no-avatar.jpg')}}" width="64" height="64" class="rounded-circle" />
+                                                @endif
                                             </p>
                                             <h4 class="m-0">{{ $user->name }}</h4>
                                             <p class="lh-1">
+                                                @if($user->about)
                                                 <small class="text-muted">{{ $user->about }}</small>
+                                                @else
+                                                <small class="text-muted">Instructor</small>
+                                                @endif
                                             </p>
                                             <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
                                                 <a href="fixed-teacher-profile.html" class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">Follow</a>

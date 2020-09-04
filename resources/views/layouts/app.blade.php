@@ -107,7 +107,7 @@
 <!-- Global Helper Script -->
 <script src="{{ asset('assets/js/helper.js') }}"></script>
 
-@include('backend.sweet-alert')
+@include('layouts.parts.sweet-alert')
 
 @if(\Request::route()->getName() == 'homepage')
 <script>

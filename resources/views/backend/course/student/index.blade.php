@@ -58,8 +58,13 @@
                             <div class="media">
                                 <div class="media-left mr-12pt">
                                     <a href="{{ route('courses.show', $course->slug) }}" class="avatar avatar-xxl mr-3">
+                                        @if(!empty($course->course_image))
                                         <img src="{{ asset('/storage/uploads/' . $course->course_image) }}" 
                                             alt="{{ $course->title }}" class="avatar-img rounded" >
+                                        @else
+                                        <img src="{{ asset('/assets/img/no-image.jpg') }}" 
+                                            alt="{{ $course->title }}" class="avatar-img rounded" >
+                                        @endif
                                     </a>
                                     <div class="d-flex p-1" style="white-space: nowrap;">
                                         <div class="rating mr-4pt">
@@ -93,7 +98,13 @@
                                     <div class="d-flex">
                                         <span class="text-70 text-muted mr-8pt"><strong>Session Time: {{ $course->duration() }},</strong></span>
                                         <span class="text-70 text-muted mr-8pt"><strong>Sessions: {{ $course->lessons->count() }},</strong></span>
-                                        <span class="text-70 text-muted mr-8pt"><strong>Category: {{ $course->category->name }},</strong></span>
+                                        <span class="text-70 text-muted mr-8pt"><strong>Category: 
+                                            @if(!empty($course->category))
+                                            {{ $course->category->name }},</strong>
+                                            @else
+                                            No Category
+                                            @endif
+                                        </span>
                                         <span class="text-70 text-muted mr-8pt"><strong>Level: {{ $course->level->name }}</strong></span>
                                     </div>
                                     <div class="page-separator mb-0">
@@ -107,7 +118,6 @@
                                             <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                                 <div class="avatar avatar-sm mr-8pt">
                                                     <img src="{{ asset('/storage/avatars/' . $course->teachers[0]->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
-
                                                 </div>
                                                 <div class="media-body">
 
@@ -128,7 +138,11 @@
                                             <span class="text-70 text-muted mr-8pt">Total Courses Contucted: 102</span>
                                         </div>
                     
+                                        @if(!$course->isEnrolled())
                                         <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary btn-md">Enroll</a>
+                                        @else
+                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-success btn-md">Enrolled</a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

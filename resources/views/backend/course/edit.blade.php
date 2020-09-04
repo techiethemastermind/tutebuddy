@@ -383,7 +383,7 @@
                         <img id="display_course_image" src="@if(!empty($course->course_image)) 
                                     {{asset('/storage/uploads')}}/{{ $course->course_image }}
                                  @else 
-                                    {{asset('/storage/uploads/no-image.jpg')}}
+                                    {{asset('/assets/img/no-image.jpg')}}
                                  @endif" id="img_course_image" width="100%" alt="">
                         <div class="card-body">
                             <div class="custom-file">
@@ -537,7 +537,7 @@
                         <div class="form-group">
                             <label class="form-label">Thumbnail</label>
                             <div class="card">
-                                <img src="{{asset('/storage/uploads/no-image.jpg')}}" width="100%"
+                                <img src="{{asset('/assets/img/no-image.jpg')}}" width="100%"
                                     id="display_lesson_image" alt="">
                                 <div class="card-body">
                                     <div class="custom-file">
@@ -918,7 +918,7 @@ $(function() {
                             'http://localhost:8000/storage/uploads/' + res.lesson.image);
                     else
                         $('#display_lesson_image').attr('src',
-                            "{{asset('/storage/uploads/no-image.jpg')}}");
+                            "{{asset('/assets/img/no-image.jpg')}}");
 
                     if (res.lesson.video != null) {
                         $('#frm_lesson').find('input[name="lesson_intro_video"]').val(res.lesson.video).change();
@@ -1275,7 +1275,7 @@ $(function() {
         $('#frm_lesson').find('input[name="lesson_title"]').val('');
         $('#frm_lesson').find('textarea').val('');
         $('#frm_lesson').find('select').val('').change();
-        $('#display_lesson_image').attr('src', "{{asset('/storage/uploads/no-image.jpg')}}");
+        $('#display_lesson_image').attr('src', "{{asset('/assets/img/no-image.jpg')}}");
         $('#lesson_contents').html('');
 
         $('#chk_liveLesson').prop('checked', false);

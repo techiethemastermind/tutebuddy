@@ -137,4 +137,14 @@ class Course extends Model
         }
         return $status;
     }
+
+    public function isEnrolled()
+    {
+        return (auth()->check() && $this->students()->where('user_id', '=', auth()->user()->id)->count() > 0);
+    }
+
+    public function isReviewed()
+    {
+        return (auth()->check() && $this->reviews()->where('user_id', '=', auth()->user()->id)->count() > 0);
+    }
 }

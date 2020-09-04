@@ -36,9 +36,8 @@ class CoursesController extends Controller
         if(auth()->check() && $course->reviews()->where('user_id', '=', auth()->user()->id)->first()){
             $is_reviewed = true;
         }
-        $is_enrolled = auth()->check() && $course->students()->where('user_id', auth()->user()->id)->count() > 0;
 
-        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed', 'is_enrolled'));
+        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed'));
     }
 
     public function addReview(Request $request, $id) {
@@ -126,10 +125,10 @@ class CoursesController extends Controller
                 $courses_c = Course::where('category_id', $category->id)->where('published', 1);
                 $courses_me = $courses_me->union($courses_c);
             }
-            $courses = $courses_me->paginate(20);
+            $courses = $courses_me->paginate(10);
             $courses->setPath('search/courses?_q='. $params['_q']);
         } else {
-            $courses = Course::where('published', 1)->paginate('20');
+            $courses = Course::where('published', 1)->paginate('10');
         }
         
         return view('backend.course.student.index', compact('courses'));

@@ -137,6 +137,17 @@
                         </div>
                         <!-- // END Notifications dropdown -->
 
+                        <div class="nav-item ml-16pt nav-cart">
+                            <a href="{{ route('cart.index') }}" class="nav-link btn-flush" type="button">
+                                <i class="material-icons">shopping_basket</i>
+                                @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
+                                    <span class="badge badge-notifications badge-accent">
+                                        {{Cart::session(auth()->user()->id)->getTotalQuantity()}}
+                                    </span>
+                                @endif
+                            </a>
+                        </div>
+
                         <!-- Notifications dropdown -->
                         <div class="nav-item ml-16pt dropdown dropdown-notifications dropdown-xs-down-full"
                             data-toggle="tooltip" data-title="Notifications" data-placement="bottom"

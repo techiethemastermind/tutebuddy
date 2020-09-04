@@ -174,7 +174,7 @@
                                     <img src="@if(!empty(config('nav_logo'))) 
                                             {{ asset('storage/logos/'.config('nav_logo')) }}
                                         @else 
-                                            {{asset('/storage/uploads/no-image.jpg')}}
+                                            {{asset('/assets/img/no-image.jpg')}}
                                         @endif" alt="Avatar" class="avatar-img rounded" id="file_nav_logo_preview">
                                 </div>
                                 <div class="from-group col">
@@ -196,7 +196,7 @@
                                     <img src="@if(!empty(config('nav_logo_dark'))) 
                                             {{ asset('storage/logos/'.config('nav_logo_dark')) }}
                                         @else 
-                                            {{asset('/storage/uploads/no-image.jpg')}}
+                                            {{asset('/assets/img/no-image.jpg')}}
                                         @endif" alt="Avatar" class="avatar-img rounded" id="file_nav_logo_dark_preview">
                                 </div>
                                 <div class="from-group col">
@@ -218,7 +218,7 @@
                                     <img src="@if(!empty(config('sidebar_logo'))) 
                                             {{ asset('storage/logos/'.config('sidebar_logo')) }}
                                         @else 
-                                            {{asset('/storage/uploads/no-image.jpg')}}
+                                            {{asset('/assets/img/no-image.jpg')}}
                                         @endif" alt="Avatar" class="avatar-img rounded" id="file_sidebar_logo_preview">
                                 </div>
                                 <div class="from-group col">
@@ -240,7 +240,7 @@
                                     <img src="@if(!empty(config('favicon'))) 
                                             {{ asset('storage/logos/'.config('favicon')) }}
                                         @else 
-                                            {{asset('/storage/uploads/no-image.jpg')}}
+                                            {{asset('/assets/img/no-image.jpg')}}
                                         @endif" alt="Avatar" class="avatar-img rounded" id="file_favicon_preview">
                                 </div>
                                 <div class="from-group col">

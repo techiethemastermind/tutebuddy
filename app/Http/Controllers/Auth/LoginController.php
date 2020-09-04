@@ -39,19 +39,6 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    /**
-     * Get the failed login response instance.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function sendFailedLoginResponse(Request $request)
-    {
-        return back()->with('error', 'Wrong login information added.');
-    }
-
     public function authenticated(Request $request, $user)
     {
         // Recaptcha
@@ -72,7 +59,7 @@ class LoginController extends Controller
         if($response['success'] && $response['action'] == 'login' && $response['score']>0.5) {
             if (!$user->verified) {
                 auth()->logout();
-                return back()->with('warning', 'You need to confirm your account. We have sent you an activation code, please check your email.');
+                return back()->with('warning', 'We have sent you an activation code, please check your email.');
             }
     
             if (!$user->active) {

@@ -34,7 +34,18 @@ class DashboardController extends Controller
     {
         switch(auth()->user()->roles->pluck('slug')[0]) {
             case 'super_admin':
-                return view('backend.dashboard.super_admin');
+
+                $courses_count = Course::all()->count();
+                $teachers_count = User::role('Instructor')->count();
+                $students_count = User::role('Student')->count();
+
+                return view('backend.dashboard.super_admin',
+                    compact(
+                        'courses_count',
+                        'teachers_count',
+                        'students_count'
+                    )
+                );
             break;
             
             case 'admin':
@@ -56,7 +67,7 @@ class DashboardController extends Controller
 
                 // Get instructors
                 $teachers = User::role('Instructor')->limit(4)->get();
-                $teachers_count = $teachers->count();
+                $teachers_count = User::role('Instructor')->count();
 
                 // Get tests
                 
@@ -159,9 +170,16 @@ class DashboardController extends Controller
                                 <label class="custom-control-label"><span class="text-hide">Check</span></label>
                             </div>';
 
+
+            if(empty($user->avatar)) {
+                $avatar = '<span class="avatar-title rounded-circle">' . substr($user->name, 0, 2) . '</span>';
+            } else {
+                $avatar = '<img src="'. asset('/storage/avatars/' . $user->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';
+            }
+
             $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                 <div class="avatar avatar-sm mr-8pt">
-                                    <img src="'. asset('/storage/avatars/' . $user->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">
+                                    '. $avatar .'
                                 </div>
                                 <div class="media-body">
                                     <div class="d-flex align-items-center">

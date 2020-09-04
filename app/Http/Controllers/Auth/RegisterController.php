@@ -75,7 +75,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'remember_token' => str_random(40)
+            'verify_token' => str_random(40)
         ]);
 
         $user->assignRole($data['role']);
@@ -87,7 +87,7 @@ class RegisterController extends Controller
 
     public function verifyUser($token)
     {
-        $user = User::where('remember_token', $token)->first();
+        $user = User::where('verify_token', $token)->first();
         if(isset($user) ) {
             if(!$user->verified) {
                 $user->verified = 1;

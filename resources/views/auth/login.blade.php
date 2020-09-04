@@ -50,7 +50,7 @@
                         @enderror
 
                         <p class="text-right">
-                            <a href="fixed-reset-password.html" class="small">Forgot your password?</a>
+                            <a href="/password/reset" class="small">Forgot your password?</a>
                         </p>
                     </div>
                     <button class="btn btn-primary">Login</button>
