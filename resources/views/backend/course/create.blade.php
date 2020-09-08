@@ -478,9 +478,6 @@
 <script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
-<!-- jQuery Form -->
-<script src="{{ asset('assets/js/jquery.form.min.js') }}"></script>
-
 <!-- Timezone Picker -->
 <script src="{{ asset('assets/js/timezones.full.js') }}"></script>
 

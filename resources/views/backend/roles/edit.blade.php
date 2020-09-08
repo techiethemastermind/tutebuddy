@@ -60,7 +60,7 @@
 
     <div class="container page__container page-section">
 
-        @include('backend.alert-messages')
+        @include('layouts.parts.alert-messages')
 
         <div class="page-separator">
             <div class="page-separator__text">Basic Information</div>

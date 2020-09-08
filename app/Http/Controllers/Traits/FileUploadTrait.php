@@ -83,7 +83,6 @@ trait FileUploadTrait
                 $filename = time() . '-' . str_slug($name) . '.' . $extension;
                 $request->file($key)->move(public_path('storage/logos'), $filename);
                 $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
-
             }
         }
 

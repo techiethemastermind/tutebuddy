@@ -18,6 +18,9 @@ Route::get('ajax/courses/search/{key}', 'CoursesController@getSearchFormData')->
 Route::get('search', 'CoursesController@searchPage')->name('search.page');
 Route::get('search/courses', 'CoursesController@search')->name('search.course');
 
+// === Bundle route === //
+Route::get('bundle/{slug}', 'BundlesController@show')->name('bundles.show');
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('course/{course_slug}/lesson/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');

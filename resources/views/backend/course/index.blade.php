@@ -43,7 +43,7 @@
 
     <div class="container page__container page-section">
         <div class="page-separator">
-            <div class="page-separator__text">My Courses</div>
+            <div class="page-separator__text">Courses</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -100,7 +100,7 @@
                 data-lists-sort-desc="true"
                 data-lists-values='["js-lists-values-no"]'>
 
-                <table id="tbl_courses" class="table mb-0 thead-border-top-0 table-nowrap">
+                <table id="tbl_courses" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='10'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0">

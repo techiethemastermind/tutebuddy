@@ -40,6 +40,19 @@ Route::get('courses/restore/{id}', 'CourseController@restore')->name('courses.re
 Route::get('ajax/courses/list/{type}', 'CourseController@getList')->name('getCoursesByAjax');
 Route::get('ajax/courses/publish/{id}', 'CourseController@publish')->name('courses.publish');
 
+//===== Bundles Routes =====//
+Route::resource('bundles', 'BundlesController');
+Route::get('bundles/restore/{id}', 'BundlesController@restore')->name('bundle.restore');
+Route::get('ajax/bundles/list/{type}', 'BundlesController@getList')->name('getBundlesByAjax');
+Route::get('ajax/bundles/publish/{id}', 'BundlesController@publish')->name('bundle.publish');
+
+//===== Assignment Routes =====//
+Route::resource('assignments', 'AssignmentsController');
+Route::get('assignments/restore/{id}', 'AssignmentsController@restore')->name('assignment.restore');
+Route::get('ajax/assignments/list/{type}', 'AssignmentsController@getList')->name('getAssignmentsByAjax');
+Route::get('ajax/assignments/publish/{id}', 'AssignmentsController@publish')->name('assignment.publish');
+Route::get('ajax/assignments/lessons', 'AssignmentsController@getLessons')->name('assignment.getLessonsByCourse');
+
 //===== Lessons Routes =====//
 Route::resource('lessons', 'LessonController');
 Route::get('lessons/delete/{id}', 'LessonController@deleteLesson')->name('lessons.delete');

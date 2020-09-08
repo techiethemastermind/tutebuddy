@@ -68,6 +68,14 @@
                         </li>
                         @endcan
 
+                        @can('bundle_access')
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/bundle*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.bundles.index') }}">
+                                <span class="sidebar-menu-text">Bundles</span>
+                            </a>
+                        </li>
+                        @endcan
+
                         @can('schedule_access')
                         <li class="sidebar-menu-item {{ Request::is('dashboard/schedule*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.schedule') }}">
@@ -88,6 +96,14 @@
                         <li class="sidebar-menu-item {{ Request::is('dashboard/question*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.questions.index') }}">
                                 <span class="sidebar-menu-text">Questions</span>
+                            </a>
+                        </li>
+                        @endcan
+
+                        @can('assignment_access')
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/bundle*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.assignments.index') }}">
+                                <span class="sidebar-menu-text">Assignments</span>
                             </a>
                         </li>
                         @endcan
