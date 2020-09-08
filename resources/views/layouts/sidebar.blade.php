@@ -71,7 +71,7 @@
                         @can('bundle_access')
                         <li class="sidebar-menu-item {{ Request::is('dashboard/bundle*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.bundles.index') }}">
-                                <span class="sidebar-menu-text">Bundles</span>
+                                <span class="sidebar-menu-text">Paths</span>
                             </a>
                         </li>
                         @endcan

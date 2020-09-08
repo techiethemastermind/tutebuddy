@@ -732,7 +732,7 @@
                             style="border-bottom-right-radius: 0; border-bottom-left-radius:0;">
                         <div class="card-body">
                             <div class="text-black-70 mt-16pt">
-                                <p class="text-black-70">Join the most innovative and effective e-learning platform to deliver education and training to year students.</p>
+                                <p class="text-black-70">Join the most innovative e-learning platform to deliver education and training to year students.</p>
                                 <p class="text-black-70">Create rich learning content or engage your students in live classrooms.</p>
                             </div>
                             <a href="#" class="btn btn-primary mt-16pt">Start Teaching</a>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Review;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {

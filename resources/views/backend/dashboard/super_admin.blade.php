@@ -40,7 +40,7 @@
 
             <div class="row row mb-32pt">
                 <div class="col-md-4">
-                    <a class="card border-0 mb-0" href="{{ route('search.course') }}">
+                    <a class="card border-0 mb-0" href="{{ route('admin.course.index') }}">
                         <img src="{{ asset('assets/img/achievements/flinto.png') }}" alt="Flinto" class="card-img"
                             height="210">
                         <div class="fullbleed bg-primary" style="opacity: .5;"></div>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <a class="card border-0 mb-0" href="{{ route('search.course') }}">
+                    <a class="card border-0 mb-0" href="{{ route('admin.users.index') }}">
                         <img src="{{ asset('assets/img/achievements/flinto.png') }}" alt="Flinto" class="card-img"
                             height="210">
                         <div class="fullbleed bg-accent" style="opacity: .5;"></div>
@@ -139,11 +139,3 @@
 <!-- // END Header Layout Content -->
 
 @endsection
-
-@push('after-scripts')
-
-<!-- Tables -->
-<script src="{{ asset('assets/js/toggle-check-all.js') }}"></script>
-<script src="{{ asset('assets/js/check-selected-row.js') }}"></script>
-
-@endpush

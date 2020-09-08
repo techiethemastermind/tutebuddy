@@ -22,15 +22,15 @@ class Course extends Model
     protected static function boot()
     {
         parent::boot();
-        if (auth()->check()) {
-            if (auth()->user()->hasRole('Instructor')) {
-                static::addGlobalScope('filter', function (Builder $builder) {
-                    $builder->whereHas('teachers', function ($q) {
-                        $q->where('course_user.user_id', '=', auth()->user()->id);
-                    });
-                });
-            }
-        }
+        // if (auth()->check()) {
+        //     if (auth()->user()->hasRole('Instructor')) {
+        //         static::addGlobalScope('filter', function (Builder $builder) {
+        //             $builder->whereHas('teachers', function ($q) {
+        //                 $q->where('course_user.user_id', '=', auth()->user()->id);
+        //             });
+        //         });
+        //     }
+        // }
 
         static::deleting(function ($course) { // before delete() method call this
             if ($course->isForceDeleting()) {
