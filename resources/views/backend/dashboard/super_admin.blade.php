@@ -40,7 +40,7 @@
 
             <div class="row row mb-32pt">
                 <div class="col-md-4">
-                    <a class="card border-0 mb-0" href="{{ route('admin.course.index') }}">
+                    <a class="card border-0 mb-0" href="{{ route('admin.courses.index') }}">
                         <img src="{{ asset('assets/img/achievements/flinto.png') }}" alt="Flinto" class="card-img"
                             height="210">
                         <div class="fullbleed bg-primary" style="opacity: .5;"></div>
