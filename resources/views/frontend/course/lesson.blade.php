@@ -306,9 +306,9 @@
                             </div>
                             <div>
                                 <ul>
-                                    @foreach($lesson->steps as $step)
+                                    @foreach($lesson->steps as $item)
                                     <li>
-                                        <span class="font-size-16pt">{{ $step->title }}</span>
+                                        <span class="font-size-16pt">{{ $item->title }}</span>
                                     </li>
                                     @endforeach
                                 </ul>
