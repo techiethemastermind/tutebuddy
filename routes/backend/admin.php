@@ -8,14 +8,13 @@
 Route::resource('users','UserController');
 Route::get('account', 'UserController@myAccount')->name('myaccount');
 Route::post('account/{id}/update', 'UserController@updateAccount')->name('myaccount.update');
+Route::post('child-account', 'UserController@childAccount')->name('myaccount.child');
 
 //===== Roles Routes =====//
 Route::resource('roles','RoleController');
 
 //===== Dashboard Routes =====//
 Route::get('/', 'DashboardController@index')->name('dashboard');
-Route::get('/ajax/student/schedule', 'DashboardController@getStudentScheduleData')->name('dashboard.table.getScheduleByAjax');
-Route::get('/ajax/student/instructors', 'DashboardController@getStudentInstructorsData')->name('dashboard.table.getInstructorsByAjax');
 
 //===== Categories Routes =====//
 Route::resource('categories', 'CategoryController');

@@ -3,8 +3,8 @@
 @section('content')
 
 @push('after-styles')
-<!-- jQuery Datatable CSS -->
-<link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
+    <!-- jQuery Datatable CSS -->
+    <link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
 @endpush
 
 <!-- Header Layout Content -->
@@ -18,7 +18,8 @@
                     <h2 class="mb-0">Dashboard</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a>
+                        </li>
 
                         <li class="breadcrumb-item active">
                             Dashboard
@@ -27,207 +28,20 @@
 
                 </div>
             </div>
-            <div class="row" role="tablist">
-                <div class="col-auto">
-                    <a href="{{ route('search.course') }}" class="btn btn-outline-secondary">Browser</a>
-                </div>
-            </div>
         </div>
     </div>
 
     <div class="container page__container">
         <div class="page-section">
 
-            <div class="row card-group-row">
-
-                <div class="col-lg-6 mb-8pt mb-sm-0">
-                    <div class="page-separator">
-                        <div class="page-separator__text">Available Courses</div>
-                    </div>
-                    <a class="card border-0 mb-0" href="{{ route('search.course') }}">
-                        <img src="{{ asset('assets/img/achievements/flinto.png') }}" alt="Flinto" class="card-img"
-                            height="210">
-                        <div class="fullbleed bg-primary" style="opacity: .5;"></div>
-                        <span
-                            class="card-body d-flex flex-column align-items-center justify-content-center fullbleed">
-                            <span class="row flex-nowrap">
-                                <span
-                                    class="col-auto text-center d-flex flex-column justify-content-center align-items-center">
-                                    <span
-                                        class="h2 text-white text-uppercase font-weight-normal m-0 d-block">{{ $total_courses_count }}</span>
-                                    <span class="h3 text-white text-uppercase font-weight-normal m-0 d-block">On
-                                        Demand Classes</span>
-                                </span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
-
-                <div class="col-lg-6">
-
-                    <div class="page-separator">
-                        <div class="page-separator__text">My Courses</div>
-                    </div>
-
-                    <div class="position-relative carousel-card">
-                        <div class="js-mdk-carousel row d-block" id="carousel-courses">
-
-                            <a class="carousel-control-next js-mdk-carousel-control mt-n24pt" href="#carousel-courses"
-                                role="button" data-slide="next">
-                                <span class="carousel-control-icon material-icons"
-                                    aria-hidden="true">keyboard_arrow_right</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-
-                            <div class="mdk-carousel__content">
-
-                                @foreach($purchased_courses as $course)
-
-                                <div class="col-12 col-sm-6">
-
-                                    <div class="card card-sm card--elevated p-relative o-hidden overlay overlay--primary-dodger-blue js-overlay mdk-reveal js-mdk-reveal "
-                                        data-partial-height="44" data-toggle="popover" data-trigger="click">
-
-                                        <a href="{{ route('courses.show', $course->slug) }}" class="js-image"
-                                            data-position="">
-                                            <img src="{{ asset('storage/uploads/' . $course->course_image) }}"
-                                                alt="course" height="164">
-                                            <span class="overlay__content align-items-start justify-content-start">
-                                                <span class="overlay__action card-body d-flex align-items-center">
-                                                    <i class="material-icons mr-4pt">play_circle_outline</i>
-                                                    <span class="card-title text-white">Resume</span>
-                                                </span>
-                                            </span>
-                                        </a>
-
-                                        @if($course->created_at->gt(date(Carbon\Carbon::now()->subDays(7))))
-                                        <span
-                                            class="corner-ribbon corner-ribbon--default-right-top corner-ribbon--shadow bg-accent text-white">
-                                            NEW
-                                        </span>
-                                        @endif
-
-                                        <div class="progress rounded-0" style="height: 4px;">
-                                            <div class="progress-bar bg-primary" role="progressbar" style="width: {{ $course->progress() }}%;" 
-                                                aria-valuenow="{{ $course->progress() }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                        <div class="mdk-reveal__content">
-                                            <div class="card-body">
-                                                <div class="d-flex">
-                                                    <div class="flex">
-                                                        <a class="card-title"
-                                                            href="{{ route('courses.show', $course->slug) }}">
-                                                            {{ $course->title }}
-                                                        </a>
-                                                        <small class="text-50 font-weight-bold mb-4pt">
-                                                            {{ $course->teachers[0]->name }}
-                                                        </small>
-                                                    </div>
-                                                    <a href="{{ route('courses.show', $course->slug) }}"
-                                                        data-toggle="tooltip" data-title="Add Favorite"
-                                                        data-placement="top" data-boundary="window"
-                                                        class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
-                                                </div>
-                                                <div class="d-flex">
-                                                    <div class="rating flex">
-                                                        @if($course->reviews->count() > 0)
-                                                        @include('layouts.parts.rating', ['rating' => $course->reviews->avg('rating')])
-                                                        @else
-                                                            <small class="text-50">No rating received</small>
-                                                        @endif
-                                                    </div>
-                                                    <small class="text-50">{{ $course->duration() }}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="popoverContainer d-none">
-                                        <div class="media">
-                                            <div class="media-left mr-12pt">
-                                                <img src="{{ asset('storage/uploads/thumb/' . $course->course_image) }}"
-                                                    width="40" height="40" alt="Angular" class="rounded">
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="card-title mb-0">{{ $course->title }}</div>
-                                                <p class="lh-1 mb-0">
-                                                    <span class="text-black-50 small">with</span>
-                                                    <span class="text-black-50 small font-weight-bold">
-                                                        {{ $course->teachers[0]->name }}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        <p class="my-16pt text-black-70">
-                                            {{ $course->short_description }}
-                                        </p>
-
-                                        <div class="mb-16pt">
-                                            @foreach($course->lessons as $lesson)
-                                            <div class="d-flex align-items-center">
-                                                <span class="material-icons icon-16pt text-black-50 mr-8pt">check</span>
-                                                <p class="flex text-black-50 lh-1 mb-0">
-                                                    <small>{{ $lesson->title }}</small></p>
-                                            </div>
-                                            @endforeach
-                                        </div>
-
-                                        <div class="my-32pt">
-                                            <div class="d-flex align-items-center mb-8pt justify-content-center">
-                                                <div class="d-flex align-items-center mr-8pt">
-                                                    <span
-                                                        class="material-icons icon-16pt text-black-50 mr-4pt">access_time</span>
-                                                    <p class="flex text-black-50 lh-1 mb-0"><small>{{ $course->duration() }}</small></p>
-                                                </div>
-                                                <div class="d-flex align-items-center">
-                                                    <span
-                                                        class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
-                                                    <p class="flex text-black-50 lh-1 mb-0"><small>{{ $course->lessons->count() }} lessons</small>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <a href="#current-lesson-link"
-                                                    class="btn btn-primary mr-8pt">Resume</a>
-                                                <a href="{{ route('courses.show', $course->slug) }}"
-                                                    class="btn btn-outline-secondary ml-0">Start over</a>
-                                            </div>
-                                        </div>
-
-                                        @if($course->reviews->count() > 0)
-                                        <div class="d-flex align-items-center">
-                                            <small class="text-black-50 mr-8pt">Rating</small>
-                                            <div class="rating mr-8pt">
-                                                @include('layouts.parts.rating', ['rating' => $course->reviews->avg('rating')])
-                                            </div>
-                                            <small class="text-black-50">
-                                                {{ number_format((float)$course->reviews->avg('rating'), 1, '.', '') }}/5
-                                            </small>
-                                        </div>
-                                        @endif
-
-                                    </div>
-
-                                </div>
-
-                                @endforeach
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="page-separator">
-                <div class="page-separator__text">My Live Lessons</div>
-            </div>
-
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+                <div class="card-header">
+                    <p class="page-separator__text bg-white mb-0"><strong>My Live Lessons</strong></p>
+                    <a href="{{ route('courses.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
-                    data-lists-sort-desc="true" data-lists-values='["js-lists-values-no"]'>
-                    <table id="tbl_schedule" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
+                    data-lists-sort-desc="true">
+                    <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0">
@@ -241,8 +55,7 @@
                                 </th>
 
                                 <th>
-                                    <a href="javascript:void(0)" class="sort"
-                                        data-sort="js-lists-values-time">Weekday
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Weekday
                                     </a>
                                 </th>
                                 <th>Start Time</th>
@@ -253,19 +66,188 @@
                             </tr>
                         </thead>
 
-                        <tbody class="list" id="schedule_list"></tbody>
+                        <tbody class="list" id="schedule_list">
+
+                            @foreach($schedules as $schedule)
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row"
+                                                data-domfactory-upgraded="check-selected-row">
+                                            <label class="custom-control-label"><span
+                                                    class="text-hide">Check</span></label>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <strong>{{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ $schedule->start_time }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ $schedule->end_time }}</strong>
+                                    </td>
+                                    <td>
+                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                            <div class="avatar avatar-sm mr-8pt">
+                                                <span class="avatar-title rounded bg-primary text-white">
+                                                    {{ substr($schedule->course->title, 0, 2) }}
+                                                </span>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="d-flex flex-column">
+                                                    <small class="js-lists-values-project">
+                                                        <strong>{{ $schedule->course->title }}</strong></small>
+                                                    <small
+                                                        class="js-lists-values-location text-50">{{ $schedule->course->teachers[0]->name }}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                            <div class="avatar avatar-sm mr-8pt">
+                                                <span class="avatar-title rounded bg-accent text-white">
+                                                    {{ substr($schedule->lesson->title, 0, 2) }}
+                                                </span>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="d-flex flex-column">
+                                                    <small class="js-lists-values-project">
+                                                        <strong>{{ $schedule->lesson->title }}</strong></small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        if($schedule->lesson->lesson_type == 1) {
+                                            $route = route('lessons.live', [$schedule->lesson->slug, $schedule->lesson->id]);
+                                        } else {
+                                            $route = route('lessons.show', [$schedule->course->slug, $schedule->lesson->slug, 1]);
+                                        }
+                                        ?>
+                                        <a href="{{ $route }}" target="_blank" class="btn btn-primary btn-sm">Join</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Top 5 live sessions</small>
                 </div>
             </div>
 
-            <div class="page-separator">
-                <div class="page-separator__text">Assignments</div>
+            <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+                <div class="card-header">
+                    <p class="page-separator__text bg-white mb-0"><strong>My Courses</strong></p>
+                    <a href="{{ route('courses.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                </div>
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
+                    <table class="table mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                            <tr>
+                                <th style="width: 18px;" class="pr-0">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
+                                            data-target="#course_list" data-domfactory-upgraded="toggle-check-all">
+                                        <label class="custom-control-label">
+                                            <span class="text-hide">Toggle all</span>
+                                        </label>
+                                    </div>
+                                </th>
+
+                                <th>Title</th>
+                                <th>Instructor</th>
+                                <th>Category</th>
+                                <td>Lessons</td>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="list" id="course_list">
+                            @foreach($purchased_courses as $course)
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <span class="avatar-title rounded bg-primary text-white">
+                                                {{ substr($course->title, 0, 2) }}
+                                            </span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex flex-column">
+                                                <small class="js-lists-values-project">
+                                                    <strong> {{ $course->title }}</strong></small>
+                                                <small class="js-lists-values-location text-50">{{ $course->slug }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <span class="avatar-title rounded-circle">{{ substr($course->teachers[0]->name, 0, 2) }}</span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex d-flex flex-column">
+                                                    <p class="mb-0"><strong class="js-lists-values-lead">
+                                                    {{ $course->teachers[0]->name }}</strong></p>
+                                                    <small class="js-lists-values-email text-50">Teacher</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <strong>{{ $course->category->name }}</strong>
+                                </td>
+                                <td>
+                                    <strong>{{ $course->lessons->count() }}</strong>
+                                </td>
+                                <td>
+                                    @if($course->published == 1)
+                                        <div class="d-flex flex-column">
+                                            <small class="js-lists-values-status text-50 mb-4pt">Published</small>
+                                            <span class="indicator-line rounded bg-primary"></span>
+                                        </div>
+                                    @else
+                                        <div class="d-flex flex-column">
+                                            <small class="js-lists-values-status text-50 mb-4pt">Unpublished</small>
+                                            <span class="indicator-line rounded bg-warning"></span>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td>
+                                    @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug)])
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Purchase courses by you</small>
+                </div>
             </div>
 
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
-                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-schedule"
-                    data-lists-sort-desc="true" data-lists-values='["js-lists-values-no"]'>
-                    <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
+                <div class="card-header">
+                    <p class="page-separator__text bg-white mb-0"><strong>My Assignments</strong></p>
+                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                </div>
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
+                    <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0">
@@ -280,100 +262,59 @@
 
                                 <th>Subject</th>
                                 <th>Due Date</th>
-                                <th>Status</th>
+                                <th>Total Mark</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
-                        <tbody class="list" id="assignment"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="row mb-lg-16pt">
-                <div class="col-lg-6 mb-8pt mb-sm-0">
-                    <div class="page-separator">
-                        <div class="page-separator__text">Available Instructors</div>
-                    </div>
-                    <a class="card border-0 mb-0" href="{{ route('search.course') }}">
-                        <img src="{{ asset('assets/img/achievements/flinto.png') }}" alt="Flinto" class="card-img"
-                            height="210">
-                        <div class="fullbleed bg-accent" style="opacity: .5;"></div>
-                        <span
-                            class="card-body d-flex flex-column align-items-center justify-content-center fullbleed">
-                            <span class="row flex-nowrap">
-                                <span
-                                    class="col-auto text-center d-flex flex-column justify-content-center align-items-center">
-                                    <span
-                                        class="h2 text-white text-uppercase font-weight-normal m-0 d-block">{{ $teachers_count }}</span>
-                                    <span class="h3 text-white text-uppercase font-weight-normal m-0 d-block">Instructors</span>
-                                </span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="page-separator">
-                        <div class="page-separator__text">Top Instructors</div>
-                    </div>
-
-                    <div class="position-relative carousel-card">
-                        <div class="js-mdk-carousel row d-block" id="carousel-teachers">
-
-                            <a class="carousel-control-next js-mdk-carousel-control mt-n24pt" href="#carousel-teachers"
-                                role="button" data-slide="next">
-                                <span class="carousel-control-icon material-icons"
-                                    aria-hidden="true">keyboard_arrow_right</span>
-                                <span class="sr-only">Next</span>
-                            </a>
-
-                            <div class="mdk-carousel__content">
-
-                                @foreach($teachers as $user)
-
-                                <div class="col-12 col-sm-6">
-                                    <div class="card card-body">
-                                        <div class="text-center">
-                                            <p class="mb-16pt">
-                                                @if($user->avatar)
-                                                <img src="{{asset('/storage/avatars/' . $user->avatar) }}" width="64" height="64" class="rounded-circle" />
-                                                @else
-                                                <img src="{{asset('/storage/avatars/no-avatar.jpg')}}" width="64" height="64" class="rounded-circle" />
-                                                @endif
-                                            </p>
-                                            <h4 class="m-0">{{ $user->name }}</h4>
-                                            <p class="lh-1">
-                                                @if($user->about)
-                                                <small class="text-muted">{{ $user->about }}</small>
-                                                @else
-                                                <small class="text-muted">Instructor</small>
-                                                @endif
-                                            </p>
-                                            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
-                                                <a href="fixed-teacher-profile.html" class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">Follow</a>
-                                                <a href="fixed-teacher-profile.html" class="btn btn-outline-secondary">View Profile</a>
+                        <tbody class="list" id="assignment">
+                            @foreach($assignments as $assignment)
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <span class="avatar-title rounded bg-primary text-white">
+                                                {{ substr($assignment->title, 0, 2) }}
+                                            </span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex flex-column">
+                                                <small class="js-lists-values-project">
+                                                    <strong> {{ $assignment->title }}</strong></small>
+                                                <small class="text-70">
+                                                    Course: {{ $assignment->lesson->course->title }} |
+                                                    Lesson: {{ $assignment->lesson->title }}
+                                                </small>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                @endforeach
-
-                            </div>
-                        </div>
-                    </div>
+                                </td>
+                                <td>due date</td>
+                                <td>{{ $assignment->total_mark }}</td>
+                                <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show', $assignment->id)])</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Assignments</small>
                 </div>
             </div>
 
-            <div class="page-separator">
-                <div class="page-separator__text">All Instructors</div>
-            </div>
-
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
-                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-name"
-                data-lists-sort-desc="true" data-lists-values='["js-lists-values-no"]'>
-                    <table id="tbl_instructors" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
+                <div class="card-header">
+                    <span class="page-separator__text bg-white mb-0"><strong>My Instructors</strong></span>  
+                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                </div>
+                <div class="table-responsive" data-toggle="lists">
+                    <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0">
@@ -386,17 +327,51 @@
                                     </div>
                                 </th>
 
-                                <th>
-                                    <a href="javascript:void(0)" class="sort"
-                                        data-sort="js-lists-values-name">Name
-                                    </a>
-                                </th>
+                                <th>Name</th>
+                                <th>Email</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-
-                        <tbody class="list" id="instructor_list"></tbody>
+                        <tbody class="list" id="instructor_list">
+                            @foreach($teachers as $teacher)
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            @if(empty($teacher->avatar))
+                                            <span class="avatar-title rounded-circle">{{ substr($teacher->name, 0, 2) }}</span>
+                                            @else
+                                            <img src="{{ asset('/storage/avatars/' . $teacher->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
+                                            @endif
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex d-flex flex-column">
+                                                    <p class="mb-0"><strong class="js-lists-values-lead">{{ $teacher->name }}</strong></p>
+                                                    <small class="js-lists-values-email text-50">{{ $teacher->about }}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{ $teacher->email }}</td>
+                                <td>
+                                    <a href="" target="_blank" class="btn btn-primary btn-sm">Follow</a>
+                                    <a href="" target="_blank" class="btn btn-accent btn-sm">View Profile</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
                     </table>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Instructors</small>
                 </div>
             </div>
 
@@ -408,71 +383,76 @@
 
                 @foreach($testResults as $testResult)
 
-                <div class="card-group-row__col col-md-6">
+                    <div class="card-group-row__col col-md-6">
 
-                    <div class="card card-group-row__card card-sm">
-                        <div class="card-body d-flex align-items-center">
-                            <a href="{{ route('lessons.show', [
+                        <div class="card card-group-row__card card-sm">
+                            <div class="card-body d-flex align-items-center">
+                                <a href="{{ route('lessons.show', [
                                         $testResult->test->course->slug,
                                         $testResult->test->lesson->slug,
                                         $testResult->test->step->step]) }}"
-                                class="avatar overlay overlay--primary avatar-4by3 mr-12pt">
-                                <img src="{{ asset('/storage/uploads/thumb/' . $testResult->test->course->course_image ) }}"
-                                    alt="{{ $testResult->test->title }}" class="avatar-img rounded">
-                                <span class="overlay__content"></span>
-                            </a>
-                            <div class="flex mr-12pt">
-                                <a class="card-title" href="{{ route('lessons.show', [
+                                    class="avatar overlay overlay--primary avatar-4by3 mr-12pt">
+                                    <img src="{{ asset('/storage/uploads/thumb/' . $testResult->test->course->course_image ) }}"
+                                        alt="{{ $testResult->test->title }}" class="avatar-img rounded">
+                                    <span class="overlay__content"></span>
+                                </a>
+                                <div class="flex mr-12pt">
+                                    <a class="card-title" href="{{ route('lessons.show', [
                                         $testResult->test->course->slug,
                                         $testResult->test->lesson->slug,
                                         $testResult->test->step->step]) }}">{{ $testResult->test->title }}</a>
-                                <div class="card-subtitle text-50">{{ Carbon\Carbon::parse($testResult->updated_at)->diffForHumans() }}</div>
+                                    <div class="card-subtitle text-50">
+                                        {{ Carbon\Carbon::parse($testResult->updated_at)->diffForHumans() }}
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <span class="lead text-headings lh-1">{{ $testResult->test_result }}</span>
+                                    <small class="text-50 text-uppercase text-headings">Score</small>
+                                </div>
                             </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <span class="lead text-headings lh-1">{{ $testResult->test_result }}</span>
-                                <small class="text-50 text-uppercase text-headings">Score</small>
-                            </div>
-                        </div>
 
-                        <!-- <div class="progress rounded-0" style="height: 4px;">
+                            <!-- <div class="progress rounded-0" style="height: 4px;">
                             <div class="progress-bar bg-primary" role="progressbar" style="width: 37%;"
                                 aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div>
                         </div> -->
 
-                        <div class="card-footer">
-                            <div class="d-flex align-items-center">
-                                <div class="flex mr-2">
-                                    <a href="{{ route('lessons.show', [
+                            <div class="card-footer">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex mr-2">
+                                        <a href="{{ route('lessons.show', [
                                         $testResult->test->course->slug,
                                         $testResult->test->lesson->slug,
                                         $testResult->test->step->step]) }}" class="btn btn-light btn-sm">
 
-                                        <i class="material-icons icon--left">playlist_add_check</i> Reset
-                                        <span class="badge badge-dark badge-notifications ml-2">5</span>
+                                            <i class="material-icons icon--left">playlist_add_check</i> Reset
+                                            <span class="badge badge-dark badge-notifications ml-2">5</span>
 
-                                    </a>
-                                </div>
+                                        </a>
+                                    </div>
 
-                                <div class="dropdown">
-                                    <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i class="material-icons">more_horiz</i></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a href="{{ route('lessons.show', [
+                                    <div class="dropdown">
+                                        <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
+                                                class="material-icons">more_horiz</i></a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a href="{{ route('lessons.show', [
                                             $testResult->test->course->slug,
                                             $testResult->test->lesson->slug,
                                             $testResult->test->step->step]) }}" class="dropdown-item">Continue</a>
-                                        <a href="{{ route('test.result', $testResult->test->id) }}" class="dropdown-item">View Result</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a href="{{ route('lessons.show', [
+                                            <a href="{{ route('test.result', $testResult->test->id) }}"
+                                                class="dropdown-item">View Result</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="{{ route('lessons.show', [
                                             $testResult->test->course->slug,
                                             $testResult->test->lesson->slug,
-                                            $testResult->test->step->step]) }}" class="dropdown-item text-danger">Reset Quiz</a>
+                                            $testResult->test->step->step]) }}" class="dropdown-item text-danger">Reset
+                                                Quiz</a>
+                                        </div>
                                     </div>
-                                </div>
 
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
                 @endforeach
 
@@ -508,7 +488,6 @@
 
                                 <a href="fixed-discussion.html" class="chip chip-outline-secondary">Angular
                                     fundamentals</a>
-
 
                             </div>
                             <div class="col-auto d-flex flex-column align-items-center justify-content-center">
@@ -585,41 +564,12 @@
 
 @push('after-scripts')
 
-<script src="{{ asset('assets/plugin/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/plugin/datatables.min.js') }}"></script>
 
-<script>
-$(function() {
-
-    var course_table = $('#tbl_schedule').DataTable({
-        lengthChange: false,
-        searching: false,
-        ordering: false,
-        info: false,
-        ajax: "{{ route('admin.dashboard.table.getScheduleByAjax') }}",
-        columns: [
-            { data: 'index'},
-            { data: 'weekday'},
-            { data: 'start'},
-            { data: 'end'},
-            { data: 'course'},
-            { data: 'lesson'},
-            { data: 'action'}
-        ]
-    });
-
-    var instructor_table = $('#tbl_instructors').DataTable({
-        lengthChange: false,
-        searching: false,
-        ordering: false,
-        info: false,
-        ajax: "{{ route('admin.dashboard.table.getInstructorsByAjax') }}",
-        columns: [
-            { data: 'index'},
-            { data: 'name'},
-            { data: 'action'}
-        ]
-    });
-});
-</script>
+    <script>
+        $(function () {
+            //
+        });
+    </script>
 
 @endpush

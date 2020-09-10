@@ -162,7 +162,7 @@
                     <ul class="sidebar-submenu collapse sm-indent" id="learn_menu" style="">
 
                         <li class="sidebar-menu-item {{ Request::is('search/courses*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('search.course') }}">
+                            <a class="sidebar-menu-button" href="{{ route('courses.search') }}">
                                 <span class="sidebar-menu-text">Browse Courses</span>
                             </a>
                         </li>

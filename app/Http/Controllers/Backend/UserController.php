@@ -165,7 +165,8 @@ class UserController extends Controller
     public function myAccount()
     {
         $user = auth()->user();
-        return view('backend.users.account', compact('user'));
+        $child = $user->child();
+        return view('backend.users.account', compact('user', 'child'));
     }
 
     public function updateAccount(Request $request, $id)

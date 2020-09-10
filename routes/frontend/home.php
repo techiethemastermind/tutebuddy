@@ -1,8 +1,6 @@
 <?php
 
 //===== Course Routes =====//
-
-Route::get('courses', 'CoursesController@all')->name('courses.all');
 Route::get('course/{slug}', 'CoursesController@show')->name('courses.show');
 Route::post('course/{course_id}/rating', 'CoursesController@rating')->name('courses.rating');
 Route::get('category/{category}/courses', 'CoursesController@getByCategory')->name('courses.category');
@@ -16,12 +14,13 @@ Route::get('ajax/courses/search/{key}', 'CoursesController@getSearchFormData')->
 
 // ==== Search Result ====//
 Route::get('search', 'CoursesController@searchPage')->name('search.page');
-Route::get('search/courses', 'CoursesController@search')->name('search.course');
 
 // === Bundle route === //
 Route::get('bundle/{slug}', 'BundlesController@show')->name('bundles.show');
 
 Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('courses/search', 'CoursesController@search')->name('courses.search');
 
     Route::get('course/{course_slug}/lesson/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');
     Route::get('test/{test_id}/{index}', 'LessonsController@getQuestion')->name('test.questions.get');

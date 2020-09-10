@@ -82,12 +82,22 @@ if(!isset($_GET["active"])) {
                                     </span>
                                 </a>
                             </div>
+                            @if(auth()->user()->hasRole('Student'))
+                            <div class="col-auto border-left border-right">
+                                <a href="#child" data-toggle="tab" role="tab" aria-selected="false"
+                                    class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                                    <span class="flex d-flex flex-column">
+                                        <strong class="card-title">Child Account</strong>
+                                    </span>
+                                </a>
+                            </div>
+                            @endif
                         </div>
                     </div>
 
                     <div class="card-body tab-content">
 
-                        <!-- Tab Content for General Setting -->
+                        <!-- Tab Content for Profile Setting -->
                         <div id="account" class="tab-pane p-4 fade text-70 active show">
 
                             {!! Form::model($user, ['method' => 'POST', 'files' => true, 'route' => ['admin.myaccount.update', $user->id]]) !!}
@@ -149,7 +159,7 @@ if(!isset($_GET["active"])) {
                             {!! Form::close() !!}
                         </div>
 
-                        <!-- Tab content for Logo and Favicon -->
+                        <!-- Tab content for billing information -->
                         <div id="billing" class="tab-pane p-4 fade text-70">
 
                             <div class="list-group list-group-form">
@@ -195,7 +205,7 @@ if(!isset($_GET["active"])) {
                             </div>
                         </div>
 
-                        <!-- Tab for Mail configuration -->
+                        <!-- Tab for payment history -->
                         <div id="payment" class="tab-pane p-4 fade text-70">
 
                             <div class="page-separator">
@@ -301,10 +311,102 @@ if(!isset($_GET["active"])) {
                                 </table>
                             </div>
                         </div>
+
+                        <!-- Tab for Child Account -->
+                        <div id="child" class="tab-pane p-4 fade text-70">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="chkChild" @if($child) checked="" @endif>
+                                    <label class="custom-control-label" for="chkChild">Add Child account?</label>
+                                    <small class="form-text text-muted">If checked then you can add child account</small>
+                                </div>
+                            </div>
+
+                            <form id="frm_child" method="POST" action="" enctype="multipart/form-data" style="display: none;">
+
+                                <div class="page-separator">
+                                    <div class="page-separator__text bg-transparent">&nbsp;</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Child name</label>
+                                    <input type="text" name="name" class="form-control" value="@if($child) {{ $child->name}} @endif" placeholder="Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Child Nick Name</label>
+                                    <input type="text" name="nick_name" class="form-control" value="@if($child) {{ $child->nick_name }} @endif" placeholder="Nick Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <input type="password" name="password" class="form-control" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Confirm Password</label>
+                                    <input type="password" name="confirm_password" class="form-control" value="">
+                                </div>
+
+                                <div class="form-group align-items-end d-flex">
+                                    <div class="flex mr-16pt">
+                                        <label class="form-label">Parent Phone number</label>
+                                        <input type="text" name="phone" class="form-control" value="{{ $user->phone_number }}">
+                                    </div>
+                                    <div class="justify-content-end">
+                                        <button type="button" class="btn btn-primary">Send OTP</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group align-items-end d-flex">
+                                    <div class="flex mr-16pt">
+                                        <label class="form-label">Enter OTP</label>
+                                        <input type="text" name="otp" class="form-control" value="">
+                                    </div>
+                                    <div class="justify-content-end">
+                                        <button type="button" class="btn btn-primary">Verify</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Upload Parent ID</label>
+                                    <div class="custom-file">
+                                        <input type="file" id="file" class="custom-file-input">
+                                        <label for="file" class="custom-file-label">Choose file</label>
+                                    </div>
+                                    <small class="form-text text-muted">Upload a clear ID in png, jpeg or PDF format</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Relationship to child</label>
+                                    <input type="text" name="relation" class="form-control" value="{{ $user->relationship }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="chkChildTerm">
+                                        <label class="custom-control-label" for="chkChildTerm">
+                                            I agree to the Terms and Conditions on behalf of my ward/child
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="chkChildlegal">
+                                        <label class="custom-control-label" for="chkChildlegal">
+                                            I am the legal guardian of the child whose account I am creating and have the legal right to consent for this account
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-32pt">
+                                    <button type="submit" class="btn btn-primary">CREATE CHILD ACCOUNT</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>
@@ -313,9 +415,8 @@ if(!isset($_GET["active"])) {
 @push('after-scripts')
 
 <script>
-    
-$(document).ready(function() {
 
+$(function() {
     var active_tab = '{{ $_GET["active"] }}';
     $('div[role="tablist"]').find('a').removeClass('active');
     $('div[role="tablist"]').find('a[href="#' + active_tab + '"]').addClass('active');
@@ -324,18 +425,30 @@ $(document).ready(function() {
     $('div.tab-pane').removeClass('active');
     $('#' + active_tab).addClass('active');
     $('#' + active_tab).addClass('show');
-});
 
-$('#account form').submit(function(e){
-    e.preventDefault();
+    if($('#chkChild').prop('checked')) {
+        $('#frm_child').show();
+    };
 
-    $(this).ajaxSubmit({
-        success: function(res) {
-            console.log(res);
-            if(res.success) {
-                swal("Success!", "Successfully updated", "success");
-            }
+    $('#chkChild').on('change', function() {
+        if($(this).prop('checked')) {
+            $('#frm_child').show();
+        } else {
+            $('#frm_child').hide();
         }
+    })
+
+    $('#account form').submit(function(e){
+        e.preventDefault();
+
+        $(this).ajaxSubmit({
+            success: function(res) {
+                console.log(res);
+                if(res.success) {
+                    swal("Success!", "Successfully updated", "success");
+                }
+            }
+        });
     });
 });
 

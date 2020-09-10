@@ -161,7 +161,6 @@ class LessonsController extends Controller
         
     }
 
-
     public function liveSession($slug, $id)
     {
         $lesson = Lesson::find($id);

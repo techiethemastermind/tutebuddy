@@ -46,6 +46,11 @@ class Lesson extends Model
         return $this->steps->sum('duration');
     }
 
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
+
     /**
      * Get completed status
      */

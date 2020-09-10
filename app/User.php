@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
+use Illuminate\Support\Facades\DB;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -69,5 +71,15 @@ class User extends Authenticatable
     //Get Certificates
     public function certificates(){
         return $this->hasMany(Models\Certificate::class);
+    }
+
+    // Get Child Account
+    public function child()
+    {
+        $child = DB::table('user_child')->where('user_id', $this->id)->first();
+        if(!empty($child)) {
+            return $this->find($child->child_id);
+        }
+        return null;
     }
 }

@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <a class="card border-0 mb-0" href="{{ route('search.course') }}">
+                    <a class="card border-0 mb-0" href="{{ route('courses.search') }}">
                         <img src="{{ asset('assets/img/achievements/flinto.png') }}" alt="Flinto" class="card-img"
                             height="210">
                         <div class="fullbleed bg-dark" style="opacity: .5;"></div>

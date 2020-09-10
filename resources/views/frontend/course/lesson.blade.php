@@ -80,7 +80,7 @@
             <nav class="course-nav">
                 @foreach($lesson->steps as $item)
                 <a data-toggle="tooltip" data-placement="bottom" data-title="{{ $item->title }}" class="@if($item->id == $step->id) active @endif"
-                    href="{{ route('admin.lessons.show', $lesson->id) }}?step={{ $item->id }}">
+                    href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, $item->step]) }}">
                     @if($item->id == $step->id)
                     <span class="material-icons">done</span>
                     @else
@@ -93,7 +93,7 @@
             <div class="js-player bg-primary embed-responsive embed-responsive-16by9 mb-32pt">
                 <div class="player embed-responsive-item">
                     <div class="player__content">
-                        <div class="player__image" style="--player-image: url({{ asset('storage/uploads/' . $lesson->image) }})">
+                        <div class="player__image" style="--player-image: url({{ asset('assets/img/illustration/player.svg') }})">
                         </div>
                         <a href="" class="player__play bg-primary">
                             <span class="material-icons">play_arrow</span>
@@ -224,83 +224,219 @@
     <div class="page-section">
         <div class="container page__container">
 
+        <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
 
+            <div class="card-header p-0 nav">
 
-            <div class="d-flex align-items-center mb-heading">
-                <h4 class="m-0">Discussions</h4>
-                <a href="fixed-discussions-ask.html" class="text-underline ml-auto">Ask a Question</a>
+                <div id="tab_lesson" class="row no-gutters" role="tablist">
+                    <div class="col-auto">
+                        <a href="#lesson_info" data-toggle="tab" role="tab" aria-selected="true"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
+                            <span class="h5 mb-0 mr-3 count-all">Description</span>
+                        </a>
+                    </div>
+
+                    <div class="col-auto border-left">
+                        <a href="#assignments" data-toggle="tab" role="tab" aria-selected="false"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h5 mb-0 mr-3 count-all">Assignments</span>
+                        </a>
+                    </div>
+
+                    <div class="col-auto border-left">
+                        <a href="#submissions" data-toggle="tab" role="tab" aria-selected="false"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h5 mb-0 mr-3 count-all">Submissions</span>
+                        </a>
+                    </div>
+
+                    <div class="col-auto border-left">
+                        <a href="#discusson" data-toggle="tab" role="tab" aria-selected="false"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h5 mb-0 mr-3 count-all">Discussion</span>
+                        </a>
+                    </div>
+
+                    <div class="col-auto border-left border-right">
+                        <a href="#messages" data-toggle="tab" role="tab" aria-selected="false"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h5 mb-0 mr-3 count-all">Messages</span>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="border-top">
+            <div class="card-body tab-content p-4" style="min-height: 450px;">
+                <div id="lesson_info" class="tab-pane fade text-70 active show">
+                    <div class="media flex-nowrap pt-2">
 
-                <div class="list-group list-group-flush">
+                        @if(!empty($lesson->video))
 
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-3 mb-8pt mb-md-0">
-                                <div class="media align-items-center">
-                                    <div class="media-left mr-12pt">
-                                        <a href="" class="avatar avatar-sm">
-                                            <!-- <img src="LB" alt="avatar" class="avatar-img rounded-circle"> -->
-                                            <span class="avatar-title rounded-circle">LB</span>
+                        <div class="mr-32pt" style="width: 40%;">
+                            <div class="js-player bg-primary embed-responsive embed-responsive-16by9 mb-32pt">
+                                <div class="player embed-responsive-item">
+                                    <div class="player__content">
+                                        <div class="player__image" style="--player-image: url({{ asset('storage/uploads/' . $lesson->image) }})">
+                                        </div>
+                                        <a href="" class="player__play bg-primary">
+                                            <span class="material-icons">play_arrow</span>
                                         </a>
                                     </div>
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <a href="" class="card-title">Laza Bogdan</a>
-                                        <small class="text-muted">2 days ago</small>
+                                    <div class="player__embed d-none">
+                                        <?php
+                                            $embed = Embed::make($lesson->video)->parseUrl();
+                                            $embed->setAttribute([
+                                                'id'=>'display_step_video',
+                                                'class'=>'embed-responsive-item',
+                                                'allowfullscreen' => ''
+                                            ]);
+                                        ?>
+                                        {!! $embed->getHtml() !!}
                                     </div>
                                 </div>
                             </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <p class="mb-8pt"><a href="fixed-discussion.html" class="text-body"><strong>Using
-                                            Angular HttpClientModule instead of HttpModule</strong></a></p>
+                        </div>
 
+                        @endif
 
-                                <a href="fixed-discussion.html" class="chip chip-outline-secondary">Angular
-                                    fundamentals</a>
-
-
+                        <div class="media-body">
+                            <h4>{{ $lesson->title }}</h4>
+                            <div class="align-items-center">
+                                <p class="font-size-16pt">{{ $lesson->short_text }}</p>
                             </div>
-                            <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                <h5 class="m-0">1</h5>
-                                <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
+                            <div>
+                                <ul>
+                                    @foreach($lesson->steps as $step)
+                                    <li>
+                                        <span class="font-size-16pt">{{ $step->title }}</span>
+                                    </li>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
-
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-3 mb-8pt mb-md-0">
-                                <div class="media align-items-center">
-                                    <div class="media-left mr-12pt">
-                                        <a href="" class="avatar avatar-sm">
-                                            <!-- <img src="AC" alt="avatar" class="avatar-img rounded-circle"> -->
-                                            <span class="avatar-title rounded-circle">AC</span>
-                                        </a>
+                </div>
+                
+                <div id="assignments" class="tab-pane fade text-70">
+                    <div class="d-flex align-items-center mb-heading">
+                        <h4 class="m-0">Assignments</h4>
+                    </div>
+                    <div class="border-top">
+                        <div class="list-group list-group-flush">
+                            @foreach($lesson->assignments as $assignment)
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col mb-8pt mb-md-0">
+                                        <div class="media align-items-center">
+                                            <div class="media-left mr-16pt">
+                                                <a href="" class="avatar avatar-md">
+                                                    <span class="avatar-title rounded-circle">
+                                                        {{ substr($assignment->title, 0, 2) }}
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="mb-8pt">
+                                                    <a href="" class="text-body">
+                                                        <strong>{{ $assignment->title }}</strong>
+                                                    </a>
+                                                </p>
+                                                <a href="" class="chip chip-outline-secondary">View</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <a href="" class="card-title">Adam Curtis</a>
-                                        <small class="text-muted">3 days ago</small>
+                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                        <h5 class="m-0">{{ $assignment->total_mark }}</h5>
+                                        <p class="lh-1 mb-0"><small class="text-70">Total Marks</small></p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <p class="mb-0"><a href="fixed-discussion.html" class="text-body"><strong>Why am I
-                                            getting an error when trying to install angular/http@2.4.2</strong></a></p>
-
-                            </div>
-                            <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                <h5 class="m-0">1</h5>
-                                <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-
                 </div>
 
-            </div>
+                <div id="submissions" class="tab-pane fade text-70">
+                    
+                </div>
 
-            <a href="fixed-discussions.html" class="btn btn-outline-secondary">See all discussions for this lesson</a>
+                <div id="discusson" class="tab-pane fade text-70">
+                    <div class="d-flex align-items-center mb-heading">
+                        <h4 class="m-0">Discussions</h4>
+                        <a href="fixed-discussions-ask.html" class="text-underline ml-auto">Ask a Question</a>
+                    </div>
+
+                    <div class="border-top">
+
+                        <div class="list-group list-group-flush">
+
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-3 mb-8pt mb-md-0">
+                                        <div class="media align-items-center">
+                                            <div class="media-left mr-12pt">
+                                                <a href="" class="avatar avatar-sm">
+                                                    <!-- <img src="LB" alt="avatar" class="avatar-img rounded-circle"> -->
+                                                    <span class="avatar-title rounded-circle">LB</span>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <a href="" class="card-title">Laza Bogdan</a>
+                                                <small class="text-muted">2 days ago</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-8pt mb-md-0">
+                                        <p class="mb-8pt"><a href="fixed-discussion.html" class="text-body"><strong>Using
+                                                    Angular HttpClientModule instead of HttpModule</strong></a></p>
+
+                                        <a href="fixed-discussion.html" class="chip chip-outline-secondary">Angular
+                                            fundamentals</a>
+
+                                    </div>
+                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                        <h5 class="m-0">1</h5>
+                                        <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col-md-3 mb-8pt mb-md-0">
+                                        <div class="media align-items-center">
+                                            <div class="media-left mr-12pt">
+                                                <a href="" class="avatar avatar-sm">
+                                                    <!-- <img src="AC" alt="avatar" class="avatar-img rounded-circle"> -->
+                                                    <span class="avatar-title rounded-circle">AC</span>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex flex-column media-body media-middle">
+                                                <a href="" class="card-title">Adam Curtis</a>
+                                                <small class="text-muted">3 days ago</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col mb-8pt mb-md-0">
+                                        <p class="mb-0"><a href="fixed-discussion.html" class="text-body"><strong>Why am I
+                                                    getting an error when trying to install angular/http@2.4.2</strong></a></p>
+
+                                    </div>
+                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                        <h5 class="m-0">1</h5>
+                                        <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <a href="fixed-discussions.html" class="btn btn-outline-secondary">See all discussions for this lesson</a>
+                </div>
+            </div>
+        </div>
 
         </div>
     </div>
