@@ -341,7 +341,7 @@
                                                         <strong>{{ $assignment->title }}</strong>
                                                     </a>
                                                 </p>
-                                                <a href="" class="chip chip-outline-secondary">View</a>
+                                                <a href="{{ route('lesson.assignment', $assignment->id) }}" target="_blank" class="chip chip-outline-secondary">Review</a>
                                             </div>
                                         </div>
                                     </div>

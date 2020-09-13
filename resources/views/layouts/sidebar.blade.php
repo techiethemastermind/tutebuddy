@@ -155,7 +155,7 @@
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#learn_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
-                        Learn
+                        Browser
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
 
@@ -163,7 +163,13 @@
 
                         <li class="sidebar-menu-item {{ Request::is('search/courses*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('courses.search') }}">
-                                <span class="sidebar-menu-text">Browse Courses</span>
+                                <span class="sidebar-menu-text">Courses</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('search/instructor*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('teachers.search') }}">
+                                <span class="sidebar-menu-text">Instructors</span>
                             </a>
                         </li>
 

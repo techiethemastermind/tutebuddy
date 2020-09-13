@@ -376,6 +376,45 @@
             </div>
 
             <div class="page-separator">
+                <div class="page-separator__text">My Paths</div>
+            </div>
+
+            <div class="row card-group-row">
+                @foreach($bundles as $bundle)
+                <div class="col-sm-4 card-group-row__col">
+                    <div class="card card-sm stack stack--1 card-group-row__card">
+                        <div class="card-body d-flex flex-column">
+                            <div class="d-flex align-items-center">
+                                <div class="flex">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded mr-12pt z-0 o-hidden">
+                                            <div class="overlay">
+                                                <a href="{{ route('bundles.show', $bundle->slug) }}" target="_blank">
+                                                @if(!empty($bundle->bundle_image))
+                                                <img src="{{ asset('/storage/uploads/thumb/'. $bunlde->bundle_image) }}" width="40" height="40" alt="Angular" class="rounded">
+                                                @else
+                                                <img src="{{ asset('/assets/img/no-image-thumb.jpg') }}" width="40" height="40" alt="Angular" class="rounded">
+                                                @endif
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="flex">
+                                            <a href="{{ route('bundles.show', $bundle->slug) }}" target="_blank">
+                                                <div class="card-title">{{ $bundle->title }}</div>
+                                                <p class="flex text-black-50 lh-1 mb-0"><small>{{ $bundle->courses->count() }} courses</small></p>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="" data-toggle="tooltip" data-title="Add Favorite" data-placement="top" data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="page-separator">
                 <div class="page-separator__text">My Tests</div>
             </div>
 

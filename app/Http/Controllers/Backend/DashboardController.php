@@ -14,6 +14,7 @@ use App\Models\Lesson;
 use App\Models\Test;
 use App\Models\TestResults;
 use App\Models\Assignment;
+use App\Models\Bundle;
 
 class DashboardController extends Controller
 {
@@ -55,7 +56,13 @@ class DashboardController extends Controller
             break;
 
             case 'teacher':
-                return view('backend.dashboard.teacher');
+                $courses = Course::all();
+                $course_ids = $courses->pluck('id');
+                $schedules = Schedule::whereIn('course_id', $course_ids)->orderBy('created_at', 'desc')->limit(5)->get();
+                $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
+                $students = User::whereIn('id', $student_ids)->limit(5)->get();
+
+                return view('backend.dashboard.teacher', compact('schedules', 'students'));
             break;
 
             case 'student':
@@ -64,9 +71,11 @@ class DashboardController extends Controller
                 $courses_id = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
                 $lessons_id = Lesson::whereIn('course_id', $courses_id)->pluck('id');
                 $teachers_id = DB::table('course_user')->whereIn('course_id', $courses_id)->pluck('user_id');
+                $bundles_id = DB::table('bundle_student')->where('user_id', auth()->user()->id)->pluck('bundle_id');
 
                 $purchased_courses = Course::whereIn('id', $courses_id)->orderBy('created_at', 'desc')->limit(5)->get();
                 $schedules = Schedule::whereIn('course_id', $courses_id)->orderBy('created_at', 'desc')->limit(5)->get();
+                $bundles = Bundle::whereIn('id', $bundles_id)->orderBy('created_at', 'desc')->limit(3)->get();
                 $assignments = Assignment::whereIn('lesson_id', $lessons_id)->orderBy('created_at', 'desc')->limit(5)->get();
                 $teachers = User::whereIn('id', $teachers_id)->limit(5)->get();
                 $testResults = TestResults::where('user_id', auth()->user()->id)->limit(4)->get();
@@ -75,6 +84,7 @@ class DashboardController extends Controller
                     compact(
                         'purchased_courses',
                         'schedules',
+                        'bundles',
                         'assignments',
                         'teachers',
                         'testResults'

@@ -188,4 +188,9 @@ class UserController extends Controller
             'action' => 'update'
         ]);
     }
+
+    public function search(Request $request)
+    {
+        $params = $request->all();
+    }
 }

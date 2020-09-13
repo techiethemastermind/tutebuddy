@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\Traits\FileUploadTrait;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Course;
 use App\Models\Lesson;
@@ -14,9 +16,13 @@ use App\Models\Question;
 use App\Models\TestResults;
 use App\Models\TestResultAnswers;
 use App\Models\ChapterStudent;
+use App\Models\Assignment;
+use App\Models\AssignmentResult;
 
 class LessonsController extends Controller
 {
+    use FileUploadTrait;
+
     /**
      * Show selected lesson
      */
@@ -352,5 +358,53 @@ class LessonsController extends Controller
         } catch (Exception $e) {
             return back()->withErrors([$e->getMessage()]);
         }
+    }
+
+    public function assignment($id)
+    {
+        $assignment = Assignment::find($id);
+        return view('frontend.course.assignment', compact('assignment'));
+    }
+
+    public function saveAssignment(Request $request)
+    {
+        $data = $request->all();
+
+        // Find Assignment Result
+        $assignment = Assignment::find($request->assignment_id);
+        $result = $assignment->result;
+
+        if(!$result) {
+            // Attachment URL
+            if(!empty($request->doc_file)) {
+                $file = $request->file('doc_file');
+                $file_url = $this->saveImage($file, 'upload', true);
+                $data['attachment_url'] = $file_url;
+            }
+
+            AssignmentResult::create($data);
+        } else {
+
+            // Attachment URL
+            if(!empty($request->doc_file)) {
+                $file = $request->file('doc_file');
+
+                // Delete existing img file
+                if (File::exists(public_path('/storage/uploads/' . $assignment->attachment_url))) {
+                    File::delete(public_path('/storage/uploads/' . $assignment->attachment_url));
+                    File::delete(public_path('/storage/uploads/thumb/' . $assignment->attachment_url));
+                }
+
+                $file_url = $this->saveImage($file, 'upload', true);
+                $data['attachment_url'] = $file_url;
+            }
+
+            AssignmentResult::update($data);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully Saved',
+        ]);
     }
 }

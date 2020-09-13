@@ -897,7 +897,7 @@ $(function() {
 
     function send_ajax(key) {
 
-        var route = 'ajax/courses/search/' + key;
+        var route = 'ajax/search/courses/' + key;
 
         $.ajax({
             method: 'get',

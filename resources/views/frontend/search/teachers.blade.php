@@ -195,7 +195,7 @@ $(function() {
         $('#search_homepage').val(name);
         $(document).find('#search___result').remove();
 
-        location.href = '{{ config("app.url") }}' + 'search/courses?_q=' + name;
+        location.href = '{{ config("app.url") }}' + 'search/courses?_q=' + name + '&_t=' + type + '&_k=' + id;
     });
 
     function send_ajax(key) {
@@ -216,7 +216,7 @@ $(function() {
                     
                 }
             }
-        })
+        });
     }
 });
 

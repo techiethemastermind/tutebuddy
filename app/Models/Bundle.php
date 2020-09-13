@@ -104,7 +104,6 @@ class Bundle extends Model
 
     }
 
-
     public function students()
     {
         return $this->belongsToMany(User::class, 'bundle_student')->withTimestamps()->withPivot(['rating']);

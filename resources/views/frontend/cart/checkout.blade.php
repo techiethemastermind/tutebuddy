@@ -50,6 +50,10 @@
                                         $item = App\Models\Course::find($cart->id);
                                     }
 
+                                    if ($cart->attributes->type == 'bundle') {
+                                        $item = App\Models\Bundle::find($cart->id);
+                                    }
+
                                     // dd($cart);
 
                                 ?>
@@ -65,8 +69,11 @@
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-lg mr-16pt">
-                                            @if(!empty($item->course_image))
-                                            <img src="{{ asset('/storage/uploads/' . $item->course_image) }}" alt="Avatar"
+                                            <?php
+                                                $item_img = ($cart->attributes->type == 'course') ? $item->course_image : $item->bundle_image;
+                                            ?>
+                                            @if(!empty($item_img))
+                                            <img src="{{ asset('/storage/uploads/' . $item_img) }}" alt="Avatar"
                                                 class="avatar-img rounded">
                                             @else
                                             <span
@@ -77,8 +84,13 @@
                                             <div class="d-flex flex-column">
                                                 <p class="card-title mb-1"><strong
                                                         class="js-lists-values-name">{{ $item->title }}</strong></p>
+                                                @if($cart->attributes->type == 'bundle')
+                                                <small class="js-lists-values-email text-50">Created By:
+                                                    {{ $item->user->name }}</small>
+                                                @else
                                                 <small class="js-lists-values-email text-50">Created By:
                                                     {{ $item->teachers[0]->name }}</small>
+                                                @endif
                                                 @if($item->reviews->count() > 0)
                                                 <div class="rating">
                                                     @include('layouts.parts.rating', ['rating' =>
@@ -92,7 +104,9 @@
                                 <td>
                                     <h5 class="">{{ number_format($cart->price, 2) }}</h5>
                                 </td>
-                                <td><span class="badge badge-pill badge-primary p-2"> {{ $cart->attributes->style }} </span>
+                                <td>
+                                    <span class="badge badge-pill badge-accent p-2"> {{ $cart->attributes->type }} </span>
+                                    <span class="badge badge-pill badge-primary p-2"> {{ $cart->attributes->style }} </span>
                                 </td>
                                 <td>
                                     <input type="number" class="form-control" name="qty" value="{{ $cart->quantity }}" min="1"

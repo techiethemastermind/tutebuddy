@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Course;
 use App\Models\Order;
 use App\Models\Tax;
+use App\Models\Bundle;
 
 class CartController extends Controller
 {
@@ -36,8 +37,8 @@ class CartController extends Controller
             $total += $item->price;
         }
         $courses = new Collection(Course::find($course_ids));
-        // $bundles = Bundle::find($bundle_ids);
-        // $courses = $bundles->merge($courses);
+        $bundles = Bundle::find($bundle_ids);
+        $courses = $bundles->merge($courses);
 
         $courses = Course::find($course_ids);
         //Apply Tax

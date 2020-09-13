@@ -67,7 +67,7 @@
 </style>
 @endpush
 
-<div class="mdk-header-layout__content page-content ">
+<div class="mdk-header-layout__content page-content">
 
     <div class="mdk-box bg-primary mdk-box--bg-gradient-primary2 js-mdk-box mb-0" data-effects="blend-background">
         <div class="mdk-box__content">
@@ -270,8 +270,7 @@
                                 <p class="card-subtitle text-70 mb-24pt">Get access to all videos in the Course</p>
 
                                 @if(!auth()->check())
-                                <a href="{{ route('register') }}" class="btn btn-accent mb-8pt">Sign up - only
-                                    {{ config('app.currency') . $course->group_price }}</a>
+                                <a href="{{ route('register') }}" class="btn btn-accent mb-8pt">Sign up to unlock</a>
                                 <p class="mb-0">Have an account? <a href="{{ route('login') }}">Login</a></p>
                                 @endif
 

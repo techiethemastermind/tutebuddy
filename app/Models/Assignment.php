@@ -40,4 +40,9 @@ class Assignment extends Model
     {
         return $this->belongsTo(Lesson::class);
     }
+
+    public function result()
+    {
+        return $this->hasOne(AssignmentResult::class);
+    }
 }

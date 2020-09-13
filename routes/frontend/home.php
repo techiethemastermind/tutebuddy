@@ -9,18 +9,16 @@ Route::get('courses/review/{id}/edit', 'CoursesController@editReview')->name('co
 Route::post('courses/review/{id}/edit', 'CoursesController@updateReview')->name('courses.review.update');
 Route::get('courses/review/{id}/delete', 'CoursesController@deleteReview')->name('courses.review.delete');
 
-// ==== Ajax for Search Form ==== //
-Route::get('ajax/courses/search/{key}', 'CoursesController@getSearchFormData')->name('ajax.search.form');
-
 // ==== Search Result ====//
-Route::get('search', 'CoursesController@searchPage')->name('search.page');
+Route::get('search', 'SearchController@searchPage')->name('search.page');
+Route::get('search/courses', 'SearchController@courses')->name('courses.search');
+Route::get('ajax/search/courses/{key}', 'SearchController@getSearchFormData')->name('ajax.search.form');
+Route::get('search/instructors', 'SearchController@teachers')->name('teachers.search');
 
 // === Bundle route === //
 Route::get('bundle/{slug}', 'BundlesController@show')->name('bundles.show');
 
 Route::group(['middleware' => 'auth'], function () {
-
-    Route::get('courses/search', 'CoursesController@search')->name('courses.search');
 
     Route::get('course/{course_slug}/lesson/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');
     Route::get('test/{test_id}/{index}', 'LessonsController@getQuestion')->name('test.questions.get');
@@ -33,10 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('lesson/{id}/complete', 'LessonsController@completeLesson')->name('lesson.complete');
     Route::get('ajax/step/{id}/complete/{type}', 'LessonsController@completeStep')->name('ajax.step.complete');
 
-    Route::post('lesson/{slug}/test', 'LessonsController@test')->name('lessons.test');
-    Route::post('lesson/{slug}/retest', 'LessonsController@retest')->name('lessons.retest');
-    Route::post('video/progress', 'LessonsController@videoProgress')->name('update.videos.progress');
-    Route::post('lesson/progress', 'LessonsController@courseProgress')->name('update.course.progress');
+    // Assignment
+    Route::get('assignment/{id}', 'LessonsController@assignment')->name('lesson.assignment');
+    Route::post('assignment/save', 'LessonsController@saveAssignment')->name('assignment.save');
 
     // Cart and Checkout
     Route::post('cart/checkout', 'CartController@checkout')->name('cart.checkout');

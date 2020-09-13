@@ -83,7 +83,7 @@
 
 
                         <!-- Notifications dropdown -->
-                        <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full"
+                        <!-- <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full"
                             data-toggle="tooltip" data-title="Messages" data-placement="bottom" data-boundary="window">
                             <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown"
                                 data-caret="false">
@@ -134,8 +134,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- // END Notifications dropdown -->
+
+                        <!-- Mini card -->
 
                         <div class="nav-item ml-16pt nav-cart">
                             <a href="{{ route('cart.index') }}" class="nav-link btn-flush" type="button">
@@ -149,7 +151,7 @@
                         </div>
 
                         <!-- Notifications dropdown -->
-                        <div class="nav-item ml-16pt dropdown dropdown-notifications dropdown-xs-down-full"
+                        <!-- <div class="nav-item ml-16pt dropdown dropdown-notifications dropdown-xs-down-full"
                             data-toggle="tooltip" data-title="Notifications" data-placement="bottom"
                             data-boundary="window">
                             <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown"
@@ -226,7 +228,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <!-- // END Notifications dropdown -->
 
                         <div class="nav-item dropdown">
