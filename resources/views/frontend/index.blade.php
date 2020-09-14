@@ -56,14 +56,14 @@
                         <div class="d-flex align-items-center">
                             <div class="rounded mr-12pt">
                                 <div class="avatar avatar-sm mr-3">
-                                    <a href="/search?_q={{ $category->name }}&_t=category&_k={{ $category->id }}">
+                                    <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}">
                                         <img src="{{ asset('/storage/uploads/' . $category->thumb) }}" alt="avatar"
                                             class="avatar-img rounded">
                                     </a>
                                 </div>
                             </div>
                             <div class="flex">
-                                <a href="/search?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="card-title mr-3">{{ $category->name }}</a>
+                                <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="card-title mr-3">{{ $category->name }}</a>
                             </div>
                         </div>
                     </div>

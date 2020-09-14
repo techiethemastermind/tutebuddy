@@ -37,7 +37,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Live Lessons</strong></p>
-                    <a href="{{ route('courses.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="{{ route('courses.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true">
@@ -144,7 +144,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Courses</strong></p>
-                    <a href="{{ route('courses.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="{{ route('courses.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
@@ -244,7 +244,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Assignments</strong></p>
-                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
@@ -311,7 +311,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <span class="page-separator__text bg-white mb-0"><strong>My Instructors</strong></span>  
-                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">

@@ -63,7 +63,7 @@
                             <div class="custom-control custom-checkbox">
                                 <input class="custom-control-input" type="checkbox" value="" id="chk_terms" required="">
                                 <label class="custom-control-label" for="chk_terms">
-                                    Agree to terms and conditions
+                                    I agree to the terms and conditions
                                 </label>
                             </div>
                         </div>
