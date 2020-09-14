@@ -22,6 +22,7 @@ class CertificateController extends Controller
 
     public function show($id)
     {
+        // dd(storage_path());
         $certificate = Certificate::find($id);
         $d = 0;
         foreach($certificate->course->lessons as $lesson) {

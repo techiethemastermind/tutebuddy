@@ -11,12 +11,12 @@
 
         @font-face {
             font-family: 'La Jolla ES';
-            src: url({{ public_path('/assets/fonts/certificate/Old-Script.ttf') }}) format('truetype');
+            src: url({{ storage_path('fonts/Old-Script.ttf') }}) format('truetype');
         }
 
         @font-face {
             font-family: 'Baskerville Old Face';
-            src: url({{ public_path('/assets/fonts/certificate/BASKVILL.TTF') }}) format('truetype');
+            src: url({{ storage_path('fonts/BASKVILL.TTF') }}) format('truetype');
         }
 
         body {

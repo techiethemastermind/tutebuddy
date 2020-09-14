@@ -10,12 +10,12 @@
     <style>
         @font-face {
             font-family: 'La Jolla ES';
-            src: url(/assets/fonts/certificate/Old-Script.ttf);
+            src: url({{ storage_path('fonts\Old-Script.ttf') }}) format("truetype");
         }
 
         @font-face {
             font-family: 'Baskerville Old Face';
-            src: url(/assets/fonts/certificate/BASKVILL.TTF);
+            src: url({{ storage_path('fonts\BASKVILL.TTF') }}) format("truetype");
         }
 
         body {
