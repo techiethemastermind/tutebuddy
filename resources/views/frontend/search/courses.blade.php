@@ -6,7 +6,7 @@
 
 <style>
     [dir=ltr] .list-group-flush>.list-group-item {
-        border-width: 0 0 2px;
+        border-width: 0 0 5px;
     }
 </style>
 

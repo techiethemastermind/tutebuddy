@@ -58,6 +58,16 @@
                                 placeholder="Confirm password ...">
                         </div>
                         <input type="hidden" name="role" value="{{ $reg_type }}">
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" type="checkbox" value="" id="chk_terms" required="">
+                                <label class="custom-control-label" for="chk_terms">
+                                    Agree to terms and conditions
+                                </label>
+                            </div>
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Create account</button>
                         <input type="hidden" name="recaptcha_v3" id="recaptcha_v3">
                     </form>
