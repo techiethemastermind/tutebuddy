@@ -75,11 +75,11 @@ class CertificateController extends Controller
 
             $temp['progress'] = $cert->course->progress() . '%';
             $btn_show = '<a href="' . route('admin.certificates.show', $cert->id) . '" target="_blank" class="btn btn-accent btn-sm">Show</a>';
-            $btn_view = '<a href="' . asset('storage/certificates/'.$cert->url) . '" target="_blank" class="btn btn-success btn-sm">View</a>';
+            // $btn_view = '<a href="' . asset('storage/certificates/'.$cert->url) . '" target="_blank" class="btn btn-success btn-sm">View</a>';
             $btn_download = '<a href="' . route('admin.certificates.download', ['certificate_id'=>$cert->id]) . 
                 '" class="btn btn-primary btn-sm">Download</a>';
 
-            $temp['action'] = $btn_show . '&nbsp;' . $btn_view . '&nbsp;' . $btn_download;
+            $temp['action'] = $btn_show . '&nbsp;' . $btn_download;
 
             array_push($data, $temp);
         }
