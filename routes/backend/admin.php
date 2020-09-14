@@ -97,6 +97,7 @@ Route::get('ajax/reviews/list', 'ReviewController@getTableData')->name('getRevie
 
 // Certificate
 Route::get('certificates', 'CertificateController@index')->name('certificates.index');
+Route::get('certificate/{id}/show', 'CertificateController@show')->name('certificates.show');
 Route::get('ajax/certificates', 'CertificateController@getCertificates')->name('table.getCertsByAjax');
 Route::post('certificates/generate', 'CertificateController@generateCertificate')->name('certificates.generate');
 Route::get('certificates/download', ['uses' => 'CertificateController@download', 'as' => 'certificates.download']);

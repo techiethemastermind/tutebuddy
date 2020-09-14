@@ -8,21 +8,33 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <style>
-
         @font-face {
             font-family: 'La Jolla ES';
-            src: url({{ public_path('/assets/fonts/certificate/Old-Script.ttf') }}) format('truetype');
+            src: url(/assets/fonts/certificate/Old-Script.ttf);
         }
 
         @font-face {
             font-family: 'Baskerville Old Face';
-            src: url({{ public_path('/assets/fonts/certificate/BASKVILL.TTF') }}) format('truetype');
+            src: url(/assets/fonts/certificate/BASKVILL.TTF);
         }
 
         body {
             margin: 0px;
             padding: 0px;
             color: #37231a;
+        }
+
+        .container-fluid {
+            width: 1100px;
+            margin: auto;
+            top: 50px;
+            position: relative;
+            box-shadow: 0px 0px 2px 0px black;
+            border-radius: 15px;
+        }
+
+        .row {
+            position: relative;
         }
 
         .block {
@@ -44,7 +56,7 @@
 </head>
 <body>
 <div class="container-fluid px-0">
-    <div style="position: relative;text-align: center" class="row h-100 justify-content-center text-center position-relative m-0">
+    <div class="row h-100 justify-content-center text-center position-relative m-0">
 
         <div class="col-12 align-self-center block" style="top: 36%;">
             <p style="font-family: La Jolla ES; font-size: 62px; color: #4c4c4c;">{{ $data['name'] }}</p>
@@ -52,14 +64,18 @@
         <div class="col-12 align-self-center block" style="top: 49.2%;">
             <p style="font-family: Baskerville Old Face; font-size: 28px; color: #b68746; margin-right: 62px;">{{ $data['hours'] }}</p>
         </div>
+
         <div class="col-12 align-self-center block" style="top: 56%;">
             <p style="font-family: Baskerville Old Face; font-size: 26px; color: #b68746;">{{ $data['course_name'] }}</p>
         </div>
-        <div class="col-md-6 align-self-center block" style="top: 75%;">
-            <p style="font-family: Baskerville Old Face; font-size: 26px; color: #714b1d;">{{ $data['date'] }}</p>
-        </div>
 
-        <img width="100%" src="{{ public_path('images/certificate.jpg') }}" style="overflow: hidden; z-index: -1;">
+        <div class="row block" style="top: 75%;">
+            <div class="col-md-6 align-self-center">
+                <p style="font-family: Baskerville Old Face; font-size: 26px; color: #714b1d;">{{ $data['date'] }}</p>
+            </div>
+        </div>
+        
+        <img width="100%" src="{{ asset('images/certificate.jpg') }}" style="overflow: hidden; z-index: -1;">
     </div>
 </div>
 </body>

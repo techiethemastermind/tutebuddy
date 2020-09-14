@@ -20,6 +20,24 @@ class CertificateController extends Controller
         return view('backend.certificates.index');
     }
 
+    public function show($id)
+    {
+        $certificate = Certificate::find($id);
+        $d = 0;
+        foreach($certificate->course->lessons as $lesson) {
+            $d += $lesson->lessonDuration();
+        }
+        $hours = floor($d / 60);
+        $cert_number = 'dsadsadas';
+        $data = [
+            'name' => auth()->user()->name,
+            'course_name' => $certificate->course->title,
+            'date' => Carbon::now()->format('d M, Y'),
+            'hours' => $hours
+        ];
+        return view('backend.certificates.show', compact('data'));
+    }
+
     /**
      * Get certificates lost for purchased courses.
      */
@@ -55,11 +73,12 @@ class CertificateController extends Controller
                             </div>';
 
             $temp['progress'] = $cert->course->progress() . '%';
-            $btn_view = '<a href="' . asset('storage/certificates/'.$cert->url) . '" class="btn btn-success btn-sm">View</a>';
+            $btn_show = '<a href="' . route('admin.certificates.show', $cert->id) . '" target="_blank" class="btn btn-accent btn-sm">Show</a>';
+            $btn_view = '<a href="' . asset('storage/certificates/'.$cert->url) . '" target="_blank" class="btn btn-success btn-sm">View</a>';
             $btn_download = '<a href="' . route('admin.certificates.download', ['certificate_id'=>$cert->id]) . 
                 '" class="btn btn-primary btn-sm">Download</a>';
 
-            $temp['action'] = $btn_view . '&nbsp;' . $btn_download;
+            $temp['action'] = $btn_show . '&nbsp;' . $btn_view . '&nbsp;' . $btn_download;
 
             array_push($data, $temp);
         }
@@ -85,10 +104,17 @@ class CertificateController extends Controller
                 'course_id' => $request->course_id
             ]);
 
+            $d = 0;
+            foreach($certificate->course->lessons as $lesson) {
+                $d += $lesson->lessonDuration();
+            }
+            $hours = floor($d / 60);
+
             $data = [
                 'name' => auth()->user()->name,
                 'course_name' => $course->title,
                 'date' => Carbon::now()->format('d M, Y'),
+                'hours' => $hours
             ];
             $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
             $certificate->name = auth()->user()->id;
