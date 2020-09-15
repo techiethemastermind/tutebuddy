@@ -204,7 +204,7 @@
                 </li>
 
                 <!-- My Account -->
-                <li class="sidebar-menu-item {{ Request::is('dashboard/users/account*') ? 'active' : '' }}">
+                <li class="sidebar-menu-item {{ Request::is('dashboard/account*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('admin.myaccount') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">account_circle</span>
                         <span class="sidebar-menu-text">My Account</span>

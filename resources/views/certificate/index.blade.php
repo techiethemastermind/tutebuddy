@@ -49,14 +49,18 @@
         <div class="col-12 align-self-center block" style="top: 31%;">
             <p style="font-family: La Jolla ES; font-size: 62px; color: #4c4c4c;">{{ $data['name'] }}</p>
         </div>
-        <div class="col-12 align-self-center block" style="top: 45%;">
-            <p style="font-family: Baskerville Old Face; font-size: 28px; color: #b68746; margin-right: 62px;">{{ $data['hours'] }}</p>
+        <div class="col-12 align-self-center block" style="top: 47%;">
+            <p style="font-family: Baskerville Old Face; font-size: 24px; color: #b68746; margin-right: 62px;">{{ $data['hours'] }}</p>
         </div>
         <div class="col-12 align-self-center block" style="top: 53%;">
-            <p style="font-family: Baskerville Old Face; font-size: 26px; color: #b68746;">{{ $data['course_name'] }}</p>
+            <p style="font-family: Baskerville Old Face; font-size: 24px; color: #b68746;">{{ $data['course_name'] }}</p>
         </div>
-        <div class="col-12 align-self-center block" style="top: 70%; width: 50%;">
-            <p style="font-family: Baskerville Old Face; font-size: 26px; color: #714b1d;">{{ $data['date'] }}</p>
+        <div class="col-12 align-self-center block" style="top: 72%; width: 50%;">
+            <p style="font-family: Baskerville Old Face; font-size: 24px; color: #714b1d;">{{ $data['date'] }}</p>
+        </div>
+
+        <div class="col-12 align-self-center block" style="top: 82.5%;">
+            <p style="font-family: Baskerville Old Face; font-size: 18px; color: #714b1d;">Certificate No: {{ $data['cert_number'] }}</p>
         </div>
 
         <img width="100%" src="{{ public_path('images/certificate.jpg') }}" style="overflow: hidden; z-index: -1;">

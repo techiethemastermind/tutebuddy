@@ -183,6 +183,11 @@ class UserController extends Controller
             $user->save();
         }
 
+        if(isset($input['categories'])) {
+            $user->profession = json_encode($input['categories']);
+            $user->save();
+        }
+
         return response()->json([
             'success' => true,
             'action' => 'update'

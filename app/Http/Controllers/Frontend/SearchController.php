@@ -7,43 +7,10 @@ use Illuminate\Http\Request;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\User;
 
 class SearchController extends Controller
 {
-    // Get Search page
-    public function searchPage(Request $request)
-    {
-        $parentCategories = Category::where('parent', 0)->get();
-        $params = $request->all();
-        
-        if(isset($params['_t']) && $params['_t'] == 'category') {
-            
-            $courses_me = Course::where('category_id', $params['_k']);
-
-            $subCategories = Category::where('parent', $params['_k'])->get();
-            foreach($subCategories as $category) {
-                $courses_c = Course::where('category_id', $category->id);
-                $courses_me = $courses_me->union($courses_c);
-            }
-
-            $courses = $courses_me->paginate(20);
-            $courses->setPath('search?_q='. $params['_q'] .'&_t='. $params['_t'] .'&_k='. $params['_k']);
-
-        } else {
-            
-            $courses_me = Course::where('title', 'like', '%' . $params['_q'] . '%');
-            $categories = Category::where('name', 'like', '%' . $params['_q'] . '%')->get();
-            foreach($categories as $category) {
-                $courses_c = Course::where('category_id', $category->id);
-                $courses_me = $courses_me->union($courses_c);
-            }
-            $courses = $courses_me->paginate(20);
-            $courses->setPath('search?_q='. $params['_q']);
-        }
-
-        return view('frontend.search.index', compact('parentCategories', 'courses'));
-    }
-
     // Search Course
     public function courses(Request $request)
     {
@@ -60,7 +27,7 @@ class SearchController extends Controller
                 $courses_me = $courses_me->union($courses_c);
             }
 
-            $courses = $courses_me->paginate(20);
+            $courses = $courses_me->paginate(10);
             $courses->setPath('search?_q='. $params['_q'] .'&_t='. $params['_t'] .'&_k='. $params['_k']);
 
         } else {
@@ -85,7 +52,8 @@ class SearchController extends Controller
     // Search instructor
     public function teachers(Request $request)
     {
-        return view('frontend.search.teachers');
+        $teachers = User::role('Instructor')->orderBy('created_at', 'desc')->paginate(10);
+        return view('frontend.search.teachers', compact('teachers'));
     }
 
     public function getSearchFormData($key)

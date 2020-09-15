@@ -8,6 +8,14 @@
     [dir=ltr] .list-group-flush>.list-group-item {
         border-width: 0 0 2px;
     }
+    [dir=ltr] .chip {
+        margin-bottom: .5rem;
+    }
+
+    [dir=ltr] .chip+.chip {
+        margin-right: .5rem;
+        margin-left: 0;
+    }
 </style>
 
 @endpush
@@ -21,13 +29,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Browse Courses</h2>
+                    <h2 class="mb-0">Browse Instructors</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            Browse Courses
+                            Browse Instructors
                         </li>
                     </ol>
 
@@ -47,117 +55,66 @@
                 </div>
             </div>
 
-            <div class="card">
+            <div class="row card-group-row">
 
-                <div class="list-group list-group-flush">
+                @foreach($teachers as $teacher)
 
-                    @foreach($courses as $course)
-
-                    <div class="list-group-item p-3">
-                        <div class="align-items-start">
-                            <div class="media">
-                                <div class="media-left mr-12pt">
-                                    <a href="{{ route('courses.show', $course->slug) }}" class="avatar avatar-xxl mr-3">
-                                        @if(!empty($course->course_image))
-                                        <img src="{{ asset('/storage/uploads/' . $course->course_image) }}" 
-                                            alt="{{ $course->title }}" class="avatar-img rounded" >
-                                        @else
-                                        <img src="{{ asset('/assets/img/no-image.jpg') }}" 
-                                            alt="{{ $course->title }}" class="avatar-img rounded" >
-                                        @endif
-                                    </a>
-                                    <div class="d-flex p-1" style="white-space: nowrap;">
-                                        <div class="rating mr-4pt">
-                                            @if($course->reviews->count() > 0)
-                                            @include('layouts.parts.rating', ['rating' => $course->reviews->avg('rating')])
-                                            @else
-                                                <small class="text-50">No rating</small>
-                                            @endif
-                                        </div>
-                                        @if($course->reviews->count() > 0)
-                                        <small class="text-50">{{ number_format($course->reviews->avg('rating'), 2) }}/5</small>
-                                        @endif
+                <div class="col-md-6 col-xl-4 card-group-row__col">
+                    <div class="card card-group-row__card">
+                        <div class="card-header d-flex align-items-center">
+                            <a href="{{ route('profile.show', $teacher->uuid) }}" class="card-title flex mr-12pt">{{ $teacher->name }}</a>
+                            <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-light btn-sm" data-toggle="tooltip" data-title="follow" data-placement="bottom">Follow</a>
+                        </div>
+                        <div class="card-body flex text-center d-flex flex-column align-items-center justify-content-center">
+                            <a href="{{ route('profile.show', $teacher->uuid) }}" class="avatar avatar-xxl overlay js-overlay overlay--primary rounded-circle p-relative o-hidden mb-16pt">
+                                @if(!empty($teacher->avatar))
+                                <img src="{{ asset('/storage/avatars/' . $teacher->avatar) }}" alt="teacher" class="avatar-img">
+                                @else
+                                <img src="{{ asset('/storage/avatars/no-avatar.jpg') }}" alt="teacher" class="avatar-img">
+                                @endif
+                                <span class="overlay__content"><i class="overlay__action material-icons icon-40pt">face</i></span>
+                            </a>
+                            <div class="flex">
+                                <div class="d-inline-flex align-items-center mb-8pt">
+                                    <div class="rating mr-8pt">
+                                    @if($teacher->reviews->count() > 0)
+                                        @include('layouts.parts.rating', ['rating' => $teacher->reviews->avg('rating')])
+                                    @endif
                                     </div>
+                                    @if($teacher->reviews->count() > 0)
+                                    <small class="text-50">{{ number_format($teacher->reviews->avg('rating'), 2) }}/5</small>
+                                    @endif
                                 </div>
-                                <div class="media-body media-middle">
-                                    <div class="d-flex">
-                                        <div class="flex">
-                                            <a href="{{ route('courses.show', $course->slug) }}" class="card-title">{{ $course->title }}</a>
-                                        </div>
-                                        <span class="card-title text-accent mr-16pt">
-                                            {{ config('app.currency') . $course->group_price }} <small class="text-50">(Group)</small>
-                                        </span>
-                                        <span class="card-title text-primary mr-16pt">
-                                            {{ config('app.currency') . $course->private_price }} <small class="text-50">(Private)</small>
-                                        </span>
-                                        
-                                        <a href="" data-toggle="tooltip" data-title="Add Favorite" data-placement="top" 
-                                            data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite" 
-                                            data-original-title="" title="">favorite_border</a>
-                                    </div>
-                                    <div class="d-flex">
-                                        <span class="text-70 text-muted mr-8pt"><strong>Session Time: {{ $course->duration() }},</strong></span>
-                                        <span class="text-70 text-muted mr-8pt"><strong>Sessions: {{ $course->lessons->count() }},</strong></span>
-                                        <span class="text-70 text-muted mr-8pt"><strong>Category: 
-                                            @if(!empty($course->category))
-                                            {{ $course->category->name }},</strong>
-                                            @else
-                                            No Category
-                                            @endif
-                                        </span>
-                                        <span class="text-70 text-muted mr-8pt"><strong>Level: {{ $course->level->name }}</strong></span>
-                                    </div>
-                                    <div class="page-separator mb-0">
-                                        <div class="page-separator__text bg-transparent">&nbsp;</div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <p class="text-muted">{{ $course->short_description }}</p>
-                                    </div>
-                                    <div class="d-flex align-items-end">
-                                        <a href="" class="flex">
-                                            <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                                <div class="avatar avatar-sm mr-8pt">
-                                                    <img src="{{ asset('/storage/avatars/' . $course->teachers[0]->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
-                                                </div>
-                                                <div class="media-body">
-
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex d-flex flex-column">
-                                                            <p class="mb-0"><strong class="js-lists-values-lead">{{ $course->teachers[0]->name }}</strong></p>
-                                                            <small class="js-lists-values-email text-50">
-                                                                {{ $course->teachers[0]->about }},
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-
-                                        <div class="flex">
-                                            <span class="text-70 text-muted mr-8pt">Listed Courses: 12</span>
-                                            <span class="text-70 text-muted mr-8pt">Total Courses Contucted: 102</span>
-                                        </div>
-                    
-                                        @if(!$course->isEnrolled())
-                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary btn-md">Enroll</a>
-                                        @else
-                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-success btn-md">Enrolled</a>
-                                        @endif
-                                    </div>
-                                </div>
+                                <p class="h5">{{ $teacher->headline }}</p>
+                                <p class="text-70 measure-paragraph">{{ $teacher->about }}</p>
                             </div>
                         </div>
+                        @if(!empty($teacher->profession))
+                        <div class="card-body flex-0">
+                            <div class="d-flex align-items-center" style="display: block !important;">
+                            @php $pros = json_decode($teacher->profession); @endphp
+                            
+                                @foreach($pros as $pro)
+                                <?php
+                                    $category = App\Models\Category::find($pro);
+                                    $name = !empty($category) ? $category->name : $pro;
+                                ?>
+                                <a href="javascript:void()" class="chip chip-outline-secondary">{{ $name }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
                     </div>
-
-                    @endforeach
-
                 </div>
 
-                @if($courses->hasPages())
+                @endforeach
+
+                @if($teachers->hasPages())
                 <div class="card-footer p-8pt">
-                    {{ $courses->links('layouts.parts.page') }}
+                    {{ $teachers->links('layouts.parts.page') }}
                 </div>
                 @endif
+
             </div>
         </div>
     </div>

@@ -18,6 +18,9 @@ Route::get('search/instructors', 'SearchController@teachers')->name('teachers.se
 // === Bundle route === //
 Route::get('bundle/{slug}', 'BundlesController@show')->name('bundles.show');
 
+// === Profile route === /
+Route::get('profile/{uuid}', 'UserController@getTeacherProfile')->name('profile.show');
+
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('course/{course_slug}/lesson/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');

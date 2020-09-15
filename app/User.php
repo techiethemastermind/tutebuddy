@@ -20,7 +20,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'active', 'verified', 'about', 'verify_token', 'remember_token'
+        'uuid', 'name', 'email', 'password', 'role', 'active', 'verified', 'about', 'verify_token',
+        'remember_token', 'headline', 'phone_number', 'country', 'state', 'city', 'address', 'zip', 'timezone', 'profession'
     ];
 
     /**
@@ -87,5 +88,10 @@ class User extends Authenticatable
     {
         $course_student = DB::table('course_student')->where('user_id', $this->id)->first();
         return Models\Course::find($course_student->course_id);
+    }
+
+    public function reviews()
+    {
+        return $this->morphMany(Models\Review::class, 'reviewable');
     }
 }

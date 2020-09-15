@@ -12,6 +12,7 @@ use Spatie\Permission\Models\Role;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use Mail;
 use App\Mail\VerifyMail;
@@ -72,6 +73,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
+            'uuid' => Str::uuid()->toString(),
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),

@@ -29,12 +29,13 @@ class CertificateController extends Controller
             $d += $lesson->lessonDuration();
         }
         $hours = floor($d / 60);
-        $cert_number = 'dsadsadas';
+        $cert_number = $certificate->cert_number;
         $data = [
             'name' => auth()->user()->name,
             'course_name' => $certificate->course->title,
             'date' => Carbon::now()->format('d M, Y'),
-            'hours' => $hours
+            'hours' => $hours,
+            'cert_number' => $cert_number
         ];
         return view('backend.certificates.show', compact('data'));
     }
@@ -97,8 +98,8 @@ class CertificateController extends Controller
     {
         $course = Course::whereHas('students', function ($query) {
             $query->where('id', \Auth::id());
-        })
-            ->where('id', '=', $request->course_id)->first();
+        })->where('id', '=', $request->course_id)->first();
+
         if (($course != null) && ($course->progress() == 100)) {
             $certificate = Certificate::firstOrCreate([
                 'user_id' => auth()->user()->id,
@@ -111,15 +112,19 @@ class CertificateController extends Controller
             }
             $hours = floor($d / 60);
 
+            $cert_number = $this->getCertNumber();
+
             $data = [
                 'name' => auth()->user()->name,
                 'course_name' => $course->title,
                 'date' => Carbon::now()->format('d M, Y'),
-                'hours' => $hours
+                'hours' => $hours,
+                'cert_number' => $cert_number
             ];
             $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
             $certificate->name = auth()->user()->id;
             $certificate->url = $certificate_name;
+            $certificate->cert_number = $cert_number;
             $certificate->save();
 
             $pdf = \PDF::loadView('certificate.index', compact('data'))->setPaper('', 'landscape');
@@ -174,5 +179,21 @@ class CertificateController extends Controller
         session()->forget('certificates');
         return back()->with(['data' => $data]);
 
+    }
+
+    function getCertNumber()
+    {
+        // Available alpha caracters
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        // generate a pin based on 2 * 5 digits + a random character
+        $pin = mt_rand(10000, 99999) . mt_rand(10000, 99999);
+        $rand_pin = str_shuffle($pin);
+        $cert_number = 'TB-CR-' . $rand_pin . $characters[rand(0, strlen($characters) - 1)];
+        $cert = Certificate::where('cert_number', $cert_number)->get();
+        if(count($cert) > 0) {
+            $this->getCertNumber();
+        } else {
+            return $cert_number;
+        }
     }
 }
