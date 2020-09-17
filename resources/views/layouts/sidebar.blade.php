@@ -187,17 +187,37 @@
 
                 @endif
 
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#community_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">people_outline</span>
+                        Discussion
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+                    <ul class="sidebar-submenu collapse sm-indent" id="community_menu">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/discussion*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.discussions.index') }}">
+                                <span class="sidebar-menu-text">My Topics</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/topic*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.discussions.topics') }}">
+                                <span class="sidebar-menu-text">Discussion Topics</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <!-- Coupon -->
-                <li class="sidebar-menu-item {{ Request::is('dashboard/coupon*') ? 'active' : '' }}">
+                <!-- <li class="sidebar-menu-item {{ Request::is('dashboard/coupon*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">card_giftcard</span>
                         <span class="sidebar-menu-text">Coupons</span>
                     </a>
-                </li>
+                </li> -->
 
                 <!-- Messages -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/message*') ? 'active' : '' }}">
-                    <a class="sidebar-menu-button" href="">
+                    <a class="sidebar-menu-button" href="{{ route('admin.messages.index') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">send</span>
                         <span class="sidebar-menu-text">Messages</span>
                     </a>

@@ -380,6 +380,7 @@ class LessonsController extends Controller
                 $file = $request->file('doc_file');
                 $file_url = $this->saveImage($file, 'upload', true);
                 $data['attachment_url'] = $file_url;
+                $data['user_id'] = auth()->user()->id;
             }
 
             AssignmentResult::create($data);

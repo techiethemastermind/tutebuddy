@@ -354,7 +354,7 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="flex d-flex flex-column">
                                                     <p class="mb-0"><strong class="js-lists-values-lead">{{ $teacher->name }}</strong></p>
-                                                    <small class="js-lists-values-email text-50">{{ $teacher->about }}</small>
+                                                    <small class="js-lists-values-email text-50">{{ $teacher->headline }}</small>
                                                 </div>
                                             </div>
                                         </div>

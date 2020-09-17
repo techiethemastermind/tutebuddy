@@ -49,7 +49,7 @@
         <div class="col-12 align-self-center block" style="top: 31%;">
             <p style="font-family: La Jolla ES; font-size: 62px; color: #4c4c4c;">{{ $data['name'] }}</p>
         </div>
-        <div class="col-12 align-self-center block" style="top: 45%;">
+        <div class="col-12 align-self-center block" style="top: 46%;">
             <p style="font-family: Baskerville Old Face; font-size: 24px; color: #b68746; margin-right: 62px;">{{ $data['hours'] }}</p>
         </div>
         <div class="col-12 align-self-center block" style="top: 53%;">

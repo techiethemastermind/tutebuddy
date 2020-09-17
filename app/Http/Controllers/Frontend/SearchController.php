@@ -52,11 +52,20 @@ class SearchController extends Controller
     // Search instructor
     public function teachers(Request $request)
     {
-        $teachers = User::role('Instructor')->orderBy('created_at', 'desc')->paginate(10);
+        $params = $request->all();
+
+        if(isset($params['_q'])) {
+            $teachers = User::role('Instructor')
+                ->where('name', 'like', '%' . $params['_q'] . '%')
+                ->orWhere('headline', 'like', '%' . $params['_q'] . '%')->paginate(10);
+        } else {
+            $teachers = User::role('Instructor')->orderBy('created_at', 'desc')->paginate(10);
+        }
+        
         return view('frontend.search.teachers', compact('teachers'));
     }
 
-    public function getSearchFormData($key)
+    public function getSearchFormCourseData($key)
     {
 
         $data = [];
@@ -78,6 +87,50 @@ class SearchController extends Controller
                 'id' => $course->id,
                 'name' => $course->title,
                 'type' => 'course'
+                ]
+            );
+        }
+
+        $ele = '<ul id="search___result" class="list-unstyled search_result collapse show">';
+
+        $i = 0;
+
+        foreach($data as $item) {
+            $i++;
+            $ele .= '<li data-id="'. $item['id'] .'" data-type="'. $item['type'] .'">'. $item['name'] .'</li>';
+            if($i > 5) {
+                break;
+            }
+        }
+
+        $ele .= '</ul>';
+
+        return response()->json([
+            'success' => true,
+            'result' => $data,
+            'html' => $ele
+        ]);
+    }
+
+    public function getSearchFormUserData($key)
+    {
+        $data = [];
+        $users = User::where('name', 'like', '%' . $key . '%')->get();
+        foreach($users as $user) {
+            array_push($data, [
+                'id' => $user->id,
+                'name' => $user->name,
+                'type' => 'user'
+                ]
+            );
+        }
+
+        $subjects = User::where('headline', 'like', '%' . $key . '%')->get();
+        foreach($subjects as $user) {
+            array_push($data, [
+                'id' => $user->id,
+                'name' => $user->headline,
+                'type' => 'headline'
                 ]
             );
         }

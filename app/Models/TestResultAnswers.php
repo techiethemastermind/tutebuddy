@@ -17,6 +17,6 @@ class TestResultAnswers extends Model
     }
 
     public function testResult(){
-        return $this->belongsTo(TestResult::class);
+        return $this->belongsTo(TestResults::class);
     }
 }

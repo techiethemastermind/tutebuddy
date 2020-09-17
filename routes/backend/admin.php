@@ -101,3 +101,15 @@ Route::get('certificate/{id}/show', 'CertificateController@show')->name('certifi
 Route::get('ajax/certificates', 'CertificateController@getCertificates')->name('table.getCertsByAjax');
 Route::post('certificates/generate', 'CertificateController@generateCertificate')->name('certificates.generate');
 Route::get('certificates/download', ['uses' => 'CertificateController@download', 'as' => 'certificates.download']);
+
+// Discussion
+Route::resource('discussions', 'DiscussionController');
+Route::get('topics', 'DiscussionController@getTopics')->name('discussions.topics');
+Route::get('ajax/discussions', 'DiscussionController@getTopicsByAjax')->name('table.getTopicsByAjax');
+Route::post('ajax/comment', 'DiscussionController@postComment')->name('ajax.postComment');
+
+// Messages Routes
+Route::get('messages', 'MessagesController@index')->name('messages.index');
+Route::post('messages/unread', 'MessagesController@getUnreadMessages')->name('messages.unread');
+Route::post('messages/send', 'MessagesController@send')->name('messages.send');
+Route::post('messages/reply', 'MessagesController@reply')->name('messages.reply');

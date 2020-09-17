@@ -861,7 +861,6 @@
 </div>
 <!-- // END Header Layout Content -->
 
-
 @push('after-scripts')
 
 <script>

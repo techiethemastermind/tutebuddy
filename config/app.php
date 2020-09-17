@@ -177,7 +177,7 @@ return [
 
         Spatie\Permission\PermissionServiceProvider::class,
         Cohensive\Embed\EmbedServiceProvider::class,
-
+        Cmgmyr\Messenger\MessengerServiceProvider::class,
     ],
 
     /*

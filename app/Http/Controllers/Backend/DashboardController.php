@@ -15,6 +15,8 @@ use App\Models\Test;
 use App\Models\TestResults;
 use App\Models\Assignment;
 use App\Models\Bundle;
+use App\Models\AssignmentResult;
+use App\Models\TestResultAnswers;
 
 class DashboardController extends Controller
 {
@@ -61,8 +63,16 @@ class DashboardController extends Controller
                 $schedules = Schedule::whereIn('course_id', $course_ids)->orderBy('created_at', 'desc')->limit(5)->get();
                 $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
                 $students = User::whereIn('id', $student_ids)->limit(5)->get();
+                $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+                $assignments = Assignment::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->limit(5)->get();
+                $assignment_ids = Assignment::where('user_id', auth()->user()->id)->pluck('id');
+                $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->limit(5)->get();
+                $bundles = Bundle::where('user_id', auth()->user()->id)->limit(5)->get();
+                $test_ids = Test::whereIn('course_id', $course_ids)->limit(5)->pluck('id');
+                $testResults = TestResults::whereIn('test_id', $test_ids)->limit(5)->get();
 
-                return view('backend.dashboard.teacher', compact('schedules', 'students'));
+                return view('backend.dashboard.teacher', compact('schedules',
+                    'students', 'assignments', 'assignment_results', 'bundles', 'testResults'));
             break;
 
             case 'student':

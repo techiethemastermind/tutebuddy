@@ -237,8 +237,11 @@
 
                                 <span class="avatar avatar-sm mr-8pt2">
 
-                                    <span class="avatar-title rounded-circle bg-primary"><i
-                                            class="material-icons">account_box</i></span>
+                                @if(!empty(auth()->user()->avatar))
+                                <img src="{{ asset('/storage/avatars/' . auth()->user()->avatar) }}" alt="people" class="avatar-img rounded-circle">
+                                @else
+                                <span class="avatar-title rounded-circle">{{ substr(auth()->user()->name, 0, 2) }}</span>
+                                @endif
 
                                 </span>
 

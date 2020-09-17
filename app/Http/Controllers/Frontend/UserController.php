@@ -12,6 +12,7 @@ class UserController extends Controller
     public function getTeacherProfile($uuid)
     {
         $teacher = User::where('uuid', $uuid)->first();
-        return view('frontend.user.profile', compact('teacher'));
+        $similar_teachers = User::orderBy('created_at', 'desc')->limit(4)->get();
+        return view('frontend.user.profile', compact('teacher', 'similar_teachers'));
     }
 }

@@ -769,7 +769,17 @@ $(function() {
         e.preventDefault();
         $(this).ajaxSubmit({
             success: function(res) {
-                console.log(res);
+                if(res.success) {
+                    swal({
+                        title: "Submit Review",
+                        type: 'success',
+                    },
+                    function(val) {
+                        if(val) {
+                            location.reload();
+                        }
+                    });
+                }
             }
         });
     });
@@ -827,7 +837,6 @@ $(function() {
                 });
             }
         });
-
     });
 });
 </script>
