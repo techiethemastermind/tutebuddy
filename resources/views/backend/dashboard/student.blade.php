@@ -311,7 +311,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <span class="page-separator__text bg-white mb-0"><strong>My Instructors</strong></span>  
-                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <a href="{{ route('teachers.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">

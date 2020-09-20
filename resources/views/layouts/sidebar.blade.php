@@ -239,6 +239,23 @@
                 <!-- Sidebar Head -->
                 <div class="sidebar-heading">System</div>
 
+                <!-- Pages -->
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#pages_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">book</span>
+                        Pages
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+                    <ul class="sidebar-submenu collapse sm-indent" id="pages_menu" style="">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/page*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.pages.index') }}">
+                                <span class="sidebar-menu-text">All Pages</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Access -->
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#access_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">person</span>
@@ -295,7 +312,7 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/page*') ? 'active' : '' }}">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/social*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="">
                                 <span class="sidebar-menu-text">Social</span>
                             </a>

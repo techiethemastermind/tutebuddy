@@ -19,8 +19,12 @@ Route::get('search/instructors', 'SearchController@teachers')->name('teachers.se
 // === Bundle route === //
 Route::get('bundle/{slug}', 'BundlesController@show')->name('bundles.show');
 
-// === Profile route === /
+// === Profile route === //
 Route::get('profile/{uuid}', 'UserController@getTeacherProfile')->name('profile.show');
+
+// === Page route == //
+Route::get('pages', 'PageController@index')->name('pages');
+Route::get('page/{slug}', 'PageController@getPage')->name('page.show');
 
 Route::group(['middleware' => 'auth'], function () {
 

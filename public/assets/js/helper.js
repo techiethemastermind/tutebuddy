@@ -121,6 +121,16 @@ function makeId(length) {
     return result;
 }
 
+function convertToSlug(Text)
+{
+    return Text
+        .trim()
+        .toLowerCase()
+        .replace(/ /g,'-')
+        .replace(/[^\w-]+/g,'')
+        ;
+}
+
 // ===  Global Element Events === //
 $(document).on('change', 'input[data-preview]', function() {
     display_image(this, $($(this).attr('data-preview')));

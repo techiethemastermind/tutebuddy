@@ -33,7 +33,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <ul class="footer-menu">
                         <li class="footer-menu-item">
-                            <a href="#" >How It Works</a>
+                            <a href="/page/how-it-works" >How It Works</a>
                         </li>
                         <li class="footer-menu-item">
                             <a href="#" >Teach on TuteBuddy</a>
@@ -50,10 +50,10 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <ul class="footer-menu">
                         <li class="footer-menu-item">
-                            <a href="#" >Terms of Service</a>
+                            <a href="/page/terms-and-conditions" >Terms of Service</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Privacy Policy</a>
+                            <a href="/page/privacy-policy" >Privacy Policy</a>
                         </li>
                         <li class="footer-menu-item">
                             <a href="#" >Cookies</a>

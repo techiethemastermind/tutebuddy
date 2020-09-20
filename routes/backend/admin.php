@@ -110,6 +110,15 @@ Route::post('ajax/comment', 'DiscussionController@postComment')->name('ajax.post
 
 // Messages Routes
 Route::get('messages', 'MessagesController@index')->name('messages.index');
-Route::post('messages/unread', 'MessagesController@getUnreadMessages')->name('messages.unread');
-Route::post('messages/send', 'MessagesController@send')->name('messages.send');
+Route::get('messages/users/{key}', 'MessagesController@getUsers')->name('messages.users');
+Route::get('messages/get', 'MessagesController@getMessages')->name('messages.get');
+Route::get('messages/last', 'MessagesController@lastMessages')->name('messages.last');
+
 Route::post('messages/reply', 'MessagesController@reply')->name('messages.reply');
+Route::post('messages/unread', 'MessagesController@getUnreadMessages')->name('messages.unread');
+
+// Pages
+Route::resource('pages', 'PagesController');
+Route::get('ajax/pages/list/{type}', 'PagesController@getList')->name('getPagesByAjax');
+Route::get('ajax/pages/publish/{id}', 'PagesController@publish')->name('pages.publish');
+Route::get('pages/restore/{id}', 'PagesController@restore')->name('pages.restore');
