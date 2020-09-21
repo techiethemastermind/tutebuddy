@@ -180,19 +180,25 @@ class MessagesController extends Controller
 
     public function lastMessages(Request $request) {
 
-        $user_id = auth()->user()->id;
+        $userId = auth()->user()->id;
         $partner = User::find($request->partner);
-        $messages = auth()->user()->userUnreadMessages;
+        $thread = Thread::find($request->thread);
 
-        $threads = Thread::forUserWithNewMessages($user_id)->latest('updated_at')->get();
+        try {
+            $participant = $thread->getParticipantFromUser($userId);
+        } catch (ModelNotFoundException $e) {
+            return collect();
+        }
+
+        $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
+        $thread->markAsRead($userId);
+
         $view = '';
-        foreach($threads as $thread) {
-            if($thread->id == $request->thread) {
-                $thread->markAsRead($user_id);
 
-                foreach($thread->messages as $message) {
-                    $view .= view('backend.messages.parts.ele-left', ['message' => $message, 'partner' => $partner])->render();
-                }
+        foreach($messages as $message) {
+            if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
+
+                $view .= view('backend.messages.parts.ele-left', ['partner' => $partner, 'message' => $message]);
             }
         }
 

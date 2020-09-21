@@ -60,9 +60,6 @@
                             </div>
                         </div>
                     </form>
-                    <div class="">
-                        <button id="stop" class="btn btn-primary">Stop</button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -248,10 +245,6 @@ $(function() {
         });
     }
 
-    $('#stop').on('click', function(e) {
-        clearInterval(x);
-    });
-
     var x = setInterval(function() {
 
         if(partner_id != '' && thread_id != '') {
@@ -262,7 +255,7 @@ $(function() {
                 success: function(res) {
 
                     if (res.success) {
-                        $(res.html).hide().appendTo('#messages_content').toggle(500);
+                        $(res.html).hide().appendTo('#messages_content ul').toggle(500);
                     }
                 },
                 error: function(err) {
@@ -273,29 +266,6 @@ $(function() {
         }
 
     }, 3000);
-
-
-    // setTimeout(() => {
-
-    //     if(partner_id != '' && thread_id != '') {
-            
-    //         $.ajax({
-    //             method: 'GET',
-    //             url: "/dashboard/messages/last?partner=" + partner_id + "&thread=" + thread_id,
-    //             success: function(res) {
-
-    //                 if (res.success) {
-    //                     $(res.html).hide().appendTo('#messages_content').toggle(500);
-    //                 }
-    //             },
-    //             error: function(err) {
-    //                 var errMsg = getErrorMessage(err);
-    //                 console.log(errMsg);
-    //             }
-    //         });
-    //     }
-
-    // }, 3000);
 
 });
 </script>
