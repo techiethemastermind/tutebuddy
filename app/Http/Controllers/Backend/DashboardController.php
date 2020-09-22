@@ -17,6 +17,7 @@ use App\Models\Assignment;
 use App\Models\Bundle;
 use App\Models\AssignmentResult;
 use App\Models\TestResultAnswers;
+use App\Models\Discussion;
 
 class DashboardController extends Controller
 {
@@ -89,7 +90,7 @@ class DashboardController extends Controller
                 $assignments = Assignment::whereIn('lesson_id', $lessons_id)->orderBy('created_at', 'desc')->limit(5)->get();
                 $teachers = User::whereIn('id', $teachers_id)->limit(5)->get();
                 $testResults = TestResults::where('user_id', auth()->user()->id)->limit(4)->get();
-
+                $discussions = Discussion::orderBy('created_at', 'desc')->limit(5)->get();
                 return view('backend.dashboard.student',
                     compact(
                         'purchased_courses',
@@ -97,7 +98,8 @@ class DashboardController extends Controller
                         'bundles',
                         'assignments',
                         'teachers',
-                        'testResults'
+                        'testResults',
+                        'discussions'
                     )
                 );
 

@@ -1,4 +1,4 @@
-    <div class="js-fix-footer2 bg-white border-top-2">
+    <div class="js-fix-footer2 bg-white border-top-2 position-relative">
         <div class="container page__container page-section d-flex flex-column">
             <div class="row pb-16pt mb-16pt border-bottom-2">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
