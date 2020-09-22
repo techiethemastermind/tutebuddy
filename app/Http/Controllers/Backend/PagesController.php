@@ -114,6 +114,7 @@ class PagesController extends Controller
 
                 $image_url = $this->saveImage($image_file, 'upload', true);
                 $page->image = $image_url;
+                $page->save();
             }
         } catch (Exception $e) {
             $error = $e->getMessage();

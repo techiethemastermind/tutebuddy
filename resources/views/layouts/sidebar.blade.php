@@ -155,7 +155,7 @@
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#learn_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
-                        Browser
+                        Browse
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
 
