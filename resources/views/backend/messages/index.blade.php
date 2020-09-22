@@ -20,6 +20,10 @@
 [dir=ltr] #messages_content .message.right .message__body {
     margin-left: auto;
 }
+[dir=ltr] #messages_content {
+    height: 600px;
+    overflow: auto;
+}
 </style>
 @endpush
 
@@ -30,7 +34,7 @@
         class="mdk-drawer-layout js-mdk-drawer-layout">
         <div class="mdk-drawer-layout__content" data-perfect-scrollbar>
 
-            <div class="app-messages__container d-flex flex-column h-100 pb-4" style="min-height: 600px;">
+            <div class="app-messages__container d-flex flex-column h-100 pb-4">
                 
                 <div class="flex pt-4" style="position: relative;" data-perfect-scrollbar>
                     <div class="container page__container page__container" id="messages_content">
@@ -108,11 +112,11 @@
                             <ul id="recent_chats" class="list-group list-group-flush mb-3">
 
                             @if($threads->count() > 0)
-                                @foreach($partners as $key=>$item)
+                                @foreach($partners as $contact)
 
-                                @php $contact_user = Auth::user()->where('id', $key)->first(); @endphp
+                                @php $contact_user = Auth::user()->where('id', $contact['partner_id'])->first(); @endphp
 
-                                <li class="list-group-item px-3 py-12pt bg-light" data-id="{{ $key }}" data-thread="{{ $item->id }}">
+                                <li class="list-group-item px-3 py-12pt bg-light" data-id="{{ $contact['partner_id'] }}" data-thread="{{ $contact['thread']->id }}">
                                     <a href="javascript:void(0)" class="d-flex align-items-center position-relative">
                                         <span class="avatar avatar-xs avatar-online mr-3 flex-shrink-0">
                                             
@@ -125,6 +129,9 @@
                                         </span>
                                         <span class="flex d-flex flex-column" style="max-width: 175px;">
                                             <strong class="text-body">{{ $contact_user->name }}</strong>
+                                            @if($contact['unread'] > 0)
+                                            <span class="badge badge-notifications badge-accent" style="position: absolute; right: 0;">{{ $contact['unread'] }}</span>
+                                            @endif
                                             <span class="text-muted text-ellipsis">
                                                 {{ $contact_user->headline }}
                                             </span>
@@ -179,8 +186,8 @@ $(function() {
                     if(res.action == 'send') {
                         thread_id = res.thread_id;
                     }
-                    console.log(res);
                     $(res.html).hide().appendTo('#messages_content ul').toggle(500);
+                    updateScroll();
                     $('input[name="message"]').val('');
                 }
             }
@@ -236,6 +243,7 @@ $(function() {
                 if (res.success) {
                     $('#messages_content').html('');
                     $(res.html).hide().appendTo('#messages_content').toggle(500);
+                    updateScroll();
                 }
             },
             error: function(err) {
@@ -256,6 +264,7 @@ $(function() {
 
                     if (res.success) {
                         $(res.html).hide().appendTo('#messages_content ul').toggle(500);
+                        updateScroll();
                     }
                 },
                 error: function(err) {
@@ -266,6 +275,13 @@ $(function() {
         }
 
     }, 3000);
+
+    function updateScroll() {
+        setTimeout(() => {
+            var element = document.getElementById("messages_content");
+            element.scrollTop = element.scrollHeight;
+        }, 500);
+    }
 
 });
 </script>

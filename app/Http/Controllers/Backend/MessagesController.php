@@ -17,13 +17,20 @@ class MessagesController extends Controller
     public function index(Request $request) {
 
         $user_id = auth()->user()->id;
-        $threads = Thread::forUser($user_id)->latest('updated_at')->get();
+        $threads = Thread::latest('updated_at')->get();
+
         $partners = [];
 
         foreach($threads as $thread) {
             $partner = $thread->participants->where('user_id', '!=', $user_id)->first();
-            if(isset($partner)){
-                $partners += [$partner->user_id => $thread];
+            $unread_count = $this->getUnreadMessagesCount($thread);
+            if(isset($partner)) {
+                $item = [
+                    'partner_id' => $partner->user_id,
+                    'thread' => $thread,
+                    'unread' => $unread_count
+                ];
+                array_push($partners, $item);
             }
         }
 
@@ -197,7 +204,6 @@ class MessagesController extends Controller
 
         foreach($messages as $message) {
             if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
-
                 $view .= view('backend.messages.parts.ele-left', ['partner' => $partner, 'message' => $message]);
             }
         }
@@ -209,20 +215,16 @@ class MessagesController extends Controller
         ]);
     }
 
-    public function getUnreadMessages() {
-        $unreadMessageCount = auth()->user()->unreadMessagesCount;
-        $unreadThreads = [];
-        foreach(auth()->user()->threads as $item){
-            if($item->unreadMessagesCount > 0){
-                $data = [
-                  'thread_id' => $item->id,
-                  'message' => str_limit($item->lastMessage->body, 35),
-                  'unreadMessagesCount' => $item->unreadMessagesCount,
-                  'title' => $item->title
-                ];
-                $unreadThreads[] = $data;
+    function getUnreadMessagesCount($thread) {
+        $userId = auth()->user()->id;
+        $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
+        $participant = $thread->getParticipantFromUser($userId);
+        $count = 0;
+        foreach($messages as $message) {
+            if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
+                $count++;
             }
         }
-        return ['unreadMessageCount' =>$unreadMessageCount,'threads' => $unreadThreads];
+        return $count;
     }
 }

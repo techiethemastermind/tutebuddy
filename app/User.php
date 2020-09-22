@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Cmgmyr\Messenger\Traits\Messagable;
+use Cmgmyr\Messenger\Models\Thread;
 
 use Illuminate\Support\Facades\DB;
 
@@ -95,5 +96,38 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->morphMany(Models\Review::class, 'reviewable');
+    }
+
+    public function notify_message()
+    {
+        $userId = $this->id;
+        $threads = Thread::latest('updated_at')->get();
+
+        $partners = [];
+
+        foreach($threads as $thread) {
+            $partner = $thread->participants->where('user_id', '!=', $userId)->first();
+            $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
+            $participant = $thread->getParticipantFromUser($userId);
+            $count = 0;
+            $msg = '';
+            foreach($messages as $message) {
+                if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
+                    $count++;
+                }
+                $msg = $message;
+            }
+
+            if(isset($partner) && $count > 0) {
+                $item = [
+                    'partner_id' => $partner->user_id,
+                    'unread' => $count,
+                    'msg' => $msg
+                ];
+                array_push($partners, $item);
+            }
+        }
+
+        return $partners;
     }
 }

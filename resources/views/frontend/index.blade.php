@@ -872,7 +872,7 @@ $(function() {
         search_ele = $(this).closest('.search-form');
         var key = $(this).val();
         if (e.which == 13) {
-            location.href = '{{ config("app.url") }}' + 'search?_q=' + key;
+            location.href = '{{ config("app.url") }}' + 'search/courses?_q=' + key;
         } else {
             if (key.length > 1) {
                 send_ajax(key);

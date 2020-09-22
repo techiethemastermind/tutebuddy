@@ -190,12 +190,18 @@ div.dataTables_wrapper div.dataTables_paginate {
     outline: none;
 }
 
-[dir=ltr] .nav-cart .badge-notifications {
+[dir=ltr] .nav-cart .badge-notificationss{
     position: relative;
     display: block;
     margin-left: -.5rem;
 }
-
+[dir=ltr] .dropdown-notifications .badge-notifications{
+    margin-left: -0.5rem;
+    margin-top: -1rem;
+    height: 12px;
+    width: 12px;
+    padding: 0;
+}
 /** Full Calendar **/
 [dir=ltr] .fc .fc-timegrid-slot {
     height: 2.0em;
