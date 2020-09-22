@@ -11,7 +11,7 @@ class PageController extends Controller
     public function getPage($slug)
     {
         $page = Page::where('slug', $slug)->first();
-        $recents = Page::orderBy('created_at', 'desc')->limit(5)->get();
+        $recents = Page::orderBy('created_at', 'desc')->limit(4)->get();
         return view('frontend.page.single', compact('page', 'recents'));
     }
 }

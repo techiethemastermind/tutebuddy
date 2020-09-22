@@ -50,28 +50,49 @@
                 </div>
 
                 <div class="col-lg-4">
+
                     <div class="page-separator">
-                        <div class="page-separator__text">Recommended</div>
+                        <div class="page-separator__text">Other Pages</div>
                     </div>
 
-                    @foreach($recents as $recent)
-                    <div class="mb-8pt d-flex align-items-center">
-                        <a href="{{ route('page.show', $recent->slug) }}" class="avatar avatar-lg overlay overlay--primary mr-12pt">
-                            @if(!empty($recent->image))
-                            <img src="{{ asset('/storage/uploads/' . $recent->image) }}" alt="{{ asset('/storage/uploads/' . $recent->image) }}" class="avatar-img rounded">
-                            @else
-                            <span class="avatar-title rounded bg-primary text-white">{{ substr($recent->title, 0, 2) }}</span>
-                            @endif
-                            <span class="overlay__content"></span>
-                        </a>
-                        <div class="flex">
-                            <a class="card-title mb-4pt" href="fixed-blog-post.html">{{ $recent->title }}</a>
-                            <div class="d-flex align-items-center">
-                                <small class="text-muted">{{ \Carbon\Carbon::parse($recent->created_at)->format('h:i A | M d Y') }}</small>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+                    <ul class="footer-menu">
+                        <li class="footer-menu-item">
+                            <a href="#" >About Us</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Support</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >FAQs</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Contact Us</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="/page/how-it-works" >How It Works</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Teach on TuteBuddy</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Solutions for Business</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Solutions for Institutions</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="/page/terms-and-conditions" >Terms of Service</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="/page/privacy-policy" >Privacy Policy</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Cookies</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="#" >Student Safety</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
 

@@ -1,6 +1,9 @@
 /**
     Custom CSS for APP
 */
+[dir=ltr] body {
+    font-size: 1rem;
+}
 [dir=ltr] .mdk-drawer {
     z-index: 3;
 }
