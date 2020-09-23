@@ -81,7 +81,26 @@
 
             <div class="nav navbar-nav flex-nowrap d-flex mr-16pt">
 
-                
+                <!-- Notifications dropdown -->
+                @if(count(auth()->user()->notify_message()) > 0)
+                <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full">
+                    <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
+                        <i class="material-icons icon-24pt">mail_outline</i>
+                        <span class="badge badge-notifications badge-accent"></span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div data-perfect-scrollbar class="position-relative">
+                            <div class="dropdown-header"><strong>Messages</strong></div>
+                            <div class="list-group list-group-flush mb-0">
+
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+                <!-- // END Notifications dropdown -->
 
                 <!-- Mini card -->
 
