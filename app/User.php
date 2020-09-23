@@ -6,7 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Cmgmyr\Messenger\Traits\Messagable;
+
+use Carbon\Carbon;
+use Cmgmyr\Messenger\Models\Message;
+use Cmgmyr\Messenger\Models\Participant;
+use Cmgmyr\Messenger\Models\Thread;
 
 use Illuminate\Support\Facades\DB;
 
@@ -14,7 +18,6 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
-    use Messagable;
 
     /**
      * The attributes that are mass assignable.
@@ -99,6 +102,37 @@ class User extends Authenticatable
 
     public function notify_message()
     {
-        dd($this->threadsWithNewMessages());
+        $userId = $this->id;
+        $threads = Thread::latest('updated_at')->get();
+
+        $partners = [];
+
+        foreach($threads as $thread) {
+            $partner = $thread->participants->where('user_id', '!=', $userId)->first();
+            $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
+            $participant = $thread->getParticipantFromUser($userId);
+
+            $count = 0;
+            $msg = '';
+            foreach($messages as $message) {
+                if(!empty($participant->last_read)) {
+                    if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
+                        $count++;
+                    }
+                    $msg = $message;
+                }
+            }
+
+            if($count > 0) {
+                $item = [
+                    'partner_id' => $partner->user_id,
+                    'unread' => $count,
+                    'msg' => $msg
+                ];
+                array_push($partners, $item);
+            }
+        }
+
+        return $partners;
     }
 }
