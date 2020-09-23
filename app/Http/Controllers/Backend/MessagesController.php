@@ -16,25 +16,27 @@ class MessagesController extends Controller
 {
     public function index(Request $request) {
 
-        $user_id = auth()->user()->id;
-        $threads = Thread::latest('updated_at')->get();
-
+        $userId = auth()->user()->id;
+        $threads = Thread::where('subject', 'like', '%' . $userId . '%')->latest('updated_at')->get();
         $partners = [];
 
         foreach($threads as $thread) {
-            $partner = $thread->participants->where('user_id', '!=', $user_id)->first();
-            $unread_count = $this->getUnreadMessagesCount($thread);
-            if(isset($partner)) {
+            $grouped_participants = $thread->participants->where('user_id', '!=', $userId)->groupBy(function($item) {
+                return $item->user_id;
+            });
+            
+            foreach($grouped_participants as $participants) {
+                $participant = $participants[0];
+
                 $item = [
-                    'partner_id' => $partner->user_id,
-                    'thread' => $thread,
-                    'unread' => $unread_count
+                    'partner_id' => $participant->user_id,
+                    'thread' => $thread
                 ];
                 array_push($partners, $item);
             }
         }
 
-        return view('backend.messages.index', compact('threads','partners'));
+        return view('backend.messages.index', compact('threads', 'partners'));
     }
 
     public function reply(Request $request)

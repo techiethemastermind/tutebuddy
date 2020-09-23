@@ -129,11 +129,13 @@
                                         </span>
                                         <span class="flex d-flex flex-column" style="max-width: 175px;">
                                             <strong class="text-body">{{ $contact_user->name }}</strong>
-                                            @if($contact['unread'] > 0)
-                                            <span class="badge badge-notifications badge-accent" style="position: absolute; right: 0;">{{ $contact['unread'] }}</span>
+                                            @if($contact['thread']->userUnreadMessagesCount(Auth::id()) > 0)
+                                            <span class="badge badge-notifications badge-accent" style="position: absolute; right: 0;">
+                                                {{ $contact['thread']->userUnreadMessagesCount(Auth::id()) }}
+                                            </span>
                                             @endif
                                             <span class="text-muted text-ellipsis">
-                                                {{ $contact_user->headline }}
+                                                {{ $contact['thread']->latestMessage->body }}
                                             </span>
                                         </span>
                                     </a>
@@ -185,6 +187,7 @@ $(function() {
                 if(res.success) {
                     if(res.action == 'send') {
                         thread_id = res.thread_id;
+                        $('#messages_content').append($('<ul class="d-flex flex-column list-unstyled"></ul>'));
                     }
                     $(res.html).hide().appendTo('#messages_content ul').toggle(500);
                     updateScroll();
@@ -230,6 +233,9 @@ $(function() {
         // Load Message
         if(partner_id != '' && partner_id != old_partner ) {
             loadMessage(partner_id, thread_id);
+            setTimeout(() => {
+                $(this).find('.badge-notifications').hide();
+            }, 1000);
         }
     });
 

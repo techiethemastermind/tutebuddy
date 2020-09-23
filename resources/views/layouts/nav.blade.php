@@ -95,7 +95,7 @@
 
                                 @foreach(auth()->user()->notify_message() as $notify)
                                 @php $partner_user = Auth::user()->where('id', $notify['partner_id'])->first(); @endphp
-                                <a href="javascript:void(0);"
+                                <a href="{{ route('admin.messages.index') }}"
                                     class="list-group-item list-group-item-action unread">
                                     <span class="d-flex align-items-center mb-1">
                                         <small class="text-black-50">{{ \Carbon\Carbon::parse($notify['msg']->created_at)->format('h:i A | M d Y') }}</small>

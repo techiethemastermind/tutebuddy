@@ -109,32 +109,19 @@ class User extends Authenticatable
 
         foreach($threads as $thread) {
 
-            $grouped_participants = $thread->participants->where('user_id', '!=', $userId)->groupBy(function($item) {
-                return $item->user_id;
-            });
+            if($thread->userUnreadMessagesCount($userId) > 0) {
 
-            $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
+                $grouped_participants = $thread->participants->where('user_id', '!=', $userId)->groupBy(function($item) {
+                    return $item->user_id;
+                });
 
-            foreach($grouped_participants as $participants) {
-                $partner = $participants[0];
-                $count = 0;
-                $msg = '';
-                foreach($participants as $participant) {
-                    foreach($messages as $message) {
-                        if(!empty($participant->last_read)) {
-                            if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
-                                $count++;
-                            }
-                            $msg = $message;
-                        }
-                    }
-                }
+                foreach($grouped_participants as $participants) {
+                    $participant = $participants[0];
 
-                if($count > 0) {
                     $item = [
-                        'partner_id' => $partner->user_id,
-                        'unread' => $count,
-                        'msg' => $msg
+                        'partner_id' => $participant->user_id,
+                        'unread' => $thread->userUnreadMessagesCount($userId),
+                        'msg' => $thread->latestMessage
                     ];
                     array_push($partners, $item);
                 }
