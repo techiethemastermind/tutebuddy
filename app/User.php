@@ -103,12 +103,11 @@ class User extends Authenticatable
         $userId = $this->id;
         $threads = Thread::latest('updated_at')->get();
 
-        dd($threads);
-
         $partners = [];
 
         foreach($threads as $thread) {
             $partner = $thread->participants->where('user_id', '!=', $userId)->first();
+            dd($partner);
             $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
             $participant = $thread->getParticipantFromUser($userId);
             $count = 0;
