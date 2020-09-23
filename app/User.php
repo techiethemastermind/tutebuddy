@@ -103,6 +103,8 @@ class User extends Authenticatable
         $userId = $this->id;
         $threads = Thread::latest('updated_at')->get();
 
+        dd($thread);
+
         $partners = [];
 
         foreach($threads as $thread) {
