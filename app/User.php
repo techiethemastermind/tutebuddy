@@ -112,10 +112,12 @@ class User extends Authenticatable
             $count = 0;
             $msg = '';
             foreach($messages as $message) {
-                if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
-                    $count++;
+                if(!empty($participant->last_read)) {
+                    if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
+                        $count++;
+                    }
+                    $msg = $message;
                 }
-                $msg = $message;
             }
 
             if(isset($partner) && $count > 0) {
