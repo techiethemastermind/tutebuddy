@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Cmgmyr\Messenger\Traits\Messagable;
 use Cmgmyr\Messenger\Models\Thread;
+use Cmgmyr\Messenger\Models\Participant;
 
 use Illuminate\Support\Facades\DB;
 
@@ -109,7 +110,6 @@ class User extends Authenticatable
             $partner = $thread->participants->where('user_id', '!=', $userId)->first();
             $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
             $participant = $thread->getParticipantFromUser($userId);
-            dd($participant);
             $count = 0;
             $msg = '';
             foreach($messages as $message) {
