@@ -81,48 +81,7 @@
 
             <div class="nav navbar-nav flex-nowrap d-flex mr-16pt">
 
-                <!-- Notifications dropdown -->
-                @if(count(auth()->user()->notify_message()) > 0)
-                <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full">
-                    <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
-                        <i class="material-icons icon-24pt">mail_outline</i>
-                        <span class="badge badge-notifications badge-accent"></span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div data-perfect-scrollbar class="position-relative">
-                            <div class="dropdown-header"><strong>Messages</strong></div>
-                            <div class="list-group list-group-flush mb-0">
-
-                                @foreach(auth()->user()->notify_message() as $notify)
-                                @php $partner_user = Auth::user()->where('id', $notify['partner_id'])->first(); @endphp
-                                <a href="javascript:void(0);"
-                                    class="list-group-item list-group-item-action unread">
-                                    <span class="d-flex align-items-center mb-1">
-                                        <small class="text-black-50">{{ \Carbon\Carbon::parse($notify['msg']->created_at)->format('h:i A | M d Y') }}</small>
-                                        <span class="ml-auto unread-indicator bg-accent"></span>
-                                    </span>
-                                    <span class="d-flex">
-                                        <span class="avatar avatar-xs mr-2">
-                                            @if(!empty($partner_user->avatar))
-                                            <img src="{{ asset('/storage/avatars/' . $partner_user->avatar) }}" alt="" class="avatar-img rounded-circle">
-                                            @else
-                                            <span class="avatar-title rounded-circle">{{ substr($partner_user->avatar, 0, 2) }}</span>
-                                            @endif
-                                        </span>
-                                        <span class="flex d-flex flex-column">
-                                            <strong class="text-black-100">{{ $partner_user->name }}</strong>
-                                            <span class="text-black-70">{{ $notify['msg']->body }}</span>
-                                        </span>
-                                    </span>
-                                </a>
-                                @endforeach
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-                <!-- // END Notifications dropdown -->
+                
 
                 <!-- Mini card -->
 

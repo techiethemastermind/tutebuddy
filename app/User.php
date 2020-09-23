@@ -109,7 +109,6 @@ class User extends Authenticatable
             $partner = $thread->participants->where('user_id', '!=', $userId)->first();
             $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
             $participant = $thread->getParticipantFromUser($userId);
-            dd($participant);
             $count = 0;
             $msg = '';
             foreach($messages as $message) {
