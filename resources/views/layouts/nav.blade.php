@@ -82,12 +82,15 @@
             <div class="nav navbar-nav flex-nowrap d-flex mr-16pt">
 
                 <!-- Notifications dropdown -->
-                @if(count(auth()->user()->notify_message()) > 0)
+                
                 <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full">
                     <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
                         <i class="material-icons icon-24pt">mail_outline</i>
+                        @if(count(auth()->user()->notify_message()) > 0)
                         <span class="badge badge-notifications badge-accent"></span>
+                        @endif
                     </button>
+                    @if(count(auth()->user()->notify_message()) > 0)
                     <div class="dropdown-menu dropdown-menu-right">
                         <div data-perfect-scrollbar class="position-relative">
                             <div class="dropdown-header"><strong>Messages</strong></div>
@@ -120,15 +123,15 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
-                @endif
                 <!-- // END Notifications dropdown -->
 
                 <!-- Mini card -->
 
                 <div class="nav-item ml-16pt nav-cart">
                     <a href="{{ route('cart.index') }}" class="nav-link btn-flush" type="button">
-                        <i class="material-icons">shopping_basket</i>
+                        <i class="material-icons">add_shopping_cart</i>
                         @if(auth()->check() && Cart::session(auth()->user()->id)->getTotalQuantity() != 0)
                             <span class="badge badge-notifications badge-accent">
                                 {{Cart::session(auth()->user()->id)->getTotalQuantity()}}
