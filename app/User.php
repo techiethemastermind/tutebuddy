@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-use Carbon\Carbon;
+use Cmgmyr\Messenger\Traits\Messagable;
 use Cmgmyr\Messenger\Models\Message;
 use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
@@ -18,6 +18,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+    use Messagable;
 
     /**
      * The attributes that are mass assignable.
@@ -103,33 +104,40 @@ class User extends Authenticatable
     public function notify_message()
     {
         $userId = $this->id;
-        $threads = Thread::latest('updated_at')->get();
-
+        $threads = Thread::where('subject', 'like', '%' . $userId . '%')->latest('updated_at')->get();
         $partners = [];
 
         foreach($threads as $thread) {
-            $partner = $thread->participants->where('user_id', '!=', $userId)->first();
+
+            $grouped_participants = $thread->participants->where('user_id', '!=', $userId)->groupBy(function($item) {
+                return $item->user_id;
+            });
+
             $messages = $thread->messages()->where('user_id', '!=', $userId)->get();
-            $participant = $thread->participants()->where('user_id', $userId)->firstOrFail();
 
-            $count = 0;
-            $msg = '';
-            foreach($messages as $message) {
-                if(!empty($participant->last_read)) {
-                    if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
-                        $count++;
+            foreach($grouped_participants as $participants) {
+                $partner = $participants[0];
+                $count = 0;
+                $msg = '';
+                foreach($participants as $participant) {
+                    foreach($messages as $message) {
+                        if(!empty($participant->last_read)) {
+                            if($message->updated_at->gt($participant->last_read->toDateTimeString())) {
+                                $count++;
+                            }
+                            $msg = $message;
+                        }
                     }
-                    $msg = $message;
                 }
-            }
 
-            if($count > 0) {
-                $item = [
-                    'partner_id' => $partner->user_id,
-                    'unread' => $count,
-                    'msg' => $msg
-                ];
-                array_push($partners, $item);
+                if($count > 0) {
+                    $item = [
+                        'partner_id' => $partner->user_id,
+                        'unread' => $count,
+                        'msg' => $msg
+                    ];
+                    array_push($partners, $item);
+                }
             }
         }
 
