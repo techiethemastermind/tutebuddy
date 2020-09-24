@@ -78,7 +78,7 @@
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="@lang('labels.backend.courses.fields.title')" value="">
+                            placeholder="@lang('labels.backend.courses.fields.title')" value="" required>
                         @error('title')
                         <div class="invalid-feedback">Title is required field.</div>
                         @enderror
@@ -180,26 +180,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-body">
-
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input id="chk_private" type="checkbox" checked="" class="custom-control-input">
-                                    <label for="chk_private" class="custom-control-label form-label">Private Course</label>
-                                </div>
-                            </div>
-
-                            <!-- Set Price -->
-                            <div class="form-group" for="chk_private">
-                                <div class="input-group form-inline">
-                                    <span class="input-group-prepend"><span
-                                            class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="private_price" class="form-control" value="" placeholder="24.00">
-                                </div>
-                                <small class="form-text text-muted">Price for Private course.</small>
-                            </div>
-
-                            <div class="page-separator"></div>
+                        <div class="card-body options">
 
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
@@ -214,7 +195,7 @@
                                     <div class="col-md-6 pr-1">
                                         <label class="form-label">Min Students:</label>
                                         <input type="number" name="min" class="form-control" min="1" value=""
-                                            placeholder="5">
+                                            placeholder="5" required>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <label class="form-label">Max Students:</label>
@@ -231,10 +212,30 @@
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">Price($)</span></span>
                                     <input type="text" name="group_price" class="form-control" placeholder="5.00"
-                                        value="">
+                                        value="" required>
                                 </div>
                                 <small class="form-text text-muted">Price for Group course.</small>
                             </div>
+
+                            <div class="page-separator"></div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="chk_private" type="checkbox" class="custom-control-input">
+                                    <label for="chk_private" class="custom-control-label form-label">Private Course</label>
+                                </div>
+                            </div>
+
+                            <!-- Set Price -->
+                            <div class="form-group d-none" for="chk_private">
+                                <div class="input-group form-inline">
+                                    <span class="input-group-prepend"><span
+                                            class="input-group-text form-label">Price($)</span></span>
+                                    <input type="text" name="private_price" class="form-control" value="" placeholder="24.00" required>
+                                </div>
+                                <small class="form-text text-muted">Price for Private course.</small>
+                            </div>
+
                         </div>
                     </div>
 
@@ -522,6 +523,17 @@ $(document).ready(function() {
                 console.log(errMsg);
             }
         });
+    });
+
+    // Prices
+    $('.options').on('change', 'input[type="checkbox"]', function(e) {
+        if($(this).prop('checked')) {
+            $('.options').find('div[for="' + $(this).attr('id') + '"]').removeClass('d-none');
+            $('.options').find('input').attr('required', 'required');
+        } else {
+            $('.options').find('div[for="' + $(this).attr('id') + '"]').addClass('d-none');
+            $('.options').find('input').removeAttr('required');
+        }
     });
 
     // Blob image for Course image
