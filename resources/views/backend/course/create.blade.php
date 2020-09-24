@@ -354,7 +354,7 @@
                                 <label class="form-label">Title:</label>
                                 <input type="text" name="lesson_title"
                                     class="form-control form-control-lg @error('lesson_title') is-invalid @enderror"
-                                    placeholder="@lang('labels.backend.courses.fields.title')" value="">
+                                    placeholder="@lang('labels.backend.courses.fields.title')" value="" required>
                                 @error('lesson_title')
                                 <div class="invalid-feedback">Title is required field.</div>
                                 @enderror
@@ -783,7 +783,16 @@ $(document).ready(function() {
     });
 
     // Event when click save course button id="btn_save_course"
-    $('#frm_course').submit(function() {
+    $('#frm_course').submit(function(e) {
+        var title = $(this).find('input[name="title"]');
+        if (title.val() == '') { // If title is empty then display Error msg
+            title.addClass('is-invalid');
+            var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
+            err_msg.insertAfter(title);
+            title.focus();
+            return false;
+        }
+
         var course_description = JSON.stringify(course_quill.getContents().ops);
         var input_description = $("<input>").attr("type", "hidden")
                .attr("name", "course_description").val(course_description);

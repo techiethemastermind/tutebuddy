@@ -24,6 +24,7 @@ class CoursesController extends Controller
     public function show ($slug)
     {
         $course = Course::where('slug', $slug)->first();
+        $is_mine = empty(DB::table('course_user')->where('course_id', $course->id)->where('user_id', auth()->user()->id)->first()) ? false : true;
 
         $course_rating = 0;
         $total_ratings = 0;
@@ -37,7 +38,7 @@ class CoursesController extends Controller
             $is_reviewed = true;
         }
 
-        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed'));
+        return view('frontend.course.course', compact('course', 'course_rating', 'total_ratings', 'is_reviewed', 'is_mine'));
     }
 
     public function addReview(Request $request, $id) {

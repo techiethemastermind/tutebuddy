@@ -69,9 +69,11 @@
 
     <div class="page-section border-bottom-2">
         <div class="container page__container">
+            @if($courses->count() > 0)
             <div class="card p-4">
                 <div id='calendar'></div>
             </div>
+            @endif
         </div>
     </div>
 </div>
@@ -280,6 +282,25 @@ $(document).ready(function() {
     var schedule_startStr, schedule_endStr, schedule_startTime, schedule_endTime, schedule_id;
 
     var schedule_data = $('#schedule_data').val();
+
+    if({{ $courses->count() }} < 1) {
+        swal({
+            title: "You have no courses",
+            text: "Please add a course to schedule first",
+            type: 'info',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
+        }, function (val) {
+            if(val) {
+                location.href = '/dashboard/courses/create';
+            } else {
+                location.href = '/dashboard';
+            }
+        });
+    }
 
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {

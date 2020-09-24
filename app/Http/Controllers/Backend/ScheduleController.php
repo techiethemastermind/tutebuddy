@@ -16,7 +16,7 @@ use App\Services\ColorService;
 class ScheduleController extends Controller
 {
     public function index() {
-        $courses = Course::all();
+        $courses = Course::where('published', 1)->get();
         return view('backend.schedule.index', compact('courses'));
     }
 

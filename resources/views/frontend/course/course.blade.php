@@ -77,8 +77,10 @@
                     <p class="lead text-white-50 measure-hero-lead mb-24pt">{{ $course->short_description }}</p>
 
                     @if(auth()->check())
+                    @if(!$is_mine)
                     <a href="#" class="btn btn-outline-white mr-12pt"><i
                             class="material-icons icon--left">favorite_border</i> Add Wishlist</a>
+                    @endif
                     <a href="#" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i>
                         Share</a>
                     @endif
@@ -187,8 +189,7 @@
                     @if(isset($course->mediaVideo))
 
                     <div class="mb-32pt">
-                        <div class="js-player bg-primary embed-responsive embed-responsive-16by9"
-                            data-domfactory-upgraded="player">
+                        <div class="bg-primary embed-responsive embed-responsive-16by9" data-domfactory-upgraded="player">
                             <div class="player embed-responsive-item">
                                 <div class="player__content">
                                     <div class="player__image"
@@ -670,7 +671,7 @@
         </div>
     </div>
 
-    @if(auth()->check())
+    @if(auth()->check() && auth()->user()->hasRole('Student'))
     <div id="review_section"
         class="page-section border-bottom-2 bg-alt @if($course->isReviewed() == true) d-none @endif">
 

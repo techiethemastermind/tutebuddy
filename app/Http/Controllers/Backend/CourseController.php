@@ -510,16 +510,16 @@ class CourseController extends Controller
                     data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
             }
 
-            if($course->trashed()) {
-                $restore_route = route('admin.courses.restore', $course->id);
-                $btn_delete = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
-                    data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
-            }
-
             if(auth()->user()->hasRole('Administrator')) {
                 $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
             } else {
                 $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+            }
+
+            if($course->trashed()) {
+                $restore_route = route('admin.courses.restore', $course->id);
+                $temp['action'] = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
+                    data-original-title="Restore to Review"><i class="material-icons">arrow_back</i></a>';
             }
 
             array_push($data, $temp);

@@ -177,7 +177,7 @@
             <!-- Enrolled Students -->
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>Students Roaster (Enrolled Students)</strong></p>
+                    <p class="page-separator__text bg-white mb-0"><strong>Students Roster (Enrolled Students)</strong></p>
                     <a href="#" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time">
