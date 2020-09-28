@@ -122,3 +122,8 @@ Route::resource('pages', 'PagesController');
 Route::get('ajax/pages/list/{type}', 'PagesController@getList')->name('getPagesByAjax');
 Route::get('ajax/pages/publish/{id}', 'PagesController@publish')->name('pages.publish');
 Route::get('pages/restore/{id}', 'PagesController@restore')->name('pages.restore');
+
+// Email Tempate
+Route::resource('mailedits', 'EmailtemplateController');
+Route::get('ajax/mailedits', 'EmailtemplateController@getListByAjax')->name('table.getTemplatesByAjax');
+Route::get('ajax/send', 'EmailtemplateController@sendTestEmail')->name('ajax.sendTestEmail');

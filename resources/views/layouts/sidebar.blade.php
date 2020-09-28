@@ -306,6 +306,12 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/mailedits*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.mailedits.index') }}">
+                                <span class="sidebar-menu-text">Email Template</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-menu-item {{ Request::is('dashboard/lang*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="">
                                 <span class="sidebar-menu-text">Language</span>

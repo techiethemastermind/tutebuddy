@@ -114,7 +114,6 @@ return [
 
     'markdown' => [
         'theme' => 'default',
-
         'paths' => [
             resource_path('views/vendor/mail'),
         ],
@@ -132,5 +131,11 @@ return [
     */
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
+
+    'email_types' => [
+        'register_verify' => 'Verify Email (Register)',
+        'contact' => 'Contact Us Email',
+        'order' => 'New Order Email'
+    ]
 
 ];
