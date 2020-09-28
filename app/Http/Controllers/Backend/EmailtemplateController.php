@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
 use Mail;
 use App\Mail\SendMail;
+use App\Http\Controllers\Traits\FileUploadTrait;
 
 class EmailtemplateController extends Controller
 {
+    use FileUploadTrait;
+    
     public function index()
     {
         return view('backend.templates.index');
