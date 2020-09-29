@@ -133,6 +133,12 @@
                                 <select name="lesson_id" class="form-control form-label"></select>
                             </div>
 
+                            <!-- Set Duration -->
+                            <div class="form-group">
+                                <label class="form-label">Due Date</label>
+                                <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
+                            </div>
+
                             <!-- Total Mark -->
                             <div class="form-group">
                                 <label class="form-label">Total Marks</label>

@@ -11,6 +11,7 @@ use App\Models\Lesson;
 
 use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 class AssignmentsController extends Controller
 {
@@ -53,7 +54,6 @@ class AssignmentsController extends Controller
         ]);
 
         $data = $request->all();
-
         $assignment = Assignment::create($data);
 
         // Attachment
@@ -333,4 +333,92 @@ class AssignmentsController extends Controller
         return $data;
     }
 
+    // Student Dashboard
+    public function studentAssignments()
+    {
+        // Get purchased Course IDs
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+        $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
+
+        $count = [
+            'all' => Assignment::whereIn('lesson_id', $lesson_ids)->count(),
+            'deleted' => Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+        ];
+
+        return view('backend.assignments.student', compact('count'));
+    }
+
+    public function getStudentAssignmentsByAjax($type)
+    {
+        // Get purchased Course IDs
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+
+        switch($type) {
+
+            case 'all':
+                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
+            break;
+
+            case 'deleted':
+                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->get();
+            break;
+
+        }
+
+        $data = $this->getStudentData($assignments);
+
+        $count = [
+            'all' => Assignment::whereIn('lesson_id', $lesson_ids)->count(),
+            'deleted' => Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+    }
+
+    public function getStudentData($assignments)
+    {
+        $data = [];
+        foreach($assignments as $item) {
+            $lesson = Lesson::find($item->lesson->id);
+            $course = $lesson->course;
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                    </div>';
+            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded bg-primary text-white">'. substr($item->title, 0, 2) .'</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex flex-column">
+                                        <small class="js-lists-values-project">
+                                            <strong>'. $item->title .'</strong></small>
+                                        <small class="text-70">
+                                            Course: '. $item->lesson->course->title .' |
+                                            Lesson: '. $item->lesson->title .'
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>';
+
+            $temp['due'] = '<strong>' . $item->due_date . '</strong>';
+            $temp['mark'] = '<strong>' . $item->total_mark . '</strong>';
+
+            $show_route = route('lesson.assignment', $item->id);
+            $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">View</a>';
+
+            $temp['action'] = $btn_show . '&nbsp;';
+
+            array_push($data, $temp);
+        }
+
+        return $data;
+    }
 }

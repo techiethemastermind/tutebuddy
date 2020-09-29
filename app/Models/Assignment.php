@@ -16,7 +16,7 @@ class Assignment extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['lesson_id', 'title', 'content', 'total_mark', 'attachment'];
+    protected $fillable = ['lesson_id', 'title', 'content', 'total_mark', 'attachment', 'due_date'];
 
     protected static function boot()
     {

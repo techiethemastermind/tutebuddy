@@ -153,13 +153,49 @@
 
                 @if(auth()->user()->hasRole('Student'))
                 <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#learn_menu">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
+                        Study
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul class="sidebar-submenu collapse sm-indent" id="study_menu" style="">
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/live*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.liveSessions') }}">
+                                <span class="sidebar-menu-text">My Live Sessions</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/course*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.courses') }}">
+                                <span class="sidebar-menu-text">My Courses</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/assignment*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.assignments') }}">
+                                <span class="sidebar-menu-text">My Assignments</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/instructor*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.instructors') }}">
+                                <span class="sidebar-menu-text">My Instructors</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#browse_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
                         Browse
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
 
-                    <ul class="sidebar-submenu collapse sm-indent" id="learn_menu" style="">
+                    <ul class="sidebar-submenu collapse sm-indent" id="browse_menu" style="">
 
                         <li class="sidebar-menu-item {{ Request::is('search/courses*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('courses.search') }}">

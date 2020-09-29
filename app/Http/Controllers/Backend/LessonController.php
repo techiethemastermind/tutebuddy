@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 
 use App\Http\Controllers\Traits\FileUploadTrait;
 
@@ -292,5 +293,127 @@ class LessonController extends Controller
         }
 
         return '';
+    }
+
+
+    // Student Dashboard
+    public function studentLiveSessions()
+    {
+        $count = $this->getCounts();
+        return view('backend.lesson.student', compact('count'));
+    }
+
+    public function getStudentLiveSessionsByAjax($type)
+    {
+        $courses_id = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+
+        if($type == 'all') {
+            $schedules = Schedule::whereIn('course_id', $courses_id)->get();
+        }
+
+        if($type == 'today') {
+            $all = Schedule::whereIn('course_id', $courses_id)->get();
+            $schedules = [];
+
+            foreach($all as $schedule) {
+                if(Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+                    array_push($schedules, $schedule);
+                }
+            }
+        }
+
+        if($type == 'deleted') {
+            $schedules = [];
+        }
+
+        $data = $this->getArrayData($schedules);
+
+        $count = $this->getCounts();
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+        
+    }
+
+    function getCounts()
+    {
+        $courses_id = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $schedules = Schedule::whereIn('course_id', $courses_id)->get();
+        $all_count = count($schedules);
+        $today_count = 0;
+        
+        foreach($schedules as $schedule) {
+            if(Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+                $today_count++;
+            }
+        }
+
+        $count = [
+            'all' => $all_count,
+            'today' => $today_count,
+            'deleted' => 0
+        ];
+
+        return $count;
+    }
+
+    function getArrayData($schedules)
+    {
+        $data = [];
+
+        foreach($schedules as $schedule) {
+
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                    </div>';
+
+            $temp['weekday'] = '<strong>' . Schedule::WEEK_DAYS[Carbon::parse($schedule->date)->dayOfWeek] . '</strong>';
+            $temp['start_time'] = '<strong>' . $schedule->start_time . '</strong>';
+            $temp['end_time'] = '<strong>' . $schedule->end_time . '</strong>';
+
+            $temp['course'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                        <div class="avatar avatar-sm mr-8pt">
+                            <span class="avatar-title rounded bg-primary text-white">'. substr($schedule->course->title, 0, 2) .'</span>
+                        </div>
+                        <div class="media-body">
+                            <div class="d-flex flex-column">
+                                <small class="js-lists-values-project">
+                                    <strong>'. $schedule->course->title .'</strong></small>
+                                <small
+                                    class="js-lists-values-location text-50">'. $schedule->course->teachers[0]->name .'</small>
+                            </div>
+                        </div>
+                    </div>';
+
+            $temp['lesson'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                        <div class="avatar avatar-sm mr-8pt">
+                            <span class="avatar-title rounded bg-accent text-white">'. substr($schedule->lesson->title, 0, 2) .'</span>
+                        </div>
+                        <div class="media-body">
+                            <div class="d-flex flex-column">
+                                <small class="js-lists-values-project">
+                                    <strong>'. $schedule->lesson->title .'</strong></small>
+                            </div>
+                        </div>
+                    </div>';
+
+            if($schedule->lesson->lesson_type == 1) {
+                $route = route('lessons.live', [$schedule->lesson->slug, $schedule->lesson->id]);
+            } else {
+                $route = route('lessons.show', [$schedule->course->slug, $schedule->lesson->slug, 1]);
+            }
+
+            $temp['action'] = '<a href="'. $route .'" target="_blank" class="btn btn-primary btn-sm">Join</a>';
+
+            array_push($data, $temp);
+
+        }
+
+        return $data;
     }
 }

@@ -15,6 +15,14 @@ Route::resource('roles','RoleController');
 
 //===== Dashboard Routes =====//
 Route::get('/', 'DashboardController@index')->name('dashboard');
+Route::get('my/live-sessions', 'LessonController@studentLiveSessions')->name('student.liveSessions');
+Route::get('ajax/live-sessions/{type}', 'LessonController@getStudentLiveSessionsByAjax')->name('student.getLiveSessionsByAjax');
+Route::get('my/courses', 'CourseController@studentCourses')->name('student.courses');
+Route::get('ajax/my-courses/{type}', 'CourseController@getStudentCoursesByAjax')->name('student.getMyCoursesByAjax');
+Route::get('my/assignments', 'AssignmentsController@studentAssignments')->name('student.assignments');
+Route::get('ajax/my-assignments/{type}', 'AssignmentsController@getStudentAssignmentsByAjax')->name('student.getMyAssignmentsByAjax');
+Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
+Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
 
 //===== Categories Routes =====//
 Route::resource('categories', 'CategoryController');

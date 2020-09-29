@@ -198,4 +198,57 @@ class UserController extends Controller
     {
         $params = $request->all();
     }
+
+    public function studentInstructors()
+    {
+        return view('backend.users.student');
+    }
+
+    public function getStudentInstructorsByAjax()
+    {
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $teacher_ids = DB::table('course_user')->whereIn('course_id', $course_ids)->pluck('user_id');
+        $teachers = User::whereIn('id', $teacher_ids)->get();
+
+        $data = [];
+        foreach($teachers as $teacher) {
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                    </div>';
+
+            if(empty($teacher->avatar)) {
+                $avatar = '<span class="avatar-title rounded-circle">'. substr($teacher->name, 0, 2) .'</span>';
+            } else {
+                $avatar = '<img src="'. asset('/storage/avatars/' . $teacher->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';
+            }
+
+            $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">'. $avatar .'</div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex d-flex flex-column">
+                                            <p class="mb-0"><strong class="js-lists-values-lead">'. $teacher->name .'</strong></p>
+                                            <small class="js-lists-values-email text-50">'. $teacher->headline .'</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+
+            $temp['email'] = '<strong>' . $teacher->email . '</strong>';
+
+            $btn_follow = '<a href="#" target="_blank" class="btn btn-primary btn-sm">Follow</a>';
+            $btn_show = '<a href="'. route('profile.show', $teacher->uuid) .'" class="btn btn-accent btn-sm">View Profile</a>';
+
+            $temp['action'] = $btn_follow . '&nbsp;' . $btn_show;
+
+            array_push($data, $temp);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
 }

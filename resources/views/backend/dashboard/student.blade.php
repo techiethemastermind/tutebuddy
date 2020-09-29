@@ -37,7 +37,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Live Lessons</strong></p>
-                    <a href="{{ route('courses.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <a href="{{ route('admin.student.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true">
@@ -144,7 +144,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Courses</strong></p>
-                    <a href="{{ route('courses.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <a href="{{ route('admin.student.courses') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
@@ -244,7 +244,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Assignments</strong></p>
-                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <a href="{{ route('admin.student.assignments') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
@@ -295,9 +295,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>due date</td>
-                                <td>{{ $assignment->total_mark }}</td>
-                                <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show', $assignment->id)])</td>
+                                <td><strong>{{ $assignment->due_date }}</strong></td>
+                                <td><strong>{{ $assignment->total_mark }}</strong></td>
+                                <td>@include('backend.buttons.show', ['show_route' => route('lesson.assignment', $assignment->id)])</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -311,7 +311,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <span class="page-separator__text bg-white mb-0"><strong>My Instructors</strong></span>  
-                    <a href="{{ route('teachers.search') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <a href="{{ route('admin.student.instructors') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
@@ -363,7 +363,7 @@
                                 <td>{{ $teacher->email }}</td>
                                 <td>
                                     <a href="" target="_blank" class="btn btn-primary btn-sm">Follow</a>
-                                    <a href="" target="_blank" class="btn btn-accent btn-sm">View Profile</a>
+                                    <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-accent btn-sm">View Profile</a>
                                 </td>
                             </tr>
                             @endforeach
@@ -553,8 +553,6 @@
 </div>
 <!-- // END Header Layout Content -->
 
-@endsection
-
 @push('after-scripts')
 
     <script src="{{ asset('assets/plugin/datatables.min.js') }}"></script>
@@ -566,3 +564,5 @@
     </script>
 
 @endpush
+
+@endsection

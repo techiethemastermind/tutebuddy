@@ -84,13 +84,13 @@ class DashboardController extends Controller
                 $teachers_id = DB::table('course_user')->whereIn('course_id', $courses_id)->pluck('user_id');
                 $bundles_id = DB::table('bundle_student')->where('user_id', auth()->user()->id)->pluck('bundle_id');
 
-                $purchased_courses = Course::whereIn('id', $courses_id)->orderBy('created_at', 'desc')->limit(5)->get();
-                $schedules = Schedule::whereIn('course_id', $courses_id)->orderBy('created_at', 'desc')->limit(5)->get();
-                $bundles = Bundle::whereIn('id', $bundles_id)->orderBy('created_at', 'desc')->limit(3)->get();
-                $assignments = Assignment::whereIn('lesson_id', $lessons_id)->orderBy('created_at', 'desc')->limit(5)->get();
+                $purchased_courses = Course::whereIn('id', $courses_id)->limit(5)->get();
+                $schedules = Schedule::whereIn('course_id', $courses_id)->limit(5)->get();
+                $bundles = Bundle::whereIn('id', $bundles_id)->limit(3)->get();
+                $assignments = Assignment::whereIn('lesson_id', $lessons_id)->limit(5)->get();
                 $teachers = User::whereIn('id', $teachers_id)->limit(5)->get();
                 $testResults = TestResults::where('user_id', auth()->user()->id)->limit(4)->get();
-                $discussions = Discussion::orderBy('created_at', 'desc')->limit(5)->get();
+                $discussions = Discussion::limit(5)->get();
                 return view('backend.dashboard.student',
                     compact(
                         'purchased_courses',

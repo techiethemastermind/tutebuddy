@@ -527,4 +527,106 @@ class CourseController extends Controller
 
         return $data;
     }
+
+    public function studentCourses()
+    {
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $count_all = Course::whereIn('id', $course_ids)->count();
+        $count_achieved = Course::whereIn('id', $course_ids)->onlyTrashed()->count();
+        $count = [
+            'all' => $count_all,
+            'deleted' => $count_achieved
+        ];
+
+        return view('backend.course.student', compact('count'));
+    }
+
+    public function getStudentCoursesByAjax($type)
+    {
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+
+        switch($type) {
+            case 'all':
+                $courses = Course::whereIn('id', $course_ids)->get();
+            break;
+
+            case 'deleted':
+                $courses = Course::whereIn('id', $course_ids)->onlyTrashed()->get();
+            break;
+        }
+
+        $data = $this->getStudentData($courses);
+
+        $count = [
+            'all' => Course::whereIn('id', $course_ids)->count(),
+            'deleted' => Course::whereIn('id', $course_ids)->onlyTrashed()->count()
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+    }
+
+    public function getStudentData($courses) {
+        $data = [];
+        $i = 0;
+
+        foreach($courses as $course) {
+            $i++;
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                    </div>';
+            $temp['no'] = $i;
+            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded bg-primary text-white">'
+                                        . substr($course->title, 0, 2) .
+                                    '</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex flex-column">
+                                        <small class="js-lists-values-project">
+                                            <strong>' . $course->title . '</strong></small>
+                                        <small class="js-lists-values-location text-50">'. $course->slug .'</small>
+                                    </div>
+                                </div>
+                            </div>';
+            $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded-circle">' . substr($course->teachers[0]->name, 0, 2) . '</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex d-flex flex-column">
+                                            <p class="mb-0"><strong class="js-lists-values-lead">'
+                                            . $course->teachers[0]->name . '</strong></p>
+                                            <small class="js-lists-values-email text-50">Teacher</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+            
+            if(!empty($course->category))
+                $temp['category'] = $course->category->name;
+            else 
+                $temp['category'] = 'No Category';
+
+            $temp['progress'] = '<div class="d-flex flex-column">
+                                    <small class="js-lists-values-status text-50 mb-4pt">'. $course->progress() . '% </small>
+                                    <span class="indicator-line rounded bg-primary"></span>
+                                </div>';
+
+            $show_route = route('courses.show', $course->slug);
+            $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
+            $temp['action'] = $btn_show . '&nbsp;';
+
+            array_push($data, $temp);
+        }
+
+        return $data;
+    }
 }

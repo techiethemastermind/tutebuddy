@@ -1,0 +1,98 @@
+@extends('layouts.app')
+
+@section('content')
+
+@push('after-styles')
+
+<!-- jQuery Datatable CSS -->
+<link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
+
+@endpush
+
+
+<!-- Header Layout Content -->
+<div class="mdk-header-layout__content page-content ">
+
+    <div class="pt-32pt">
+        <div
+            class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
+            <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
+
+                <div class="mb-24pt mb-sm-0 mr-sm-24pt">
+                    <h2 class="mb-0">My Instructors</h2>
+
+                    <ol class="breadcrumb p-0 m-0">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+
+                        <li class="breadcrumb-item active">
+                            My Instructors
+                        </li>
+
+                    </ol>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container page__container page-section">
+
+        <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+            <div class="card-header">
+                <span class="page-separator__text bg-white mb-0"><strong>My Instructors</strong></span>
+            </div>
+            <div class="table-responsive" data-toggle="lists">
+                <table id="tbl_instructors" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='15'>
+                    <thead>
+                        <tr>
+                            <th style="width: 18px;" class="pr-0">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input js-toggle-check-all"
+                                        data-target="#instructor_list" data-domfactory-upgraded="toggle-check-all">
+                                    <label class="custom-control-label">
+                                        <span class="text-hide">Toggle all</span>
+                                    </label>
+                                </div>
+                            </th>
+
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@push('after-scripts')
+
+<script src="{{ asset('assets/plugin/datatables.min.js') }}"></script>
+<script>
+    $(function () {
+        
+        var table = $('#tbl_instructors').DataTable(
+            {
+                lengthChange: false,
+                searching: false,
+                ordering:  false,
+                info: false,
+                ajax: "{{ route('admin.student.getStudentInstructorsByAjax') }}",
+                columns: [
+                    { data: 'index'},
+                    { data: 'name' },
+                    { data: 'email'},
+                    { data: 'action' }
+                ]
+            }
+        );
+    });
+</script>
+
+
+@endpush
+
+@endsection

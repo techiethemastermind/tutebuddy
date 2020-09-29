@@ -2,8 +2,12 @@
 
 @section('content')
 
+@push('after-styles')
+
 <!-- jQuery Datatable CSS -->
 <link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
+
+@endpush
 
 <!-- Header Layout Content -->
 <div class="mdk-header-layout__content page-content ">

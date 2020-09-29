@@ -111,7 +111,7 @@
                             <!-- Set Course -->
                             <div class="form-group">
                                 <label class="form-label">Course</label>
-                                <div class="form-group">
+                                <div class="form-group mb-0">
                                     <select name="course" class="form-control custom-select @error('course') is-invalid @enderror">
                                         @foreach($courses as $course)
                                         <option value="{{ $course->id }}"> {{ $course->title }}
@@ -123,6 +123,12 @@
                                     @enderror
                                 </div>
                                 <small class="form-text text-muted">Select a course.</small>
+                            </div>
+
+                            <!-- Set Duration -->
+                            <div class="form-group">
+                                <label class="form-label">Due Date</label>
+                                <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
                             </div>
 
                             <!-- Set Lesson -->
@@ -137,6 +143,7 @@
                                 <input type="number" name="total_mark" class="form-control" placeholder="5" value="5">
                             </div>
 
+                            <!-- Attachment -->
                             <div class="form-group">
                                 <label class="form-label">Attachment File</label>
                                 <div class="custom-file">
