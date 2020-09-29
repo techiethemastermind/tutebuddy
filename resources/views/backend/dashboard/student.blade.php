@@ -34,6 +34,8 @@
     <div class="container page__container">
         <div class="page-section">
 
+            <!-- My Lessons Section -->
+            @if(count($schedules) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Live Lessons</strong></p>
@@ -55,8 +57,7 @@
                                 </th>
 
                                 <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Weekday
-                                    </a>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Weekday</a>
                                 </th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
@@ -140,7 +141,10 @@
                     <small class="text-muted">Top 5 live sessions</small>
                 </div>
             </div>
+            @endif
 
+            <!-- My Courses Section -->
+            @if(count($purchased_courses) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Courses</strong></p>
@@ -240,7 +244,10 @@
                     <small class="text-muted">Purchase courses by you</small>
                 </div>
             </div>
+            @endif
 
+            <!-- My Assignments Section -->
+            @if(count($assignments) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Assignments</strong></p>
@@ -307,7 +314,10 @@
                     <small class="text-muted">Assignments</small>
                 </div>
             </div>
+            @endif
 
+            <!-- My Instructors Section -->
+            @if(count($teachers) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <span class="page-separator__text bg-white mb-0"><strong>My Instructors</strong></span>  
@@ -374,7 +384,10 @@
                     <small class="text-muted">Instructors</small>
                 </div>
             </div>
+            @endif
 
+            <!-- My Paths -->
+            @if(count($bundles) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">My Paths</div>
             </div>
@@ -413,7 +426,10 @@
                 </div>
                 @endforeach
             </div>
+            @endif
 
+            <!-- My Tests -->
+            @if(count($testResults) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">My Tests</div>
             </div>
@@ -496,15 +512,16 @@
                 @endforeach
 
             </div>
+            @endif
 
+            <!-- My Discussions Section -->
+            @if(count($discussions) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">Discussions</div>
             </div>
 
             <div class="card">
-
-            @foreach($discussions as $discussion)
-
+                @foreach($discussions as $discussion)
                 <div class="list-group-item p-3">
                     <div class="row align-items-start">
                         <div class="col-md-3 mb-8pt mb-md-0">
@@ -544,9 +561,9 @@
                         </div>
                     </div>
                 </div>
-
                 @endforeach
             </div>
+            @endif
 
         </div>
     </div>
