@@ -132,7 +132,7 @@ class BundlesController extends Controller
     public function update(Request $request, $id)
     {
 
-        $data = $request->all();
+        $data = array_filter($request->all());
 
         if(!isset($data['tags'])) {
             $data['tags'] = ['Default'];
@@ -152,6 +152,7 @@ class BundlesController extends Controller
 
         // Bundle image
         if(!empty($data['bundle_image'])) {
+
             $image = $request->file('bundle_image');
 
             // Delete existing img file
@@ -162,7 +163,7 @@ class BundlesController extends Controller
 
             $bundle_image_url = $this->saveImage($image, 'upload', true);
             $data['bundle_image'] = $bundle_image_url;
-        }
+        }        
 
         try {
             $bundle->update($data);

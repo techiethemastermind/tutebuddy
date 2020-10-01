@@ -142,7 +142,13 @@
                             <div class="col-auto">
                                 <div class="d-flex align-items-center">
                                     <span class="material-icons icon-16pt text-black-50 mr-4pt">assessment</span>
-                                    <p class="flex text-black-50 lh-1 mb-0"><small>{{ $bundle->category->name }}</small></p>
+                                    <p class="flex text-black-50 lh-1 mb-0"><small>
+                                        @if($bundle->category)
+                                        {{ $bundle->category->name }}
+                                        @else
+                                        No Category
+                                        @endif
+                                    </small></p>
                                 </div>
                             </div>
                             <div class="col text-right">
