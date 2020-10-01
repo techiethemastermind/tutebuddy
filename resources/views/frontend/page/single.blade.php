@@ -31,7 +31,7 @@
         <div class="container page__container">
 
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     @if(!empty($page->image))
                     <div class="d-flex flex-column flex-md-row align-items-md-center mb-32pt">
                         <div class="mb-16pt mb-md-0 mr-md-16pt">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-3">
 
                     <div class="page-separator">
                         <div class="page-separator__text">Other Pages</div>

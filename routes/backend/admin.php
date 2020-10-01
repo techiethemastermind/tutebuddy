@@ -23,6 +23,7 @@ Route::get('my/assignments', 'AssignmentsController@studentAssignments')->name('
 Route::get('ajax/my-assignments/{type}', 'AssignmentsController@getStudentAssignmentsByAjax')->name('student.getMyAssignmentsByAjax');
 Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
 Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
+Route::get('my/paths', 'BundlesController@studentBundles')->name('student.bundles');
 
 //===== Categories Routes =====//
 Route::resource('categories', 'CategoryController');

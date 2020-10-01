@@ -38,8 +38,8 @@
                 
                 <div class="flex pt-4" style="position: relative;" data-perfect-scrollbar>
                     <div class="container page__container page__container" id="messages_content">
-                        <h1 class="text-shadow text-center">Welcome {{ auth()->user()->name }}</h1>
-                        <h2 class="text-center">Click Partner</h2>
+                        <!-- <h1 class="text-shadow text-center">Welcome {{ auth()->user()->name }}</h1>
+                        <h2 class="text-center">Click Partner</h2> -->
                     </div>
                 </div>
                 <div class="container page__container page__container">

@@ -36,8 +36,11 @@ class SearchController extends Controller
                 $courses_me = Course::where('title', 'like', '%' . $params['_q'] . '%')->where('published', 1);
                 $categories = Category::where('name', 'like', '%' . $params['_q'] . '%')->get();
                 foreach($categories as $category) {
-                    $courses_c = Course::where('category_id', $category->id)->where('published', 1);
-                    $courses_me = $courses_me->union($courses_c);
+                    $subCategories = Category::where('parent', $category->id)->get();
+                    foreach($subCategories as $subcategory) {
+                        $courses_c = Course::where('category_id', $subcategory->id);
+                        $courses_me = $courses_me->union($courses_c);
+                    }
                 }
                 $courses = $courses_me->paginate(10);
                 $courses->setPath('search/courses?_q='. $params['_q']);
@@ -115,7 +118,7 @@ class SearchController extends Controller
     public function getSearchFormUserData($key)
     {
         $data = [];
-        $users = User::where('name', 'like', '%' . $key . '%')->get();
+        $users = User::role('Instructor')->where('name', 'like', '%' . $key . '%')->get();
         foreach($users as $user) {
             array_push($data, [
                 'id' => $user->id,
@@ -125,7 +128,7 @@ class SearchController extends Controller
             );
         }
 
-        $subjects = User::where('headline', 'like', '%' . $key . '%')->get();
+        $subjects = User::role('Instructor')->where('headline', 'like', '%' . $key . '%')->get();
         foreach($subjects as $user) {
             array_push($data, [
                 'id' => $user->id,

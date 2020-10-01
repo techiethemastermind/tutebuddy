@@ -261,7 +261,7 @@
                 <h1 class="text-white text-shadow py-16pt text-center">Learn anything online.</h1>
                 <div class="form-group" style="position: relative;">
                     <div class="search-form input-group-lg">
-                        <input type="text" class="form-control" placeholder="What do you want to learn today?" id="search_homepage">
+                        <input type="text" class="form-control" placeholder="What do you want to learn today?" search-type="course">
                         <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
                     </div>
                 </div>

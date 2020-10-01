@@ -246,76 +246,6 @@
             </div>
             @endif
 
-            <!-- My Assignments Section -->
-            @if(count($assignments) > 0)
-            <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
-                <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>My Assignments</strong></p>
-                    <a href="{{ route('admin.student.assignments') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
-                </div>
-                <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
-                    <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
-                        <thead>
-                            <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#assignment" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
-                                <th>Subject</th>
-                                <th>Due Date</th>
-                                <th>Total Mark</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody class="list" id="assignment">
-                            @foreach($assignments as $assignment)
-                            <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                        <div class="avatar avatar-sm mr-8pt">
-                                            <span class="avatar-title rounded bg-primary text-white">
-                                                {{ substr($assignment->title, 0, 2) }}
-                                            </span>
-                                        </div>
-                                        <div class="media-body">
-                                            <div class="d-flex flex-column">
-                                                <small class="js-lists-values-project">
-                                                    <strong> {{ $assignment->title }}</strong></small>
-                                                <small class="text-70">
-                                                    Course: {{ $assignment->lesson->course->title }} |
-                                                    Lesson: {{ $assignment->lesson->title }}
-                                                </small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><strong>{{ $assignment->due_date }}</strong></td>
-                                <td><strong>{{ $assignment->total_mark }}</strong></td>
-                                <td>@include('backend.buttons.show', ['show_route' => route('lesson.assignment', $assignment->id)])</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Assignments</small>
-                </div>
-            </div>
-            @endif
-
             <!-- My Instructors Section -->
             @if(count($teachers) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -386,13 +316,89 @@
             </div>
             @endif
 
+            <!-- My Assignments Section -->
+            @if(count($assignments) > 0)
+            <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+                <div class="card-header">
+                    <p class="page-separator__text bg-white mb-0"><strong>My Assignments</strong></p>
+                    <a href="{{ route('admin.student.assignments') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                </div>
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
+                    <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
+                        <thead>
+                            <tr>
+                                <th style="width: 18px;" class="pr-0">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
+                                            data-target="#assignment" data-domfactory-upgraded="toggle-check-all">
+                                        <label class="custom-control-label">
+                                            <span class="text-hide">Toggle all</span>
+                                        </label>
+                                    </div>
+                                </th>
+
+                                <th>Subject</th>
+                                <th>Due Date</th>
+                                <th>Total Mark</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="list" id="assignment">
+                            @foreach($assignments as $assignment)
+                            <tr>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <span class="avatar-title rounded bg-primary text-white">
+                                                {{ substr($assignment->title, 0, 2) }}
+                                            </span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex flex-column">
+                                                <small class="js-lists-values-project">
+                                                    <strong> {{ $assignment->title }}</strong></small>
+                                                <small class="text-70">
+                                                    Course: {{ $assignment->lesson->course->title }} |
+                                                    Lesson: {{ $assignment->lesson->title }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><strong>{{ $assignment->due_date }}</strong></td>
+                                <td><strong>{{ $assignment->total_mark }}</strong></td>
+                                <td>@include('backend.buttons.show', ['show_route' => route('lesson.assignment', $assignment->id)])</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Assignments</small>
+                </div>
+            </div>
+            @endif
+
             <!-- My Paths -->
             @if(count($bundles) > 0)
-            <div class="page-separator">
+            <div class="page-separator d-flex">
                 <div class="page-separator__text">My Paths</div>
+                <div class="d-flex flex">
+                    <div class="flex">&nbsp;</div>
+                    <div style="padding-left: 8px; background-color: #f5f7fa;">
+                        <a href="{{ route('admin.student.bundles') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="row card-group-row">
+            <div class="row card-group-row mb-16pt">
                 @foreach($bundles as $bundle)
                 <div class="col-sm-4 card-group-row__col">
                     <div class="card card-sm stack stack--1 card-group-row__card">
@@ -404,9 +410,9 @@
                                             <div class="overlay">
                                                 <a href="{{ route('bundles.show', $bundle->slug) }}" target="_blank">
                                                 @if(!empty($bundle->bundle_image))
-                                                <img src="{{ asset('/storage/uploads/thumb/'. $bunlde->bundle_image) }}" width="40" height="40" alt="Angular" class="rounded">
+                                                <img src="{{ asset('/storage/uploads/thumb/'. $bunlde->bundle_image) }}" width="40" height="40" alt="{{ $bundle->title }}" class="rounded">
                                                 @else
-                                                <img src="{{ asset('/assets/img/no-image-thumb.jpg') }}" width="40" height="40" alt="Angular" class="rounded">
+                                                <img src="{{ asset('/assets/img/no-image-thumb.jpg') }}" width="40" height="40" alt="{{ $bundle->title }}" class="rounded">
                                                 @endif
                                                 </a>
                                             </div>
@@ -432,9 +438,15 @@
             @if(count($testResults) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">My Tests</div>
+                <div class="d-flex flex">
+                    <div class="flex">&nbsp;</div>
+                    <div style="padding-left: 8px; background-color: #f5f7fa;">
+                        <a href="" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="row card-group-row">
+            <div class="row card-group-row mb-16pt">
 
                 @foreach($testResults as $testResult)
 
@@ -518,6 +530,12 @@
             @if(count($discussions) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">Discussions</div>
+                <div class="d-flex flex">
+                    <div class="flex">&nbsp;</div>
+                    <div style="padding-left: 8px; background-color: #f5f7fa;">
+                        <a href="{{ route('admin.discussions.topics') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                    </div>
+                </div>
             </div>
 
             <div class="card">

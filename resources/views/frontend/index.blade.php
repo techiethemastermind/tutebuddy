@@ -781,14 +781,51 @@
         </div>
     </div>
 
-    <div class="page-section border-bottom-2 bg-white">
+    <div class="page-section border-bottom-2">
         <div class="container page__container">
+
+            <div class="page-separator">
+                <div class="page-separator__text">Expert Teachers to Guide you</div>
+            </div>
+
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="page-separator">
-                        <div class="page-separator__text bg-white">Education for all</div>
-                    </div>
+                    <img src="{{ asset('/assets/img/course-16.jpg') }}" alt="" class="card-img">
+                </div>
 
+                <div class="col-lg-6">
+                    <div>
+                        <p class="text-black-70">Expert teachers in a variety of subjects will make your learning
+                            process easy and enjoyable. All our teachers are practicing experts or professionals in
+                            their fields and bring their vast experience from the real world to your online learning
+                            process.
+                        </p>
+                        <p class="text-black-70">Looking for a specific instructor? Search them by name or subject
+                            below.</p>
+
+                            <div class="form-group pb-16pt" style="position: relative;">
+                                <div class="search-form">
+                                    <input type="text" class="form-control" placeholder="Enter name or Subject" 
+                                    value="@if(isset($_GET['_q'])) {{ $_GET['_q'] }} @endif" search-type="instructor">
+                                    <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-section border-bottom-2">
+        <div class="container page__container">
+
+            <div class="page-separator">
+                <div class="page-separator__text">Education for all</div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    
                     <div>
                         <p class="text-black-70">Private Lessons from experienced & verified teachers delivered to your home at convenient times.</p>
                         <p class="text-black-70">Classroom lessons for large groups and institutions.</p>
@@ -860,63 +897,5 @@
     </div>
 </div>
 <!-- // END Header Layout Content -->
-
-@push('after-scripts')
-
-<script>
-$(function() {
-
-    var search_ele;
-
-    $('.search-form input[type="text"]').on('keyup', function(e) {
-        search_ele = $(this).closest('.search-form');
-        var key = $(this).val();
-        if (e.which == 13) {
-            location.href = '{{ config("app.url") }}' + 'search/courses?_q=' + key;
-        } else {
-            if (key.length > 1) {
-                send_ajax(key);
-            } else {
-                $(document).find('#search___result').remove();
-            }
-        }
-
-    });
-
-    $(document).on('click', '#search___result li', function() {
-        var id = $(this).attr('data-id');
-        var type = $(this).attr('data-type');
-        var name = $(this).text();
-
-        $('#search_homepage').val(name);
-        $(document).find('#search___result').remove();
-
-        location.href = '{{ config("app.url") }}' + 'search/courses?_q=' + name + '&_t=' + type + '&_k=' + id;
-    });
-
-    function send_ajax(key) {
-
-        var route = 'ajax/search/courses/' + key;
-
-        $.ajax({
-            method: 'get',
-            url: route,
-            success: function(res) {
-                if (res.success) {
-                    var rlt = $(document).find('#search___result');
-                    if (rlt.length > 0) {
-                        rlt.remove();
-                    }
-
-                    $(res.html).insertAfter(search_ele);
-
-                }
-            }
-        })
-    }
-});
-</script>
-
-@endpush
 
 @endsection

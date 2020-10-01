@@ -74,3 +74,102 @@
         </div>
     </div>
 </div>
+
+@push('after-scripts')
+
+<script>
+$(function() {
+
+    var search_ele;
+    var search_type = 'course';
+    var reload_href = '{{ config("app.url") }}' + 'search/courses?_q=';
+
+    $('.search-form input[type="text"]').on('focus', function(e) {
+        search_type = $(this).attr('search-type');
+        reload_href = (search_type == 'course') ? '{{ config("app.url") }}' + 'search/courses?_q=' : '{{ config("app.url") }}' + 'search/instructors?_q=';
+    });
+
+    $('.search-form input[type="text"]').on('keyup', function(e) {
+
+        search_ele = $(this).closest('.search-form');
+        var key = $(this).val();
+        if (e.which == 13) {
+            location.href = reload_href + key;
+        } else if(e.which == 40 || e.which == 38) {
+
+            var active_li = $(document).find('#search___result').find('li.active');
+            
+            if(active_li.length == 0) {
+                if(e.which == 40) {
+                    active_li = $(document).find('#search___result').find('li').first();
+                }
+                if(e.which == 38) {
+                    active_li = $(document).find('#search___result').find('li').last();
+                }
+                active_li.addClass('active');
+                $(this).val($.trim(active_li.text()));
+            } else {
+                
+                if(e.which == 40) {
+                    next_li = active_li.next();
+                    if(next_li.length != 0) {
+                        active_li.removeClass('active');
+                        next_li.addClass('active');
+                        $(this).val($.trim(next_li.text()));
+                    }
+                }
+
+                if(e.which == 38) {
+                    prev_li = active_li.prev();
+                    if(prev_li.length != 0) {
+                        active_li.removeClass('active');
+                        prev_li.addClass('active');
+                        $(this).val($.trim(prev_li.text()));
+                    }
+                }
+            }            
+
+        } else {
+            if (key.length > 1) {
+                send_ajax(key);
+            } else {
+                $(document).find('#search___result').remove();
+            }
+        }
+
+    });
+
+    $(document).on('click', '#search___result li', function() {
+        var id = $(this).attr('data-id');
+        var type = $(this).attr('data-type');
+        var name = $(this).text();
+
+        $('#search_homepage').val(name);
+        $(document).find('#search___result').remove();
+
+        location.href = reload_href + name + '&_t=' + type + '&_k=' + id;
+    });
+
+    function send_ajax(key) {
+
+        var route = (search_type == 'course') ? '/ajax/search/courses/' + key : '/ajax/search/users/' + key;
+
+        $.ajax({
+            method: 'get',
+            url: route,
+            success: function(res) {
+                if (res.success) {
+                    var rlt = $(document).find('#search___result');
+                    if (rlt.length > 0) {
+                        rlt.remove();
+                    }
+
+                    $(res.html).insertAfter(search_ele);
+                }
+            }
+        })
+    }
+});
+</script>
+
+@endpush

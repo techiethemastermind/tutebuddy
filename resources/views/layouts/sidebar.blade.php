@@ -101,7 +101,7 @@
                         @endcan
 
                         @can('assignment_access')
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/bundle*') ? 'active' : '' }}">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/assignment*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.assignments.index') }}">
                                 <span class="sidebar-menu-text">Assignments</span>
                             </a>
@@ -182,6 +182,12 @@
                         <li class="sidebar-menu-item {{ Request::is('dashboard/my/instructor*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.student.instructors') }}">
                                 <span class="sidebar-menu-text">My Instructors</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/path*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.bundles') }}">
+                                <span class="sidebar-menu-text">My Paths</span>
                             </a>
                         </li>
 

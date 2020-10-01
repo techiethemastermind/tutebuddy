@@ -81,7 +81,6 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole($data['role']);
-
         Mail::to($user->email)->send(new VerifyMail($user));
 
         return $user;

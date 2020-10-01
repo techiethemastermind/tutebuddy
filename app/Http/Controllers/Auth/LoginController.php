@@ -41,34 +41,36 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
-        // Recaptcha
-        $vars = array(
-            'secret' => config('captcha.secret'),
-            "response" => $request->input('recaptcha_v3')
-        );
-        $url = "https://www.google.com/recaptcha/api/siteverify";
+        if(config("access.captcha.registration") > 0) {
+            // Recaptcha
+            $vars = array(
+                'secret' => config('captcha.secret'),
+                "response" => $request->input('recaptcha_v3')
+            );
+            $url = "https://www.google.com/recaptcha/api/siteverify";
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $vars);
-        $encoded_response = curl_exec($ch);
-        $response = json_decode($encoded_response, true);
-        curl_close($ch);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $vars);
+            $encoded_response = curl_exec($ch);
+            $response = json_decode($encoded_response, true);
+            curl_close($ch);
 
-        if($response['success'] && $response['action'] == 'login' && $response['score']>0.5) {
-            if (!$user->verified) {
+            if($response['success'] && $response['action'] == 'login' && $response['score']>0.5) {
+                if (!$user->verified) {
+                    auth()->logout();
+                    return back()->with('warning', 'We have sent you an activation code, please check your email.');
+                }
+        
+                if (!$user->active) {
+                    auth()->logout();
+                    return back()->with('warning', 'Your account has been disabled by admin. please contact to support.');
+                }
+            } else {
                 auth()->logout();
-                return back()->with('warning', 'We have sent you an activation code, please check your email.');
+                return back()->withErrors(['captcha' => 'ReCaptcha Error']);
             }
-    
-            if (!$user->active) {
-                auth()->logout();
-                return back()->with('warning', 'Your account has been disabled by admin. please contact to support.');
-            }
-        } else {
-            auth()->logout();
-            return back()->withErrors(['captcha' => 'ReCaptcha Error']);
         }
 
         return redirect()->intended($this->redirectTo);

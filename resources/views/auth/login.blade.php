@@ -72,6 +72,8 @@
 </div>
 <!-- // END Header Layout Content -->
 
+@if(config("access.captcha.registration") > 0)
+
 @push('after-scripts')
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ config('captcha.key') }}"></script>
@@ -87,5 +89,7 @@
 </script>
 
 @endpush
+
+@endif
 
 @endsection

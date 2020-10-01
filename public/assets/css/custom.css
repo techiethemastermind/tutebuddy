@@ -97,6 +97,10 @@
 [dir=ltr] ul.search_result li:hover {
     background-color: #e9edf2;
 }
+[dir=ltr] .search_result li.active {
+    background-color: #e9edf2;
+}
+
 [dir=ltr] .player__image {
     left: 0;
     top: 0;

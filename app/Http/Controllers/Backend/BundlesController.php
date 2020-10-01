@@ -392,4 +392,13 @@ class BundlesController extends Controller
 
         return $data;
     }
+
+    /** Student Dashboard */
+    public function studentBundles()
+    {
+        $bundle_ids = DB::table('bundle_student')->where('user_id', auth()->user()->id)->pluck('bundle_id');
+        $bundles = Bundle::whereIn('id', $bundle_ids)->paginate(15);
+
+        return view('backend.bundles.student', compact('bundles'));
+    }
 }

@@ -78,7 +78,6 @@ class Bundle extends Model
         $types = ['video', 'pdf', 'audio', 'embed'];
         return $this->morphOne(Media::class, 'model')
             ->whereIn('type', $types);
-
     }
 
     public function user(){
@@ -101,7 +100,6 @@ class Bundle extends Model
     public function getRatingAttribute()
     {
         return $this->reviews->avg('rating');
-
     }
 
     public function students()
@@ -109,12 +107,10 @@ class Bundle extends Model
         return $this->belongsToMany(User::class, 'bundle_student')->withTimestamps()->withPivot(['rating']);
     }
 
-
     public function reviews()
     {
         return $this->morphMany('App\Models\Review', 'reviewable');
     }
-
 
     public function item()
     {

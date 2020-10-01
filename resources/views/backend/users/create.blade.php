@@ -117,7 +117,7 @@
 
 @push('after-scripts')
 
-@include('backend.sweet-alert')
+@include('layouts.parts.sweet-alert')
 
 <!-- Select2 -->
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
