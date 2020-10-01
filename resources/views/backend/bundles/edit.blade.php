@@ -250,7 +250,7 @@
                         @endif
                         <div class="card-body">
                             <div class="custom-file">
-                                <input type="file" name="bundle_image" id="bundle_image" class="custom-file-input">
+                                <input type="file" name="bundle_image" id="bundle_image" class="custom-file-input" data-preview="#img_bundle_image">
                                 <label for="bundle_image" class="custom-file-label">Choose file</label>
                             </div>
                         </div>

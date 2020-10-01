@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Review;
+use App\Models\Bundle;
 use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
@@ -33,6 +34,9 @@ class HomeController extends Controller
         // Top reviews
         $reviews = Review::orderBy('rating', 'desc')->limit(4)->get();
 
-        return view('frontend.index', compact('parentCategories', 'featuredCourses', 'reviews'));
+        // Top Paths
+        $bundles = Bundle::where('published', 1)->limit(6)->get();
+
+        return view('frontend.index', compact('parentCategories', 'featuredCourses', 'reviews', 'bundles'));
     }
 }

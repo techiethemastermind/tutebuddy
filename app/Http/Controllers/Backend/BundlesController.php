@@ -155,9 +155,9 @@ class BundlesController extends Controller
             $image = $request->file('bundle_image');
 
             // Delete existing img file
-            if (File::exists(public_path('/storage/uploads/' . $course->bundle_image))) {
-                File::delete(public_path('/storage/uploads/' . $course->bundle_image));
-                File::delete(public_path('/storage/uploads/thumb/' . $course->bundle_image));
+            if (File::exists(public_path('/storage/uploads/' . $bundle->bundle_image))) {
+                File::delete(public_path('/storage/uploads/' . $bundle->bundle_image));
+                File::delete(public_path('/storage/uploads/thumb/' . $bundle->bundle_image));
             }
 
             $bundle_image_url = $this->saveImage($image, 'upload', true);

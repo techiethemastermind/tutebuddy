@@ -50,7 +50,7 @@
                                     <div class="rounded mr-12pt z-0 o-hidden">
                                         <div class="overlay">
                                             @if(!empty($bundle->bundle_image))
-                                            <img src="{{ asset('/storage/uploads/thumb/'. $bunlde->bundle_image) }}" width="40" height="40" alt="{{ $bundle->title }}" class="rounded">
+                                            <img src="{{ asset('/storage/uploads/thumb/'. $bundle->bundle_image) }}" width="40" height="40" alt="{{ $bundle->title }}" class="rounded">
                                             @else
                                             <img src="{{ asset('/assets/img/no-image-thumb.jpg') }}" width="40" height="40" alt="{{ $bundle->title }}" class="rounded">
                                             @endif
