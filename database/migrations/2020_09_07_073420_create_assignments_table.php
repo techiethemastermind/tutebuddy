@@ -16,9 +16,12 @@ class CreateAssignmentsTable extends Migration
         Schema::create('assignments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('lesson_id');
+            $table->integer('user_id');
             $table->string('title');
             $table->text('content')->nullable();
+            $table->string('attachment')->nullable();
             $table->integer('total_mark');
+            $table->date('due_date');
             $table->tinyInteger('published')->nullable()->default(0);
             $table->timestamps();
         });

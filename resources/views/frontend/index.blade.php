@@ -407,7 +407,9 @@
                         <p class="text-black-70">Learn at your own pace with your teacher.</p>
                     </div>
 
-                    <a href="" class="btn btn-accent">Check Now</a>
+                    <div class="form-group">
+                        <a href="" class="btn btn-accent">Check Now</a>
+                    </div>
                 </div>
 
                 <div class="col-lg-6">

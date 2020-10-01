@@ -410,7 +410,7 @@
                                             <div class="overlay">
                                                 <a href="{{ route('bundles.show', $bundle->slug) }}" target="_blank">
                                                 @if(!empty($bundle->bundle_image))
-                                                <img src="{{ asset('/storage/uploads/thumb/'. $bunlde->bundle_image) }}" width="40" height="40" alt="{{ $bundle->title }}" class="rounded">
+                                                <img src="{{ asset('/storage/uploads/thumb/'. $bundle->bundle_image) }}" width="40" height="40" alt="{{ $bundle->title }}" class="rounded">
                                                 @else
                                                 <img src="{{ asset('/assets/img/no-image-thumb.jpg') }}" width="40" height="40" alt="{{ $bundle->title }}" class="rounded">
                                                 @endif
@@ -505,7 +505,7 @@
                                             $testResult->test->course->slug,
                                             $testResult->test->lesson->slug,
                                             $testResult->test->step->step]) }}" class="dropdown-item">Continue</a>
-                                            <a href="{{ route('test.result', $testResult->test->id) }}"
+                                            <a href="{{ route('quiz.result', $testResult->test->id) }}"
                                                 class="dropdown-item">View Result</a>
                                             <div class="dropdown-divider"></div>
                                             <a href="{{ route('lessons.show', [

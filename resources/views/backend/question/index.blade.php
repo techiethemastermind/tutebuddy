@@ -39,7 +39,7 @@
             @can('test_create')
             <div class="row" role="tablist">
                 <div class="col-auto">
-                    <a href="{{ route('admin.tests.create') }}" class="btn btn-outline-secondary">Add Question</a>
+                    <a href="{{ route('admin.quizs.create') }}" class="btn btn-outline-secondary">Add Question</a>
                 </div>
             </div>
             @endcan
@@ -146,7 +146,7 @@
     });
 
     $('#courses').on('change', function() {
-        route = '/dashboard/ajax/tests/list/' + $('#courses').val() + '/0';
+        route = '/dashboard/ajax/quizs/list/' + $('#courses').val() + '/0';
         table.ajax.url(route).load();
     });
 </script>

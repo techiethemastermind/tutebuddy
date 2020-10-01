@@ -52,7 +52,7 @@
                                 <span class="text-50 small font-weight-bold mr-8pt">
                                     {{ $lesson->course->teachers[0]->name }},
                                 </span>
-                                <span class="text-50 small">{{ $lesson->course->teachers[0]->about }}</span>
+                                <span class="text-50 small">{{ $lesson->course->teachers[0]->headline }}</span>
                             </p>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                             Completed <i class="material-icons icon--right">done</i>
                         </button>
                         @else
-                        <a href="{{ route('test.result.complete', $test->id) }}" class="btn btn-outline-white">
+                        <a href="{{ route('quiz.result.complete', $test->id) }}" class="btn btn-outline-white">
                             Complete <i class="material-icons icon--right">done_outline</i>
                         </a>
                         @endif

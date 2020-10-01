@@ -29,10 +29,10 @@ Route::get('page/{slug}', 'PageController@getPage')->name('page.show');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('course/{course_slug}/lesson/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');
-    Route::get('test/{test_id}/{index}', 'LessonsController@getQuestion')->name('test.questions.get');
-    Route::post('test/questions/{id}', 'LessonsController@completeQuestion')->name('test.complete');
-    Route::get('test-result/{test_id}', 'LessonsController@testResult')->name('test.result');
-    Route::get('test-result/{id}/complete', 'LessonsController@testComplete')->name('test.result.complete');
+    Route::get('quiz/{test_id}/{index}', 'LessonsController@getQuestion')->name('quiz.questions.get');
+    Route::post('quiz/questions/{id}', 'LessonsController@completeQuestion')->name('quiz.complete');
+    Route::get('quiz-result/{test_id}', 'LessonsController@testResult')->name('quiz.result');
+    Route::get('quiz-result/{id}/complete', 'LessonsController@testComplete')->name('quiz.result.complete');
 
     Route::get('lesson/live/{lesson_slug}/{lesson_id}', 'LessonsController@liveSession')->name('lessons.live');
 

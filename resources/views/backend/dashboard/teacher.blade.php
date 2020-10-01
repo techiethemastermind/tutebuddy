@@ -523,7 +523,7 @@
                                             $testResult->test->course->slug,
                                             $testResult->test->lesson->slug,
                                             $testResult->test->step->step]) }}" class="dropdown-item">Continue</a>
-                                            <a href="{{ route('test.result', $testResult->test->id) }}"
+                                            <a href="{{ route('quiz.result', $testResult->test->id) }}"
                                                 class="dropdown-item">View Result</a>
                                             <div class="dropdown-divider"></div>
                                             <a href="{{ route('lessons.show', [

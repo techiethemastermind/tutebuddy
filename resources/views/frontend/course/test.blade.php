@@ -166,7 +166,7 @@ $('#btn_next').on('click', function() {
 
     $.ajax({
         method: 'post',
-        url: '/test/questions/' + question_id,
+        url: '/quiz/questions/' + question_id,
         data: {
             answers: ids
         },
@@ -193,12 +193,12 @@ function load_question(index) {
     clearInterval(timer);
 
     if(t_count == t_step) {
-        window.location.href = '/test-result/{{ $test->id }}';
+        window.location.href = '/quiz-result/{{ $test->id }}';
     }
 
     $.ajax({
         method: 'get',
-        url: '/test/{{ $test->id }}/' + index,
+        url: '/quiz/{{ $test->id }}/' + index,
         success: function(res) {
 
             if(res.success) {

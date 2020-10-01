@@ -80,9 +80,9 @@ Route::get('get/course/lessons', 'ScheduleController@getLessons')->name('getLess
 //==== Learn Routes ====//
 Route::get('learn/course/{id}', 'LearnController@course')->name('learn.course');
 
-//===== Test Routes =====//
-Route::resource('tests', 'TestController');
-Route::get('ajax/tests/list/{course_id}', 'TestController@getList')->name('getTestsByAjax');
+//===== Quiz Routes =====//
+Route::resource('quizs', 'QuizController');
+Route::get('ajax/quizs/list/{course_id}', 'QuizController@getList')->name('getTestsByAjax');
 
 //===== Questions Routes =====//
 Route::resource('questions', 'QuestionController');
@@ -136,3 +136,10 @@ Route::get('pages/restore/{id}', 'PagesController@restore')->name('pages.restore
 Route::resource('mailedits', 'EmailtemplateController');
 Route::get('ajax/mailedits', 'EmailtemplateController@getListByAjax')->name('table.getTemplatesByAjax');
 Route::get('ajax/send', 'EmailtemplateController@sendTestEmail')->name('ajax.sendTestEmail');
+
+//===== Test Routes =====//
+Route::resource('tests', 'TestController');
+Route::get('tests/restore/{id}', 'TestController@restore')->name('test.restore');
+Route::get('ajax/tests/list/{type}', 'TestController@getList')->name('getTestsByAjax');
+Route::get('ajax/test/publish/{id}', 'TestController@publish')->name('test.publish');
+Route::get('ajax/test/lessons', 'TestController@getLessons')->name('test.getLessonsByCourse');

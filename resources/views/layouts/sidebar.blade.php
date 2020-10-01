@@ -84,6 +84,14 @@
                         </li>
                         @endcan
 
+                        @can('quiz_access')
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/quiz*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.quizs.index') }}">
+                                <span class="sidebar-menu-text">Quizs</span>
+                            </a>
+                        </li>
+                        @endcan
+
                         @can('test_access')
                         <li class="sidebar-menu-item {{ Request::is('dashboard/test*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.tests.index') }}">

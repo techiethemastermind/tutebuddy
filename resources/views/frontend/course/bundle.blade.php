@@ -52,8 +52,7 @@
                         </li>
                         <li class="nav-item ml-sm-auto text-sm-center flex-column navbar-list__item">
                             <div class="rating rating-24">
-                                <blade
-                                    include|(%26%2339%3Blayouts.parts.rating%26%2339%3B%2C%20%5B%26%2339%3Brating%26%2339%3B%20%3D%3E%20%24bundle_rating%5D)%0D />
+                                @include('layouts.parts.rating', ['rating' => $bundle_rating])
                             </div>
                             <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} ratings</small></p>
                         </li>
@@ -76,7 +75,7 @@
                     @if(isset($bundle->mediaVideo))
 
                     <div class="mb-32pt">
-                        <div class="js-player bg-primary embed-responsive embed-responsive-16by9"
+                        <div class="bg-primary embed-responsive embed-responsive-16by9"
                             data-domfactory-upgraded="player">
                             <div class="player embed-responsive-item">
                                 <div class="player__content">
@@ -220,8 +219,7 @@
                                 </div>
                                 <div class="d-flex">
                                     <div class="rating flex">
-                                        <blade
-                                            include|(%26%2339%3Blayouts.parts.rating%26%2339%3B%2C%20%5B%26%2339%3Brating%26%2339%3B%20%3D%3E%20%24course-%3Ereviews-%3Eavg(%26%2339%3Brating%26%2339%3B)%5D)%0D />
+                                        @include('layouts.parts.rating', ['rating' => $course->reviews->avg('rating')])
                                     </div>
                                     <!-- <small class="text-50">6 hours</small> -->
                                 </div>
@@ -302,8 +300,7 @@
                             <div class="d-flex align-items-center">
                                 <small class="text-black-50 mr-8pt">Your rating</small>
                                 <div class="rating mr-8pt">
-                                    <blade
-                                        include|(%26%2339%3Blayouts.parts.rating%26%2339%3B%2C%20%5B%26%2339%3Brating%26%2339%3B%20%3D%3E%20%24course-%3Ereviews-%3Eavg(%26%2339%3Brating%26%2339%3B)%5D)%0D />
+                                    @include('layouts.parts.rating', ['rating' => $course->reviews->avg('rating')])
                                 </div>
                                 <small
                                     class="text-black-50">{{ $course->reviews->avg('rating') }}/5</small>

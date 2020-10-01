@@ -32,7 +32,7 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Edit test</h2>
+                    <h2 class="mb-0">Edit quiz</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item">
@@ -40,11 +40,11 @@
                         </li>
 
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.tests.index') }}">Tests</a>
+                            <a href="{{ route('admin.quizs.index') }}">quizs</a>
                         </li>
 
                         <li class="breadcrumb-item active">
-                            Edit test
+                            Edit quiz
                         </li>
                     </ol>
                 </div>
@@ -52,7 +52,7 @@
 
             <div class="row" role="tablist">
                 <div class="col-auto mr-3">
-                    <a href="{{ route('admin.tests.index') }}"
+                    <a href="{{ route('admin.quizs.index') }}"
                         class="btn btn-outline-secondary">@lang('labels.general.back')</a>
                 </div>
             </div>
@@ -66,16 +66,16 @@
                 <div class="col-md-8">
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Edit a Test</div>
+                        <div class="page-separator__text">Edit a quiz</div>
                     </div>
 
-                    {!! Form::open(['method' => 'PATCH', 'route' => ['admin.tests.update', $test->id], 'files' => true, 'id' =>'frm_test']) !!}
+                    {!! Form::open(['method' => 'PATCH', 'route' => ['admin.quizs.update', $quiz->id], 'files' => true, 'id' =>'frm_quiz']) !!}
 
                     <label class="form-label">Title</label>
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="@lang('labels.backend.courses.fields.title')" value="{{ $test->title }}">
+                            placeholder="@lang('labels.backend.courses.fields.title')" value="{{ $quiz->title }}">
                         @error('title')
                         <div class="invalid-feedback">Title is required field.</div>
                         @enderror
@@ -84,22 +84,22 @@
                     <label class="form-label">Description</label>
                     <div class="form-group mb-24pt">
                         <textarea name="short_description" class="form-control" cols="100%" rows="3"
-                            placeholder="Short description">{{ $test->description }}</textarea>
-                        <small class="form-text text-muted">Shortly describe this test. It will show under title</small>
+                            placeholder="Short description">{{ $quiz->description }}</textarea>
+                        <small class="form-text text-muted">Shortly describe this quiz. It will show under title</small>
                     </div>
                     
                     {!! Form::close() !!}
 
                     <div id="questions">
                     
-                    @if($test->questions->count() > 0)
+                    @if($quiz->questions->count() > 0)
                         <div class="page-separator">
                             <div class="page-separator__text">Questions</div>
                         </div>
 
                         <ul class="list-group stack mb-40pt questions">
 
-                        @foreach($test->questions as $question)
+                        @foreach($quiz->questions as $question)
 
                         @if(!$question->trashed())
 
@@ -158,7 +158,7 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <a href="javascript:void(0);" class="btn btn-accent" id="btn_test_save">Save changes</a>
+                            <a href="javascript:void(0);" class="btn btn-accent" id="btn_quiz_save">Save changes</a>
                         </div>
                         <div class="list-group list-group-flush">
                             <div class="list-group-item d-flex">
@@ -186,7 +186,7 @@
                                         {{ asset('/storage/uploads' . $course->course_image) }}
                                         @else 
                                             {{asset('/assets/img/no-image.jpg')}}
-                                        @endif" @if($test->course_id == $course->id) selected="" @endif value="{{$course->id}}">
+                                        @endif" @if($quiz->course_id == $course->id) selected="" @endif value="{{$course->id}}">
                                         {{ $course->title }}</option>
                                     @endforeach
                                 </select>
@@ -260,11 +260,11 @@
 
 <script>
 
-var test = {
-    id: '{{ $test->id }}'
+var quiz = {
+    id: '{{ $quiz->id }}'
 };
 
-var test_quill;
+var quiz_quill;
 
 $(document).ready(function() {
 
@@ -272,16 +272,16 @@ $(document).ready(function() {
     loadQuestions();
 
     // New question quill
-    test_quill = new Quill('#quiz_editor', {
+    quiz_quill = new Quill('#quiz_editor', {
         theme: 'snow',
         placeholder: 'Quiz'
     });
 });
 
-// ==== Update Test ==== //
-$('#btn_test_save').on('click', function() {
+// ==== Update quiz ==== //
+$('#btn_quiz_save').on('click', function() {
 
-    $('#frm_test').ajaxSubmit({
+    $('#frm_quiz').ajaxSubmit({
         beforeSubmit: function(formData, formObject, formOptions) {
 
             var title = formObject.find('input[name="title"]');
@@ -331,12 +331,12 @@ $('#frm_question').submit(function(e) {
             formData.push({
                 name: 'question',
                 type: 'text',
-                value: JSON.stringify(test_quill.getContents().ops)
+                value: JSON.stringify(quiz_quill.getContents().ops)
             });
             formData.push({
                 name: 'test_id',
                 type: 'int',
-                value: test.id
+                value: quiz.id
             });
             formData.push({
                 name: 'send_type',
@@ -363,7 +363,7 @@ $('#frm_question').submit(function(e) {
                 $('#mdl_question').modal('toggle');
 
                 loadQuestions();
-                test_quill.setContents('');
+                quiz_quill.setContents('');
             }
         }
     });
@@ -379,7 +379,7 @@ $('#questions').on('click', 'a.question-delete', function(e) {
 
     swal({
         title: "Are you sure?",
-        text: "This Question will removed from this Test",
+        text: "This Question will removed from this quiz",
         type: 'warning',
         showCancelButton: true,
         showConfirmButton: true,
@@ -416,9 +416,9 @@ function loadQuestions() {
 
             var ele_id = $(item).attr('id');
             var content = $(item).val();
-            var test_quill = new Quill('#editor_' + ele_id);
-            test_quill.setContents(JSON.parse(content));
-            var html = test_quill.root.innerHTML;
+            var quiz_quill = new Quill('#editor_' + ele_id);
+            quiz_quill.setContents(JSON.parse(content));
+            var html = quiz_quill.root.innerHTML;
             $('#content_' + ele_id).html($(html));
         });
     }

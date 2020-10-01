@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAssignmentResultTable extends Migration
+class CreatePaperTestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateAssignmentResultTable extends Migration
      */
     public function up()
     {
-        Schema::create('assignment_results', function (Blueprint $table) {
+        Schema::create('paper_test', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->integer('assignment_id');
-            $table->text('content');
-            $table->decimal('mark', 15, 2)->nullable();
-            $table->string('attachment_url');
-            $table->date('submit_date');
-            $table->integer('status');
+            $table->integer('lesson_id');
+            $table->string('type');
+            $table->string('title');
+            $table->text('content')->nullable();
+            $table->string('attachment')->nullable();
+            $table->tinyInteger('published')->nullable()->default(0);
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ class CreateAssignmentResultTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assignment_results');
+        Schema::dropIfExists('paper_test');
     }
 }

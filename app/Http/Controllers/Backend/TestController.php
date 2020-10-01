@@ -4,145 +4,81 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
+use App\Models\PaperTest;
 use App\Models\Course;
-use App\Models\Test;
+use App\Models\Lesson;
+
+use App\Http\Controllers\Traits\FileUploadTrait;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 class TestController extends Controller
 {
+    use FileUploadTrait;
+
     /**
-     * Create a new controller instance.
+     * Display a listing of Tests.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function index()
     {
-        $this->middleware('auth');
+        $count = [
+            'all' => PaperTest::all()->count(),
+            'published' => PaperTest::where('published', 1)->count(),
+            'pending' => PaperTest::where('published', 0)->count(),
+            'deleted' => PaperTest::onlyTrashed()->count()
+        ];
+
+        return view('backend.tests.index', compact('count'));
     }
 
     /**
-     * List of Tests
+     * List data for Datatable
      */
-    public function index() {
+    public function getList($type) {
 
-        $courses = Course::all();
-        return view('backend.test.index', compact('courses'));
-    }
+        switch ($type) {
+            case 'all':
+                $tests = PaperTest::all();
+            break;
+            case 'published':
+                $tests = PaperTest::where('published', 1)->get();
+            break;
+            case 'pending':
+                $tests = PaperTest::where('published', 0)->get();
+            break;
+            case 'deleted':
+                $tests = PaperTest::onlyTrashed()->get();
+            break;
+            default:
+                $tests = PaperTest::all();
+        }
 
-    /**
-     * Get Tests by Course id
-     */
-    public function getList($id) {
-
-        $tests = Test::where('course_id', $id)->get();
         $data = $this->getArrayData($tests);
+
+        $count = [
+            'all' => PaperTest::all()->count(),
+            'published' => PaperTest::where('published', 1)->count(),
+            'pending' => PaperTest::where('published', 0)->count(),
+            'deleted' => PaperTest::onlyTrashed()->count()
+        ];
 
         return response()->json([
             'success' => true,
-            'data' => $data
+            'data' => $data,
+            'count' => $count
         ]);
     }
 
-    /**
-     * Add new Test
-     */
-    public function create() {
-
-        $courses = Course::all();
-        return view('backend.test.create', compact('courses'));
-    }
-
-    /**
-     * Store a Question
-     */
-    public function store(Request $request) {
-
-        $data = $request->all();
-        $test_data = [
-            'course_id' => $data['course_id'],
-            'title' => $data['title'],
-            'description' => $data['test_description']
-        ];
-        
-        try {
-            $test = Test::create($test_data);
-
-            return response()->json([
-                'success' => true,
-                'test' => $test
-            ]);
-        } catch (Exception $e) {
-
-            return response()->json([
-                'success' => false,
-                'msg' => $e->getMessage()
-            ]);
-        }
-        
-    }
-
-    /**
-     * Edit a Test
-     */
-    public function edit($id) {
-
-        $courses = Course::all();
-        $test = Test::find($id);
-        return view('backend.test.edit', compact('test', 'courses'));
-    }
-
-    /**
-     * Update a Test
-     */
-    public function update(Request $request, $id) {
-
-        $updateData = [
-            'course_id' => $request->course_id,
-            'title' => $request->title,
-            'description' => $request->short_description 
-        ];
-
-        try {
-            Test::find($id)->update($updateData);
-
-            return response()->json([
-                'success' => true,
-                'action' => 'update'
-            ]);
-        } catch (Exception $e) {
-
-            return response()->json([
-                'success' => false,
-                'msg' => $e->getMessage()
-            ]);
-        }
-    }
-
-    /**
-     * Delete Test
-     */
-    public function destroy($id) {
-
-        try {
-            Test::find($id)->delete();
-
-            return response()->json([
-                'success' => true,
-                'action' => 'destroy'
-            ]);
-        } catch (Exception $e) {
-
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
-        }
-    }
-
-    function getArrayData($tests) {
+    public function getArrayData($tests) {
         $data = [];
         $i = 0;
 
-        foreach($tests as $test) {
+        foreach($tests as $item) {
+            $lesson = Lesson::find($item->lesson->id);
+            $course = $lesson->course;
             $i++;
             $temp = [];
             $temp['index'] = '<div class="custom-control custom-checkbox">
@@ -153,51 +89,152 @@ class TestController extends Controller
             $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                 <div class="avatar avatar-sm mr-8pt">
                                     <span class="avatar-title rounded bg-primary text-white">'
-                                        . substr($test->title, 0, 2) .
+                                        . substr($item->title, 0, 2) .
                                     '</span>
                                 </div>
                                 <div class="media-body">
                                     <div class="d-flex flex-column">
                                         <small class="js-lists-values-project">
-                                            <strong>' . $test->title . '</strong></small>
+                                            <strong>' . $item->title . '</strong></small>
+                                    </div>
+                                </div>
+                            </div>';
+            $temp['course'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded-circle">' . substr($course->title, 0, 2) . '</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex d-flex flex-column">
+                                            <p class="mb-0"><strong class="js-lists-values-lead">'
+                                            . $course->title . '</strong></p>
+                                            <small class="js-lists-values-email text-50">Teacher</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>';
 
-            $temp['questions'] = $test->questions->count();
+            $temp['lesson'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                            <div class="avatar avatar-sm mr-8pt">
+                                <span class="avatar-title rounded-circle">' . substr($lesson->title, 0, 2) . '</span>
+                            </div>
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex d-flex flex-column">
+                                        <p class="mb-0"><strong class="js-lists-values-lead">'
+                                        . $lesson->title . '</strong></p>
+                                        <small class="js-lists-values-email text-50">Teacher</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
 
-            if(!empty($test->lesson_id)) {
-                $temp['assigned'] = '<div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">' . $test->lesson->name . '</small>
-                                    <span class="indicator-line rounded bg-primary"></span>
-                                </div>';
-            } else {
-                $temp['assigned'] = '<div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">No Assigned</small>
-                                    <span class="indicator-line rounded bg-warning"></span>
-                                </div>';
-            }
+            $edit_route = route('admin.assignments.edit', $item->id);
+            $delete_route = route('admin.assignments.destroy', $item->id);
+            $publish_route = route('admin.assignment.publish', $item->id);
 
-            $show_route = route('admin.tests.show', $test->id);
-            $edit_route = route('admin.tests.edit', $test->id);
-            $delete_route = route('admin.tests.destroy', $test->id);
-
-            $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
             $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
             $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
 
-            if($test->trashed()) {
-                $restore_route = route('admin.tests.restore', $test->id);
+            if($item->published == 0) {
+                $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
+                    data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
+            } else {
+                $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
+                    data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
+            }
+
+            if($item->trashed()) {
+                $restore_route = route('admin.assignment.restore', $item->id);
                 $btn_delete = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
                     data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
             }
 
-            $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
-            $temp['more'] = '<a href="javascript:void(0)" class="text-50"><i class="material-icons">more_vert</i></a>';
+            if(auth()->user()->hasRole('Administrator')) {
+                $temp['action'] = $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+            } else {
+                $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+            }
 
             array_push($data, $temp);
         }
 
         return $data;
+    }
+
+    /**
+     * Return Lessons html by Option tag for selected course
+     */
+    public function getLessons(Request $request) {
+
+        $lessons = Lesson::where('course_id', $request->course_id)->get();
+
+        $html = '';
+
+        foreach($lessons as $lesson) {
+            if(strlen($lesson->short_text) > 60) {
+                $lesson_desc = substr($lesson->short_text, 0, 60) . '...';
+            } else {
+                $lesson_desc = $lesson->short_text;
+            }
+            if(isset($request->lesson_id) && $request->lesson_id == $lesson->id) {
+                $html .= "<option value='$lesson->id' data-desc='$lesson_desc' selected>$lesson->title</option>";
+            } else {
+                $html .= "<option value='$lesson->id' data-desc='$lesson_desc'>$lesson->title</option>";
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'options' => $html
+        ]);
+    }
+
+    /**
+     * Create a new Test
+     */
+    public function create()
+    {
+        $courses = Course::all();
+        return view('backend.tests.create', compact('courses'));
+    }
+
+    /**
+     * Store new Assignment
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'lesson_id' => 'required'
+        ]);
+
+        $data = $request->all();
+        $test = PaperTest::create($data);
+
+        // Attachment
+        if(isset($data['attachment'])) {
+            $attachment = $request->file('attachment');
+            $attachment_url = $this->saveImage($attachment, 'upload', true);
+            $test->attachment = $attachment_url;
+        }
+        $test->user_id = auth()->user()->id;
+
+        $test->save();
+
+        return response()->json([
+            'success' => true,
+            'test_id' => $test->id
+        ]);
+    }
+
+    /**
+     * Edit Assignment
+     */
+    public function edit($id)
+    {
+        $test = PaperTest::find($id);
+        $courses = Course::all();
+        return view('backend.tests.edit', compact('test', 'courses'));
     }
 }

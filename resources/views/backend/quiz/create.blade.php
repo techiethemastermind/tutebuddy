@@ -33,7 +33,7 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Create a test</h2>
+                    <h2 class="mb-0">Create a Quiz</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item">
@@ -41,11 +41,11 @@
                         </li>
 
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.tests.index') }}">Tests</a>
+                            <a href="{{ route('admin.quizs.index') }}">Quizs</a>
                         </li>
 
                         <li class="breadcrumb-item active">
-                            Create a test
+                            Create a Quiz
                         </li>
                     </ol>
                 </div>
@@ -53,7 +53,7 @@
 
             <div class="row" role="tablist">
                 <div class="col-auto mr-3">
-                    <a href="{{ route('admin.tests.index') }}"
+                    <a href="{{ route('admin.quizs.index') }}"
                         class="btn btn-outline-secondary">@lang('labels.general.back')</a>
                 </div>
             </div>
@@ -66,16 +66,16 @@
                 <div class="col-md-8">
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Creat a Test</div>
+                        <div class="page-separator__text">Creat a Quiz</div>
                     </div>
 
-                {!! Form::open(['method' => 'POST', 'route' => ['admin.tests.store'], 'files' => true, 'id' =>'frm_test']) !!}
+                {!! Form::open(['method' => 'POST', 'route' => ['admin.quizs.store'], 'files' => true, 'id' =>'frm_quiz']) !!}
 
                     <label class="form-label">Title</label>
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="@lang('labels.backend.tests.fields.title')" value="">
+                            placeholder="@lang('labels.backend.quizs.fields.title')" value="">
                         @error('title')
                         <div class="invalid-feedback">Title is required field.</div>
                         @enderror
@@ -83,9 +83,9 @@
 
                     <label class="form-label">Description</label>
                     <div class="form-group mb-24pt">
-                        <textarea name="test_description" class="form-control" cols="100%" rows="3"
+                        <textarea name="quiz_description" class="form-control" cols="100%" rows="3"
                             placeholder="Short description"></textarea>
-                        <small class="form-text text-muted">Shortly describe this test. It will show under title</small>
+                        <small class="form-text text-muted">Shortly describe this quiz. It will show under title</small>
                     </div>
                 {!! Form::close() !!}
 
@@ -176,16 +176,16 @@
 
 <script>
 
-var test = {
+var quiz = {
     status: 'new',
     id: ''
 };
 
-var test_quill;
+var quiz_quill;
 
 $(document).ready(function() {   
 
-    test_quill = new Quill('#quiz_editor', {
+    quiz_quill = new Quill('#quiz_editor', {
         theme: 'snow',
         placeholder: 'Quiz'
     });
@@ -198,9 +198,9 @@ $('#btn_new_quiz').on('click', function(e) {
 
     e.preventDefault();
 
-    if(test.id == '') {
+    if(quiz.id == '') {
 
-        $('#frm_test').ajaxSubmit({
+        $('#frm_quiz').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
                 var title = formObject.find('input[name="title"]');
@@ -226,7 +226,7 @@ $('#btn_new_quiz').on('click', function(e) {
             },
             success: function(res) {
                 if(res.success) {
-                    test.id = res.test.id;
+                    quiz.id = res.quiz.id;
                     createQuestion();
                 } else {
                     swal('Warning!', res.message, 'warning');
@@ -246,12 +246,12 @@ function createQuestion() {
             formData.push({
                 name: 'question',
                 type: 'text',
-                value: JSON.stringify(test_quill.getContents().ops)
+                value: JSON.stringify(quiz_quill.getContents().ops)
             });
             formData.push({
-                name: 'test_id',
+                name: 'quiz_id',
                 type: 'int',
-                value: test.id
+                value: quiz.id
             });
             formData.push({
                 name: 'send_type',
@@ -276,7 +276,7 @@ function createQuestion() {
                 }
 
                 loadQuestions();
-                test_quill.setContents('');
+                quiz_quill.setContents('');
             }
         }
     });
@@ -290,9 +290,9 @@ function loadQuestions() {
 
             var ele_id = $(item).attr('id');
             var content = $(item).val();
-            var test_quill = new Quill('#editor_' + ele_id);
-            test_quill.setContents(JSON.parse(content));
-            var html = test_quill.root.innerHTML;
+            var quiz_quill = new Quill('#editor_' + ele_id);
+            quiz_quill.setContents(JSON.parse(content));
+            var html = quiz_quill.root.innerHTML;
             $('#content_' + ele_id).html($(html));
         });
     }

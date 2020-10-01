@@ -22,13 +22,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Tests</h2>
+                    <h2 class="mb-0">Quizs</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            Tests
+                        Quizs
                         </li>
 
                     </ol>
@@ -36,10 +36,10 @@
                 </div>
             </div>
 
-            @can('test_create')
+            @can('quiz_create')
             <div class="row" role="tablist">
                 <div class="col-auto">
-                    <a href="{{ route('admin.tests.create') }}" class="btn btn-outline-secondary">Add Test</a>
+                    <a href="{{ route('admin.quizs.create') }}" class="btn btn-outline-secondary">Add Quiz</a>
                 </div>
             </div>
             @endcan
@@ -68,7 +68,7 @@
             <div class="col-lg-9">
                 <div class="card p-relative o-hidden mb-lg-32pt">
                     <div class="table-responsive" data-toggle="lists">
-                        <table id="tbl_tests" class="table mb-0 thead-border-top-0 table-nowrap">
+                        <table id="tbl_quizs" class="table mb-0 thead-border-top-0 table-nowrap">
                             <thead>
                                 <tr>
                                     <th style="width: 18px;" class="pr-0">
@@ -111,9 +111,9 @@ var table, route;
 
 $(document).ready(function() {
 
-    route = '/dashboard/ajax/tests/list/' + $('#courses').val();
+    route = '/dashboard/ajax/quizs/list/' + $('#courses').val();
     
-    table = $('#tbl_tests').DataTable(
+    table = $('#tbl_quizs').DataTable(
         {
             lengthChange: false,
             searching: false,
@@ -141,7 +141,7 @@ $(document).ready(function() {
 });
 
 $('#courses').on('change', function() {
-    route = '/dashboard/ajax/tests/list/' + $('#courses').val();
+    route = '/dashboard/ajax/quizs/list/' + $('#courses').val();
     table.ajax.url(route).load();
 });
 
