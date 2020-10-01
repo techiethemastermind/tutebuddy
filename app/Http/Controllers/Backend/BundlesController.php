@@ -72,7 +72,7 @@ class BundlesController extends Controller
         foreach($data['tags'] as $item) {
             $count = DB::table('tags')->where('name', $item)->count();
             if($count < 1) {
-                DB::table('tags')->insert($item);
+                DB::table('tags')->insert(['name' => $item]);
             }
         }
 
@@ -142,7 +142,7 @@ class BundlesController extends Controller
         foreach($data['tags'] as $item) {
             $count = DB::table('tags')->where('name', $item)->count();
             if($count < 1) {
-                DB::table('tags')->insert($item);
+                DB::table('tags')->insert(['name' => $item]);
             }
         }
 
