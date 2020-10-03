@@ -61,7 +61,7 @@
                         @endcan
 
                         @can('course_access')
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/courses*') ? 'active' : '' }}">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/course*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.courses.index') }}">
                                 <span class="sidebar-menu-text">Courses</span>
                             </a>

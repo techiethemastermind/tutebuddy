@@ -75,7 +75,7 @@
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="@lang('labels.backend.quizs.fields.title')" value="">
+                            placeholder="Quiz title" value="">
                         @error('title')
                         <div class="invalid-feedback">Title is required field.</div>
                         @enderror

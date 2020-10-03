@@ -24,7 +24,12 @@ class CoursesController extends Controller
     public function show ($slug)
     {
         $course = Course::where('slug', $slug)->first();
-        $is_mine = empty(DB::table('course_user')->where('course_id', $course->id)->where('user_id', auth()->user()->id)->first()) ? false : true;
+
+        if(auth()->check()) {
+            $is_mine = empty(DB::table('course_user')->where('course_id', $course->id)->where('user_id', auth()->user()->id)->first()) ? false : true;
+        } else {
+            $is_mine = false;
+        }
 
         $course_rating = 0;
         $total_ratings = 0;

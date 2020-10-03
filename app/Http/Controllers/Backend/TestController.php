@@ -210,6 +210,7 @@ class TestController extends Controller
         ]);
 
         $data = $request->all();
+        $data['user_id'] = auth()->user()->id;
         $test = PaperTest::create($data);
 
         // Attachment

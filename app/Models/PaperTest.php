@@ -16,7 +16,7 @@ class PaperTest extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['lesson_id', 'title', 'content', 'type', 'attachment', 'due_date'];
+    protected $fillable = ['lesson_id', 'title', 'content', 'type', 'due_date', 'attachment', 'due_date'];
 
     protected static function boot()
     {

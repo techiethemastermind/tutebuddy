@@ -108,6 +108,20 @@
                     <div class="card">
                         <div class="card-body">
 
+                            <div class="form-group">
+                                <label class="form-label">Test Type</label>
+                                <div class="custom-controls-stacked form-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input id="test_lesson" name="type" type="radio" class="custom-control-input" checked="">
+                                        <label for="test_lesson" class="custom-control-label">For Lesson</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="test_course" name="type" type="radio" class="custom-control-input">
+                                        <label for="test_course" class="custom-control-label">For Course</label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Set Course -->
                             <div class="form-group">
                                 <label class="form-label">Course</label>
@@ -125,22 +139,17 @@
                                 <small class="form-text text-muted">Select a course.</small>
                             </div>
 
-                            <!-- Set Duration -->
-                            <div class="form-group">
-                                <label class="form-label">Due Date</label>
-                                <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
-                            </div>
-
                             <!-- Set Lesson -->
                             <div class="form-group">
                                 <label class="form-label">Lessons</label>
                                 <select name="lesson_id" class="form-control form-label"></select>
+                                <small class="form-text text-muted">Select a lesson.</small>
                             </div>
 
-                            <!-- Total Mark -->
+                            <!-- Set Duration -->
                             <div class="form-group">
-                                <label class="form-label">Total Marks</label>
-                                <input type="number" name="total_mark" class="form-control" placeholder="5" value="5">
+                                <label class="form-label">Due Date</label>
+                                <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
                             </div>
 
                             <!-- Attachment -->
