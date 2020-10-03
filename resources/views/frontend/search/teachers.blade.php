@@ -49,7 +49,7 @@
             <div class="form-group pb-16pt" style="position: relative;">
                 <div class="search-form input-group-lg">
                     <input type="text" class="form-control" placeholder="Enter name or Subject" 
-                    value="@if(isset($_GET['_q'])) {{ $_GET['_q'] }} @endif" search-type="instructor">
+                    value="@if(isset($_GET['_q'])){{ $_GET['_q'] }}@endif" search-type="instructor">
                     <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
                 </div>
             </div>

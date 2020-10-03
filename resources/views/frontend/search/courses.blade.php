@@ -45,7 +45,7 @@
                     <div class="form-group pb-16pt position-relative">
                         <div class="search-form input-group-lg">
                             <input type="text" class="form-control" placeholder="What do you want to learn today?" 
-                            value="@if(isset($_GET['_q'])) {{ $_GET['_q'] }} @endif" search-type="course">
+                            value="@if(isset($_GET['_q'])){{ $_GET['_q'] }}@endif" search-type="course">
                             <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
                         </div>
                     </div>

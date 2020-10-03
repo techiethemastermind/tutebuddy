@@ -189,11 +189,12 @@
                                             class="input-group-text form-label">Price($)</span></span>
                                     <input type="text" name="private_price" class="form-control @error('private_price') is-invalid @enderror"
                                             value="" placeholder="24.00">
+                                    @error('private_price')
+                                    <div class="invalid-feedback">Price error</div>
+                                    @enderror
                                 </div>
                                 <small class="form-text text-muted">Price for Private course.</small>
-                                @error('private_price')
-                                <div class="invalid-feedback">Price type error</div>
-                                @enderror
+                                
                             </div>
 
                             <div class="page-separator"></div>
@@ -229,11 +230,11 @@
                                             class="input-group-text form-label">Price($)</span></span>
                                     <input type="text" name="group_price" class="form-control @error('group_price') is-invalid @enderror"
                                         placeholder="5.00" value="">
+                                    @error('group_price')
+                                    <div class="invalid-feedback">Price error</div>
+                                    @enderror
                                 </div>
                                 <small class="form-text text-muted">Price for Group course.</small>
-                                @error('group_price')
-                                <div class="invalid-feedback">Price type error</div>
-                                @enderror
                             </div>
                         </div>
                     </div>
