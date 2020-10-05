@@ -326,7 +326,7 @@
                                 <p class="text-black-70">The most powerful platform to deliver self-placed or live training to your employees.</p>
                                 <p class="text-black-70">Keep your employees updated with the latest skills and technologies.</p>
                             </div>
-                            <a href="#" class="btn btn-primary mt-16pt">Start Training</a>
+                            <a href="/page/solutions-for-business" class="btn btn-primary mt-16pt">Start Training</a>
                         </div>
                     </div>
                 </div>
@@ -345,7 +345,7 @@
                                 <p class="text-black-70">From vocational to formal education, you can depend on experienced instructors for all your learning needs.</p>
                                 <p class="text-black-70">Find an Instructor and start learning through self-placed or live classrooms.</p>
                             </div>
-                            <a href="#" class="btn btn-primary mt-16pt">Start Learning</a>
+                            <a href="/page/solutions-for-institutions" class="btn btn-primary mt-16pt">Start Learning</a>
                         </div>
                     </div>
                 </div>
