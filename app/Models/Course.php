@@ -92,7 +92,6 @@ class Course extends Model
         $types = ['video', 'pdf', 'audio', 'embed'];
         return $this->morphOne(Media::class, 'model')
             ->whereIn('type', $types);
-
     }
 
     public function schedule()
@@ -135,7 +134,6 @@ class Course extends Model
         } else {
             return 0;
         }
-        
     }
 
     public function isUserCertified()

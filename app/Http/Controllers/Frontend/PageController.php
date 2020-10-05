@@ -74,7 +74,7 @@ class PageController extends Controller
                         <\/div>';
 
         $html = str_replace('[sign_as_instructor]', $instructor_sign, $content);
-        $html = str_replace('[contact_form]', $contact_form, $content);
+        $html = str_replace('[contact_form]', $contact_form, $html);
 
         return $html;
     }

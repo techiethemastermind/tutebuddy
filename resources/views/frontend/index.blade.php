@@ -269,11 +269,9 @@
                                                 </div>
                                             </div>
                                             <div class="col text-right">
-                                                <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">Watch trailer</a>
+                                                <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">Enroll Now</a>
                                             </div>
                                         </div>
-
-
 
                                     </div>
 
