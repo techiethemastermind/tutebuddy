@@ -18,4 +18,20 @@ class PaymentController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Get Transactions
+     */
+    public function getTransactions()
+    {
+        return view('backend.payment.transactions');
+    }
+
+    /**
+     * Get Orders
+     */
+    public function getOrders()
+    {
+        return view('backend.payment.orders');
+    }
+
 }

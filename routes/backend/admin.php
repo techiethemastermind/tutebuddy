@@ -15,6 +15,8 @@ Route::resource('roles','RoleController');
 
 //===== Dashboard Routes =====//
 Route::get('/', 'DashboardController@index')->name('dashboard');
+
+// For Students Study
 Route::get('my/live-sessions', 'LessonController@studentLiveSessions')->name('student.liveSessions');
 Route::get('ajax/live-sessions/{type}', 'LessonController@getStudentLiveSessionsByAjax')->name('student.getLiveSessionsByAjax');
 Route::get('my/courses', 'CourseController@studentCourses')->name('student.courses');
@@ -24,6 +26,10 @@ Route::get('ajax/my-assignments/{type}', 'AssignmentsController@getStudentAssign
 Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
 Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
 Route::get('my/paths', 'BundlesController@studentBundles')->name('student.bundles');
+
+// Work for Teachers
+Route::get('live-sessions/all', 'LessonController@instructorLiveSessions')->name('instructor.liveSessions');
+Route::get('ajax/instructor-sessions/{type}', 'LessonController@getInstructorLiveSessionsByAjax')->name('teacher.getInstructorSessionsByAjax');
 
 //===== Categories Routes =====//
 Route::resource('categories', 'CategoryController');
@@ -143,3 +149,10 @@ Route::get('tests/restore/{id}', 'TestController@restore')->name('test.restore')
 Route::get('ajax/tests/list/{type}', 'TestController@getList')->name('getTestsByAjax');
 Route::get('ajax/test/publish/{id}', 'TestController@publish')->name('test.publish');
 Route::get('ajax/test/lessons', 'TestController@getLessons')->name('test.getLessonsByCourse');
+
+
+//==== Transactions Route ==== //
+Route::get('transactions', 'PaymentController@getTransactions')->name('transactions');
+
+//==== Orders Route ==== //
+Route::get('orders', 'PaymentController@getOrders')->name('orders');

@@ -299,7 +299,7 @@ class LessonController extends Controller
     // Student Dashboard
     public function studentLiveSessions()
     {
-        $count = $this->getCounts();
+        $count = $this->getStudentCounts();
         return view('backend.lesson.student', compact('count'));
     }
 
@@ -328,7 +328,7 @@ class LessonController extends Controller
 
         $data = $this->getArrayData($schedules);
 
-        $count = $this->getCounts();
+        $count = $this->getStudentCounts();
 
         return response()->json([
             'success' => true,
@@ -338,7 +338,7 @@ class LessonController extends Controller
         
     }
 
-    function getCounts()
+    function getStudentCounts()
     {
         $courses_id = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $schedules = Schedule::whereIn('course_id', $courses_id)->get();
@@ -415,5 +415,69 @@ class LessonController extends Controller
         }
 
         return $data;
+    }
+
+    // Instructor dashboard
+    public function instructorLiveSessions()
+    {
+        $count = $this->getInstructorCounts();
+        return view('backend.lesson.teacher', compact('count'));
+    }
+
+    function getInstructorCounts()
+    {
+        $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $schedules = Schedule::whereIn('course_id', $course_ids)->get();
+        $all_count = count($schedules);
+        $today_count = 0;
+        
+        foreach($schedules as $schedule) {
+            if(Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+                $today_count++;
+            }
+        }
+
+        $count = [
+            'all' => $all_count,
+            'today' => $today_count,
+            'deleted' => 0
+        ];
+
+        return $count;
+    }
+
+    public function getInstructorLiveSessionsByAjax($type)
+    {
+        $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+
+        if($type == 'all') {
+            $schedules = Schedule::whereIn('course_id', $course_ids)->whereNotNull('lesson_id')->get();
+        }
+
+        if($type == 'today') {
+            $all = Schedule::whereIn('course_id', $course_ids)->get();
+            $schedules = [];
+
+            foreach($all as $schedule) {
+                if(Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+                    array_push($schedules, $schedule);
+                }
+            }
+        }
+
+        if($type == 'deleted') {
+            $schedules = [];
+        }
+
+        $data = $this->getArrayData($schedules);
+
+        $count = $this->getInstructorCounts();
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+        
     }
 }

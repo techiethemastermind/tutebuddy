@@ -71,9 +71,10 @@ class DashboardController extends Controller
                 $bundles = Bundle::where('user_id', auth()->user()->id)->limit(5)->get();
                 $test_ids = Test::whereIn('course_id', $course_ids)->limit(5)->pluck('id');
                 $testResults = TestResults::whereIn('test_id', $test_ids)->limit(5)->get();
+                $discussions = Discussion::limit(5)->get();
 
                 return view('backend.dashboard.teacher', compact('schedules',
-                    'students', 'assignments', 'assignment_results', 'bundles', 'testResults'));
+                    'students', 'assignments', 'assignment_results', 'bundles', 'testResults', 'discussions'));
             break;
 
             case 'student':

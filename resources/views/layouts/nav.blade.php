@@ -238,9 +238,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-header"><strong>Account</strong></div>
-                        <a class="dropdown-item" href="{{ route('admin.myaccount') }}?active=account">Edit Account</a>
-                        <a class="dropdown-item" href="{{ route('admin.myaccount') }}?active=billing">Billing</a>
-                        <a class="dropdown-item" href="{{ route('admin.myaccount') }}?active=payment">Payments</a>
+                        <a class="dropdown-item" href="{{ route('admin.myaccount') }}">My Account</a>
+                        <a class="dropdown-item" href="">Help Center</a>
+                        <a class="dropdown-item" href="">Forum</a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}

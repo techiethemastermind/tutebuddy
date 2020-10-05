@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="card text-center mb-lg-0">
+                    <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">$3,917.80</h4>
                             <div>Account Balance</div>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="card text-center mb-lg-0">
+                    <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">$10,211.50</h4>
                             <div>Total Sales</div>
@@ -66,6 +66,8 @@
         <div class="page-section">
 
             <!-- Schedules -->
+
+            @if(count($schedules) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Upcomming Lessons</strong></p>
@@ -172,9 +174,10 @@
                     <small class="text-muted">upcomming lessons</small>
                 </div>
             </div>
-
+            @endif
 
             <!-- Enrolled Students -->
+            @if(count($students) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Students Roster (Enrolled Students)</strong></p>
@@ -263,8 +266,10 @@
                     </table>
                 </div>
             </div>
+            @endif
 
             <!-- Assignments -->
+            @if(count($assignments) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Assignments for Students</strong></p>
@@ -331,8 +336,10 @@
                     <small class="text-muted">Assignments</small>
                 </div>
             </div>
+            @endif
 
             <!-- Submitted Assignments -->
+            @if(count($assignment_results) > 0)
             <div class="card">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Assignments Submited by Students</strong></p>
@@ -420,7 +427,10 @@
                     <small class="text-muted">Assignments Submitted by Students</small>
                 </div>
             </div>
+            @endif
 
+            <!-- Paths -->
+            @if(count($bundles) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">Paths</div>
             </div>
@@ -459,7 +469,9 @@
                 </div>
                 @endforeach
             </div>
+            @endif
 
+            @if(count($testResults) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">Quizz Submitted</div>
             </div>
@@ -542,108 +554,69 @@
                 @endforeach
 
             </div>
+            @endif
 
+            <!-- My Discussions Section -->
+            @if(count($discussions) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">Discussions</div>
+                <div class="d-flex flex">
+                    <div class="flex">&nbsp;</div>
+                    <div style="padding-left: 8px; background-color: #f5f7fa;">
+                        <a href="{{ route('admin.discussions.topics') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                    </div>
+                </div>
             </div>
 
             <div class="card">
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-3 mb-8pt mb-md-0">
-                                <div class="media align-items-center">
-                                    <div class="media-left mr-12pt">
-                                        <a href="" class="avatar avatar-sm">
-                                            <span class="avatar-title rounded-circle">LB</span>
-                                        </a>
-                                    </div>
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <a href="" class="card-title">Laza Bogdan</a>
-                                        <small class="text-muted">2 days ago</small>
-                                    </div>
+                @foreach($discussions as $discussion)
+                <div class="list-group-item p-3">
+                    <div class="row align-items-start">
+                        <div class="col-md-3 mb-8pt mb-md-0">
+                            <div class="media align-items-center">
+                                <div class="media-left mr-12pt">
+                                    <a href="" class="avatar avatar-sm">
+                                        @if(!empty($discussion->user->avatar))
+                                        <img src="{{ asset('/storage/avatars/' . $discussion->user->avatar) }}" alt="{{ $discussion->user->avatar }}"
+                                        class="avatar-img rounded-circle">
+                                        @else
+                                        <span class="avatar-title rounded-circle">{{ substr($discussion->user->name, 0, 2) }}</span>
+                                        @endif
+                                    </a>
+                                </div>
+                                <div class="d-flex flex-column media-body media-middle">
+                                    <a href="" class="card-title">{{ $discussion->user->name }}</a>
+                                    <small class="text-muted">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($discussion->updated_at))->diffForHumans() }}</small>
                                 </div>
                             </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <p class="mb-8pt"><a href="fixed-discussion.html" class="text-body"><strong>Using
-                                            Angular HttpClientModule instead of HttpModule</strong></a></p>
+                        </div>
+                        <div class="col mb-8pt mb-md-0">
+                            <p class="mb-8pt">
+                                <a href="{{ route('admin.discussions.show', $discussion->id) }}" class="text-body">
+                                    <strong>{{ $discussion->title }}</strong></a>
+                            </p>
 
-
-                                <a href="fixed-discussion.html" class="chip chip-outline-secondary">Angular
-                                    fundamentals</a>
-
-                            </div>
-                            <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                <h5 class="m-0">1</h5>
-                                <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
-                            </div>
+                            <?php $topics = json_decode($discussion->topics); ?>
+                            @foreach($topics as $topic)
+                            <a href="{{ route('admin.discussions.show', $discussion->id) }}" class="chip chip-outline-secondary">
+                                {{ $discussion->topic($topic) }}
+                            </a>
+                            @endforeach
+                        </div>
+                        <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                            <h5 class="m-0">{{ $discussion->results->count() }}</h5>
+                            <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
                         </div>
                     </div>
-
-                    <div class="list-group-item p-3">
-                        <div class="row align-items-start">
-                            <div class="col-md-3 mb-8pt mb-md-0">
-                                <div class="media align-items-center">
-                                    <div class="media-left mr-12pt">
-                                        <a href="" class="avatar avatar-sm">
-                                            <span class="avatar-title rounded-circle">AC</span>
-                                        </a>
-                                    </div>
-                                    <div class="d-flex flex-column media-body media-middle">
-                                        <a href="" class="card-title">Adam Curtis</a>
-                                        <small class="text-muted">3 days ago</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col mb-8pt mb-md-0">
-                                <p class="mb-0"><a href="fixed-discussion.html" class="text-body"><strong>Why am I
-                                            getting an error when trying to install angular/http@2.4.2</strong></a></p>
-
-                            </div>
-                            <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                <h5 class="m-0">1</h5>
-                                <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
-
-                <div class="card-footer p-8pt">
-
-                    <ul class="pagination justify-content-start pagination-xsm m-0">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true" class="material-icons">chevron_left</span>
-                                <span>Prev</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Page 1">
-                                <span>1</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Page 2">
-                                <span>2</span>
-                            </a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span>Next</span>
-                                <span aria-hidden="true" class="material-icons">chevron_right</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                @endforeach
             </div>
+            @endif
 
         </div>
     </div>
 </div>
 <!-- // END Header Layout Content -->
-
-@endsection
 
 @push('after-scripts')
 
@@ -656,3 +629,5 @@ $(function() {
 </script>
 
 @endpush
+
+@endsection

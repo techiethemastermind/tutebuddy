@@ -71,30 +71,27 @@ if(!isset($_GET["active"])) {
 
                 <div class="card-header p-0 nav">
                     <div class="row no-gutters" role="tablist">
+
                         <div class="col-auto">
                             <a href="#account" data-toggle="tab" role="tab" aria-selected="true"
                                 class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                                 <span class="flex d-flex flex-column">
-                                    <strong class="card-title">My Account</strong>
+                                    <strong class="card-title">Information</strong>
                                 </span>
                             </a>
                         </div>
-                        <div class="col-auto border-left">
-                            <a href="#billing" data-toggle="tab" role="tab" aria-selected="false"
-                                class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
-                                <span class="flex d-flex flex-column">
-                                    <strong class="card-title">Billing</strong>
-                                </span>
-                            </a>
-                        </div>
+
+                        @if(auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Instructor'))
                         <div class="col-auto border-left border-right">
-                            <a href="#payment" data-toggle="tab" role="tab" aria-selected="false"
+                            <a href="#bank" data-toggle="tab" role="tab" aria-selected="false"
                                 class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                                 <span class="flex d-flex flex-column">
-                                    <strong class="card-title">Payment</strong>
+                                    <strong class="card-title">Banking</strong>
                                 </span>
                             </a>
                         </div>
+                        @endif
+
                         @if(auth()->user()->hasRole('Student'))
                             <div class="col-auto border-left border-right">
                                 <a href="#child" data-toggle="tab" role="tab" aria-selected="false"
@@ -270,7 +267,7 @@ if(!isset($_GET["active"])) {
                     </div>
 
                     <!-- Tab content for billing information -->
-                    <div id="billing" class="tab-pane p-4 fade text-70">
+                    <div id="bank" class="tab-pane p-4 fade text-70">
 
                         <div class="list-group list-group-form">
                             <div class="list-group-item">
@@ -315,139 +312,6 @@ if(!isset($_GET["active"])) {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Tab for payment history -->
-                    <div id="payment" class="tab-pane p-4 fade text-70">
-
-                        <div class="page-separator">
-                            <div class="page-separator__text bg-white">Outstanding Payments</div>
-                        </div>
-
-                        <div class="alert alert-soft-warning mb-lg-32pt">
-                            <div class="d-flex flex-wrap align-items-center">
-                                <div class="mr-8pt">
-                                    <i class="material-icons">access_time</i>
-                                </div>
-                                <div class="flex" style="min-width: 180px">
-                                    <small class="text-100">
-                                        Please pay your amount due of
-                                        <strong>$9.00</strong> for invoice <a href="fixed-billing-invoice.html"
-                                            class="text-underline">10002331</a>
-                                    </small>
-                                </div>
-                                <a href="fixed-billing-payment.html" class="btn btn-sm btn-link">Pay Now</a>
-                            </div>
-                        </div>
-
-                        <div class="page-separator">
-                            <div class="page-separator__text bg-white">Payment History</div>
-                        </div>
-
-                        <div class="card table-responsive">
-                            <table class="table table-flush table-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th>Invoice no.</th>
-                                        <th>Date</th>
-                                        <th class="text-center">Amount</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-
-
-
-                                    <tr>
-                                        <td><a href="fixed-billing-invoice.html" class="text-underline">10002331</a>
-                                        </td>
-                                        <td>26 Sep 2018</td>
-                                        <td class="text-center">$9</td>
-                                        <td class="text-right">
-                                            <div class="d-inline-flex align-items-center">
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                                        class="icon--right material-icons">file_download</i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><a href="fixed-billing-invoice.html" class="text-underline">10003815</a>
-                                        </td>
-                                        <td>29 Apr 2018</td>
-                                        <td class="text-center">$9</td>
-                                        <td class="text-right">
-                                            <div class="d-inline-flex align-items-center">
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                                        class="icon--right material-icons">file_download</i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><a href="fixed-billing-invoice.html" class="text-underline">10007382</a>
-                                        </td>
-                                        <td>31 Mar 2018</td>
-                                        <td class="text-center">$9</td>
-                                        <td class="text-right">
-                                            <div class="d-inline-flex align-items-center">
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                                        class="icon--right material-icons">file_download</i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><a href="fixed-billing-invoice.html" class="text-underline">10004876</a>
-                                        </td>
-                                        <td>30 May 2018</td>
-                                        <td class="text-center">$9</td>
-                                        <td class="text-right">
-                                            <div class="d-inline-flex align-items-center">
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                                        class="icon--right material-icons">file_download</i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><a href="fixed-billing-invoice.html" class="text-underline">10009392</a>
-                                        </td>
-                                        <td>30 Apr 2018</td>
-                                        <td class="text-center">$9</td>
-                                        <td class="text-right">
-                                            <div class="d-inline-flex align-items-center">
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                                <a href="fixed-billing-invoice.html"
-                                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                                        class="icon--right material-icons">file_download</i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-
-                                </tbody>
-                            </table>
                         </div>
                     </div>
 

@@ -42,6 +42,50 @@
                 </li>
                 @endcan
 
+                @if(auth()->user()->hasRole('Instructor'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
+                        Work
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul class="sidebar-submenu collapse sm-indent" id="study_menu" style="">
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/live*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.instructor.liveSessions') }}">
+                                <span class="sidebar-menu-text">Live Sessions</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/course*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="">
+                                <span class="sidebar-menu-text">My Courses</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/assignment*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="">
+                                <span class="sidebar-menu-text">My Assignments</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/instructor*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="">
+                                <span class="sidebar-menu-text">My Instructors</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/path*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="">
+                                <span class="sidebar-menu-text">My Paths</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                @endif
+
                 @if(auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Instructor'))
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#courses_menu">
@@ -135,18 +179,16 @@
                     </a>
 
                     <ul class="sidebar-submenu collapse sm-indent" id="report_menu" style="">
-
-                        @can('order_access')
+                    
                         <li class="sidebar-menu-item {{ Request::is('dashboard/order*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="">
-                                <span class="sidebar-menu-text">Orders</span>
+                            <a class="sidebar-menu-button" href="{{ route('admin.orders') }}">
+                                <span class="sidebar-menu-text">Sales</span>
                             </a>
                         </li>
-                        @endcan
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/sale*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="">
-                                <span class="sidebar-menu-text">Sales</span>
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/transaction*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.transactions') }}">
+                                <span class="sidebar-menu-text">Transactions</span>
                             </a>
                         </li>
 

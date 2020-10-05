@@ -100,7 +100,7 @@
     <div>
 
 </div>
-<textarea id="page_content" class="d-none">{{ $page->content }}</textarea>
+<textarea id="page_content" class="d-none w-100">{{ $page_content }}</textarea>
 <div id="page_editor" class="d-none"></div>
 
 @push('after-scripts')
@@ -117,8 +117,7 @@ $(function() {
     var page_quill = new Quill('#page_editor');
     page_quill.setContents(json_content);
     var content_html = page_quill.root.innerHTML;
-    $('#page-wrap').html(content_html);
-
+    $('#page-wrap').html(content_html.replace(/&lt;/g, "<").replace(/&gt;/g, ">"));
 });
 
 </script>

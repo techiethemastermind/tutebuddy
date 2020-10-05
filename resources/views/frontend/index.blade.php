@@ -206,14 +206,12 @@
                                                 </div>
                                                 <a href="{{ route('courses.show', $course->slug) }}" data-toggle="tooltip" data-title="Add Favorite" data-placement="top" data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
                                             </div>
-                                            @if($course->reviews->count() > 0)
                                             <div class="d-flex">
                                                 <div class="rating flex">
                                                     @include('layouts.parts.rating', ['rating' =>
                                                     $course->reviews->avg('rating')])
                                                 </div>
                                             </div>
-                                            @endif
                                         </div>
                                         <div class="card-footer">
                                             <div class="row justify-content-between">
@@ -309,7 +307,7 @@
                                 <p class="text-black-70">Join the most innovative e-learning platform to deliver education and training to year students.</p>
                                 <p class="text-black-70">Create rich learning content or engage your students in live classrooms.</p>
                             </div>
-                            <a href="#" class="btn btn-primary mt-16pt">Start Teaching</a>
+                            <a href="/page/teach-on-tutebuddy" class="btn btn-primary mt-16pt">Start Teaching</a>
                         </div>
                     </div>
                 </div>
@@ -367,7 +365,7 @@
                     <img src="{{ asset('/assets/img/course-16.jpg') }}" alt="" class="card-img">
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6 font-size-16pt">
                     <div>
                         <p class="text-black-70">Expert teachers in a variety of subjects will make your learning
                             process easy and enjoyable. All our teachers are practicing experts or professionals in
@@ -398,7 +396,7 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-6 font-size-16pt">
                     
                     <div>
                         <p class="text-black-70">Private Lessons from experienced & verified teachers delivered to your home at convenient times.</p>
