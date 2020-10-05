@@ -1,7 +1,7 @@
 /**
     Custom CSS for APP
 */
-[dir=ltr] .page-wrap p {
+[dir=ltr] .page-wrap p, .page-wrap ul, .page-wrap ol {
     font-size: 1rem;
 }
 [dir=ltr] .mdk-drawer {

@@ -159,6 +159,27 @@ class EmailtemplateController extends Controller
                 'message' => $e->getMessage()
             ]);
         }
-        
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $data = $request->all();
+        $template_name = $data['template_name'];
+        $template = EmailTemplate::where('name', $template_name)->first();
+        $data['template'] = $template;
+
+        try {
+            Mail::to('sales@tutebuddy.com')->send(new SendMail($data));
+
+            return response()->json([
+                'success' => true
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

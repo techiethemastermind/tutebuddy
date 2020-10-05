@@ -141,7 +141,8 @@ Route::get('pages/restore/{id}', 'PagesController@restore')->name('pages.restore
 // Email Tempate
 Route::resource('mailedits', 'EmailtemplateController');
 Route::get('ajax/mailedits', 'EmailtemplateController@getListByAjax')->name('table.getTemplatesByAjax');
-Route::get('ajax/send', 'EmailtemplateController@sendTestEmail')->name('ajax.sendTestEmail');
+Route::get('ajax/send-test', 'EmailtemplateController@sendTestEmail')->name('ajax.sendTestEmail');
+Route::get('ajax/send', 'EmailtemplateController@sendEmail')->name('ajax.sendEmail');
 
 //===== Test Routes =====//
 Route::resource('tests', 'TestController');

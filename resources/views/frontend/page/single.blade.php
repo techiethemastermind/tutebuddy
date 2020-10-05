@@ -113,11 +113,34 @@
 
 $(function() {
 
-    var json_content = JSON.parse($('#page_content').val());
+    var json_content = JSON.parse($('#page_content').val().replace(/\n/g, ""));
     var page_quill = new Quill('#page_editor');
     page_quill.setContents(json_content);
     var content_html = page_quill.root.innerHTML;
     $('#page-wrap').html(content_html.replace(/&lt;/g, "<").replace(/&gt;/g, ">"));
+
+    $('#contact').on('submit', function(e) {
+        e.preventDefault();
+
+        $(this).ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+                // Append Course ID
+                formData.push({
+                    name: 'template_name',
+                    type: 'text',
+                    value: 'contact'
+                });
+            },
+            success: function(res) {
+                if(res.success) {
+                    swal('Success!', 'Successfully Updated', 'success');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
 });
 
 </script>
