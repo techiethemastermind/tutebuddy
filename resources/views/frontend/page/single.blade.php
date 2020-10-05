@@ -45,7 +45,7 @@
 
                     <div class="content mb-64pt">
                         <!-- quill editor -->
-                        <div id="page-wrap" class="mb-0 page-wrap"></div>
+                        <div id="page-wrap" class="mb-0 page-wrap card card-body"></div>
                     </div>
                 </div>
 
