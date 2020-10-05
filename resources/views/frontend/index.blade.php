@@ -332,7 +332,7 @@
                 <div class="col-md-6 col-lg-4">
 
                     <div class="page-separator">
-                        <div class="page-separator__text">For Students</div>
+                        <div class="page-separator__text">For schools & institutions</div>
                     </div>
 
                     <div class="card card--elevated posts-card-popular overlay card-group-row__card">
