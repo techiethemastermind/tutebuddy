@@ -1,28 +1,62 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+<!-- Header Layout Content -->
+<div class="mdk-header-layout__content page-content ">
+    <div class="pt-32pt pt-sm-64pt pb-32pt">
+        <div class="page-section container page__container">
+            <div class="col-lg-6 p-0 mx-auto">
 
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
-
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
+                <div class="page-separator mb-4">
+                    <div class="page-separator__text">{{ __('Thank You for Registration') }}</div>
                 </div>
+
+                {{ __('Before proceeding, please check your email for a verification link.') }}
+                {{ __('If you did not receive the email') }},
+                <form id="frm_resend" class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+                    @csrf
+                    <button type="submit" class="btn btn-link p-0 m-0 align-baseline text-primary-dodger-blue">{{ __('click here to request another') }}</button>.
+                    <input type="hidden" name="user_id" value="{{ $user->id }}">
+                </form>
+
             </div>
         </div>
     </div>
+
+    <div class="page-separator justify-content-center m-0">
+        <div class="page-separator__text">or sign-in with</div>
+    </div>
+    <div class="bg-body pt-32pt pb-32pt pb-md-64pt text-center">
+        <div class="container page__container">
+            <a href="" class="btn btn-secondary btn-block-xs">Facebook</a>
+            <a href="" class="btn btn-secondary btn-block-xs">Twitter</a>
+            <a href="" class="btn btn-secondary btn-block-xs">Google+</a>
+        </div>
+    </div>
+
 </div>
+
+@push('after-scripts')
+
+<script>
+    $(function() {
+        $('#frm_resend').on('submit', function(e){
+            e.preventDefault();
+
+            $(this).ajaxSubmit({
+                success: function(res) {
+                    console.log(res);
+                    if(res.success) {
+                        swal('Success!', 'Activation email sent, Please check your email address!', 'success');
+                    } else {
+                        swal('Error happend', res.message + '\n Please contact to support', 'error');
+                    }
+                }
+            })
+        });
+    });
+</script>
+
+@endpush
+
 @endsection

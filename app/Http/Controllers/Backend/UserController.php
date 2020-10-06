@@ -32,9 +32,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id','ASC')->paginate(5);
+        $data = User::orderBy('id','ASC')->paginate(10);
         return view('backend.users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i', ($request->input('page', 1) - 1) * 10);
     }
     
     /**

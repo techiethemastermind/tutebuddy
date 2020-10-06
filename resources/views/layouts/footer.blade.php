@@ -16,16 +16,16 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <ul class="footer-menu">
                         <li class="footer-menu-item">
-                            <a href="#" >About Us</a>
+                            <a href="/page/about-us" >About Us</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Support</a>
+                            <a href="/page/teach-on-tutebuddy" >Teach on TuteBuddy</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >FAQs</a>
+                            <a href="/page/solutions-for-business" >Solutions for Business</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Contact Us</a>
+                            <a href="/solutions-for-institutions" >Solutions for Institutions</a>
                         </li>
                     </ul>
                 </div>
@@ -36,13 +36,13 @@
                             <a href="/page/how-it-works" >How It Works</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Teach on TuteBuddy</a>
+                            <a href="/page/terms-and-conditions" >Terms of Service</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Solutions for Business</a>
+                            <a href="/page/privacy-policy" >Privacy Policy</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Solutions for Institutions</a>
+                            <a href="/page/cookie-policy-for-tutebuddycom" >Cookie Policy</a>
                         </li>
                     </ul>
                 </div>
@@ -50,16 +50,16 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <ul class="footer-menu">
                         <li class="footer-menu-item">
-                            <a href="/page/terms-and-conditions" >Terms of Service</a>
+                            <a href="/page/student-safety" >Student Safety</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="/page/privacy-policy" >Privacy Policy</a>
+                            <a href="/page/support" >Support</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Cookies</a>
+                            <a href="/page/faqs" >FAQs</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Student Safety</a>
+                            <a href="/page/contact-us" >Contact Us</a>
                         </li>
                     </ul>
                 </div>

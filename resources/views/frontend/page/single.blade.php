@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3">
+                <div class="col-lg-3 pl-lg-5">
 
                     <div class="page-separator">
                         <div class="page-separator__text">Other Pages</div>

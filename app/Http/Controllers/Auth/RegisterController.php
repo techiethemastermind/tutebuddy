@@ -107,6 +107,25 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
         $this->guard()->logout();
-        return redirect()->route('login')->with('success', 'We sent you an activation code. Check your email and click on the link to verify.');
+        return view('auth.verify', compact('user'));
+        // return redirect()->route('login')->with('success', 'We sent you an activation code. Check your email and click on the link to verify.');
+    }
+
+    public function resend(Request $request)
+    {
+        $user_id = $request->user_id;
+        $user = User::find($user_id);
+
+        try {
+            Mail::to($user->email)->send(new VerifyMail($user));
+            return response()->json([
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

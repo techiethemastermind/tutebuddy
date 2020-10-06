@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+<!-- Header Layout Content -->
 <div class="mdk-header-layout__content page-content ">
     <div class="pt-32pt pt-sm-64pt pb-32pt">
         <div class="page-section container page__container">
