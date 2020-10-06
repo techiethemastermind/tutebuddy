@@ -32,16 +32,6 @@ class Course extends Model
         //     }
         // }
 
-        if (auth()->check()) {
-            if (auth()->user()->hasRole('Instructor')) {
-                static::addGlobalScope('filter', function (Builder $builder) {
-                    $builder->whereHas('teachers', function ($q) {
-                        $q->where('course_user.user_id', '=', auth()->user()->id);
-                    });
-                });
-            }
-        }
-
         static::deleting(function ($course) { // before delete() method call this
             if ($course->isForceDeleting()) {
                 if (File::exists(public_path('/storage/uploads/' . $course->course_image))) {

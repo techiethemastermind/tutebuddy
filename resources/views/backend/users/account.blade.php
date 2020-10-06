@@ -395,7 +395,7 @@ if(!isset($_GET["active"])) {
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="chkChildTerm">
                                     <label class="custom-control-label" for="chkChildTerm">
-                                        I agree to the Terms and Conditions on behalf of my ward/child
+                                        I agree to the <a href="/page/terms-and-conditions" class="text-primary">Terms and Conditions</a> on behalf of my ward/child
                                     </label>
                                 </div>
                             </div>
