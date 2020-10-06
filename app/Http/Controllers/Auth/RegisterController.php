@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 
 use Mail;
 use App\Mail\VerifyMail;
+use App\Mail\SendMail;
 
 class RegisterController extends Controller
 {
@@ -81,7 +82,15 @@ class RegisterController extends Controller
         ]);
 
         $user->assignRole($data['role']);
-        Mail::to($user->email)->send(new VerifyMail($user));
+
+        $data = [
+            'template_type' => 'register_verify',
+            'mail_data' => $user
+        ];
+
+        Mail::to($user->email)->send(new SendEmail($user));
+
+        // Mail::to($user->email)->send(new VerifyMail($user));
 
         return $user;
     }
@@ -116,8 +125,13 @@ class RegisterController extends Controller
         $user_id = $request->user_id;
         $user = User::find($user_id);
 
+        $data = [
+            'template_type' => 'register_verify',
+            'mail_data' => $user
+        ];
+
         try {
-            Mail::to($user->email)->send(new VerifyMail($user));
+            Mail::to($user->email)->send(new SendMail($data));
             return response()->json([
                 'success' => true
             ]);

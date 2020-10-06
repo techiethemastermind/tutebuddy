@@ -20,7 +20,7 @@ class PageController extends Controller
     {
         $instructor_sign = '<a href=\"\/register?r=t\" class=\"btn btn-primary\">Sign up as Instructor <\/a>';
         $contact_form = '<div class=\"card card-body\">
-                            <form id=\"contact\" action=\"/dashboard/ajax/send\">
+                            <form id=\"contact\" action=\"/dashboard/ajax/email/contact\">
                                 <div class=\"form-group\">
                                     <label class=\"form-label\">Full Name *:<\/label>
                                     <input name=\"name\" type=\"text\" class=\"form-control\" placeholder=\"Your first and last name ...\" required>

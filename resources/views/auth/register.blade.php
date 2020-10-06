@@ -92,13 +92,19 @@
                                 </div>
 
                                 <div id="tab2" class="tab-pane fade">
-                                    <p>Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-                                    <p>Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ‘lorem ipsum’ will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). Many desktop publishing packages and web page editors now use Lorem Ipsum.</p>
+                                    <p>Instructors must be 18 years of age and above with the legal authority to sign binding contracts with tutebuddy.com. Please review some of the important rules of working on tutebuddy.com as an instructor.</p>
+                                    <p>Instructors are required to submit course material that does not contain any inappropriate, offensive, racist, hateful, sexist, pornographic, false, misleading, incorrect, infringing, defamatory or libelous content or information. Doing so will result in the immediate termination of the account.</p>
+                                    <p>Instructors must ensure that all content posted is their original work and does not infringe on the copyright of others.</p>
+                                    <p>All content is subject to approval by tutebuddy.com and we reserve the right to block any content that violates the terms of service.</p>
+                                    <p>For more details please read the <a href="/page/teach-on-tutebuddy" class="text-primary-dodger-blue">instructor terms and conditions</a> and <a href="/page/terms-and-conditions" class="text-primary-dodger-blue">General terms and conditions</a> page.</p>
                                 </div>
 
                                 <div id="tab3" class="tab-pane fade">
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                                    <p>All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</p>
+                                    <p>By joining as an Instructor, you will get access to a host of tools that will enable you to offer innovative methods to engage with your students.</p>
+                                    <p>Register with tutebuddy.com and start creating courses using powerful multimedia tools.</p>
+                                    <p>You do not have to pay anything to be a part of tutebuddy.com</p>
+                                    <p>Offer Text, Video and Live training courses to your students. Communicate, assess and certify your courses. </p>
+                                    <p>We hope this will be a rewarding experience for you and your students.</p>
                                 </div>
                             </div>
                         </div>
