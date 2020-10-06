@@ -57,28 +57,19 @@
 
                     <ul class="footer-menu">
                         <li class="footer-menu-item">
-                            <a href="#" >About Us</a>
-                        </li>
-                        <li class="footer-menu-item">
-                            <a href="#" >Support</a>
-                        </li>
-                        <li class="footer-menu-item">
-                            <a href="#" >FAQs</a>
-                        </li>
-                        <li class="footer-menu-item">
-                            <a href="#" >Contact Us</a>
+                            <a href="/page/about-us" >About Us</a>
                         </li>
                         <li class="footer-menu-item">
                             <a href="/page/how-it-works" >How It Works</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Teach on TuteBuddy</a>
+                            <a href="/page/teach-on-tutebuddy" >Teach on TuteBuddy</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Solutions for Business</a>
+                            <a href="/page/solutions-for-business" >Solutions for Business</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Solutions for Institutions</a>
+                            <a href="/page/solutions-for-institutions" >Solutions for Institutions</a>
                         </li>
                         <li class="footer-menu-item">
                             <a href="/page/terms-and-conditions" >Terms of Service</a>
@@ -87,11 +78,21 @@
                             <a href="/page/privacy-policy" >Privacy Policy</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Cookies</a>
+                            <a href="/page/cookie-policy-for-tutebuddycom" >Cookies</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="#" >Student Safety</a>
+                            <a href="/page/student-safety" >Student Safety</a>
                         </li>
+                        <li class="footer-menu-item">
+                            <a href="/page/support" >Support</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="/page/faqs" >FAQs</a>
+                        </li>
+                        <li class="footer-menu-item">
+                            <a href="/page/contact-us" >Contact Us</a>
+                        </li>
+                        
                     </ul>
                 </div>
             </div>
