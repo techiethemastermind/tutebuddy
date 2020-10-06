@@ -88,7 +88,7 @@ class RegisterController extends Controller
             'mail_data' => $user
         ];
 
-        Mail::to($user->email)->send(new SendEmail($user));
+        Mail::to($user->email)->send(new SendMail($user));
 
         // Mail::to($user->email)->send(new VerifyMail($user));
 
