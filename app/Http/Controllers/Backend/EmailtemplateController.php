@@ -182,26 +182,4 @@ class EmailtemplateController extends Controller
             ]);
         }
     }
-
-    public function sendContactEmail(Request $request)
-    {
-        $inputs = $request->all();
-
-        $data = [
-            'template_type' => 'contact',
-            'mail_data' => $inputs
-        ];
-
-        try {
-            Mail::to($user->email)->send(new SendMail($data));
-            return response()->json([
-                'success' => true
-            ]);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
-        }
-    }
 }

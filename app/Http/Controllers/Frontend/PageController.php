@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Page;
 
+use Mail;
+use App\Mail\SendMail;
+
 class PageController extends Controller
 {
     public function getPage($slug)
@@ -20,7 +23,7 @@ class PageController extends Controller
     {
         $instructor_sign = '<a href=\"\/register?r=t\" class=\"btn btn-primary\">Sign up as Instructor <\/a>';
         $contact_form = '<div class=\"card card-body\">
-                            <form id=\"contact\" action=\"/dashboard/ajax/email/contact\">
+                            <form id=\"contact\" action=\"/ajax/email/contact\">
                                 <div class=\"form-group\">
                                     <label class=\"form-label\">Full Name *:<\/label>
                                     <input name=\"name\" type=\"text\" class=\"form-control\" placeholder=\"Your first and last name ...\" required>
@@ -77,5 +80,27 @@ class PageController extends Controller
         $html = str_replace('[contact_form]', $contact_form, $html);
 
         return $html;
+    }
+
+    public function sendContactEmail(Request $request)
+    {
+        $inputs = $request->all();
+
+        $data = [
+            'template_type' => 'contact',
+            'mail_data' => $inputs
+        ];
+
+        try {
+            Mail::to($user->email)->send(new SendMail($data));
+            return response()->json([
+                'success' => true
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

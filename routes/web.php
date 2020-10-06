@@ -7,6 +7,9 @@ Route::get('/', 'Frontend\HomeController@index')->name('homepage');
 Route::get('/user/verify/{remember_token}', 'Auth\RegisterController@verifyUser')->name('user.verify');
 Route::post('verfication/resend', 'Auth\RegisterController@resend')->name('verification.resend');
 
+// Contact Email
+Route::get('ajax/email/contact', 'PageController@sendContactEmail')->name('ajax.email.contact');
+
 Auth::routes();
 
 // Admin
