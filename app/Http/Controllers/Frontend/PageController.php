@@ -92,7 +92,7 @@ class PageController extends Controller
         ];
 
         try {
-            Mail::to($user->email)->send(new SendMail($data));
+            Mail::to($inputs['company_email'])->send(new SendMail($data));
             return response()->json([
                 'success' => true
             ]);
