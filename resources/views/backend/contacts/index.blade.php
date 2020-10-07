@@ -74,6 +74,7 @@
                         <td>{{ $contact->contact_type }}</td>
                         <td>
                             @include('backend.buttons.show', ['show_route' => route('admin.contacts.show', $contact->id)])
+                            @include('backend.buttons.delete', ['delete_route' => route('admin.contacts.destroy', $contact->id)])
                         </td>
                     </tr>
                     @endforeach
