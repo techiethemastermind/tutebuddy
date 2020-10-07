@@ -91,8 +91,10 @@ class PageController extends Controller
             'mail_data' => $inputs
         ];
 
+        $mail_to = config('site_contact_email');
+
         try {
-            Mail::to($inputs['company_email'])->send(new SendMail($data));
+            Mail::to($mail_to)->send(new SendMail($data));
             return response()->json([
                 'success' => true
             ]);

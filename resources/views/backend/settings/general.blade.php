@@ -135,6 +135,14 @@
                             </div>
 
                             <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-left">Contact Email: </label>
+                                    <input type="text" name="site_contact_email" class="form-control col-lg-8"
+                                        value="{{ config('site_contact_email') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="flex form-inline" style="max-width: 100%">
                                     <label class="form-label col-lg-3" for="captcha_status">Captcha Status</label>
                                     <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">

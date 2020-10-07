@@ -31,7 +31,12 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        $content = $this->getContent($this->data);
+        if(isset($this->data['test'])) {
+            $content = $this->data['template']->content;
+        } else {
+            $content = $this->getContent($this->data);
+        }
+        
         return $this->view('emails.sendEmail', compact('content'));
     }
 

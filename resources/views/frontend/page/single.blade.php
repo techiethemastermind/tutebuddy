@@ -133,7 +133,7 @@ $(function() {
             },
             success: function(res) {
                 if(res.success) {
-                    swal('Success!', 'Successfully Updated', 'success');
+                    swal('Success!', 'Successfully Submitted', 'success');
                 }
             },
             error: function(err) {
