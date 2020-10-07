@@ -82,8 +82,6 @@
                                 </div>
                             </div>
 
-                            <textarea name="html_content" id="html_content" class="d-none">{{ $template->content }}</textarea>
-
                             <div class="form-group">
                                 <label class="form-label">Title: </label>
                                 <input type="text" name="title" id="title" class="form-control"
@@ -153,6 +151,8 @@
                                 <input type="text" name="footer_link" id="footer_link" class="form-control"
                                     placeholder="Footer link" for="#preview_footer">
                             </div>
+
+                            <textarea name="html_content" id="html_content" class="d-none">{{ $template->content }}</textarea>
 
                             {!! Form::close() !!}
                         </div>
@@ -233,6 +233,12 @@
                 $('#html_content').val(template_html);
                 $('#frm_template').submit();
             });
+
+            // Logo
+            var logo = '{{ $template->logo }}';
+            if(logo != '') {
+                $('#preview_logo').attr('src', '{{ asset("/storage/uploads") }}' + '/' + logo);
+            }
 
             $('#frm_template').on('submit', function(e) {
                 e.preventDefault();
