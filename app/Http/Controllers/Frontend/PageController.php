@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Page;
+use App\Models\Contact;
 
 use Mail;
 use App\Mail\SendMail;
@@ -92,6 +93,8 @@ class PageController extends Controller
         ];
 
         $mail_to = config('site_contact_email');
+
+        $contact = Contact::create($inputs);
 
         try {
             Mail::to($mail_to)->send(new SendMail($data));

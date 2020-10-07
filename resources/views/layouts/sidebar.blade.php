@@ -192,11 +192,13 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/student*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="">
-                                <span class="sidebar-menu-text">Students</span>
+                        @if(auth()->user()->hasRole('Administrator'))
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/contact*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.contacts.index') }}">
+                                <span class="sidebar-menu-text">Contacts</span>
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </li>
                 @endif
