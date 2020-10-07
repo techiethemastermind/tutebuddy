@@ -10,6 +10,7 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use App\Http\Controllers\Traits\FileUploadTrait;
+use App\Models\Course;
 
 class UserController extends Controller
 {
@@ -242,6 +243,72 @@ class UserController extends Controller
             $btn_show = '<a href="'. route('profile.show', $teacher->uuid) .'" class="btn btn-accent btn-sm">View Profile</a>';
 
             $temp['action'] = $btn_follow . '&nbsp;' . $btn_show;
+
+            array_push($data, $temp);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
+    public function enrolledStudents()
+    {
+        return view('backend.users.teacher');
+    }
+
+    public function getEnrolledStudentsByAjax()
+    {
+        $courses = Course::all();
+        $course_ids = $courses->pluck('id');
+        $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
+        $students = User::whereIn('id', $student_ids)->get();
+
+        $data = [];
+        foreach($students as $student) {
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                    </div>';
+            
+            if(!empty($student->avatar)) {
+                $avatar = '<img src="'. asset('/storage/avatars/' . $student->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';
+            } else {
+                $avatar = '<span class="avatar-title rounded-circle">'. substr($student->name, 0, 2) .'</span>';
+            }
+
+            $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    '. $avatar .'
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex d-flex flex-column">
+                                            <p class="mb-0"><strong class="js-lists-values-name">'. $student->name .'</strong></p>
+                                            <small class="js-lists-values-email text-50">'. $student->email .'</small>
+                                        </div>
+                                        <div class="d-flex align-items-center ml-24pt">
+                                            <i class="material-icons text-20 icon-16pt">comment</i>
+                                            <small class="ml-4pt"><strong class="text-50">1</strong></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+            $temp['course'] = '<strong>'. $student->studentCourse()->title .'</strong>';
+            $temp['start_date'] = '<strong>'. $student->studentCourse()->start_date .'</strong>';
+            $temp['end_date'] = '<strong>'. $student->studentCourse()->end_date .'</strong>';
+
+            if($student->studentCourse()->progress() > 99) {
+                $status = '<span class="indicator-line rounded bg-success"></span>';
+            } else {
+                $status = '<span class="indicator-line rounded bg-primary"></span>';
+            }
+            $temp['status'] = '<div class="d-flex flex-column">
+                                    <small class="js-lists-values-status text-50 mb-4pt">'. $student->studentCourse()->progress() .'%</small>
+                                    '. $status .'
+                                </div>';
 
             array_push($data, $temp);
         }

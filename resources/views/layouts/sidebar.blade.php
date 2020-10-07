@@ -46,7 +46,7 @@
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
-                        Work
+                        Workspace
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
 
@@ -59,26 +59,14 @@
                         </li>
 
                         <li class="sidebar-menu-item {{ Request::is('dashboard/my/course*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="">
-                                <span class="sidebar-menu-text">My Courses</span>
+                            <a class="sidebar-menu-button" href="{{ route('admin.instructor.students') }}">
+                                <span class="sidebar-menu-text">Students</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/assignment*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="">
-                                <span class="sidebar-menu-text">My Assignments</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/instructor*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="">
-                                <span class="sidebar-menu-text">My Instructors</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/path*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="">
-                                <span class="sidebar-menu-text">My Paths</span>
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/submited-assignments*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.instructor.submitedAssignments') }}">
+                                <span class="sidebar-menu-text">Assignment Submited</span>
                             </a>
                         </li>
 

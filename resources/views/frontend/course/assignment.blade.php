@@ -74,11 +74,7 @@
 </div>
 <div class="d-none">
     <textarea id="a_text">{{ $assignment->content }}</textarea>
-    <textarea id="s_text">
-        @if(!empty($assignment->result))
-        {{ $assignment->result->content }}
-        @endif
-    </textarea>
+    <textarea id="s_text">@if(!empty($assignment->result)){{ $assignment->result->content }}@endif</textarea>
     <div id="a_editor"></div>
 </div>
 
@@ -106,8 +102,10 @@
             theme: 'snow',
             placeholder: 'Course description'
         });
-        var json_s_text = JSON.parse($('#s_text').val());
-        s_quill.setContents(json_s_text);
+        if($('#s_text').val() != '') {
+            var json_s_text = JSON.parse($('#s_text').val());
+            s_quill.setContents(json_s_text);
+        }
 
         $('#frm_assignment').on('submit', function(e){
             e.preventDefault();

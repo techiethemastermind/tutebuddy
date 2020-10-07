@@ -27,9 +27,13 @@ Route::get('my/instructors', 'UserController@studentInstructors')->name('student
 Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
 Route::get('my/paths', 'BundlesController@studentBundles')->name('student.bundles');
 
-// Work for Teachers
+// Workspace for Teachers
 Route::get('live-sessions/all', 'LessonController@instructorLiveSessions')->name('instructor.liveSessions');
 Route::get('ajax/instructor-sessions/{type}', 'LessonController@getInstructorLiveSessionsByAjax')->name('teacher.getInstructorSessionsByAjax');
+Route::get('enrolled-students', 'UserController@enrolledStudents')->name('instructor.students');
+Route::get('ajax/enrolled-students', 'UserController@getEnrolledStudentsByAjax')->name('instructor.getEnrolledStudentsByAjax');
+Route::get('submited-assignments', 'AssignmentsController@submitedAssignments')->name('instructor.submitedAssignments');
+Route::get('ajax/submited-assignments/{type}', 'AssignmentsController@getSubmitedAssignmentsByAjax')->name('instructor.getSubmitedAssignmentsByAjax');
 
 //===== Categories Routes =====//
 Route::resource('categories', 'CategoryController');
@@ -66,6 +70,7 @@ Route::get('assignments/restore/{id}', 'AssignmentsController@restore')->name('a
 Route::get('ajax/assignments/list/{type}', 'AssignmentsController@getList')->name('getAssignmentsByAjax');
 Route::get('ajax/assignments/publish/{id}', 'AssignmentsController@publish')->name('assignment.publish');
 Route::get('ajax/assignments/lessons', 'AssignmentsController@getLessons')->name('assignment.getLessonsByCourse');
+Route::get('assignments/result/{id}', 'AssignmentsController@show_result')->name('assignments.show_result');
 
 //===== Lessons Routes =====//
 Route::resource('lessons', 'LessonController');

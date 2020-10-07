@@ -68,7 +68,7 @@
 
             <div class="row">
                 <div class="col-12 pt-2">
-                    <p class="text-50 small mt-n1 mb-0">Copyright 2019 &copy; All rights reserved.</p>
+                    <p class="text-50 small mt-n1 mb-0">Copyright 2020 &copy; All rights reserved.</p>
                 </div>
             </div>            
         </div>

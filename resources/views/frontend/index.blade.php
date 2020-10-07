@@ -404,7 +404,7 @@
                     </div>
 
                     <div class="form-group">
-                        <a href="" class="btn btn-accent">Check Now</a>
+                        <a href="{{ route('register') }}?r=s" class="btn btn-accent">Sign up as Studnet</a>
                     </div>
                 </div>
 

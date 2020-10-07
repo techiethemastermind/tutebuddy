@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Assignment;
+use App\Models\AssignmentResult;
 use App\Models\Course;
 use App\Models\Lesson;
 
@@ -32,6 +33,14 @@ class AssignmentsController extends Controller
         ];
 
         return view('backend.assignments.index', compact('count'));
+    }
+
+    /**
+     *  Show assignment
+     */
+    public function show($id)
+    {
+        return view('backend.assignments.show');
     }
 
     /**
@@ -420,5 +429,115 @@ class AssignmentsController extends Controller
         }
 
         return $data;
+    }
+
+    public function submitedAssignments()
+    {
+        $assignments = Assignment::where('user_id', auth()->user()->id)->get();
+        $assignment_ids = Assignment::where('user_id', auth()->user()->id)->pluck('id');
+        $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids);
+
+        $count = [
+            'all' => $assignment_results->count(),
+            'marked' => $assignment_results->whereNotNull('mark')->count()
+        ];
+
+        return view('backend.assignments.teacher', compact('count'));
+    }
+
+    public function getSubmitedAssignmentsByAjax($type)
+    {
+        $assignments = Assignment::where('user_id', auth()->user()->id)->get();
+        $assignment_ids = Assignment::where('user_id', auth()->user()->id)->pluck('id');
+
+        $count = [
+            'all' => AssignmentResult::whereIn('assignment_id', $assignment_ids)->count(),
+            'marked' => AssignmentResult::whereIn('assignment_id', $assignment_ids)->whereNotNull('mark')->count()
+        ];
+
+        switch($type)
+        {
+            case 'all':
+                $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->get();
+            break;
+
+            case 'marked':
+                $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->whereNotNull('mark')->get();
+            break;
+        }
+
+        $data = [];
+        foreach($assignment_results as $result) {
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                                <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                            </div>';
+            
+            $temp['subject'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        <span class="avatar-title rounded bg-primary text-white">
+                                            '. substr($result->assignment->title, 0, 2) .'
+                                        </span>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <small class="js-lists-values-project">
+                                                <strong>'. $result->assignment->title .'</strong>
+                                            </small>
+                                            <small class="text-70">
+                                                Course: '. $result->assignment->lesson->course->title .' | Lesson: '. $result->assignment->lesson->title .'
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>';
+
+            if(!empty($result->user->avatar)) {
+                $avatar = '<img src="'. asset('/storage/avatars/' . $result->user->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';
+            } else {
+                $avatar = '<span class="avatar-title rounded-circle">'. substr($result->user->name, 0, 2) .'</span>';
+            }
+
+            $temp['student'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        '. $avatar .'
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex d-flex flex-column">
+                                                <p class="mb-0"><strong class="js-lists-values-name">'. $result->user->name .'</strong></p>
+                                                <small class="js-lists-values-email text-50">'. $result->user->email .'</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+
+            if(!empty($result->attachment_url)) {
+                $temp['attachment'] = '<a href="'. asset('/storage/uploads/' . $result->attachment_url ) .'" target="_blank">'. $result->attachment_url .'</a>';
+            } else {
+                $temp['attachment'] = 'N/A';
+            }
+
+            $btn_show = view('backend.buttons.show', ['show_route' => route('admin.assignments.show_result', $result->id)]);
+            
+            $temp['action'] = $btn_show . '&nbsp;';
+
+            array_push($data, $temp);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+    }
+
+    /**
+     * Show Result of Assignment
+     */
+    public function show_result($id)
+    {
+        $result = AssignmentResult::find($id);
+        return view('backend.assignments.show_result', compact('result'));
     }
 }

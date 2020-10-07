@@ -19,6 +19,8 @@ use App\Models\ChapterStudent;
 use App\Models\Assignment;
 use App\Models\AssignmentResult;
 
+use Carbon\Carbon;
+
 class LessonsController extends Controller
 {
     use FileUploadTrait;
@@ -373,6 +375,7 @@ class LessonsController extends Controller
         // Find Assignment Result
         $assignment = Assignment::find($request->assignment_id);
         $result = $assignment->result;
+        $data['submit_date'] = Carbon::now()->format('Y-m-d H:i:s');
 
         if(!$result) {
             // Attachment URL
@@ -380,9 +383,9 @@ class LessonsController extends Controller
                 $file = $request->file('doc_file');
                 $file_url = $this->saveImage($file, 'upload', true);
                 $data['attachment_url'] = $file_url;
-                $data['user_id'] = auth()->user()->id;
             }
-
+            $data['user_id'] = auth()->user()->id;
+            
             AssignmentResult::create($data);
         } else {
 
@@ -397,10 +400,12 @@ class LessonsController extends Controller
                 }
 
                 $file_url = $this->saveImage($file, 'upload', true);
-                $data['attachment_url'] = $file_url;
+                $result->attachment_url = $file_url;
             }
 
-            AssignmentResult::update($data);
+            $result->content = $request->content;
+            $result->submit_date = $data['submit_date'];
+            $result->save();
         }
 
         return response()->json([

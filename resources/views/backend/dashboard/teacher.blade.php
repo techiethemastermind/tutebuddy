@@ -71,7 +71,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Upcomming Lessons</strong></p>
-                    <a href="#" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="{{ route('admin.instructor.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true">
@@ -181,7 +181,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Students Roster (Enrolled Students)</strong></p>
-                    <a href="#" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="{{ route('admin.instructor.students') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
@@ -273,7 +273,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Assignments for Students</strong></p>
-                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <a href="{{ route('admin.assignments.index') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
@@ -343,7 +343,7 @@
             <div class="card">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Assignments Submited by Students</strong></p>
-                    <a href="" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <a href="{{ route('admin.instructor.submitedAssignments') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table id="tbl_a_results" class="table mb-0 thead-border-top-0 table-nowrap">
@@ -367,6 +367,7 @@
                         </thead>
                         <tbody class="list">
                             @foreach($assignment_results as $result)
+                            <tr>
                             <td>
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
@@ -395,17 +396,17 @@
                             <td>
                                 <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                     <div class="avatar avatar-sm mr-8pt">
-                                        @if(!empty($result->assignment->user->avatar))
-                                        <img src="{{ asset('/storage/avatars/' . $result->assignment->user->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
+                                        @if(!empty($result->user->avatar))
+                                        <img src="{{ asset('/storage/avatars/' . $result->user->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
                                         @else
-                                        <span class="avatar-title rounded-circle">{{ substr($result->assignment->user->name, 0, 2) }}</span>
+                                        <span class="avatar-title rounded-circle">{{ substr($result->user->name, 0, 2) }}</span>
                                         @endif
                                     </div>
                                     <div class="media-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex d-flex flex-column">
-                                                <p class="mb-0"><strong class="js-lists-values-name">{{ $result->assignment->user->name }}</strong></p>
-                                                <small class="js-lists-values-email text-50">{{ $result->assignment->user->email }}</small>
+                                                <p class="mb-0"><strong class="js-lists-values-name">{{ $result->user->name }}</strong></p>
+                                                <small class="js-lists-values-email text-50">{{ $result->user->email }}</small>
                                             </div>
                                         </div>
                                     </div>
@@ -419,6 +420,7 @@
                                 @endif
                             </td>
                             <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show', $result->assignment->id)])</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
