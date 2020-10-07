@@ -25,7 +25,7 @@
                             <a href="/page/solutions-for-business" >Solutions for Business</a>
                         </li>
                         <li class="footer-menu-item">
-                            <a href="/solutions-for-institutions" >Solutions for Institutions</a>
+                            <a href="/page/solutions-for-institutions" >Solutions for Institutions</a>
                         </li>
                     </ul>
                 </div>

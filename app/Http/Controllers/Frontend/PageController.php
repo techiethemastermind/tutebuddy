@@ -23,7 +23,7 @@ class PageController extends Controller
     function sortCode($content)
     {
         $instructor_sign = '<a href=\"\/register?r=t\" class=\"btn btn-primary\">Sign up as Instructor <\/a>';
-        $contact_form = '<div class=\"card card-body\">
+        $contact_form = '<div class=\"border-1 p-3\">
                             <form id=\"contact\" action=\"/ajax/email/contact\">
                                 <div class=\"form-group\">
                                     <label class=\"form-label\">Full Name *:<\/label>
@@ -59,6 +59,8 @@ class PageController extends Controller
                                     <label class=\"form-label\">Message *:<\/label>
                                     <textarea name=\"message\" class=\"form-control\" rows=\"4\" placeholder=\"Message here ...\" required></textarea>
                                 <\/div>
+
+                                <label class=\"form-label\">How would you like us to contact you?<\/label>
                                 <div class=\"form-group form-inline mb-24pt\">
                                     <div class=\"custom-control custom-radio\">
                                         <input id=\"by_email\" name=\"contact_type\" type=\"radio\" value=\"By Email\" class=\"custom-control-input\" checked=\"\">
@@ -93,7 +95,6 @@ class PageController extends Controller
         ];
 
         $mail_to = config('site_contact_email');
-
         $contact = Contact::create($inputs);
 
         try {
