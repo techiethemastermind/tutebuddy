@@ -342,7 +342,7 @@
             @if(count($assignment_results) > 0)
             <div class="card">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>Assignments Submited by Students</strong></p>
+                    <p class="page-separator__text bg-white mb-0"><strong>Assignments Submitted by Students</strong></p>
                     <a href="{{ route('admin.instructor.submitedAssignments') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
@@ -368,58 +368,58 @@
                         <tbody class="list">
                             @foreach($assignment_results as $result)
                             <tr>
-                            <td>
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                                    <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                    <div class="avatar avatar-sm mr-8pt">
-                                        <span class="avatar-title rounded bg-primary text-white">
-                                            {{ substr($result->assignment->title, 0, 2) }}
-                                        </span>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
                                     </div>
-                                    <div class="media-body">
-                                        <div class="d-flex flex-column">
-                                            <small class="js-lists-values-project">
-                                                <strong> {{ $result->assignment->title }}</strong></small>
-                                            <small class="text-70">
-                                                Course: {{ $result->assignment->lesson->course->title }} |
-                                                Lesson: {{ $result->assignment->lesson->title }}
-                                            </small>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <span class="avatar-title rounded bg-primary text-white">
+                                                {{ substr($result->assignment->title, 0, 2) }}
+                                            </span>
                                         </div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                    <div class="avatar avatar-sm mr-8pt">
-                                        @if(!empty($result->user->avatar))
-                                        <img src="{{ asset('/storage/avatars/' . $result->user->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
-                                        @else
-                                        <span class="avatar-title rounded-circle">{{ substr($result->user->name, 0, 2) }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="media-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex d-flex flex-column">
-                                                <p class="mb-0"><strong class="js-lists-values-name">{{ $result->user->name }}</strong></p>
-                                                <small class="js-lists-values-email text-50">{{ $result->user->email }}</small>
+                                        <div class="media-body">
+                                            <div class="d-flex flex-column">
+                                                <small class="js-lists-values-project">
+                                                    <strong> {{ $result->assignment->title }}</strong></small>
+                                                <small class="text-70">
+                                                    Course: {{ $result->assignment->lesson->course->title }} |
+                                                    Lesson: {{ $result->assignment->lesson->title }}
+                                                </small>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                @if(!empty($result->attachment_url))
-                                <a href="{{ asset('/storage/uploads/' . $result->attachment_url ) }}" target="_blank">{{ $result->attachment_url }}</a>
-                                @else
-                                N/A
-                                @endif
-                            </td>
-                            <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show', $result->assignment->id)])</td>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            @if(!empty($result->user->avatar))
+                                            <img src="{{ asset('/storage/avatars/' . $result->user->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
+                                            @else
+                                            <span class="avatar-title rounded-circle">{{ substr($result->user->name, 0, 2) }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex d-flex flex-column">
+                                                    <p class="mb-0"><strong class="js-lists-values-name">{{ $result->user->name }}</strong></p>
+                                                    <small class="js-lists-values-email text-50">{{ $result->user->email }}</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @if(!empty($result->attachment_url))
+                                    <a href="{{ asset('/storage/uploads/' . $result->attachment_url ) }}" target="_blank">{{ $result->attachment_url }}</a>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
+                                <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show', $result->assignment->id)])</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -435,6 +435,12 @@
             @if(count($bundles) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">Paths</div>
+                <div class="d-flex flex">
+                    <div class="flex">&nbsp;</div>
+                    <div style="padding-left: 8px; background-color: #f5f7fa;">
+                        <a href="{{ route('admin.bundles.index') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                    </div>
+                </div>
             </div>
 
             <div class="row card-group-row">
@@ -449,7 +455,7 @@
                                             <div class="overlay">
                                                 <a href="{{ route('bundles.show', $bundle->slug) }}" target="_blank">
                                                 @if(!empty($bundle->bundle_image))
-                                                <img src="{{ asset('/storage/uploads/thumb/'. $bunlde->bundle_image) }}" width="40" height="40" alt="Angular" class="rounded">
+                                                <img src="{{ asset('/storage/uploads/thumb/'. $bundle->bundle_image) }}" width="40" height="40" alt="Angular" class="rounded">
                                                 @else
                                                 <img src="{{ asset('/assets/img/no-image-thumb.jpg') }}" width="40" height="40" alt="Angular" class="rounded">
                                                 @endif
@@ -476,6 +482,12 @@
             @if(count($testResults) > 0)
             <div class="page-separator">
                 <div class="page-separator__text">Quizz Submitted</div>
+                <div class="d-flex flex">
+                    <div class="flex">&nbsp;</div>
+                    <div style="padding-left: 8px; background-color: #f5f7fa;">
+                        <a href="{{ route('admin.discussions.topics') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                    </div>
+                </div>
             </div>
 
             <div class="row card-group-row">

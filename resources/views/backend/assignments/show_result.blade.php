@@ -18,13 +18,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Review Assignment Submited</h2>
+                    <h2 class="mb-0">Review Assignment Submitted</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            Assignment Submited
+                            Assignment Submitted
                         </li>
 
                     </ol>
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="page-separator">
-                    <div class="page-separator__text">Submited Content</div>
+                    <div class="page-separator__text">Submitted Content</div>
                 </div>
 
                 <div class="pb-32pt">
@@ -66,14 +66,39 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="" class="form-label">Assignment Mark</label>
-                            <select name="mark" id="mark" class="form-control">
-                            @for($i = 0; $i <= $result->assignment->total_mark; $i++)
-                                <option value="{{ $i }}">{{ $i }}</option>
-                            @endfor
-                            </select>
-                        </div>
+                        <form id="frm_a_result" method="POST" action="{{ route('admin.assignments.result_answer') }}" enctype="multipart/form-data">@csrf
+                            <div class="form-group">
+                                <label for="" class="form-label">Assignment Mark</label>
+                                <select name="mark" id="mark" class="form-control">
+                                @for($i = 0; $i <= $result->assignment->total_mark; $i++)
+                                    @if($result->mark == $i)
+                                    <option value="{{ $i }}" selected>{{ $i }}</option>
+                                    @else
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                    @endif
+                                @endfor
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="form-label">Summary</label>
+                                <textarea name="answer" rows="10" class="form-control">{{ $result->answer }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="form-label">Attachment</label>
+                                <div class="custom-file">
+                                    <input type="file" id="file_doc" name="answer_attach" class="custom-file-input">
+                                    <label for="file" class="custom-file-label">Choose file</label>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="result_id" value="{{ $result->id }}">
+
+                            <div class="form-group">
+                                <button class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -114,7 +139,19 @@
         var s_html = s_quill.root.innerHTML;
 
         $('#submited_content').html(s_html);
-        
+
+        $('#frm_a_result').on('submit', function(e) {
+            e.preventDefault();
+
+            $(this).ajaxSubmit({
+                success: function(res) {
+                    console.log(res);
+                    if(res.success) {
+                        swal('Success!', 'Successfully Submitted!', 'success')
+                    }
+                }
+            });
+        });
     });
 </script>
 

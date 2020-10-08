@@ -71,6 +71,7 @@ Route::get('ajax/assignments/list/{type}', 'AssignmentsController@getList')->nam
 Route::get('ajax/assignments/publish/{id}', 'AssignmentsController@publish')->name('assignment.publish');
 Route::get('ajax/assignments/lessons', 'AssignmentsController@getLessons')->name('assignment.getLessonsByCourse');
 Route::get('assignments/result/{id}', 'AssignmentsController@show_result')->name('assignments.show_result');
+Route::post('assignment-result/answer', 'AssignmentsController@result_answer')->name('assignments.result_answer');
 
 //===== Lessons Routes =====//
 Route::resource('lessons', 'LessonController');

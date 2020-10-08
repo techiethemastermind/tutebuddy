@@ -48,6 +48,8 @@ class SearchController extends Controller
                 $courses = Course::where('published', 1)->paginate('10');
             }
         }
+
+        dd($courses);
         
         return view('frontend.search.courses', compact('parentCategories', 'courses'));
     }

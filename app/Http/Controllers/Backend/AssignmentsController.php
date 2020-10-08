@@ -458,11 +458,11 @@ class AssignmentsController extends Controller
         switch($type)
         {
             case 'all':
-                $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->get();
+                $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->orderBy('submit_date', 'desc')->get();
             break;
 
             case 'marked':
-                $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->whereNotNull('mark')->get();
+                $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->orderBy('submit_date', 'desc')->whereNotNull('mark')->get();
             break;
         }
 
@@ -539,5 +539,39 @@ class AssignmentsController extends Controller
     {
         $result = AssignmentResult::find($id);
         return view('backend.assignments.show_result', compact('result'));
+    }
+
+    /**
+     * Answer of Assignment Answer
+     */
+    public function result_answer(Request $request)
+    {
+        $data = $request->all();
+        $result = AssignmentResult::find($data['result_id']);
+
+        if(!empty($data['answer_attach'])) {
+            $attachment = $request->file('answer_attach');
+
+            // Delete existing file
+            if (File::exists(public_path('/storage/uploads/' . $result->answer_attach))) {
+                File::delete(public_path('/storage/uploads/' . $result->answer_attach));
+                File::delete(public_path('/storage/uploads/thumb/' . $result->answer_attach));
+            }
+
+            $attachment_url = $this->saveImage($attachment, 'upload', true);
+            $data['answer_attach'] = $attachment_url;
+        }
+        
+        $result->mark = $data['mark'];
+        $result->answer = $data['answer'];
+        $result->answer_attach = $data['answer_attach'];
+
+        $result->save();
+
+        return response()->json([
+            'success' => true,
+            'action' => 'update'
+        ]);
+
     }
 }

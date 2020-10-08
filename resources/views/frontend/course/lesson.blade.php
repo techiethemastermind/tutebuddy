@@ -363,7 +363,7 @@
                 <div id="discusson" class="tab-pane fade text-70">
                     <div class="d-flex align-items-center mb-heading">
                         <h4 class="m-0">Discussions</h4>
-                        <a href="fixed-discussions-ask.html" class="text-underline ml-auto">Ask a Question</a>
+                        <a href="{{ route('admin.discussions.create') }}" class="text-underline ml-auto">Ask a Question</a>
                     </div>
 
                     <div class="border-top">
