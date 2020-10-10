@@ -12,9 +12,10 @@ Route::get('courses/review/{id}/delete', 'CoursesController@deleteReview')->name
 // ==== Search Result ====//
 Route::get('search', 'SearchController@searchPage')->name('search.page');
 Route::get('search/courses', 'SearchController@courses')->name('courses.search');
-Route::get('ajax/search/courses/{key}', 'SearchController@getSearchFormCourseData')->name('ajax.search.course');
-Route::get('ajax/search/users/{key}', 'SearchController@getSearchFormUserData')->name('ajax.search.user');
 Route::get('search/instructors', 'SearchController@teachers')->name('teachers.search');
+
+Route::get('ajax/search/courses/', 'SearchController@searchCourse')->name('ajax.search.course');
+Route::get('ajax/search/instructor', 'SearchController@searchInstructor')->name('ajax.search.instructor');
 
 // === Bundle route === //
 Route::get('bundle/{slug}', 'BundlesController@show')->name('bundles.show');

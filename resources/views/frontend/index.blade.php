@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('after-styles')
+<link type="text/css" href="{{ asset('assets/css/semantic.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
 
 <!-- Header Layout Content -->
@@ -351,7 +355,7 @@
         </div>
     </div>
 
-    <div class="page-section border-bottom-2 bg-alt">
+    <div class="page-section border-bottom-2 bg-alt position-relative" style="z-index: 999;">
         <div class="container page__container">
 
             <div class="page-separator">
@@ -373,13 +377,13 @@
                         <p class="text-black-70">Looking for a specific instructor? Search them by name or subject
                             below.</p>
 
-                            <div class="form-group pb-16pt" style="position: relative;">
-                                <div class="search-form">
-                                    <input type="text" class="form-control" placeholder="Enter name or Subject" 
-                                    value="@if(isset($_GET['_q'])) {{ $_GET['_q'] }} @endif" search-type="instructor">
-                                    <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
-                                </div>
+                        <div class="ui search category fluid instructor pt-16pt">
+                            <div class="ui icon input w-100">
+                                <input class="prompt" type="text" placeholder="Enter name or Subject" style="font-size: 0.9rem;">
+                                <i class="search icon"></i>
                             </div>
+                            <div class="results"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -469,5 +473,7 @@
     </div>
 </div>
 <!-- // END Header Layout Content -->
+
+@include('layouts.parts.search-script');
 
 @endsection

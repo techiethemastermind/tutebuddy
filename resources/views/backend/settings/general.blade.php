@@ -86,6 +86,14 @@
                                     </span>
                                 </a>
                             </div>
+                            <div class="col-auto border-left border-right">
+                                <a href="#bbb" data-toggle="tab" role="tab" aria-selected="false"
+                                    class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                                    <span class="flex d-flex flex-column">
+                                        <strong class="card-title">Video Conference Configuration</strong>
+                                    </span>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -456,6 +464,24 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                        <!-- Tab for BBB -->
+                        <div id="bbb" class="tab-pane p-4 fade text-70">
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-left">Join Method: </label>
+                                    <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                                        <input type="checkbox" checked="" id="bbb_join_method"
+                                            name="bbb_join_method" class="custom-control-input" value="{{ config('bbb.join_method') }}">
+                                        <label class="custom-control-label" for="bbb_join_method">Yes</label>
+                                    </div>
+                                    <label class="form-label mb-0" for="bbb_join_method">Yes
+                                        <small class="text-muted">&nbsp; (How to Student Join the Meeting?)</small>
+                                    </label>
+                                </div>
+                                <small class="text-muted">Yes: Join Automatically, No: Wait for Instructor to let them in</small>
+                            </div>
                         </div>
                     </div>
 

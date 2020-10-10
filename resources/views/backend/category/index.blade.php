@@ -72,9 +72,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="parent">Parent Category:</label>
-                            <select id="parent" name="parent" class="form-control custom-select">
-                                
-                            </select>
+                            <select id="parent" name="parent" class="form-control custom-select"></select>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Related Level:</label>

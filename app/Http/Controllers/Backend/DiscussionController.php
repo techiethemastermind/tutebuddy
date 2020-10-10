@@ -99,19 +99,26 @@ class DiscussionController extends Controller
             'user_id' => auth()->user()->id,
             'course_id' => $data['course'],
             'title' => $data['title'],
-            'question' => $data['question'],
-            'topics' => json_encode($data['topics'])
+            'question' => $data['question']
         ];
 
-        $discusson = Discussion::create($question_data);
-
         // Set Topics
-        foreach($data['topics'] as $item) {
+        $topics = $data['topics'];
+        foreach($topics as $item) {
             $count = DB::table('discussion_topics')->where('id', $item)->count();
             if($count < 1) {
-                DB::table('discussion_topics')->insert(['id' => $item]);
+                $topic_id = DB::table('discussion_topics')->insertGetId(['topic' => $item]);
+                if (($key = array_search($item, $data['topics'])) !== false) {
+                    unset($data['topics'][$key]);
+                }
+                array_push($data['topics'], $topic_id);
             }
         }
+        $data['topics'] = array_values($data['topics']);
+
+        $question_data['topics'] = json_encode($data['topics']);
+
+        $discusson = Discussion::create($question_data);
 
         return redirect()->route('admin.discussions.edit', $discusson->id);
     }
@@ -133,10 +140,23 @@ class DiscussionController extends Controller
             'user_id' => auth()->user()->id,
             'course_id' => $data['course'],
             'title' => $data['title'],
-            'question' => $data['question'],
-            'topics' => json_encode($data['topics'])
+            'question' => $data['question']
         ];
 
+        // Set Topics
+        $topics = $data['topics'];
+        foreach($topics as $item) {
+            $count = DB::table('discussion_topics')->where('id', $item)->count();
+            if($count < 1) {
+                $topic_id = DB::table('discussion_topics')->insertGetId(['topic' => $item]);
+                if (($key = array_search($item, $data['topics'])) !== false) {
+                    unset($data['topics'][$key]);
+                }
+                array_push($data['topics'], $topic_id);
+            }
+        }
+        $data['topics'] = array_values($data['topics']);
+        $question_data['topics'] = json_encode($data['topics']);
         $discussion->update($question_data);
 
         return response()->json([

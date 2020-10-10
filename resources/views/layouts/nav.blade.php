@@ -260,9 +260,16 @@
             <div class="col-lg-10 mx-auto">
                 <h1 class="text-white text-shadow py-16pt text-center">Learn anything online.</h1>
                 <div class="form-group" style="position: relative;">
-                    <div class="search-form input-group-lg">
+                    <!-- <div class="search-form input-group-lg">
                         <input type="text" class="form-control" placeholder="What do you want to learn today?" search-type="course">
                         <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
+                    </div> -->
+                    <div class="ui fluid category search course font-size-20pt">
+                        <div class="ui icon input w-100">
+                            <input class="prompt pb-16pt" type="text" placeholder="What do you want to learn today?">
+                            <i class="search icon"></i>
+                        </div>
+                        <div class="results"></div>
                     </div>
                 </div>
             </div>

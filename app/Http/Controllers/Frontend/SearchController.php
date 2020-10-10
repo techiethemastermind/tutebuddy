@@ -115,47 +115,125 @@ class SearchController extends Controller
         ]);
     }
 
-    public function getSearchFormUserData($key)
+    // Search for Course by Semantic
+    public function searchCourse(Request $request)
     {
-        $data = [];
-        $users = User::role('Instructor')->where('name', 'like', '%' . $key . '%')->get();
-        foreach($users as $user) {
-            array_push($data, [
-                'id' => $user->id,
-                'name' => $user->name,
-                'type' => 'user'
-                ]
-            );
-        }
+        // $q = $request->q;
+        // $data = [];
+        // $results = [];
 
-        $subjects = User::role('Instructor')->where('headline', 'like', '%' . $key . '%')->get();
-        foreach($subjects as $user) {
-            array_push($data, [
-                'id' => $user->id,
-                'name' => $user->headline,
-                'type' => 'headline'
-                ]
-            );
-        }
+        // $courses = Course::where('title', 'like', '%' . $q . '%')->get();
+        // $search = [];
 
-        $ele = '<ul id="search___result" class="list-unstyled search_result collapse show">';
+        // foreach($courses as $course) {
+        //     $image = ($course->course_image) ? asset('/storage/uploads/thumb/' . $course->course_image) : asset('/storage/uploads/no-image.jpg');
+        //     array_push($search, [
+        //             'title' => $course->title,
+        //             'description' => $course->short_description,
+        //             'image' => $image,
+        //             'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=course&_k=' . $course->id
+        //         ]
+        //     );
+        // }
 
-        $i = 0;
+        // $results['course'] = [
+        //     'name' => 'Course',
+        //     'results' => $search
+        // ];
 
-        foreach($data as $item) {
-            $i++;
-            $ele .= '<li data-id="'. $item['id'] .'" data-type="'. $item['type'] .'">'. $item['name'] .'</li>';
-            if($i > 5) {
-                break;
-            }
-        }
+        // $categories = Category::where('name', 'like', '%' . $q . '%')->get();
+        // $search = [];
 
-        $ele .= '</ul>';
+        // foreach($categories as $category) {
+        //     $image = ($category->thumb) ? asset('/storage/uploads/' . $category->thumb) : asset('/storage/uploads/no-image.jpg');
+        //     array_push($search, [
+        //             'title' => $category->name,
+        //             'description' => $category->description,
+        //             'image' => $image,
+        //             'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=category&_k=' . $category->id
+        //         ]
+        //     );
+        // }
 
-        return response()->json([
-            'success' => true,
-            'result' => $data,
-            'html' => $ele
-        ]);
+        // $results['category'] = [
+        //     'name' => 'Category',
+        //     'results' => $search
+        // ];
+
+        // $data['results'] = $results;
+        // return response()->json($data);
+    }
+
+
+    // Search for Instructor by Semantic
+    public function searchInstructor(Request $request)
+    {
+        // $q = $request->q;
+        // $data = [];
+        // $results = [];
+
+        // $users = User::role('Instructor')->where('name', 'like', '%' . $q . '%')->get();
+        // $instructors = [];
+
+        // foreach($users as $user) {
+        //     $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
+        //     array_push($instructors, [
+        //             'title' => $user->name,
+        //             'description' => $user->headline,
+        //             'image' => $avatar,
+        //             'url' => config("app.url") . 'search/instructors?_q=' . $user->name . '&_t=user&_k=' . $user->id
+        //         ]
+        //     );
+        // }
+
+        // $results['name'] = [
+        //     'name' => 'Match with Name',
+        //     'results' => $instructors
+        // ];
+
+        // $subjects = User::role('Instructor')->where('headline', 'like', '%' . $q . '%')->get();
+        // $instructors = [];
+
+        // foreach($subjects as $user) {
+        //     $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
+        //     array_push($instructors, [
+        //             'title' => $user->name,
+        //             'description' => $user->headline,
+        //             'image' => $avatar,
+        //             'url' => config("app.url") . 'search/instructors?_q=' . $q
+        //         ]
+        //     );
+        // }
+
+        // $results['headline'] = [
+        //     'name' => 'Match with Headline',
+        //     'results' => $instructors
+        // ];
+
+        // $courses = Course::where('title', 'like', '%' . $q . '%')->get();
+        // $instructors = [];
+
+        // foreach($courses as $course) {
+        //     $teachers = $course->teachers;
+        //     foreach($teachers as $user) {
+        //         $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
+        //         array_push($instructors, [
+        //                 'title' => $user->name,
+        //                 'description' => $user->headline,
+        //                 'image' => $avatar,
+        //                 'url' => config("app.url") . 'search/instructors?_q=' . $q
+        //             ]
+        //         );
+        //     }
+        // }
+
+        // $results['course'] = [
+        //     'name' => 'Match with Course',
+        //     'results' => $instructors
+        // ];
+
+        // $data['results'] = $results;
+
+        // return response()->json($data);
     }
 }

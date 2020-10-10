@@ -24,4 +24,9 @@ class Discussion extends Model
     {
         return $this->hasMany(DiscussionResults::class);
     }
+
+    public function course()
+    {
+        return $this->belongsTo('App\Models\Course');
+    }
 }

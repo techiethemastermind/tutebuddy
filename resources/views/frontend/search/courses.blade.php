@@ -4,6 +4,8 @@
 
 @push('after-styles')
 
+<link type="text/css" href="{{ asset('assets/css/semantic.css') }}" rel="stylesheet">
+
 <style>
     [dir=ltr] .list-group-flush>.list-group-item {
         border-width: 0 0 5px;
@@ -43,10 +45,18 @@
                 <div class="container page__container" style="min-height: 50vh;">
 
                     <div class="form-group pb-16pt position-relative">
-                        <div class="search-form input-group-lg">
+                        <!-- <div class="search-form input-group-lg">
                             <input type="text" class="form-control" placeholder="What do you want to learn today?" 
                             value="@if(isset($_GET['_q'])){{ $_GET['_q'] }}@endif" search-type="course">
                             <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
+                        </div> -->
+                        <div class="ui fluid category search course font-size-20pt">
+                            <div class="ui icon input w-100">
+                                <input class="prompt pb-16pt" type="text" placeholder="What do you want to learn today?"
+                                value="@if(isset($_GET['_q'])){{ $_GET['_q'] }}@endif">
+                                <i class="search icon"></i>
+                            </div>
+                            <div class="results"></div>
                         </div>
                     </div>
 
@@ -212,5 +222,6 @@
     </div>
 </div>
 <!-- // END Header Layout Content -->
+@include('layouts.parts.search-script');
 
 @endsection

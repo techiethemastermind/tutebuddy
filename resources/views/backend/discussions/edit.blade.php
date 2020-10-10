@@ -64,7 +64,7 @@
                             <div class="list-group-item">
                                 <div class="form-group m-0" role="group" aria-labelledby="label-topic">
                                     <div class="form-row align-items-center">
-                                        <label class="col-md-3 col-form-label form-label">Topic</label>
+                                        <label class="col-md-3 col-form-label form-label">Tags:</label>
                                         <div class="col-md-9">
                                             <select id="topics" name="topics[]" multiple="multiple" class="form-control custom-select">
                                                 <?php

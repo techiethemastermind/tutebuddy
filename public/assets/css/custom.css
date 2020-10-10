@@ -245,8 +245,7 @@ iframe.no-video {
     font-weight: 500;
 }
 
-
-/** Responsive CSS **/
+/******************* Responsive CSS ***********************/
 [dir=ltr] .desktop-only {
     display: none;
 }

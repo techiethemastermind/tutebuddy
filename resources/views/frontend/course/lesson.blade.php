@@ -337,7 +337,7 @@
                                             </div>
                                             <div class="media-body">
                                                 <p class="mb-8pt">
-                                                    <a href="" class="text-body">
+                                                    <a href="{{ route('lesson.assignment', $assignment->id) }}" class="text-body">
                                                         <strong>{{ $assignment->title }}</strong>
                                                     </a>
                                                 </p>
@@ -357,7 +357,47 @@
                 </div>
 
                 <div id="submissions" class="tab-pane fade text-70">
-                    
+                    <div class="d-flex align-items-center mb-heading">
+                        <h4 class="m-0">Submissions</h4>
+                    </div>
+                    <div class="border-top">
+                        <div class="list-group list-group-flush">
+                            @foreach($lesson->assignments as $assignment)
+
+                            @if($assignment->result)
+                            @php $result = $assignment->result; @endphp
+                            <div class="list-group-item p-3">
+                                <div class="row align-items-start">
+                                    <div class="col mb-8pt mb-md-0">
+                                        <div class="media align-items-center">
+                                            <div class="media-left mr-16pt">
+                                                <a href="" class="avatar avatar-md">
+                                                    <span class="avatar-title rounded">
+                                                        {{ substr($assignment->title, 0, 2) }}
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="mb-8pt">
+                                                    <a href="{{ route('lesson.assignment', $assignment->id) }}" class="text-body">
+                                                        <strong>{{ $assignment->title }}</strong>
+                                                    </a>
+                                                </p>
+                                                <a href="{{ route('lesson.assignment', $assignment->id) }}" target="_blank" class="chip chip-outline-secondary">Review Answer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                        <h5 class="m-0"><span class="text-accent-red">{{ (int)$result->mark }}</span> / {{ $assignment->total_mark }}</h5>
+                                        <p class="lh-1 mb-0"><small class="text-70">Your Score</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
 
                 <div id="discusson" class="tab-pane fade text-70">

@@ -49,6 +49,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="list-group-item">
                                 <div class="form-group m-0" role="group" aria-labelledby="label-topic">
                                     <div class="form-row align-items-center">
@@ -63,10 +64,22 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="list-group-item">
                                 <div class="form-group m-0" role="group" aria-labelledby="label-topic">
                                     <div class="form-row align-items-center">
-                                        <label class="col-md-3 col-form-label form-label">Topic</label>
+                                        <label class="col-md-3 col-form-label form-label">Lesson</label>
+                                        <div class="col-md-9">
+                                            <select id="lesson" name="lesson" class="form-control custom-select"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="list-group-item">
+                                <div class="form-group m-0" role="group" aria-labelledby="label-topic">
+                                    <div class="form-row align-items-center">
+                                        <label class="col-md-3 col-form-label form-label">Tags:</label>
                                         <div class="col-md-9">
                                             <select id="topics" name="topics[]" multiple="multiple" class="form-control custom-select">
                                                 @foreach($topics as $topic)
@@ -124,6 +137,7 @@
 
 <script>
     $(function() {
+        $('#course').select2();
         $('#topics').select2({
             tags: true
         });
