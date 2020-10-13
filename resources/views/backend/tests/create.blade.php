@@ -56,15 +56,13 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
 
-            {!! Form::open(['method' => 'POST', 'route' => ['admin.tests.store'], 'files' => true, 'id' => 'frm_tests']) !!}
+            {!! Form::open(['method' => 'POST', 'route' => ['admin.tests.store'], 'files' => true, 'id' => 'frm_test']) !!}
 
             <div class="row">
                 <div class="col-md-8">
-                    <div class="page-separator">
-                        <div class="page-separator__text">Bundle Information</div>
-                    </div>
 
-                    <label class="form-label">Test Title</label>
+                    <label class="form-label">Test Title*</label>
+
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
@@ -74,12 +72,14 @@
                         @enderror
                     </div>
 
-                    <label class="form-label">Content</label>
+                    <label class="form-label">Description</label>
                     <div class="form-group mb-48pt">
-                        <!-- quill editor -->
-                        <div id="test_editor" class="mb-0" style="min-height: 300px;"></div>
-                        <small class="form-text text-muted">Edit Test</small>
+                        <textarea class="mb-0 form-control" name="description" rows="4" placeholder="Question Description"></textarea>
                     </div>
+
+                    <div class="tests-wrap" id="questions"></div>
+
+                    <button type="button" id="btn_new_question" class="btn btn-block btn-outline-secondary">Add Quesion</button>
                 </div>
 
                 <div class="col-md-4">
@@ -112,11 +112,11 @@
                                 <label class="form-label">Test Type</label>
                                 <div class="custom-controls-stacked form-inline">
                                     <div class="custom-control custom-radio">
-                                        <input id="test_lesson" name="type" type="radio" class="custom-control-input" checked="">
+                                        <input id="test_lesson" name="type" type="radio" class="custom-control-input" value="lesson" checked="">
                                         <label for="test_lesson" class="custom-control-label">For Lesson</label>
                                     </div>
-                                    <div class="custom-control custom-radio">
-                                        <input id="test_course" name="type" type="radio" class="custom-control-input">
+                                    <div class="custom-control custom-radio ml-8pt">
+                                        <input id="test_course" name="type" type="radio" class="custom-control-input" value="course">
                                         <label for="test_course" class="custom-control-label">For Course</label>
                                     </div>
                                 </div>
@@ -140,27 +140,34 @@
                             </div>
 
                             <!-- Set Lesson -->
-                            <div class="form-group">
+                            <div class="form-group" for="lesson">
                                 <label class="form-label">Lessons</label>
                                 <select name="lesson_id" class="form-control form-label"></select>
                                 <small class="form-text text-muted">Select a lesson.</small>
                             </div>
 
-                            <!-- Set Duration -->
-                            <div class="form-group">
-                                <label class="form-label">Due Date</label>
-                                <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
+                            <hr>
+
+                            <!-- Set Evaluation -->
+                            <div class="form-group" for="evaluation">
+                                <label class="form-label">Evaluation:</label>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-radio py-1">
+                                        <input id="score_by_mark" name="score_type" type="radio" class="custom-control-input" value="1" checked="">
+                                        <label for="score_by_mark" class="custom-control-label">Score by Mark</label>
+                                    </div>
+                                    <div class="custom-control custom-radio py-1">
+                                        <input id="score_by_grade" name="score_type" type="radio" class="custom-control-input" value="2">
+                                        <label for="score_by_grade" class="custom-control-label">Score by Grade</label>
+                                    </div>
+                                    <div class="custom-control custom-radio py-1">
+                                        <input id="no_score" name="score_type" type="radio" class="custom-control-input" value="0">
+                                        <label for="no_score" class="custom-control-label">No Scoring</label>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Attachment -->
-                            <div class="form-group">
-                                <label class="form-label">Attachment File</label>
-                                <div class="custom-file">
-                                    <input type="file" name="attachment" class="custom-file-input">
-                                    <label for="file" class="custom-file-label">Choose file</label>
-                                </div>
-                                <small class="form-text text-muted">Max file size is 5MB.</small>
-                            </div>
+                            <input type="hidden" name="test_id" id="test_id" value="">
                         </div>
                     </div>
                 </div>
@@ -169,6 +176,52 @@
         </div>
     </div>
 
+</div>
+
+<!-- Modal for add new question -->
+<div id="mdl_question" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            {!! Form::open(['method' => 'POST', 'route' => ['admin.questions.store'], 'files' => true, 'id' =>'frm_question']) !!}
+
+            <div class="modal-header">
+                <h5 class="modal-title">New Question</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Question Image:</label>
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input">
+                        <label for="file" class="custom-file-label">Choose image</label>
+                    </div>
+                    <small class="form-text text-muted">Max file size is 5MB.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Question*</label>
+                    <textarea class="form-control" name="question" rows="4" placeholder="Type Question here"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Marks (Optional)</label>
+                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+            </div>
+
+            <input type="hidden" name="model_type" value="test">
+
+            {!! Form::close() !!}
+        </div>
+    </div>
 </div>
 
 @push('after-scripts')
@@ -189,11 +242,7 @@
 
 $(function() {
 
-    // Init Quill Editor for Test Content
-    var test_editor = new Quill('#test_editor', {
-        theme: 'snow',
-        placeholder: 'Test Content'
-    });
+    var status = 'create';
 
     $('select[name="course"]').select2({ tags: true });
     $('select[name="lesson"]').select2({ tags: true });
@@ -205,25 +254,96 @@ $(function() {
     });
 
     // When add title, Hide Error msg
-    $('#frm_tests').on('keyup', 'input[name="title"], input[name="lesson"]', function() {
+    $('#frm_test').on('keyup', 'input[name="title"], input[name="lesson"]', function() {
         $(this).removeClass('is-invalid');
         $(this).closest('.form-group').find('div.invalid-feedback').remove();
     });
 
-    $('#frm_tests').on('submit', function(e) {
+    // Test Type setting
+    $('input[name="type"]').on('change', function(e) {
+        
+        if($(this).val() == 'course') {
+            $('div[for="lesson"]').addClass('d-none');
+        }
+
+        if($(this).val() == 'lesson') {
+            $('div[for="lesson"]').removeClass('d-none');
+        }
+    });
+
+    // Add New Question
+    $('#btn_new_question').on('click', function() {
+
+        if($('input[name="title"]').val() == '') {
+            $('input[name="title"]').val('Untitled');
+        }
+
+        if(status == 'create') {
+            // Store Test first
+            $('#frm_test').ajaxSubmit({
+                success: function(res) {
+                    
+                    if(res.success) {
+                        status = 'update';
+                        $('#test_id').val(res.test_id);
+                        $('#mdl_question').modal('toggle');
+                    }
+                }
+            });
+        }
+
+        if(status == 'update') {
+            $('#mdl_question').modal('toggle');
+        }
+    });
+
+    $('#frm_question').submit(function(e) {
+
         e.preventDefault();
-
-        $('#frm_tests').ajaxSubmit({
+        $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
-                var content = JSON.stringify(test_editor.getContents().ops);
-
-                // Append Course ID
                 formData.push({
-                    name: 'content',
+                    name: 'model_id',
+                    type: 'int',
+                    value: $('#test_id').val()
+                });
+                formData.push({
+                    name: 'send_type',
                     type: 'text',
-                    value: content
+                    value: 'ajax'
                 });
             },
+            success: function(res) {
+                console.log(res);
+                if(res.success) {
+
+                    var ele_quiz_ul = $('#questions').find('ul');
+                    if(ele_quiz_ul.length > 0) {
+                        $(res.html).hide().appendTo(ele_quiz_ul).toggle(500);
+                    } else {
+                        $('#questions').html(`
+                            <div class="page-separator">
+                                <div class="page-separator__text">Questions</div>
+                            </div>
+                            <ul class="list-group stack mb-40pt">`+ res.html +`</ul>`
+                        );
+                    }
+
+                    $('#mdl_question').modal('toggle');
+
+                    // init Modal
+                    $('#frm_question input[name="image"]').val('');
+                    $('#frm_question textarea[name="question"]').val('');
+                    $('#frm_question input[name="score"]').val('');
+                }
+            }
+        });
+    });
+
+    $('#frm_test').on('submit', function(e) {
+        e.preventDefault();
+
+        $(this).ajaxSubmit({
             success: function(res) {
                 if(res.success) {
                     var url = '/dashboard/tests/' + res.test_id + '/edit';

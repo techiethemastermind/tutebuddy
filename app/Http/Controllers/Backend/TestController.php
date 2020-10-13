@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\PaperTest;
+use App\Models\Test;
 use App\Models\Course;
 use App\Models\Lesson;
 
@@ -25,10 +25,10 @@ class TestController extends Controller
     public function index()
     {
         $count = [
-            'all' => PaperTest::all()->count(),
-            'published' => PaperTest::where('published', 1)->count(),
-            'pending' => PaperTest::where('published', 0)->count(),
-            'deleted' => PaperTest::onlyTrashed()->count()
+            'all' => Test::all()->count(),
+            'published' => Test::where('published', 1)->count(),
+            'pending' => Test::where('published', 0)->count(),
+            'deleted' => Test::onlyTrashed()->count()
         ];
 
         return view('backend.tests.index', compact('count'));
@@ -41,28 +41,28 @@ class TestController extends Controller
 
         switch ($type) {
             case 'all':
-                $tests = PaperTest::all();
+                $tests = Test::all();
             break;
             case 'published':
-                $tests = PaperTest::where('published', 1)->get();
+                $tests = Test::where('published', 1)->get();
             break;
             case 'pending':
-                $tests = PaperTest::where('published', 0)->get();
+                $tests = Test::where('published', 0)->get();
             break;
             case 'deleted':
-                $tests = PaperTest::onlyTrashed()->get();
+                $tests = Test::onlyTrashed()->get();
             break;
             default:
-                $tests = PaperTest::all();
+                $tests = Test::all();
         }
 
         $data = $this->getArrayData($tests);
 
         $count = [
-            'all' => PaperTest::all()->count(),
-            'published' => PaperTest::where('published', 1)->count(),
-            'pending' => PaperTest::where('published', 0)->count(),
-            'deleted' => PaperTest::onlyTrashed()->count()
+            'all' => Test::all()->count(),
+            'published' => Test::where('published', 1)->count(),
+            'pending' => Test::where('published', 0)->count(),
+            'deleted' => Test::onlyTrashed()->count()
         ];
 
         return response()->json([
@@ -129,9 +129,9 @@ class TestController extends Controller
                             </div>
                         </div>';
 
-            $edit_route = route('admin.assignments.edit', $item->id);
-            $delete_route = route('admin.assignments.destroy', $item->id);
-            $publish_route = route('admin.assignment.publish', $item->id);
+            $edit_route = route('admin.tests.edit', $item->id);
+            $delete_route = route('admin.tests.destroy', $item->id);
+            $publish_route = route('admin.test.publish', $item->id);
 
             $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
             $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
@@ -211,17 +211,13 @@ class TestController extends Controller
 
         $data = $request->all();
         $data['user_id'] = auth()->user()->id;
-        $test = PaperTest::create($data);
 
-        // Attachment
-        if(isset($data['attachment'])) {
-            $attachment = $request->file('attachment');
-            $attachment_url = $this->saveImage($attachment, 'upload', true);
-            $test->attachment = $attachment_url;
+        if(!empty($data['test_id'])) {
+            $test = Test::find($data['test_id']);
+            $test->update($data);
+        } else {
+            $test = Test::create($data);
         }
-        $test->user_id = auth()->user()->id;
-
-        $test->save();
 
         return response()->json([
             'success' => true,
@@ -234,8 +230,55 @@ class TestController extends Controller
      */
     public function edit($id)
     {
-        $test = PaperTest::find($id);
+        $test = Test::find($id);
         $courses = Course::all();
         return view('backend.tests.edit', compact('test', 'courses'));
+    }
+
+    /**
+     * Update Test
+     */
+    public function update(Request $request, $id)
+    {
+        $test = Test::find($id);
+        $data = $request->all();
+        $data['user_id'] = auth()->user()->id;
+        
+        try {
+            $test->update($data);
+
+            return response()->json([
+                'success' => true,
+                'action' => 'update'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+
+    /**
+     * Delete a Test
+     */
+    public function destroy($id)
+    {
+        try {
+            Test::find($id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

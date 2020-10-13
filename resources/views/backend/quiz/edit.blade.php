@@ -176,24 +176,45 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <div class="form-group mb-0">
+
+                            <!-- Set Course -->
+                            <div class="form-group">
                                 <label class="form-label">Add to course</label>
                                 <select name="course" id="course" data-toggle="select" data-tags="true"
                                     data-multiple="true" multiple="multiple" data-minimum-results-for-search="-1"
                                     class="form-control" data-placeholder="Select course ...">
                                     @foreach($courses as $course)
                                     <option data-avatar-src="@if(!empty($course->course_image)) 
-                                        {{ asset('/storage/uploads' . $course->course_image) }}
+                                        {{ asset('/storage/uploads/' . $course->course_image) }}
                                         @else 
                                             {{asset('/assets/img/no-image.jpg')}}
                                         @endif" @if($quiz->course_id == $course->id) selected="" @endif value="{{$course->id}}">
                                         {{ $course->title }}</option>
                                     @endforeach
                                 </select>
+                                <small class="form-text text-muted">Select a Course.</small>
+                            </div>
+
+                            <!-- Set Lesson -->
+                            <div class="form-group">
+                                <label class="form-label">Lessons</label>
+                                <select name="lesson_id" class="form-control form-label"></select>
+                                <small class="form-text text-muted">Select a lesson.</small>
+                            </div>
+
+                            <!-- Duration -->
+                            <div class="form-group">
+                                <label class="form-label">Duration (Mins)</label>
+                                <input type="number" name="duration" class="form-control" placeholder="Mins">
+                            </div>
+
+                            <!-- Total Marks -->
+                            <div class="form-group">
+                                <label class="form-label">Total Marks</label>
+                                <input type="number" class="form-control" placeholder="Total Marks">
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -260,181 +281,201 @@
 
 <script>
 
-var quiz = {
-    id: '{{ $quiz->id }}'
-};
+$(function() {
 
-var quiz_quill;
-
-$(document).ready(function() {
-
-    // Load questions
-    loadQuestions();
+    var quiz_quill;
+    var quiz = {
+        id: '{{ $quiz->id }}'
+    };
 
     // New question quill
     quiz_quill = new Quill('#quiz_editor', {
         theme: 'snow',
         placeholder: 'Quiz'
     });
-});
 
-// ==== Update quiz ==== //
-$('#btn_quiz_save').on('click', function() {
-
-    $('#frm_quiz').ajaxSubmit({
-        beforeSubmit: function(formData, formObject, formOptions) {
-
-            var title = formObject.find('input[name="title"]');
-            if (title.val() == '') { // If title is empty then display Error msg
-                title.addClass('is-invalid');
-                var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
-                err_msg.insertAfter(title);
-                title.focus();
-                return false;
-            }
-
-            // Add course Id;
-            formData.push({
-                name: 'course_id',
-                type: 'int',
-                value: $('#course').val()
-            });
-            formData.push({
-                name: 'send_type',
-                type: 'text',
-                value: 'ajax'
-            });
-        },
-        success: function(res) {
-            if(res.success) {
-                swal("Success!", "Successfully updated", "success");
-            } else {
-                swal('Warning!', res.message, 'warning');
-            }
-        }
+    // Load Lesson by Course
+    loadLessons($('select[name="course"]').val());
+    $('select[name="course"]').on('change', function(e) {
+        loadLessons($(this).val());
     });
-});
 
-// Add New Question
-$('#btn_new_question').on('click', function() {
-    $('#mdl_question').modal('toggle');
-});
+    // Load questions
+    loadQuestions();
 
-$('#frm_question').submit(function(e) {
+    // ==== Update quiz ==== //
+    $('#btn_quiz_save').on('click', function() {
 
-    e.preventDefault();
+        $('#frm_quiz').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
 
-    $(this).ajaxSubmit({
-        beforeSubmit: function(formData, formObject, formOptions) {
+                var title = formObject.find('input[name="title"]');
+                if (title.val() == '') { // If title is empty then display Error msg
+                    title.addClass('is-invalid');
+                    var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
+                    err_msg.insertAfter(title);
+                    title.focus();
+                    return false;
+                }
 
-            // Append quill data
-            formData.push({
-                name: 'question',
-                type: 'text',
-                value: JSON.stringify(quiz_quill.getContents().ops)
-            });
-            formData.push({
-                name: 'test_id',
-                type: 'int',
-                value: quiz.id
-            });
-            formData.push({
-                name: 'send_type',
-                type: 'text',
-                value: 'ajax'
-            });
-        },
-        success: function(res) {
-
-            if(res.success) {
-
-                var ele_quiz_ul = $('#questions').find('ul');
-                if(ele_quiz_ul.length > 0) {
-                    $(res.html).hide().appendTo(ele_quiz_ul).toggle(500);
+                // Add course Id;
+                formData.push({
+                    name: 'course_id',
+                    type: 'int',
+                    value: $('#course').val()
+                });
+                formData.push({
+                    name: 'send_type',
+                    type: 'text',
+                    value: 'ajax'
+                });
+            },
+            success: function(res) {
+                if(res.success) {
+                    swal("Success!", "Successfully updated", "success");
                 } else {
-                    $('#questions').html(`
-                        <div class="page-separator">
-                            <div class="page-separator__text">Questions</div>
-                        </div>
-                        <ul class="list-group stack mb-40pt">`+ res.html +`</ul>`
-                    );
+                    swal('Warning!', res.message, 'warning');
                 }
-
-                $('#mdl_question').modal('toggle');
-
-                loadQuestions();
-                quiz_quill.setContents('');
             }
-        }
+        });
     });
-});
 
-// ==== Delete Question ====/
+    // Add New Question
+    $('#btn_new_question').on('click', function() {
+        $('#mdl_question').modal('toggle');
+    });
 
-$('#questions').on('click', 'a.question-delete', function(e) {
+    $('#frm_question').submit(function(e) {
 
-    e.preventDefault();
-    var route = $(this).attr('href');
-    var question_item = $(this).closest('li');
+        e.preventDefault();
 
-    swal({
-        title: "Are you sure?",
-        text: "This Question will removed from this quiz",
-        type: 'warning',
-        showCancelButton: true,
-        showConfirmButton: true,
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
-        dangerMode: false,
+        $(this).ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
 
-    }, function(val) {
-        if (val) {
-            $.ajax({
-                method: 'GET',
-                url: route,
-                success: function(res) {
-                    if (res.success) {
-                        question_item.toggle( function() { 
-                            $(this).remove();
-                            adjustOrder();
-                        });
+                // Append quill data
+                formData.push({
+                    name: 'question',
+                    type: 'text',
+                    value: JSON.stringify(quiz_quill.getContents().ops)
+                });
+                formData.push({
+                    name: 'test_id',
+                    type: 'int',
+                    value: quiz.id
+                });
+                formData.push({
+                    name: 'send_type',
+                    type: 'text',
+                    value: 'ajax'
+                });
+            },
+            success: function(res) {
+
+                if(res.success) {
+
+                    var ele_quiz_ul = $('#questions').find('ul');
+                    if(ele_quiz_ul.length > 0) {
+                        $(res.html).hide().appendTo(ele_quiz_ul).toggle(500);
+                    } else {
+                        $('#questions').html(`
+                            <div class="page-separator">
+                                <div class="page-separator__text">Questions</div>
+                            </div>
+                            <ul class="list-group stack mb-40pt">`+ res.html +`</ul>`
+                        );
                     }
+
+                    $('#mdl_question').modal('toggle');
+
+                    loadQuestions();
+                    quiz_quill.setContents('');
                 }
-            });
-        }
+            }
+        });
     });
-});
 
+    // ==== Delete Question ====/
+    $('#questions').on('click', 'a.question-delete', function(e) {
 
-// Load questions
+        e.preventDefault();
+        var route = $(this).attr('href');
+        var question_item = $(this).closest('li');
 
-function loadQuestions() {
-    var ele_quiz_texts = $('.quiz-textarea');
-    if(ele_quiz_texts.length > 0) {
+        swal({
+            title: "Are you sure?",
+            text: "This Question will removed from this quiz",
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
 
-        $.each(ele_quiz_texts, function(idx, item) {
+        }, function(val) {
+            if (val) {
+                $.ajax({
+                    method: 'GET',
+                    url: route,
+                    success: function(res) {
+                        if (res.success) {
+                            question_item.toggle( function() { 
+                                $(this).remove();
+                                adjustOrder();
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
 
-            var ele_id = $(item).attr('id');
-            var content = $(item).val();
-            var quiz_quill = new Quill('#editor_' + ele_id);
-            quiz_quill.setContents(JSON.parse(content));
-            var html = quiz_quill.root.innerHTML;
-            $('#content_' + ele_id).html($(html));
+    function loadLessons(course) {
+
+        // Get Lessons by selected Course
+        $.ajax({
+            method: 'GET',
+            url: "{{ route('admin.lessons.getLessonsByCourse') }}",
+            data: {course_id: course},
+            success: function(res) {
+                if (res.success) {
+                    lesson_added = (res.lesson_id != null) ? true : false;
+                    $('select[name="lesson_id"]').html(res.options);
+                }
+            },
+            error: function(err) {
+                var errMsg = getErrorMessage(err);
+                console.log(errMsg);
+            }
         });
     }
-}
 
+    // Load questions
+    function loadQuestions() {
+        var ele_quiz_texts = $('.quiz-textarea');
+        if(ele_quiz_texts.length > 0) {
 
-// Adjust option order
+            $.each(ele_quiz_texts, function(idx, item) {
 
-function adjustOrder() {
+                var ele_id = $(item).attr('id');
+                var content = $(item).val();
+                var quiz_quill = new Quill('#editor_' + ele_id);
+                quiz_quill.setContents(JSON.parse(content));
+                var html = quiz_quill.root.innerHTML;
+                $('#content_' + ele_id).html($(html));
+            });
+        }
+    }
 
-    var ele_lis = $('#options').find('li');
+    // Adjust option order
+    function adjustOrder() {
 
-    $.each(ele_lis, function(idx, item) {
-        $(item).find('.card-title').text('Question ' + (idx + 1));
-    });
-}
+        var ele_lis = $('#options').find('li');
+
+        $.each(ele_lis, function(idx, item) {
+            $(item).find('.card-title').text('Question ' + (idx + 1));
+        });
+    }
+});
 
 </script>
 @endpush

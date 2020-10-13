@@ -56,7 +56,7 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
 
-            {!! Form::open(['method' => 'PATCH', 'route' => ['admin.tests.update', $test->id], 'files' => true, 'id' => 'frm_tests']) !!}
+            {!! Form::open(['method' => 'PATCH', 'route' => ['admin.tests.update', $test->id], 'files' => true, 'id' => 'frm_test']) !!}
 
             <div class="row">
                 <div class="col-md-8">
@@ -74,13 +74,42 @@
                         @enderror
                     </div>
 
-                    <label class="form-label">Content</label>
+                    <label class="form-label">Description</label>
                     <div class="form-group mb-48pt">
-                        <!-- quill editor -->
-                        <div id="test_editor" class="mb-0" style="min-height: 300px;"></div>
-                        <small class="form-text text-muted">Edit Test</small>
-                        <textarea id="test_content" style="display: none;">{{ $test->content }}</textarea>
+                        <textarea class="mb-0 form-control" name="description" rows="4" placeholder="Question Description">{{ $test->description }}</textarea>
                     </div>
+
+                    <div class="tests-wrap" id="questions">
+                        <div class="page-separator">
+                            <div class="page-separator__text">Questions</div>
+                        </div>
+                        <ul class="list-group stack mb-40pt">
+                            @foreach($test->questions as $question)
+                            <li class="list-group-item d-flex quiz-item" data-id="{{ $question->id }}">
+                                <div class="flex d-flex flex-column">
+                                    <div class="card-title mb-16pt">Question {{ $loop->iteration }}</div>
+                                    <div class="card-subtitle text-70 paragraph-max mb-8pt tute-question">{{ $question->question }}</div>
+                                    @if(!empty($question->image))
+                                    <img class="img-fluid rounded" src="{{ asset('/storage/uploads/' . $question->image) }}" alt="image">
+                                    @endif
+                                    <input type="hidden" name="score" value="{{ $question->score }}">
+                                </div>
+
+                                <div class="dropdown">
+                                    <a href="javascript:void(0)" data-toggle="dropdown" data-caret="false" class="text-muted"><i
+                                            class="material-icons">more_horiz</i></a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a href="{{ route('admin.questions.update', $question->id) }}" class="dropdown-item edit">Edit Question</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="{{ route('admin.questions.delete', $question->id) }}" class="dropdown-item text-danger delete">Delete Question</a>
+                                    </div>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <button type="button" id="btn_new_question" class="btn btn-block btn-outline-secondary">Add Quesion</button>
                 </div>
 
                 <div class="col-md-4">
@@ -109,10 +138,24 @@
                     <div class="card">
                         <div class="card-body">
 
+                            <div class="form-group">
+                                <label class="form-label">Test Type</label>
+                                <div class="custom-controls-stacked form-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input id="test_lesson" name="type" type="radio" class="custom-control-input" value="lesson" checked="">
+                                        <label for="test_lesson" class="custom-control-label">For Lesson</label>
+                                    </div>
+                                    <div class="custom-control custom-radio ml-8pt">
+                                        <input id="test_course" name="type" type="radio" class="custom-control-input" value="course">
+                                        <label for="test_course" class="custom-control-label">For Course</label>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Set Course -->
                             <div class="form-group">
                                 <label class="form-label">Course</label>
-                                <div class="form-group">
+                                <div class="form-group mb-0">
                                     <select name="course" class="form-control @error('course') is-invalid @enderror">
                                         @foreach($courses as $course)
                                         <option value="{{ $course->id }}" @if($course->id == $test->lesson->course->id) selected @endif>
@@ -131,27 +174,28 @@
                             <div class="form-group">
                                 <label class="form-label">Lessons</label>
                                 <select name="lesson_id" class="form-control form-label"></select>
+                                <small class="form-text text-muted">Select a lesson.</small>
                             </div>
 
-                            <!-- Set Duration -->
-                            <div class="form-group">
-                                <label class="form-label">Due Date</label>
-                                <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
-                            </div>
+                            <hr>
 
-                            <!-- Total Mark -->
-                            <div class="form-group">
-                                <label class="form-label">Total Marks</label>
-                                <input type="number" name="total_mark" class="form-control" placeholder="5" value="{{ $test->total_mark }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Attachment File</label>
-                                <div class="custom-file">
-                                    <input type="file" name="attachment" class="custom-file-input">
-                                    <label for="file" class="custom-file-label">Choose file</label>
+                            <!-- Set Evaluation -->
+                            <div class="form-group" for="evaluation">
+                                <label class="form-label">Evaluation:</label>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-radio py-1">
+                                        <input id="score_by_mark" name="score_type" type="radio" class="custom-control-input" value="1" checked="">
+                                        <label for="score_by_mark" class="custom-control-label">Score by Mark</label>
+                                    </div>
+                                    <div class="custom-control custom-radio py-1">
+                                        <input id="score_by_grade" name="score_type" type="radio" class="custom-control-input" value="2">
+                                        <label for="score_by_grade" class="custom-control-label">Score by Grade</label>
+                                    </div>
+                                    <div class="custom-control custom-radio py-1">
+                                        <input id="no_score" name="score_type" type="radio" class="custom-control-input" value="0">
+                                        <label for="no_score" class="custom-control-label">No Scoring</label>
+                                    </div>
                                 </div>
-                                <small class="form-text text-muted">Max file size is 5MB.</small>
                             </div>
                         </div>
                     </div>
@@ -161,6 +205,98 @@
         </div>
     </div>
 
+</div>
+
+<!-- Modal for add new question -->
+<div id="mdl_question" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            {!! Form::open(['method' => 'POST', 'route' => ['admin.questions.store'], 'files' => true, 'id' =>'frm_question']) !!}
+
+            <div class="modal-header">
+                <h5 class="modal-title">New Question</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Question Image:</label>
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input">
+                        <label for="file" class="custom-file-label">Choose image</label>
+                    </div>
+                    <small class="form-text text-muted">Max file size is 5MB.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Question*</label>
+                    <textarea class="form-control" name="question" rows="4" placeholder="Type Question here"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Marks (Optional)</label>
+                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+            </div>
+
+            <input type="hidden" name="model_type" value="test">
+
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
+<!-- Modal for add edit question -->
+<div id="mdl_question_edit" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            {!! Form::open(['method' => 'PATCH', 'route' => ['admin.questions.update', $question->id], 'files' => true, 'id' =>'frm_question_edit']) !!}
+
+            <div class="modal-header">
+                <h5 class="modal-title">New Question</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Question Image:</label>
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input">
+                        <label for="file" class="custom-file-label">Choose image</label>
+                    </div>
+                    <small class="form-text text-muted">Max file size is 5MB.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Question*</label>
+                    <textarea class="form-control" name="question" rows="4" placeholder="Type Question here"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Marks (Optional)</label>
+                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+            </div>
+
+            <input type="hidden" name="model_type" value="test">
+
+            {!! Form::close() !!}
+        </div>
+    </div>
 </div>
 
 @push('after-scripts')
@@ -181,14 +317,7 @@
 
 $(function() {
 
-    // Init Quill Editor for Test Content
-    var test_editor = new Quill('#test_editor', {
-        theme: 'snow',
-        placeholder: 'Test Content'
-    });
-
-    var test_content = JSON.parse($('#test_content').val());
-    test_editor.setContents(test_content);
+    var test_id = '{{ $test->id }}';
 
     $('select[name="course"]').select2({ tags: true });
     $('select[name="lesson"]').select2({ tags: true });
@@ -200,25 +329,158 @@ $(function() {
     });
 
     // When add title, Hide Error msg
-    $('#frm_tests').on('keyup', 'input[name="title"], input[name="lesson"]', function() {
+    $('#frm_test').on('keyup', 'input[name="title"], input[name="lesson"]', function() {
         $(this).removeClass('is-invalid');
         $(this).closest('.form-group').find('div.invalid-feedback').remove();
     });
 
-    $('#frm_tests').on('submit', function(e) {
+    // Test Type setting
+    $('input[name="type"]').on('change', function(e) {
+        
+        if($(this).val() == 'course') {
+            $('div[for="lesson"]').addClass('d-none');
+        }
+
+        if($(this).val() == 'lesson') {
+            $('div[for="lesson"]').removeClass('d-none');
+        }
+    });
+
+    // Add New Question
+    $('#btn_new_question').on('click', function() {
+
+        $('#mdl_question').modal('toggle');
+    });
+
+    $('#frm_question').submit(function(e) {
+
+        e.preventDefault();
+        $(this).ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+                formData.push({
+                    name: 'model_id',
+                    type: 'int',
+                    value: test_id
+                });
+                formData.push({
+                    name: 'send_type',
+                    type: 'text',
+                    value: 'ajax'
+                });
+            },
+            success: function(res) {
+                if(res.success) {
+
+                    var ele_quiz_ul = $('#questions').find('ul');
+                    if(ele_quiz_ul.length > 0) {
+                        $(res.html).hide().appendTo(ele_quiz_ul).toggle(500);
+                    } else {
+                        $('#questions').html(`
+                            <div class="page-separator">
+                                <div class="page-separator__text">Questions</div>
+                            </div>
+                            <ul class="list-group stack mb-40pt">`+ res.html +`</ul>`
+                        );
+                    }
+
+                    $('#mdl_question').modal('toggle');
+
+                    // init Modal
+                    $('#frm_question input[name="image"]').val('');
+                    $('#frm_question textarea[name="question"]').val('');
+                    $('#frm_question input[name="score"]').val('');
+                }
+            }
+        });
+    });
+
+    // Edit question
+    $('#questions').on('click', 'a.edit', function(e) {
+        e.preventDefault();
+        var mdl_edit = $('#mdl_question_edit');
+        var ele_li = $(this).closest('li');
+        var route = $(this).attr('href');
+        var question = ele_li.find('div.tute-question').text();
+        var marks = ele_li.find('input[name="score"]').val();
+
+        console.log(ele_li);
+
+        // set content
+        mdl_edit.find('textarea[name="question"]').val(question);
+        mdl_edit.find('input[name="score"]').val(marks);
+        
+        $('#frm_question_edit').attr('action', route);
+        mdl_edit.modal('toggle');
+    });
+
+    $('#frm_question_edit').on('submit', function(e) {
         e.preventDefault();
 
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
-                var content = JSON.stringify(test_editor.getContents().ops);
-
-                // Append Course ID
                 formData.push({
-                    name: 'content',
+                    name: 'model_id',
+                    type: 'int',
+                    value: test_id
+                });
+                formData.push({
+                    name: 'send_type',
                     type: 'text',
-                    value: content
+                    value: 'ajax'
                 });
             },
+            success: function(res) {
+                if(res.success) {
+                    var ele_li = $('li[data-id="'+ res.question.id +'"]');
+                    ele_li.replaceWith(res.html);
+                    $('#mdl_question_edit').modal('toggle');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
+    // Delete a question
+    $('#questions').on('click', 'a.delete', function(e) {
+
+        e.preventDefault();
+        var route = $(this).attr('href');
+        var question_item = $(this).closest('li');
+
+        swal({
+            title: "Are you sure?",
+            text: "This Question will removed from this quiz",
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
+
+        }, function(val) {
+            if (val) {
+                $.ajax({
+                    method: 'GET',
+                    url: route,
+                    success: function(res) {
+                        if (res.success) {
+                            question_item.toggle( function() { 
+                                $(this).remove();
+                                adjustOrder();
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    $('#frm_test').on('submit', function(e) {
+        e.preventDefault();
+
+        $(this).ajaxSubmit({
             success: function(res) {
                 if(res.success) {
                     swal('Success!', 'Successfully Updated', 'success');
@@ -247,6 +509,14 @@ $(function() {
                 var errMsg = getErrorMessage(err);
                 console.log(errMsg);
             }
+        });
+    }
+
+    // Adjust questions order
+    function adjustOrder() {
+        var ele_lis = $('#questions').find('li');
+        $.each(ele_lis, function(idx, item) {
+            $(item).find('.card-title').text('Question ' + (idx + 1));
         });
     }
 });

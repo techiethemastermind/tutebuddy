@@ -480,4 +480,32 @@ class LessonController extends Controller
         ]);
         
     }
+
+    /**
+     * Return Lessons html by Option tag for selected course
+     */
+    public function getLessons(Request $request) {
+
+        $lessons = Lesson::where('course_id', $request->course_id)->get();
+
+        $html = '';
+
+        foreach($lessons as $lesson) {
+            if(strlen($lesson->short_text) > 60) {
+                $lesson_desc = substr($lesson->short_text, 0, 60) . '...';
+            } else {
+                $lesson_desc = $lesson->short_text;
+            }
+            if(isset($request->lesson_id) && $request->lesson_id == $lesson->id) {
+                $html .= "<option value='$lesson->id' data-desc='$lesson_desc' selected>$lesson->title</option>";
+            } else {
+                $html .= "<option value='$lesson->id' data-desc='$lesson_desc'>$lesson->title</option>";
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'options' => $html
+        ]);
+    }
 }

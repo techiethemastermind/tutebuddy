@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Question;
 use App\Models\Test;
+use App\Models\Quiz;
+
+use App\Http\Controllers\Traits\FileUploadTrait;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
+    use FileUploadTrait;
+
     /**
      * Create a new controller instance.
      *
@@ -78,29 +85,58 @@ class QuestionController extends Controller
         if(!isset($data['score'])) {
             $data['score'] = 1;
         }
+
         if(!isset($data['type'])) {
             $data['type'] = 0;
         }
 
+        switch($data['model_type']) {
+            case 'test':
+                $data['model_type'] = Test::class;
+            break;
+
+            case 'quiz':
+                $data['model_type'] = Quiz::class;
+            break;
+
+            case 'assignment':
+                $data['model_type'] = Assignment::class;
+            break;
+
+            default:
+                $data['model_type'] = Quiz::class;
+        }
+
         $question_data = [
             'question' => $data['question'],
-            'test_id' => $data['test_id'],
+            'model_id' => $data['model_id'],
             'score' => $data['score'],
             'type' => $data['type'],
+            'model_type' => $data['model_type'],
             'user_id' => auth()->user()->id
         ];
+
+        // Question image
+        if(!empty($data['image'])) {
+            $image = $request->file('image');
+            $image_url = $this->saveImage($image, 'upload', true);
+            $question_data['image'] = $image_url;
+        }
 
         try {
 
             $question = Question::create($question_data);
-            $question_count = Question::where('test_id', $data['test_id'])->count();
-            $quiz_html = $this->getQuizHtml($question);
+            $question_count = Question::where('model_id', $data['model_id'])->where('model_type', $data['model_type'])->count();
+
+            if($data['model_type'] == Test::class) {
+                $html = $this->getTestHtml($question);
+            }
 
             return response()->json([
                 'success' => true,
                 'question' => $question,
                 'count' => $question_count,
-                'html' => $quiz_html
+                'html' => $html
             ]);
         } catch (Exception $e) {
 
@@ -127,20 +163,65 @@ class QuestionController extends Controller
      * Update a Question
      */
     public function update(Request $request, $id) {
-        
+
         $update_data = [
             'question' => $request->question,
             'score' => $request->score,
-            'test_id' => $request->test_id,
+            'model_id' => $request->model_id,
             'type' => $request->type
         ];
 
+        if(!isset($request->score)) {
+            $update_data['score'] = 1;
+        }
+
+        if(!isset($request->type)) {
+            $update_data['type'] = 0;
+        }
+
+        switch($request->model_type) {
+            case 'test':
+                $update_data['model_type'] = Test::class;
+            break;
+
+            case 'quiz':
+                $update_data['model_type'] = Quiz::class;
+            break;
+
+            case 'assignment':
+                $update_data['model_type'] = Assignment::class;
+            break;
+
+            default:
+            $update_data['model_type'] = Quiz::class;
+        }
+        
+        // Question image
+        if(!empty($request->image)) {
+            $image = $request->file('image');
+
+            // Delete existing img file
+            if (File::exists(public_path('/storage/uploads/' . Question::find($id)->image))) {
+                File::delete(public_path('/storage/uploads/' . Question::find($id)->image));
+                File::delete(public_path('/storage/uploads/thumb/' . Question::find($id)->image));
+            }
+
+            $image_url = $this->saveImage($image, 'upload', true);
+            $update_data['image'] = $image_url;
+        }
+
         try {
             Question::find($id)->update($update_data);
+            $question = Question::find($id);
+
+            if($update_data['model_type'] == Test::class) {
+                $html = $this->getTestHtml($question);
+            }
 
             return response()->json([
                 'success' => true,
-                'action' => 'update'
+                'question' => $question,
+                'html' => $html
             ]);
         } catch (Exception $e) {
 
@@ -180,10 +261,39 @@ class QuestionController extends Controller
         //
     }
 
+    function getTestHtml($question) {
+
+        $test = Test::find($question->model_id);
+        $count = $test->questions->count();
+        $update_route = route('admin.questions.update', $question->id);
+        $delete_route = route('admin.questions.delete', $question->id);
+
+        $img = !empty($question->image) ? '<img class="img-fluid rounded" src="'. asset('/storage/uploads/' . $question->image) .'" alt="image">' : '';
+
+        return '<li class="list-group-item d-flex quiz-item" data-id="'. $question->id .'">
+                    <div class="flex d-flex flex-column">
+                        <div class="card-title mb-16pt">Question ' . $count . '</div>
+                        <div class="card-subtitle text-70 paragraph-max mb-8pt tute-question">'. $question->question .'</div>
+                        '. $img .'
+                        <input type="hidden" name="score" value="'. $question->score .'">
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
+                                class="material-icons">more_horiz</i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="'. $update_route .'" class="dropdown-item edit">Edit Question</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="'. $delete_route .'" class="dropdown-item text-danger delete">Delete Question</a>
+                        </div>
+                    </div>
+                </li>';
+    }
+
     function getQuizHtml($question) {
 
-        $test = Test::find($question->test_id);
-        $count = $test->questions->count();
+        $quiz = Quiz::find($question->model_id);
+        $count = $quiz->questions->count();
         $answer_str = ($question->type == 1) ? 'Single Answer' : 'Multi Answer';
         $edit_route = route('admin.questions.edit', $question->id);
         $delete_route = route('admin.questions.delete', $question->id);

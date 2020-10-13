@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TestResultAnswers extends Model
+class QuizResultAnswers extends Model
 {
     protected $guarded = [];
     
@@ -16,7 +16,7 @@ class TestResultAnswers extends Model
         return $this->belongsTo(QuestionsOption::class);
     }
 
-    public function testResult(){
-        return $this->belongsTo(TestResults::class);
+    public function quizResult(){
+        return $this->belongsTo(QuizResults::class);
     }
 }

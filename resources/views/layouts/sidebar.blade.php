@@ -115,7 +115,17 @@
                             </a>
                         </li>
                         @endcan
+                    </ul>
+                </li>
 
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#task_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment</span>
+                        Task
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul class="sidebar-submenu collapse sm-indent" id="task_menu" style="">
                         @can('quiz_access')
                         <li class="sidebar-menu-item {{ Request::is('dashboard/quiz*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.quizs.index') }}">
@@ -124,18 +134,18 @@
                         </li>
                         @endcan
 
+                        <!-- @can('question_access')
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/question*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.questions.index') }}">
+                                <span class="sidebar-menu-text">-- Questions</span>
+                            </a>
+                        </li>
+                        @endcan -->
+
                         @can('test_access')
                         <li class="sidebar-menu-item {{ Request::is('dashboard/test*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.tests.index') }}">
                                 <span class="sidebar-menu-text">Tests</span>
-                            </a>
-                        </li>
-                        @endcan
-
-                        @can('question_access')
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/question*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.questions.index') }}">
-                                <span class="sidebar-menu-text">Questions</span>
                             </a>
                         </li>
                         @endcan
@@ -147,7 +157,6 @@
                             </a>
                         </li>
                         @endcan
-
                     </ul>
                 </li>
 

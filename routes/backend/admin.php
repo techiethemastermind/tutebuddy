@@ -78,6 +78,7 @@ Route::resource('lessons', 'LessonController');
 Route::get('lessons/delete/{id}', 'LessonController@deleteLesson')->name('lessons.delete');
 Route::get('lessons/lesson/{id}', 'LessonController@getLesson')->name('lesson.getById');
 Route::get('steps/delete/{id}', 'LessonController@deleteStep')->name('steps.delete');
+Route::get('ajax/lessons-by-course', 'LessonController@getLessons')->name('lessons.getLessonsByCourse');
 
 //===== Schedule Routes ====//
 Route::get('schedule', 'ScheduleController@index')->name('schedule');
@@ -155,7 +156,6 @@ Route::get('tests/restore/{id}', 'TestController@restore')->name('test.restore')
 Route::get('ajax/tests/list/{type}', 'TestController@getList')->name('getTestsByAjax');
 Route::get('ajax/test/publish/{id}', 'TestController@publish')->name('test.publish');
 Route::get('ajax/test/lessons', 'TestController@getLessons')->name('test.getLessonsByCourse');
-
 
 //==== Transactions Route ==== //
 Route::get('transactions', 'PaymentController@getTransactions')->name('transactions');

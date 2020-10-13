@@ -470,27 +470,196 @@
                         <div id="bbb" class="tab-pane p-4 fade text-70">
                             <div class="form-group">
                                 <div class="controls form-inline">
-                                    <label for="" class="form-label col-lg-3 text-left">Join Method: </label>
-                                    <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
-                                        <input type="checkbox" checked="" id="bbb_join_method"
-                                            name="bbb_join_method" class="custom-control-input" value="{{ config('bbb.join_method') }}">
-                                        <label class="custom-control-label" for="bbb_join_method">Yes</label>
+                                    <label for="" class="form-label col-lg-3 text-right">How to student join the Metting?: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_join_auto" name="bbb__join_method" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.join_method') == 1 ) checked="" @endif>
+                                            <label for="live_join_auto" class="custom-control-label">Join Automatically</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_join_wait" name="bbb__join_method" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.join_method') == 0 ) checked="" @endif>
+                                            <label for="live_join_wait" class="custom-control-label">Wait for Instructor to let them in</label>
+                                        </div>
                                     </div>
-                                    <label class="form-label mb-0" for="bbb_join_method">Yes
-                                        <small class="text-muted">&nbsp; (How to Student Join the Meeting?)</small>
-                                    </label>
                                 </div>
-                                <small class="text-muted">Yes: Join Automatically, No: Wait for Instructor to let them in</small>
                             </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Mic on Join: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_mic_on" name="bbb__mic_status" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.mic_status') == 1 ) checked="" @endif>
+                                            <label for="live_mic_on" class="custom-control-label">On</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_mic_off" name="bbb__mic_status" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.mic_status') == 0 ) checked="" @endif>
+                                            <label for="live_mic_off" class="custom-control-label">Off</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Speaker on Join: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_speaker_on" name="bbb__speaker_status" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.speaker_status') == 1 ) checked="" @endif>
+                                            <label for="live_speaker_on" class="custom-control-label">On</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_speaker_off" name="bbb__speaker_status" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.speaker_status') == 0 ) checked="" @endif>
+                                            <label for="live_speaker_off" class="custom-control-label">Off</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Camera on Join: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_camera_on" name="bbb__camera_status" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.camera_status') == 1 ) checked="" @endif>
+                                            <label for="live_camera_on" class="custom-control-label">On</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_camera_off" name="bbb__camera_status" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.camera_status') == 0 ) checked="" @endif>
+                                            <label for="live_camera_off" class="custom-control-label">Off</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Enable Screensharing for Students: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_screenshare_yes" name="bbb__screenshare_status" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.screenshare_status') == 1 ) checked="" @endif>
+                                            <label for="live_screenshare_yes" class="custom-control-label">Yes</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_screenshare_no" name="bbb__screenshare_status" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.screenshare_status') == 0 ) checked="" @endif>
+                                            <label for="live_screenshare_no" class="custom-control-label">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Enable File Upload for Students: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_upload_yes" name="bbb__upload_status" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.upload_status') == 1 ) checked="" @endif>
+                                            <label for="live_upload_yes" class="custom-control-label">Yes</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_upload_no" name="bbb__upload_status" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.upload_status') == 0 ) checked="" @endif>
+                                            <label for="live_upload_no" class="custom-control-label">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Allow Private Chat: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_chat_yes" name="bbb__chat_status" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.chat_status') == 1 ) checked="" @endif>
+                                            <label for="live_chat_yes" class="custom-control-label">Yes</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_chat_no" name="bbb__chat_status" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.chat_status') == 0 ) checked="" @endif>
+                                            <label for="live_chat_no" class="custom-control-label">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Default Presenter: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_instructor_presenter" name="bbb__presenter" type="radio" class="custom-control-input" value="instructor"
+                                            @if(config('bbb.presenter') == 'instructor' ) checked="" @endif>
+                                            <label for="live_instructor_presenter" class="custom-control-label">Instructor</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_student_presenter" name="bbb__presenter" type="radio" class="custom-control-input" value="student"
+                                            @if(config('bbb.chat_status') == 'student' ) checked="" @endif>
+                                            <label for="live_student_presenter" class="custom-control-label">Student</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_both_presenter" name="bbb__presenter" type="radio" class="custom-control-input" value="both"
+                                            @if(config('bbb.chat_status') == 'both' ) checked="" @endif>
+                                            <label for="live_both_presenter" class="custom-control-label">Both</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Enable Whiteboard: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_whiteboard_yes" name="bbb__whiteboard_status" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.whiteboard_status') == 1 ) checked="" @endif>
+                                            <label for="live_whiteboard_yes" class="custom-control-label">Yes</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_whiteboard_no" name="bbb__whiteboard_status" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.whiteboard_status') == 0 ) checked="" @endif>
+                                            <label for="live_whiteboard_no" class="custom-control-label">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-right d-inline-block">Allow Students to join and Moderators: </label>
+                                    <div class="custom-controls-stacked form-inline">
+                                        <div class="custom-control custom-radio">
+                                            <input id="live_moderator_allow" name="bbb__moderator_status" type="radio" class="custom-control-input" value="1"
+                                            @if(config('bbb.moderator_status') == 1 ) checked="" @endif>
+                                            <label for="live_moderator_allow" class="custom-control-label">Yes</label>
+                                        </div>
+                                        <div class="custom-control custom-radio ml-8pt">
+                                            <input id="live_moderator_disallow" name="bbb__moderator_status" type="radio" class="custom-control-input" value="0"
+                                            @if(config('bbb.moderator_status') == 0 ) checked="" @endif>
+                                            <label for="live_moderator_disallow" class="custom-control-label">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
                     <div class="card-footer text-right">
                         <button type="submit" class="btn btn-primary">Update</button>
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>

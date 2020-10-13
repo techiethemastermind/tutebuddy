@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
-use App\Models\Test;
+use App\Models\Quiz;
 
 class QuizController extends Controller
 {
@@ -20,7 +20,7 @@ class QuizController extends Controller
     }
 
     /**
-     * List of Tests
+     * List of Quiz
      */
     public function index() {
 
@@ -29,12 +29,12 @@ class QuizController extends Controller
     }
 
     /**
-     * Get Tests by Course id
+     * Get Quizs by Course id
      */
     public function getList($id) {
 
-        $tests = Test::where('course_id', $id)->get();
-        $data = $this->getArrayData($tests);
+        $quizs = quiz::where('course_id', $id)->get();
+        $data = $this->getArrayData($quizs);
 
         return response()->json([
             'success' => true,
@@ -43,7 +43,7 @@ class QuizController extends Controller
     }
 
     /**
-     * Add new Test
+     * Add new quiz
      */
     public function create() {
 
@@ -57,18 +57,18 @@ class QuizController extends Controller
     public function store(Request $request) {
 
         $data = $request->all();
-        $test_data = [
+        $quiz_data = [
             'course_id' => $data['course_id'],
             'title' => $data['title'],
-            'description' => $data['test_description']
+            'description' => $data['quiz_description']
         ];
         
         try {
-            $test = Test::create($test_data);
+            $quiz = quiz::create($quiz_data);
 
             return response()->json([
                 'success' => true,
-                'test' => $test
+                'quiz' => $quiz
             ]);
         } catch (Exception $e) {
 
@@ -81,17 +81,17 @@ class QuizController extends Controller
     }
 
     /**
-     * Edit a Test
+     * Edit a quiz
      */
     public function edit($id) {
 
         $courses = Course::all();
-        $quiz = Test::find($id);
+        $quiz = quiz::find($id);
         return view('backend.quiz.edit', compact('quiz', 'courses'));
     }
 
     /**
-     * Update a Test
+     * Update a quiz
      */
     public function update(Request $request, $id) {
 
@@ -102,7 +102,7 @@ class QuizController extends Controller
         ];
 
         try {
-            Test::find($id)->update($updateData);
+            quiz::find($id)->update($updateData);
 
             return response()->json([
                 'success' => true,
@@ -118,12 +118,12 @@ class QuizController extends Controller
     }
 
     /**
-     * Delete Test
+     * Delete quiz
      */
     public function destroy($id) {
 
         try {
-            Test::find($id)->delete();
+            quiz::find($id)->delete();
 
             return response()->json([
                 'success' => true,
@@ -138,11 +138,11 @@ class QuizController extends Controller
         }
     }
 
-    function getArrayData($tests) {
+    function getArrayData($quizs) {
         $data = [];
         $i = 0;
 
-        foreach($tests as $test) {
+        foreach($quizs as $quiz) {
             $i++;
             $temp = [];
             $temp['index'] = '<div class="custom-control custom-checkbox">
@@ -153,22 +153,22 @@ class QuizController extends Controller
             $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                 <div class="avatar avatar-sm mr-8pt">
                                     <span class="avatar-title rounded bg-primary text-white">'
-                                        . substr($test->title, 0, 2) .
+                                        . substr($quiz->title, 0, 2) .
                                     '</span>
                                 </div>
                                 <div class="media-body">
                                     <div class="d-flex flex-column">
                                         <small class="js-lists-values-project">
-                                            <strong>' . $test->title . '</strong></small>
+                                            <strong>' . $quiz->title . '</strong></small>
                                     </div>
                                 </div>
                             </div>';
 
-            $temp['questions'] = $test->questions->count();
+            $temp['questions'] = $quiz->questions->count();
 
-            if(!empty($test->lesson_id)) {
+            if(!empty($quiz->lesson_id)) {
                 $temp['assigned'] = '<div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">' . $test->lesson->name . '</small>
+                                    <small class="js-lists-values-status text-50 mb-4pt">' . $quiz->lesson->name . '</small>
                                     <span class="indicator-line rounded bg-primary"></span>
                                 </div>';
             } else {
@@ -178,16 +178,16 @@ class QuizController extends Controller
                                 </div>';
             }
 
-            $show_route = route('admin.quizs.show', $test->id);
-            $edit_route = route('admin.quizs.edit', $test->id);
-            $delete_route = route('admin.quizs.destroy', $test->id);
+            $show_route = route('admin.quizs.show', $quiz->id);
+            $edit_route = route('admin.quizs.edit', $quiz->id);
+            $delete_route = route('admin.quizs.destroy', $quiz->id);
 
             $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
             $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
             $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
 
-            if($test->trashed()) {
-                $restore_route = route('admin.quizs.restore', $test->id);
+            if($quiz->trashed()) {
+                $restore_route = route('admin.quizs.restore', $quiz->id);
                 $btn_delete = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
                     data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
             }

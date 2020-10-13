@@ -35,6 +35,9 @@
 [dir=ltr] .sidebar-light .active>.sidebar-menu-button, [dir=ltr] .sidebar-light .active>.sidebar-menu-button .sidebar-menu-icon, [dir=ltr] .sidebar-light .open>.sidebar-menu-button .sidebar-menu-icon {
     color: #5567ff;
 }
+[dir=ltr] .sidebar-light .sidebar-submenu .sidebar-menu-text {
+    border-left: 1px solid #aaa;
+}
 /** Pagenation **/
 [dir=ltr] .page-link {
     font-size: 0.8rem;
