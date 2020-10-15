@@ -8,6 +8,8 @@ use App\Models\Course;
 use App\Models\Question;
 use App\Models\Test;
 use App\Models\Quiz;
+use App\Models\QuestionGroup;
+use App\Models\QuestionOption;
 
 use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\File;
@@ -82,6 +84,8 @@ class QuestionController extends Controller
 
         $data = $request->all();
 
+        dd($data);
+
         if(!isset($data['score'])) {
             $data['score'] = 1;
         }
@@ -90,31 +94,31 @@ class QuestionController extends Controller
             $data['type'] = 0;
         }
 
-        switch($data['model_type']) {
-            case 'test':
-                $data['model_type'] = Test::class;
-            break;
-
-            case 'quiz':
-                $data['model_type'] = Quiz::class;
-            break;
-
-            case 'assignment':
-                $data['model_type'] = Assignment::class;
-            break;
-
-            default:
-                $data['model_type'] = Quiz::class;
-        }
-
         $question_data = [
             'question' => $data['question'],
             'model_id' => $data['model_id'],
             'score' => $data['score'],
             'type' => $data['type'],
-            'model_type' => $data['model_type'],
             'user_id' => auth()->user()->id
         ];
+
+        switch($data['model_type']) {
+            case 'test':
+                $question_data['model_type'] = Test::class;
+            break;
+
+            case 'quiz':
+                $question_data['model_type'] = Quiz::class;
+                $question_data['group_id'] = $data['group_id'];
+            break;
+
+            case 'assignment':
+                $question_data['model_type'] = Assignment::class;
+            break;
+
+            default:
+                $question_data['model_type'] = Quiz::class;
+        }
 
         // Question image
         if(!empty($data['image'])) {
@@ -128,8 +132,12 @@ class QuestionController extends Controller
             $question = Question::create($question_data);
             $question_count = Question::where('model_id', $data['model_id'])->where('model_type', $data['model_type'])->count();
 
-            if($data['model_type'] == Test::class) {
+            if($question_data['model_type'] == Test::class) {
                 $html = $this->getTestHtml($question);
+            }
+
+            if($question_data['model_type'] == Quiz::class) {
+                $html = $this->storeOptions($data, $question);
             }
 
             return response()->json([
@@ -259,6 +267,113 @@ class QuestionController extends Controller
     public function restore($id) {
 
         //
+    }
+
+    /**
+     * Add Question Section
+     */
+    public function addSection(Request $request)
+    {
+        $section = QuestionGroup::create([
+            'title' => $request->section_title,
+            'score' => $request->section_marks,
+            'model_id' => $request->model_id,
+            'model_type' => Quiz::class
+        ]);
+
+        $html = $this->getSectionHtml($section);
+
+        return response()->json([
+            'success' => true,
+            'section' => $section,
+            'html' => $html
+        ]);
+    }
+
+    function storeOptions($data, $question)
+    {
+        $options = $data['option_text'];
+        
+        if($question->type == 0) {
+            $answer_type = 'Single Answer';
+        }
+
+        switch($question->type) {
+            case 0:
+                $answer_type = 'Single Answer';
+            break;
+
+            case 1:
+                $answer_type = 'Multi Answer';
+            break;
+
+            default:
+                $answer_type = 'Single Answer';
+        }
+
+        $question_count = Question::where('model_type', Quiz::class)->where('group_id', $question->group_id)->count();
+
+        $html = '<li class="list-group-item d-flex quiz-item">
+                    <div class="flex d-flex flex-column">
+                        <div class="card-title mb-16pt">' . $question_count . '. '. $question->question .'</div>
+                        <div class="text-right">
+                            <div class="chip chip-outline-secondary">'. $answer_type .'</div>
+                            <div class="chip chip-outline-secondary">Score: '. $question->score .'</div>
+                        </div>
+                        <div class="options-wrap">
+                        
+                            <div class="form-group">
+                                <div class="custom-controls-stacked">';
+                                    foreach($options as $idx => $value) {
+                                        $correct = 0;
+                                        if($idx == (int)$data['option_single']) {
+                                            $correct = 1;
+                                        }
+                                        $optionData = [
+                                            'question_id' => $question->id,
+                                            'option_text' => $value,
+                                            'correct' => $correct
+                                        ];
+                                        $option = QuestionOption::create($optionData);
+                                        $html .= $this->getOptionHtml($option);
+                                    }
+                                    $html .= '
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>';
+
+        return $html;
+    }
+
+    function getOptionHtml($option) {
+
+        $option_count = QuestionOption::where('question_id', $option->question_id)->count();
+        $checked_str = ($option->correct == 1) ? 'checked' : '';
+
+        return '<div class="custom-control custom-radio mb-8pt">
+                <input id="option_s'. $option->id .'_q'. $option->question_id .'" name="option_single_s'. $option->id .'_q'. $option->question_id .'" type="radio" class="custom-control-input" '. $checked_str .'>
+                <label for="option_s'. $option->id .'_q'. $option->question_id .'" class="custom-control-label">'. $option->option_text .'</label>
+            </div>';
+    }
+
+    function getSectionHtml($section)
+    {
+        $count = QuestionGroup::where('model_id', $section->model_id)->where('model_type', Quiz::class)->count();
+
+        return '<div class="group-wrap py-32pt mb-16pt border-bottom-1" group-id="'. $section->id .'">
+                    <div class="d-flex align-items-center page-num-container">
+                        <div class="page-num">'. $count .'</div>
+                        <div class="flex">
+                            <div class="d-flex">
+                                <h4 class="flex mb-0">'. $section->title .'</h4>
+                                <h5 class="badge badge-pill font-size-16pt badge-accent">'. $section->score .'</h4>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary ml-16pt btn-question" data-id="'. $section->id .'">Add Quesion</button>
+                    </div>
+                </div>';
     }
 
     function getTestHtml($question) {

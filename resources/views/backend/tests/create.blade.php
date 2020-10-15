@@ -4,9 +4,6 @@
 
 @push('after-styles')
 
-<!-- Quill Theme -->
-<link type="text/css" href="{{ asset('assets/css/quill.css') }}" rel="stylesheet">
-
 <!-- Select2 -->
 <link rel="stylesheet" href="{{ asset('assets/css/select2/select2.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('assets/css/select2/select2.min.css') }}" rel="stylesheet">
@@ -142,7 +139,7 @@
                             <!-- Set Lesson -->
                             <div class="form-group" for="lesson">
                                 <label class="form-label">Lessons</label>
-                                <select name="lesson_id" class="form-control form-label"></select>
+                                <select name="lesson_id" class="form-control"></select>
                                 <small class="form-text text-muted">Select a lesson.</small>
                             </div>
 
@@ -234,18 +231,14 @@
 <script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
-<!-- Quill -->
-<script src="{{ asset('assets/js/quill.min.js') }}"></script>
-<script src="{{ asset('assets/js/quill.js') }}"></script>
-
 <script>
 
 $(function() {
 
     var status = 'create';
 
-    $('select[name="course"]').select2({ tags: true });
-    $('select[name="lesson"]').select2({ tags: true });
+    $('select[name="course"]').select2();
+    $('select[name="lesson"]').select2();
 
     loadLessons($('select[name="course"]').val());
 

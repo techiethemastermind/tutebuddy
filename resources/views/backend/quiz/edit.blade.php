@@ -4,12 +4,9 @@
 
 @push('after-styles')
 
-<!-- Quill Theme -->
-<link type="text/css" href="{{ asset('assets/css/quill.css') }}" rel="stylesheet">
-
 <!-- Select2 -->
-<link type="text/css" href="{{ asset('assets/css/select2.css') }}" rel="stylesheet">
-<link type="text/css" href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">
+<link type="text/css" href="{{ asset('assets/css/select2/select2.css') }}" rel="stylesheet">
+<link type="text/css" href="{{ asset('assets/css/select2/select2.min.css') }}" rel="stylesheet">
 
 <style>
 .modal .modal-body {
@@ -62,15 +59,17 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
 
-            <div class="row align-items-start">
-                <div class="col-md-8">
+            {!! Form::open(['method' => 'PATCH', 'route' => ['admin.quizs.update', $quiz->id], 'files' => true, 'id' =>'frm_quiz']) !!}
 
+            <div class="row align-items-start">
+
+                <!-- Left Side -->
+                <div class="col-md-8">
                     <div class="page-separator">
                         <div class="page-separator__text">Edit a quiz</div>
                     </div>
 
-                    {!! Form::open(['method' => 'PATCH', 'route' => ['admin.quizs.update', $quiz->id], 'files' => true, 'id' =>'frm_quiz']) !!}
-
+                    <!-- Quiz Title -->
                     <label class="form-label">Title</label>
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
@@ -81,76 +80,95 @@
                         @enderror
                     </div>
 
+                    <!-- Quiz Description -->
                     <label class="form-label">Description</label>
                     <div class="form-group mb-24pt">
                         <textarea name="short_description" class="form-control" cols="100%" rows="3"
                             placeholder="Short description">{{ $quiz->description }}</textarea>
                         <small class="form-text text-muted">Shortly describe this quiz. It will show under title</small>
                     </div>
-                    
-                    {!! Form::close() !!}
 
+                    <!-- Questions Area -->
                     <div id="questions">
-                    
-                    @if($quiz->questions->count() > 0)
-                        <div class="page-separator">
-                            <div class="page-separator__text">Questions</div>
-                        </div>
 
-                        <ul class="list-group stack mb-40pt questions">
+                        @if($quiz->question_groups->count() > 0)
 
-                        @foreach($quiz->questions as $question)
+                        <div class="border-left-2 page-section pl-32pt">
+                            @foreach($quiz->question_groups as $group)
 
-                        @if(!$question->trashed())
+                            <div class="group-wrap py-32pt mb-16pt border-bottom-1" group-id="{{ $group->id }}">
 
-                        <li class="list-group-item d-flex quiz-item">
-                            <div class="flex d-flex flex-column">
-                                <div class="card-title mb-16pt">Question {{ $loop->iteration }}</div>
-                                <div class="card-subtitle text-70 paragraph-max" id="content_quiz_{{ $question->id }}"></div>
-
-                                <div class="work-area d-none">
-                                    <div id="editor_quiz_{{ $question->id }}"></div>
-                                    <textarea id="quiz_{{ $question->id }}" class="quiz-textarea">{{ $question->question }}</textarea>
-                                </div>
-                                
-                                <div class="text-right">
-                                    <div class="chip chip-outline-secondary">
-                                        @if($question->type == 1)
-                                            Single Answer
-                                        @else
-                                            Multi Answer
-                                        @endif
+                                <div class="d-flex align-items-center page-num-container">
+                                    <div class="page-num">{{ $loop->iteration }}</div>
+                                    <div class="flex">
+                                        <div class="d-flex">
+                                            <h4 class="flex mb-0">{{ $group->title }}</h4>
+                                            <h5 class="badge badge-pill font-size-16pt badge-accent">{{ $group->score }}</h4>
+                                        </div>
                                     </div>
-                                    <div class="chip chip-outline-secondary">Score: {{ $question->score }}</div>
+                                    <button type="button" class="btn btn-outline-primary ml-16pt btn-question" data-id="{{ $group->id }}">Add Quesion</button>
                                 </div>
-                            </div>
 
-                            <div class="dropdown">
-                                <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
-                                        class="material-icons">more_horiz</i></a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <?php
-                                        $edit_route = route('admin.questions.edit', $question->id);
-                                        $delete_route = route('admin.questions.delete', $question->id);
-                                    ?>
-                                    <a href="{{ $edit_route }}" class="dropdown-item" target="_blank">Edit Question</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="{{ $delete_route }}" class="dropdown-item text-danger question-delete">Delete Question</a>
-                                </div>
-                            </div>
-                        </li>
+                                @if($group->questions->count() > 0)
 
+                                <ul class="list-group stack mb-40pt">
+
+                                    @foreach($group->questions as $question)
+
+                                    <li class="list-group-item d-flex quiz-item">
+
+                                        <div class="flex d-flex flex-column">
+                                            <div class="card-title mb-16pt">{{ $loop->iteration }}. {{ $question->question }}</div>
+                                            
+                                            <div class="text-right">
+                                                <div class="chip chip-outline-secondary">
+                                                    @if($question->type == 0)
+                                                        Single Answer
+                                                    @else
+                                                        Multi Answer
+                                                    @endif
+                                                </div>
+                                                <div class="chip chip-outline-secondary">Score: {{ $question->score }}</div>
+                                            </div>
+
+                                            <div class="options-wrap">
+                                                <div class="form-group">
+                                                    <div class="custom-controls-stacked">
+                                                        @foreach($question->options as $option)
+                                                        <div class="custom-control custom-radio mb-8pt">
+                                                            <input id="option_s{{$option->id}}_q{{$question->id}}" name="option_single_s{{$option->id}}_q{{$question->id}}" type="radio" class="custom-control-input" @if($option->correct == 1) checked="" @endif >
+                                                            <label for="option_s{{$option->id}}_q{{$question->id}}" class="custom-control-label">{{ $option->option_text }}</label>
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="dropdown">
+                                            <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
+                                                    class="material-icons">more_horiz</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <?php
+                                                    $edit_route = route('admin.questions.edit', $question->id);
+                                                    $delete_route = route('admin.questions.delete', $question->id);
+                                                ?>
+                                                <a href="{{ $edit_route }}" class="dropdown-item question-edit" target="_blank">Edit Question</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="{{ $delete_route }}" class="dropdown-item text-danger question-delete">Delete Question</a>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    @endforeach
+                                </ul>
+                                @endif
+                            </div>
+                            @endforeach
+                        </div>
                         @endif
-
-                        @endforeach
-
-                        </ul>
-                    @endif
-
                     </div>
-
-                    <button id="btn_new_question" class="btn btn-block btn-outline-secondary">Add Quesion</button>
-
+                    <button type="button" id="btn_new_section" class="btn btn-block btn-outline-primary">Add Section</button>
                 </div>
 
                 <!-- Right Side -->
@@ -172,51 +190,92 @@
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Courses</div>
+                        <div class="page-separator__text">Options</div>
                     </div>
                     <div class="card">
                         <div class="card-body">
 
                             <!-- Set Course -->
                             <div class="form-group">
-                                <label class="form-label">Add to course</label>
-                                <select name="course" id="course" data-toggle="select" data-tags="true"
-                                    data-multiple="true" multiple="multiple" data-minimum-results-for-search="-1"
-                                    class="form-control" data-placeholder="Select course ...">
-                                    @foreach($courses as $course)
-                                    <option data-avatar-src="@if(!empty($course->course_image)) 
-                                        {{ asset('/storage/uploads/' . $course->course_image) }}
-                                        @else 
-                                            {{asset('/assets/img/no-image.jpg')}}
-                                        @endif" @if($quiz->course_id == $course->id) selected="" @endif value="{{$course->id}}">
-                                        {{ $course->title }}</option>
-                                    @endforeach
-                                </select>
-                                <small class="form-text text-muted">Select a Course.</small>
+                                <label class="form-label">Course</label>
+                                <div class="form-group mb-0">
+                                    <select name="course_id" class="form-control custom-select @error('course') is-invalid @enderror">
+                                        @foreach($courses as $course)
+                                        <option value="{{ $course->id }}" 
+                                            @if($course->id == $quiz->course_id) selected @endif> {{ $course->title }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    @error('course')
+                                    <div class="invalid-feedback">Course is required.</div>
+                                    @enderror
+                                </div>
+                                <small class="form-text text-muted">Select a course.</small>
                             </div>
 
                             <!-- Set Lesson -->
                             <div class="form-group">
                                 <label class="form-label">Lessons</label>
-                                <select name="lesson_id" class="form-control form-label"></select>
+                                <select name="lesson_id" class="form-control"></select>
                                 <small class="form-text text-muted">Select a lesson.</small>
                             </div>
 
                             <!-- Duration -->
                             <div class="form-group">
                                 <label class="form-label">Duration (Mins)</label>
-                                <input type="number" name="duration" class="form-control" placeholder="Mins">
+                                <input type="number" name="duration" class="form-control" min="1" placeholder="Mins" value="{{ $quiz->duration }}">
                             </div>
 
                             <!-- Total Marks -->
                             <div class="form-group">
                                 <label class="form-label">Total Marks</label>
-                                <input type="number" class="form-control" placeholder="Total Marks">
+                                <input type="number" name="score" class="form-control" placeholder="Total Marks" min="1" value="{{ $quiz->score }}">
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
+
+            {!! Form::close() !!}
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal for New Section -->
+<div id="mdl_section" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            {!! Form::open(['method' => 'POST', 'route' => ['admin.questions.addsection'], 'files' => true, 'id' =>'frm_section']) !!}
+
+            <div class="modal-header">
+                <h5 class="modal-title">New Section</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label class="form-label">Title *</label>
+                    <input type="text" name="section_title" class="form-control" placeholder="Section Title" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Section Marks</label>
+                    <input type="number" name="section_marks" class="form-control" placeholder="Marks for Section">
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+            </div>
+
+            {!! Form::close() !!}
         </div>
     </div>
 </div>
@@ -236,19 +295,46 @@
             </div>
 
             <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Question</label>
-                    <div style="height: 150px;" class="mb-0" id="quiz_editor"></div>
-                    <small class="form-text text-muted">Shortly describe the question.</small>
-                    <textarea class="form-control" rows="3" placeholder="Question" style="display: none;"></textarea>
-                </div>
 
                 <div class="form-group">
                     <label class="form-label">Question Type</label>
                     <select name="type" class="form-control custom-select">
-                        <option value="0">Multiple Answer</option>
-                        <option value="1">Single Answer</option>
+                        <option value="0">Single Answer</option>
+                        <option value="1">Multiple Answer</option>
+                        <option value="2">Text Answer</option>
                     </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Question</label>
+                    <textarea class="form-control" name="question" rows="3" placeholder="Question"></textarea>
+                    <small class="form-text text-muted">Shortly describe the question.</small>
+                </div>
+
+                <div id="options" class="options form-group">
+                    <div class="wrap wrap-signle-answer border-1 p-3">
+                        <div class="form-inline mb-16pt d-flex">
+                            <div class="flex">
+                                <label class="form-label">Add Options: </label>
+                            </div>
+                            <button id="btn_addOptions" class="btn btn-md btn-outline-secondary" type="button">+</button>
+                        </div>
+                        <hr>
+                        <div class="options-wrap">
+                            <div class="row mb-8pt">
+                                <div class="col-10 form-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input id="option_s0" name="option_single" type="radio" class="custom-control-input" checked="" value="0">
+                                        <label for="option_s0" class="custom-control-label">&nbsp;</label>
+                                    </div>
+                                    <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Option Text">
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -268,13 +354,9 @@
 
 @push('after-scripts')
 
-<!-- Quill -->
-<script src="{{ asset('assets/js/quill.min.js') }}"></script>
-<script src="{{ asset('assets/js/quill.js') }}"></script>
-
 <!-- Select2 -->
-<script src="{{ asset('assets/js/select2.min.js') }}"></script>
-<script src="{{ asset('assets/js/select2.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2.min.js') }}"></script>
+<script src="{{ asset('assets/js/select2/select2.js') }}"></script>
 
 <!-- jQuery Form -->
 <script src="{{ asset('assets/js/jquery.form.min.js') }}"></script>
@@ -283,47 +365,72 @@
 
 $(function() {
 
-    var quiz_quill;
-    var quiz = {
-        id: '{{ $quiz->id }}'
-    };
+    var quiz_id = '{{ $quiz->id }}';
+    var course_id = '{{ $quiz->course_id }}';
+    var lesson_id = '{{ $quiz->lesson_id }}';
+    var group_id, question_id;
+    var str_ids = ['option_s', 'option_m', 'option_t'];
+    var str_names = ['option_single', 'option_multi[]', 'option_text'];
 
-    // New question quill
-    quiz_quill = new Quill('#quiz_editor', {
-        theme: 'snow',
-        placeholder: 'Quiz'
-    });
+    var template = [
 
-    // Load Lesson by Course
-    loadLessons($('select[name="course"]').val());
-    $('select[name="course"]').on('change', function(e) {
+        $(`<div class="row mb-8pt">
+            <div class="col-10 form-inline">
+                <div class="custom-control custom-radio">
+                    <input id="option_s" name="option_single" type="radio" class="custom-control-input" value="0">
+                    <label for="option_s" class="custom-control-label">&nbsp;</label>
+                </div>
+                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Option Text">
+            </div>
+            <div class="col-2 text-right">
+                <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+            </div>
+        </div>`),
+
+        $(`<div class="row mb-8pt">
+            <div class="col-10 form-inline">
+                <div class="custom-control custom-checkbox">
+                    <input id="option_m" name="option_multi[]" type="checkbox" class="custom-control-input" value="0">
+                    <label for="option_m" class="custom-control-label">&nbsp;</label>
+                </div>
+                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Option Text">
+            </div>
+            <div class="col-2 text-right">
+                <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+            </div>
+        </div>`)
+
+    ];
+
+    var current_option_type = 0;
+
+    $('select[name="course_id"]').select2();
+    $('select[name="lesson_id"]').select2();
+
+    //=== Load Lesson by Course
+    loadLessons(course_id, lesson_id);
+    $('select[name="course_id"]').on('change', function(e) {
         loadLessons($(this).val());
     });
 
-    // Load questions
-    loadQuestions();
+    //=== Add new section
+    $('#btn_new_section').on('click', function(e) {
+        e.preventDefault();
+        $('#mdl_section').modal('toggle');
+    });
 
-    // ==== Update quiz ==== //
-    $('#btn_quiz_save').on('click', function() {
+    $('#frm_section').on('submit', function(e){
+        e.preventDefault();
 
-        $('#frm_quiz').ajaxSubmit({
+        $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
-                var title = formObject.find('input[name="title"]');
-                if (title.val() == '') { // If title is empty then display Error msg
-                    title.addClass('is-invalid');
-                    var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
-                    err_msg.insertAfter(title);
-                    title.focus();
-                    return false;
-                }
-
-                // Add course Id;
                 formData.push({
-                    name: 'course_id',
+                    name: 'model_id',
                     type: 'int',
-                    value: $('#course').val()
+                    value: quiz_id
                 });
+
                 formData.push({
                     name: 'send_type',
                     type: 'text',
@@ -331,18 +438,46 @@ $(function() {
                 });
             },
             success: function(res) {
-                if(res.success) {
-                    swal("Success!", "Successfully updated", "success");
-                } else {
-                    swal('Warning!', res.message, 'warning');
-                }
+                $(res.html).hide().appendTo($('#questions .page-section')).toggle(500);
+                $('#mdl_section').modal('toggle');
+
+                // init Modal
+                $('#frm_section input[name="section_title"]').val('');
+                $('#frm_section input[name="section_marks"]').val('');
             }
         });
     });
 
-    // Add New Question
-    $('#btn_new_question').on('click', function() {
+    //=== Add new question to group
+    $('#questions').on('click', '.btn-question', function(e) {
+        e.preventDefault();
+        group_id = $(this).attr('data-id');
         $('#mdl_question').modal('toggle');
+    });
+
+    $('#mdl_question').on('change', 'select[name="type"]', function(e) {
+        current_option_type = $(this).val();
+        $('#mdl_question').find('div.options-wrap').html(template[current_option_type]);
+    });
+
+    $('#btn_addOptions').click(function () {
+        var option_num = $('.options-wrap').find('.row').last().find('input[name="'+ str_names[current_option_type] +'"]').val();
+        if(option_num == undefined) {
+            option_num = 0;
+        }
+        var new_val = parseInt(option_num) + 1;
+        var new_id = str_ids[current_option_type] + new_val;
+        var new_ele = template[current_option_type].clone();
+        new_ele.find('input[name="' + str_names[current_option_type] + '"]').attr('id', new_id);
+        new_ele.find('label').attr('for', new_id);
+        new_ele.find('input[name="' + str_names[current_option_type] + '"]').val(new_val);
+        new_ele.appendTo("#options .options-wrap");
+    });
+
+    // Delete option from question modal
+    $('#options').on('click', '.options-wrap .remove', function(e) {
+        $(this).closest('.row').remove();
+        adjustOrder('option');
     });
 
     $('#frm_question').submit(function(e) {
@@ -352,17 +487,24 @@ $(function() {
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
-                // Append quill data
                 formData.push({
-                    name: 'question',
-                    type: 'text',
-                    value: JSON.stringify(quiz_quill.getContents().ops)
-                });
-                formData.push({
-                    name: 'test_id',
+                    name: 'model_id',
                     type: 'int',
-                    value: quiz.id
+                    value: quiz_id
                 });
+
+                formData.push({
+                    name: 'group_id',
+                    type: 'int',
+                    value: group_id
+                });
+
+                formData.push({
+                    name: 'model_type',
+                    type: 'text',
+                    value: 'quiz'
+                });
+
                 formData.push({
                     name: 'send_type',
                     type: 'text',
@@ -373,25 +515,34 @@ $(function() {
 
                 if(res.success) {
 
-                    var ele_quiz_ul = $('#questions').find('ul');
-                    if(ele_quiz_ul.length > 0) {
-                        $(res.html).hide().appendTo(ele_quiz_ul).toggle(500);
+                    var ele_group_ul = $('#questions').find('div[group-id="' + group_id + '"] ul');
+                    if(ele_group_ul.length > 0) {
+                        $(res.html).hide().appendTo(ele_group_ul).toggle(500);
                     } else {
-                        $('#questions').html(`
-                            <div class="page-separator">
-                                <div class="page-separator__text">Questions</div>
-                            </div>
+                        $('#questions').find('div[group-id="' + group_id + '"]').append(`
                             <ul class="list-group stack mb-40pt">`+ res.html +`</ul>`
                         );
                     }
 
-                    $('#mdl_question').modal('toggle');
+                    // Init Modal
+                    $('#mdl_question').find('select[name="type"]').val(0);
+                    $('#mdl_question').find('textarea[name="question"]').val('');
+                    $('#mdl_question').find('input[name="score"]').val(1);
 
-                    loadQuestions();
-                    quiz_quill.setContents('');
+                    $('#mdl_question').find('div.options-wrap').empty();
+                    $('#mdl_question').find('div.options-wrap').html(template[current_option_type].clone());
+
+                    $('#mdl_question').modal('toggle');
                 }
             }
         });
+    });
+
+    // ==== Edit Question ==== //
+    $('#questions').on('click', 'a.question-edit', function(e) {
+        e.preventDefault();
+        var route = $(this).attr('href');
+        console.log(route);
     });
 
     // ==== Delete Question ====/
@@ -429,13 +580,30 @@ $(function() {
         });
     });
 
-    function loadLessons(course) {
+    // ==== Update quiz ==== //
+    $('#btn_quiz_save').on('click', function() {
+
+        $('#frm_quiz').ajaxSubmit({
+            success: function(res) {
+                if(res.success) {
+                    swal("Success!", "Successfully updated", "success");
+                } else {
+                    swal('Warning!', res.message, 'warning');
+                }
+            }
+        });
+    });
+
+    function loadLessons(course_id, lesson_id = 0) { // Course ID and selected Lesson ID
 
         // Get Lessons by selected Course
         $.ajax({
             method: 'GET',
             url: "{{ route('admin.lessons.getLessonsByCourse') }}",
-            data: {course_id: course},
+            data: {
+                course_id: course_id,
+                lesson_id: lesson_id
+            },
             success: function(res) {
                 if (res.success) {
                     lesson_added = (res.lesson_id != null) ? true : false;
@@ -449,31 +617,16 @@ $(function() {
         });
     }
 
-    // Load questions
-    function loadQuestions() {
-        var ele_quiz_texts = $('.quiz-textarea');
-        if(ele_quiz_texts.length > 0) {
+    // Adjust option order
+    function adjustOrder(type) {
 
-            $.each(ele_quiz_texts, function(idx, item) {
+        if(type == 'option') {
+            var ele_rows = $('#options').find('.row');
 
-                var ele_id = $(item).attr('id');
-                var content = $(item).val();
-                var quiz_quill = new Quill('#editor_' + ele_id);
-                quiz_quill.setContents(JSON.parse(content));
-                var html = quiz_quill.root.innerHTML;
-                $('#content_' + ele_id).html($(html));
+            $.each(ele_rows, function(idx, item) {
+                $(item).find('input[name="'+ str_names[current_option_type] +'"]').val(idx);
             });
         }
-    }
-
-    // Adjust option order
-    function adjustOrder() {
-
-        var ele_lis = $('#options').find('li');
-
-        $.each(ele_lis, function(idx, item) {
-            $(item).find('.card-title').text('Question ' + (idx + 1));
-        });
     }
 });
 

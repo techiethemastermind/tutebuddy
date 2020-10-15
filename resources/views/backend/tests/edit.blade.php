@@ -4,9 +4,6 @@
 
 @push('after-styles')
 
-<!-- Quill Theme -->
-<link type="text/css" href="{{ asset('assets/css/quill.css') }}" rel="stylesheet">
-
 <!-- Select2 -->
 <link rel="stylesheet" href="{{ asset('assets/css/select2/select2.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('assets/css/select2/select2.min.css') }}" rel="stylesheet">
@@ -308,10 +305,6 @@
 <!-- Flatpickr -->
 <script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
-
-<!-- Quill -->
-<script src="{{ asset('assets/js/quill.min.js') }}"></script>
-<script src="{{ asset('assets/js/quill.js') }}"></script>
 
 <script>
 

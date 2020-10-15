@@ -26,6 +26,11 @@ class Quiz extends Model
         return $this->morphMany(Question::class, 'model');
     }
 
+    public function question_groups()
+    {
+        return $this->morphMany(QuestionGroup::class, 'model');
+    }
+
     public function step()
     {
         return $this->hasOne(Step::class, 'quiz', 'id');

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Quiz;
+use App\Models\QuestionGroup;
+
+use Illuminate\Support\Facades\DB;
 
 class QuizController extends Controller
 {
@@ -87,7 +90,7 @@ class QuizController extends Controller
 
         $courses = Course::all();
         $quiz = quiz::find($id);
-        return view('backend.quiz.edit', compact('quiz', 'courses'));
+        return view('backend.quiz.edit', compact('courses', 'quiz'));
     }
 
     /**
@@ -97,6 +100,9 @@ class QuizController extends Controller
 
         $updateData = [
             'course_id' => $request->course_id,
+            'lesson_id' => $request->lesson_id,
+            'duration' => $request->duration,
+            'score' => $request->score,
             'title' => $request->title,
             'description' => $request->short_description 
         ];

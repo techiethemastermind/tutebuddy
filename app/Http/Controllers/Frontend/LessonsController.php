@@ -172,15 +172,18 @@ class LessonsController extends Controller
     public function liveSession($slug, $id)
     {
         $lesson = Lesson::find($id);
+        $course = $lesson->course;
+        $schedule = $lesson->schedule;
 
         $attendeePW = 'ap';
         $moderatorPW = 'mp';
-        $meeting_name = preg_replace('/\s+/', '+', $lesson->title);
+        $meeting_name = preg_replace('/\s+/', '+', $course->title . ' - ' . $lesson->title . ' ' . $schedule->start_time . ' to ' . $schedule->end_time);
         
         if(auth()->user()->hasRole('Instructor') || auth()->user()->hasRole('Administrator')) {
 
             $meeting_id = 'live-' . substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 9);
             $room_str = 'name=' . $meeting_name . '&meetingID=' . $meeting_id . '&attendeePW=' . $attendeePW . '&moderatorPW=' . $moderatorPW;
+            $room_Str .= '&startTime=' . $schedule->start_time . '&endTime=' . $schedule->end_time;
             
             $create_room_str = 'create' . $room_str . config('liveapp.key');
             $checksum = sha1($create_room_str);
