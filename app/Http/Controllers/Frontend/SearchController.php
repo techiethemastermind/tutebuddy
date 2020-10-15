@@ -118,122 +118,122 @@ class SearchController extends Controller
     // Search for Course by Semantic
     public function searchCourse(Request $request)
     {
-        // $q = $request->q;
-        // $data = [];
-        // $results = [];
+        $q = $request->q;
+        $data = [];
+        $results = [];
 
-        // $courses = Course::where('title', 'like', '%' . $q . '%')->get();
-        // $search = [];
+        $courses = Course::where('title', 'like', '%' . $q . '%')->get();
+        $search = [];
 
-        // foreach($courses as $course) {
-        //     $image = ($course->course_image) ? asset('/storage/uploads/thumb/' . $course->course_image) : asset('/storage/uploads/no-image.jpg');
-        //     array_push($search, [
-        //             'title' => $course->title,
-        //             'description' => $course->short_description,
-        //             'image' => $image,
-        //             'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=course&_k=' . $course->id
-        //         ]
-        //     );
-        // }
+        foreach($courses as $course) {
+            $image = ($course->course_image) ? asset('/storage/uploads/thumb/' . $course->course_image) : asset('/storage/uploads/no-image.jpg');
+            array_push($search, [
+                    'title' => $course->title,
+                    'description' => $course->short_description,
+                    'image' => $image,
+                    'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=course&_k=' . $course->id
+                ]
+            );
+        }
 
-        // $results['course'] = [
-        //     'name' => 'Course',
-        //     'results' => $search
-        // ];
+        $results['course'] = [
+            'name' => 'Course',
+            'results' => $search
+        ];
 
-        // $categories = Category::where('name', 'like', '%' . $q . '%')->get();
-        // $search = [];
+        $categories = Category::where('name', 'like', '%' . $q . '%')->get();
+        $search = [];
 
-        // foreach($categories as $category) {
-        //     $image = ($category->thumb) ? asset('/storage/uploads/' . $category->thumb) : asset('/storage/uploads/no-image.jpg');
-        //     array_push($search, [
-        //             'title' => $category->name,
-        //             'description' => $category->description,
-        //             'image' => $image,
-        //             'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=category&_k=' . $category->id
-        //         ]
-        //     );
-        // }
+        foreach($categories as $category) {
+            $image = ($category->thumb) ? asset('/storage/uploads/' . $category->thumb) : asset('/storage/uploads/no-image.jpg');
+            array_push($search, [
+                    'title' => $category->name,
+                    'description' => $category->description,
+                    'image' => $image,
+                    'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=category&_k=' . $category->id
+                ]
+            );
+        }
 
-        // $results['category'] = [
-        //     'name' => 'Category',
-        //     'results' => $search
-        // ];
+        $results['category'] = [
+            'name' => 'Category',
+            'results' => $search
+        ];
 
-        // $data['results'] = $results;
-        // return response()->json($data);
+        $data['results'] = $results;
+        return response()->json($data);
     }
 
 
     // Search for Instructor by Semantic
     public function searchInstructor(Request $request)
     {
-        // $q = $request->q;
-        // $data = [];
-        // $results = [];
+        $q = $request->q;
+        $data = [];
+        $results = [];
 
-        // $users = User::role('Instructor')->where('name', 'like', '%' . $q . '%')->get();
-        // $instructors = [];
+        $users = User::role('Instructor')->where('name', 'like', '%' . $q . '%')->get();
+        $instructors = [];
 
-        // foreach($users as $user) {
-        //     $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
-        //     array_push($instructors, [
-        //             'title' => $user->name,
-        //             'description' => $user->headline,
-        //             'image' => $avatar,
-        //             'url' => config("app.url") . 'search/instructors?_q=' . $user->name . '&_t=user&_k=' . $user->id
-        //         ]
-        //     );
-        // }
+        foreach($users as $user) {
+            $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
+            array_push($instructors, [
+                    'title' => $user->name,
+                    'description' => $user->headline,
+                    'image' => $avatar,
+                    'url' => config("app.url") . 'search/instructors?_q=' . $user->name . '&_t=user&_k=' . $user->id
+                ]
+            );
+        }
 
-        // $results['name'] = [
-        //     'name' => 'Match with Name',
-        //     'results' => $instructors
-        // ];
+        $results['name'] = [
+            'name' => 'Match with Name',
+            'results' => $instructors
+        ];
 
-        // $subjects = User::role('Instructor')->where('headline', 'like', '%' . $q . '%')->get();
-        // $instructors = [];
+        $subjects = User::role('Instructor')->where('headline', 'like', '%' . $q . '%')->get();
+        $instructors = [];
 
-        // foreach($subjects as $user) {
-        //     $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
-        //     array_push($instructors, [
-        //             'title' => $user->name,
-        //             'description' => $user->headline,
-        //             'image' => $avatar,
-        //             'url' => config("app.url") . 'search/instructors?_q=' . $q
-        //         ]
-        //     );
-        // }
+        foreach($subjects as $user) {
+            $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
+            array_push($instructors, [
+                    'title' => $user->name,
+                    'description' => $user->headline,
+                    'image' => $avatar,
+                    'url' => config("app.url") . 'search/instructors?_q=' . $q
+                ]
+            );
+        }
 
-        // $results['headline'] = [
-        //     'name' => 'Match with Headline',
-        //     'results' => $instructors
-        // ];
+        $results['headline'] = [
+            'name' => 'Match with Headline',
+            'results' => $instructors
+        ];
 
-        // $courses = Course::where('title', 'like', '%' . $q . '%')->get();
-        // $instructors = [];
+        $courses = Course::where('title', 'like', '%' . $q . '%')->get();
+        $instructors = [];
 
-        // foreach($courses as $course) {
-        //     $teachers = $course->teachers;
-        //     foreach($teachers as $user) {
-        //         $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
-        //         array_push($instructors, [
-        //                 'title' => $user->name,
-        //                 'description' => $user->headline,
-        //                 'image' => $avatar,
-        //                 'url' => config("app.url") . 'search/instructors?_q=' . $q
-        //             ]
-        //         );
-        //     }
-        // }
+        foreach($courses as $course) {
+            $teachers = $course->teachers;
+            foreach($teachers as $user) {
+                $avatar = ($user->avatar) ? asset('/storage/avatars/'. $user->avatar) : asset('/storage/avatars/no-avatar.jpg');
+                array_push($instructors, [
+                        'title' => $user->name,
+                        'description' => $user->headline,
+                        'image' => $avatar,
+                        'url' => config("app.url") . 'search/instructors?_q=' . $q
+                    ]
+                );
+            }
+        }
 
-        // $results['course'] = [
-        //     'name' => 'Match with Course',
-        //     'results' => $instructors
-        // ];
+        $results['course'] = [
+            'name' => 'Match with Course',
+            'results' => $instructors
+        ];
 
-        // $data['results'] = $results;
+        $data['results'] = $results;
 
-        // return response()->json($data);
+        return response()->json($data);
     }
 }
