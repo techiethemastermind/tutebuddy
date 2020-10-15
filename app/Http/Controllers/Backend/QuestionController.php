@@ -84,8 +84,6 @@ class QuestionController extends Controller
 
         $data = $request->all();
 
-        dd($data);
-
         if(!isset($data['score'])) {
             $data['score'] = 1;
         }
@@ -326,9 +324,19 @@ class QuestionController extends Controller
                                 <div class="custom-controls-stacked">';
                                     foreach($options as $idx => $value) {
                                         $correct = 0;
-                                        if($idx == (int)$data['option_single']) {
-                                            $correct = 1;
+
+                                        if(isset($data['option_single'])) {
+                                            if($idx == (int)$data['option_single']) {
+                                                $correct = 1;
+                                            }
                                         }
+
+                                        if(isset($data['option_multi'])) {
+                                            if(in_array($idx, $data['option_multi'])) {
+                                                $correct = 1;
+                                            }
+                                        }
+                                        
                                         $optionData = [
                                             'question_id' => $question->id,
                                             'option_text' => $value,
@@ -352,10 +360,21 @@ class QuestionController extends Controller
         $option_count = QuestionOption::where('question_id', $option->question_id)->count();
         $checked_str = ($option->correct == 1) ? 'checked' : '';
 
-        return '<div class="custom-control custom-radio mb-8pt">
-                <input id="option_s'. $option->id .'_q'. $option->question_id .'" name="option_single_s'. $option->id .'_q'. $option->question_id .'" type="radio" class="custom-control-input" '. $checked_str .'>
+        $option_type = $option->question->type;
+
+        if($option_type == 0) {
+            return '<div class="custom-control custom-radio mb-8pt">
+                <input id="option_s'. $option->id .'_q'. $option->question_id .'" name="option_single_q'. $option->question_id .'" type="radio" class="custom-control-input" '. $checked_str .'>
                 <label for="option_s'. $option->id .'_q'. $option->question_id .'" class="custom-control-label">'. $option->option_text .'</label>
             </div>';
+        }
+
+        if($option_type == 1) {
+            return '<div class="custom-control custom-checkbox mb-8pt">
+                <input id="option_m'. $option->id .'_q'. $option->question_id .'" name="option_multi_q'. $option->question_id .'[]" type="checkbox" class="custom-control-input" '. $checked_str .'>
+                <label for="option_m'. $option->id .'_q'. $option->question_id .'" class="custom-control-label">'. $option->option_text .'</label>
+            </div>';
+        }
     }
 
     function getSectionHtml($section)

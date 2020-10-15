@@ -12,7 +12,7 @@ use App\Models\Course;
 use App\Models\Schedule;
 use App\Models\Lesson;
 use App\Models\Test;
-use App\Models\TestResults;
+use App\Models\TestResult;
 use App\Models\Assignment;
 use App\Models\Bundle;
 use App\Models\AssignmentResult;
@@ -70,7 +70,7 @@ class DashboardController extends Controller
                 $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->limit(5)->get();
                 $bundles = Bundle::where('user_id', auth()->user()->id)->limit(5)->get();
                 $test_ids = Test::whereIn('course_id', $course_ids)->limit(5)->pluck('id');
-                $testResults = TestResults::whereIn('test_id', $test_ids)->limit(5)->get();
+                $testResults = TestResult::whereIn('test_id', $test_ids)->limit(5)->get();
                 $discussions = Discussion::limit(5)->get();
 
                 return view('backend.dashboard.teacher', compact('schedules',
@@ -90,7 +90,7 @@ class DashboardController extends Controller
                 $bundles = Bundle::whereIn('id', $bundles_id)->limit(3)->get();
                 $assignments = Assignment::whereIn('lesson_id', $lessons_id)->limit(5)->get();
                 $teachers = User::whereIn('id', $teachers_id)->limit(5)->get();
-                $testResults = TestResults::where('user_id', auth()->user()->id)->limit(4)->get();
+                $testResults = TestResult::where('user_id', auth()->user()->id)->limit(4)->get();
                 $discussions = Discussion::limit(5)->get();
                 return view('backend.dashboard.student',
                     compact(

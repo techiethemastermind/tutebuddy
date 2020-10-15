@@ -134,12 +134,23 @@
                                             <div class="options-wrap">
                                                 <div class="form-group">
                                                     <div class="custom-controls-stacked">
+                                                    @if($question->type == 0)
                                                         @foreach($question->options as $option)
                                                         <div class="custom-control custom-radio mb-8pt">
-                                                            <input id="option_s{{$option->id}}_q{{$question->id}}" name="option_single_s{{$option->id}}_q{{$question->id}}" type="radio" class="custom-control-input" @if($option->correct == 1) checked="" @endif >
+                                                            <input id="option_s{{$option->id}}_q{{$question->id}}" name="option_single_q{{$question->id}}" type="radio" class="custom-control-input" @if($option->correct == 1) checked @endif >
                                                             <label for="option_s{{$option->id}}_q{{$question->id}}" class="custom-control-label">{{ $option->option_text }}</label>
                                                         </div>
                                                         @endforeach
+                                                     @endif
+
+                                                    @if($question->type == 1)
+                                                        @foreach($question->options as $option)
+                                                        <div class="custom-control custom-checkbox mb-8pt">
+                                                            <input id="option_m{{$option->id}}_q{{$question->id}}" name="option_multi_q{{$question->id}}[]" type="checkbox" class="custom-control-input" @if($option->correct == 1) checked @endif>
+                                                            <label for="option_m{{$option->id}}_q{{$question->id}}" class="custom-control-label">{{ $option->option_text }}</label>
+                                                        </div>
+                                                        @endforeach
+                                                    @endif
                                                     </div>
                                                 </div>
                                             </div>

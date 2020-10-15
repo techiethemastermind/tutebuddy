@@ -183,7 +183,7 @@ class LessonsController extends Controller
 
             $meeting_id = 'live-' . substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, 9);
             $room_str = 'name=' . $meeting_name . '&meetingID=' . $meeting_id . '&attendeePW=' . $attendeePW . '&moderatorPW=' . $moderatorPW;
-            $room_Str .= '&startTime=' . $schedule->start_time . '&endTime=' . $schedule->end_time;
+            $room_str .= '&startTime=' . $schedule->start_time . '&endTime=' . $schedule->end_time;
             
             $create_room_str = 'create' . $room_str . config('liveapp.key');
             $checksum = sha1($create_room_str);
