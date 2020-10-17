@@ -174,7 +174,10 @@ $(function() {
                 { data: 'category'},
                 { data: 'courses'},
                 { data: 'action' }
-            ]
+            ],
+            oLanguage: {
+                sEmptyTable: "You have no Paths"
+            }
         }
     );
 

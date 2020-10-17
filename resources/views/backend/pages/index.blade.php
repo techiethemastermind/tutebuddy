@@ -159,7 +159,10 @@
                 { data: 'slug'},
                 { data: 'status'},
                 { data: 'action' }
-            ]
+            ],
+            oLanguage: {
+                sEmptyTable: "You have no Pages"
+            }
         }
     );
 

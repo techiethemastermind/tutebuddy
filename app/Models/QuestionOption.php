@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class QuestionOption extends Model
 {
-    use SoftDeletes;
-
     protected $guarded = [];
     
     /**
@@ -22,7 +19,7 @@ class QuestionOption extends Model
 
     public function question()
     {
-        return $this->belongsTo(Question::class, 'question_id')->withTrashed();
+        return $this->belongsTo(Question::class, 'question_id');
     }
 
     public function answered($result_id)

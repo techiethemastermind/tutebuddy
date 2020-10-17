@@ -62,23 +62,43 @@ class QuizController extends Controller
         $data = $request->all();
         $quiz_data = [
             'course_id' => $data['course_id'],
+            'lesson_id' => $data['lesson_id'],
             'title' => $data['title'],
-            'description' => $data['quiz_description']
+            'description' => $data['short_description'],
+            'duration' => $data['duration'],
+            'score' => $data['score']
         ];
-        
-        try {
-            $quiz = quiz::create($quiz_data);
 
-            return response()->json([
-                'success' => true,
-                'quiz' => $quiz
-            ]);
-        } catch (Exception $e) {
-
-            return response()->json([
-                'success' => false,
-                'msg' => $e->getMessage()
-            ]);
+        if(isset($data['model_id']) && ($data['model_id'] != -1)) {
+            try {
+                quiz::find($data['model_id'])->update($quiz_data);
+    
+                return response()->json([
+                    'success' => true,
+                    'action' => 'update'
+                ]);
+            } catch (Exception $e) {
+    
+                return response()->json([
+                    'success' => false,
+                    'msg' => $e->getMessage()
+                ]);
+            }
+        } else {
+            try {
+                $quiz = quiz::create($quiz_data);
+    
+                return response()->json([
+                    'success' => true,
+                    'quiz' => $quiz
+                ]);
+            } catch (Exception $e) {
+    
+                return response()->json([
+                    'success' => false,
+                    'msg' => $e->getMessage()
+                ]);
+            }
         }
         
     }

@@ -101,7 +101,10 @@
                 { data: 'content'},
                 { data: 'time' },
                 { data: 'action' }
-            ]
+            ],
+            oLanguage: {
+                sEmptyTable: "You have no Reviews"
+            }
         });
     });
 

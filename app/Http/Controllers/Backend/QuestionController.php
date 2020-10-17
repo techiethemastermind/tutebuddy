@@ -165,6 +165,39 @@ class QuestionController extends Controller
         return view('backend.question.edit', compact('question', 'courses', 'tests'));
     }
 
+    public function getQuestion($id)
+    {
+        $question = Question::find($id);
+        $html = '';
+        $str_ids = ['option_s', 'option_m', 'option_f'];
+        $str_names = ['option_single', 'option_multi[]', 'option_fill[]'];
+        $str_css = ['custom-radio', 'custom-checkbox', 'custom-checkbox'];
+
+        foreach($question->options as $option) {
+
+            $checked_str = ($option->correct == 1) ? 'checked' : '';
+
+            $html .= '<div class="row mb-8pt">
+                        <div class="col-10 form-inline">
+                            <div class="custom-control '. $str_css[$question->type] .'">
+                                <input id="new_'. $str_ids[$question->type] . $option->id . '_q' . $question->id . '" name="'. $str_names[$question->type] . '" type="radio" class="custom-control-input" '. $checked_str .' value="0">
+                                <label for="new_'. $str_ids[$question->type] . $option->id . '_q' . $question->id .'" class="custom-control-label">&nbsp;</label>
+                            </div>
+                            <input type="text" name="option_text[]" class="form-control" style="width: 90%" value="'. $option->option_text .'" >
+                        </div>
+                        <div class="col-2 text-right">
+                            <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+                        </div>
+                    </div>';
+        }
+
+        return response()->json([
+            'success' => true,
+            'question' => $question,
+            'html' => $html
+        ]);
+    }
+
     /**
      * Update a Question
      */
@@ -222,6 +255,11 @@ class QuestionController extends Controller
 
             if($update_data['model_type'] == Test::class) {
                 $html = $this->getTestHtml($question);
+            }
+
+            if($update_data['model_type'] == Quiz::class) {
+                $data = $request->all();
+                $html = $this->storeOptions($data, $question);
             }
 
             return response()->json([
@@ -305,13 +343,27 @@ class QuestionController extends Controller
                 $answer_type = 'Multi Answer';
             break;
 
+            case 2:
+                $answer_type = 'Fill in Blank';
+            break;
+
             default:
                 $answer_type = 'Single Answer';
         }
 
         $question_count = Question::where('model_type', Quiz::class)->where('group_id', $question->group_id)->count();
 
-        $html = '<li class="list-group-item d-flex quiz-item">
+        // Delete options if already exist
+        foreach($question->options as $option)
+        {
+            $option->delete();
+        }
+
+        $edit_route = route('admin.getQuestionByAjax', $question->id);
+        $update_route = route('admin.questions.update', $question->id);
+        $delete_route = route('admin.questions.delete', $question->id);
+
+        $html = '<li class="list-group-item d-flex quiz-item" data-id="'. $question->id .'">
                     <div class="flex d-flex flex-column">
                         <div class="card-title mb-16pt">' . $question_count . '. '. $question->question .'</div>
                         <div class="text-right">
@@ -329,10 +381,16 @@ class QuestionController extends Controller
                                             if($idx == (int)$data['option_single']) {
                                                 $correct = 1;
                                             }
-                                        }
+                                        } 
 
                                         if(isset($data['option_multi'])) {
                                             if(in_array($idx, $data['option_multi'])) {
+                                                $correct = 1;
+                                            }
+                                        }
+
+                                        if(isset($data['option_fill'])) {
+                                            if(in_array($idx, $data['option_fill'])) {
                                                 $correct = 1;
                                             }
                                         }
@@ -342,12 +400,23 @@ class QuestionController extends Controller
                                             'option_text' => $value,
                                             'correct' => $correct
                                         ];
+                                        
                                         $option = QuestionOption::create($optionData);
                                         $html .= $this->getOptionHtml($option);
                                     }
                                     $html .= '
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
+                                class="material-icons">more_horiz</i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="'. $edit_route .'" data-update="'. $update_route .'" class="dropdown-item question-edit">Edit Question</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="'. $delete_route .'" class="dropdown-item text-danger question-delete">Delete Question</a>
                         </div>
                     </div>
                 </li>';
@@ -374,6 +443,16 @@ class QuestionController extends Controller
                 <input id="option_m'. $option->id .'_q'. $option->question_id .'" name="option_multi_q'. $option->question_id .'[]" type="checkbox" class="custom-control-input" '. $checked_str .'>
                 <label for="option_m'. $option->id .'_q'. $option->question_id .'" class="custom-control-label">'. $option->option_text .'</label>
             </div>';
+        }
+
+        if($option_type == 2) {
+            if($option->correct == 1) {
+                return '<input type="text" class="form-control form-control-flush font-size-16pt text-70 border-bottom-1 inline pl-8pt" 
+                        style="width: fit-content; display: inline; border-color: #333;" placeholder="Add Correct Word"
+                        value="">';
+            } else {
+                return '<label class="text-70 font-size-16pt">'. $option->option_text .'</label>';
+            }
         }
     }
 

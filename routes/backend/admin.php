@@ -100,6 +100,7 @@ Route::get('ajax/quizs/list/{course_id}', 'QuizController@getList')->name('getTe
 //===== Questions Routes =====//
 Route::resource('questions', 'QuestionController');
 Route::get('ajax/questions/list/{course_id}/{test_id}', 'QuestionController@getList')->name('getQuestionsByAjax');
+Route::get('ajax/question/{question_id}', 'QuestionController@getQuestion')->name('getQuestionByAjax');
 Route::get('questions/delete/{id}', 'QuestionController@delete')->name('questions.delete');
 Route::get('questions/restore/{id}', 'QuestionController@restore')->name('questions.restore');
 Route::post('questions/add-section', 'QuestionController@addSection')->name('questions.addsection');

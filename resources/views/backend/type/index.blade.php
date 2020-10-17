@@ -119,7 +119,10 @@ $(document).ready(function() {
                 { data: 'name' },
                 { data: 'description'},
                 { data: 'action' }
-            ]
+            ],
+            oLanguage: {
+                sEmptyTable: "You have no Types"
+            }
         }
     );
 

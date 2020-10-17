@@ -90,7 +90,10 @@
                     { data: 'title'},
                     { data: 'topics'},
                     { data: 'action' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Discussions"
+                }
             }
         );
 

@@ -127,11 +127,12 @@ class SearchController extends Controller
 
         foreach($courses as $course) {
             $image = ($course->course_image) ? asset('/storage/uploads/thumb/' . $course->course_image) : asset('/storage/uploads/no-image.jpg');
+            $cat_id = isset($course->category) ? $course->category->id : '';
             array_push($search, [
                     'title' => $course->title,
                     'description' => $course->short_description,
                     'image' => $image,
-                    'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=course&_k=' . $course->id
+                    'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=course&_k=' . $cat_id
                 ]
             );
         }

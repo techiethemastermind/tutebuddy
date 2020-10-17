@@ -4,12 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Question extends Model
 {
-    use SoftDeletes;
-
     protected $guarded = [];
 
     protected static function boot()
@@ -27,10 +24,14 @@ class Question extends Model
         }
 
         static::deleting(function ($question) { // before delete() method call this
-            if ($question->isForceDeleting()) {
-                if (File::exists(public_path('/storage/uploads/' . $question->image))) {
-                    File::delete(public_path('/storage/uploads/' . $question->image));
-                }
+            // if ($question->isForceDeleting()) {
+            //     if (File::exists(public_path('/storage/uploads/' . $question->image))) {
+            //         File::delete(public_path('/storage/uploads/' . $question->image));
+            //     }
+            // }
+
+            foreach($question->options as $option) {
+                $option->delete();
             }
         });
 

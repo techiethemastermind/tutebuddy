@@ -172,7 +172,10 @@ $(function() {
                 { data: 'course'},
                 { data: 'lesson'},
                 { data: 'action' }
-            ]
+            ],
+            oLanguage: {
+                sEmptyTable: "You have no Assignments"
+            }
         }
     );
 

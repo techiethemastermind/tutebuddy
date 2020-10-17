@@ -24,7 +24,7 @@
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Live Lesson
+                            Scheduled Lessons
                         </li>
                     </ol>
                 </div>
@@ -34,7 +34,7 @@
 
     <div class="container page__container page-section">
         <div class="page-separator">
-            <div class="page-separator__text">My Live Lessons</div>
+            <div class="page-separator__text">My Scheduled Lessons</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -47,7 +47,7 @@
                             <span class="h2 mb-0 mr-3 count-all">{{ $count['all'] }}</span>
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">All</strong>
-                                <small class="card-subtitle text-50">All Live Lessons</small>
+                                <small class="card-subtitle text-50">All Scheduled Lessons</small>
                             </span>
                         </a>
                     </div>
@@ -103,7 +103,6 @@
                     <tbody class="list" id="toggle"></tbody>
                 </table>
             </div>
-
         </div>
 
     </div>
@@ -148,7 +147,10 @@
                     { data: 'course' },
                     { data: 'lesson' },
                     { data: 'action' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Lessons"
+                }
             }
         );
     });

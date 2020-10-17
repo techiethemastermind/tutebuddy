@@ -115,7 +115,7 @@
 
                                     @foreach($group->questions as $question)
 
-                                    <li class="list-group-item d-flex quiz-item">
+                                    <li class="list-group-item d-flex quiz-item" data-id="{{ $question->id }}">
 
                                         <div class="flex d-flex flex-column">
                                             <div class="card-title mb-16pt">{{ $loop->iteration }}. {{ $question->question }}</div>
@@ -151,6 +151,18 @@
                                                         </div>
                                                         @endforeach
                                                     @endif
+
+                                                    @if($question->type == 2)
+                                                        @foreach($question->options as $option)
+                                                            @if($option->correct == 1)
+                                                            <input type="text" class="form-control form-control-flush font-size-16pt text-70 border-bottom-1 inline pl-8pt" 
+                                                            style="width: fit-content; display: inline; border-color: #333;" placeholder="Add Correct Word"
+                                                            value="">
+                                                            @else
+                                                            <label class="text-70 font-size-16pt">{{ $option->option_text }}</label>
+                                                            @endif
+                                                        @endforeach
+                                                    @endif
                                                     </div>
                                                 </div>
                                             </div>
@@ -161,10 +173,11 @@
                                                     class="material-icons">more_horiz</i></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <?php
-                                                    $edit_route = route('admin.questions.edit', $question->id);
+                                                    $edit_route = route('admin.getQuestionByAjax', $question->id);
+                                                    $update_route = route('admin.questions.update', $question->id);
                                                     $delete_route = route('admin.questions.delete', $question->id);
                                                 ?>
-                                                <a href="{{ $edit_route }}" class="dropdown-item question-edit" target="_blank">Edit Question</a>
+                                                <a href="{{ $edit_route }}" data-update="{{ $update_route }}" class="dropdown-item question-edit">Edit Question</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a href="{{ $delete_route }}" class="dropdown-item text-danger question-delete">Delete Question</a>
                                             </div>
@@ -312,21 +325,20 @@
                     <select name="type" class="form-control custom-select">
                         <option value="0">Single Answer</option>
                         <option value="1">Multiple Answer</option>
-                        <option value="2">Text Answer</option>
+                        <option value="2">Fill in Blanks</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Question</label>
                     <textarea class="form-control" name="question" rows="3" placeholder="Question"></textarea>
-                    <small class="form-text text-muted">Shortly describe the question.</small>
                 </div>
 
                 <div id="options" class="options form-group">
                     <div class="wrap wrap-signle-answer border-1 p-3">
                         <div class="form-inline mb-16pt d-flex">
                             <div class="flex">
-                                <label class="form-label">Add Options: </label>
+                                <label class="form-label option-label">Add Options: </label>
                             </div>
                             <button id="btn_addOptions" class="btn btn-md btn-outline-secondary" type="button">+</button>
                         </div>
@@ -379,10 +391,11 @@ $(function() {
     var quiz_id = '{{ $quiz->id }}';
     var course_id = '{{ $quiz->course_id }}';
     var lesson_id = '{{ $quiz->lesson_id }}';
-    var group_id, question_id;
-    var str_ids = ['option_s', 'option_m', 'option_t'];
-    var str_names = ['option_single', 'option_multi[]', 'option_text'];
-
+    var group_id;
+    var str_ids = ['option_s', 'option_m', 'option_f'];
+    var str_names = ['option_single', 'option_multi[]', 'option_fill[]'];
+    var q_status = 'new';
+    
     var template = [
 
         $(`<div class="row mb-8pt">
@@ -391,7 +404,7 @@ $(function() {
                     <input id="option_s" name="option_single" type="radio" class="custom-control-input" value="0">
                     <label for="option_s" class="custom-control-label">&nbsp;</label>
                 </div>
-                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Option Text">
+                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Single Option Text">
             </div>
             <div class="col-2 text-right">
                 <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
@@ -404,7 +417,20 @@ $(function() {
                     <input id="option_m" name="option_multi[]" type="checkbox" class="custom-control-input" value="0">
                     <label for="option_m" class="custom-control-label">&nbsp;</label>
                 </div>
-                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Option Text">
+                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Multi Option Text">
+            </div>
+            <div class="col-2 text-right">
+                <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+            </div>
+        </div>`),
+
+        $(`<div class="row mb-8pt">
+            <div class="col-10 form-inline">
+                <div class="custom-control custom-checkbox">
+                    <input id="option_f" name="option_fill[]" type="checkbox" class="custom-control-input" value="0">
+                    <label for="option_f" class="custom-control-label">&nbsp;</label>
+                </div>
+                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Text for Blank">
             </div>
             <div class="col-2 text-right">
                 <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
@@ -449,6 +475,10 @@ $(function() {
                 });
             },
             success: function(res) {
+                var page_section = $('#questions').find('div.page-section');
+                if(page_section.length < 1) {
+                    $('#questions').html($('<div class="border-left-2 page-section pl-32pt"></div>'));
+                }
                 $(res.html).hide().appendTo($('#questions .page-section')).toggle(500);
                 $('#mdl_section').modal('toggle');
 
@@ -462,12 +492,52 @@ $(function() {
     //=== Add new question to group
     $('#questions').on('click', '.btn-question', function(e) {
         e.preventDefault();
+        q_status = 'new';
         group_id = $(this).attr('data-id');
+
+        // Init Modal
+        $('#mdl_question').find('select[name="type"]').val(0);
+        $('#mdl_question').find('textarea[name="question"]').val('');
+        $('#mdl_question').find('input[name="score"]').val(1);
+
+        $('#mdl_question').find('div.options-wrap').empty();
+        $('#mdl_question').find('div.options-wrap').html(template[current_option_type].clone());
+
         $('#mdl_question').modal('toggle');
+    });
+
+    // ==== Edit Question ==== //
+    $('#questions').on('click', 'a.question-edit', function(e) {
+        e.preventDefault();
+        q_status = 'edit';
+        var route = $(this).attr('href');
+        var update_route = $(this).attr('data-update');
+        $.ajax({
+            method: 'GET',
+            url: route,
+            success: function(res) {
+                $('#frm_question').attr('action', update_route);
+                $('#frm_question').prepend('<input name="_method" type="hidden" value="PATCH">');
+                $('#frm_question').find('select[name="type"]').val(res.question.type).change();
+                $('#frm_question').find('textarea[name="question"]').val(res.question.question);
+                $('#frm_question').find('input[name="score"]').val(res.question.score);
+                $('#options').find('div.options-wrap').html($(res.html));
+                $('#mdl_question').modal('toggle');
+            },
+            error: function(err) {
+                console.log(res);
+            }
+        });
+        
     });
 
     $('#mdl_question').on('change', 'select[name="type"]', function(e) {
         current_option_type = $(this).val();
+        if(current_option_type == 2) {
+            $('#options').find('.option-label').text('Add text (Check for blank)');
+        } else {
+            $('#options').find('.option-label').text('Add Options');
+        }
         $('#mdl_question').find('div.options-wrap').html(template[current_option_type]);
     });
 
@@ -526,34 +596,26 @@ $(function() {
 
                 if(res.success) {
 
-                    var ele_group_ul = $('#questions').find('div[group-id="' + group_id + '"] ul');
-                    if(ele_group_ul.length > 0) {
-                        $(res.html).hide().appendTo(ele_group_ul).toggle(500);
-                    } else {
-                        $('#questions').find('div[group-id="' + group_id + '"]').append(`
-                            <ul class="list-group stack mb-40pt">`+ res.html +`</ul>`
-                        );
+                    if(q_status == 'new') {
+                        var ele_group_ul = $('#questions').find('div[group-id="' + group_id + '"] ul');
+                        if(ele_group_ul.length > 0) {
+                            $(res.html).hide().appendTo(ele_group_ul).toggle(500);
+                        } else {
+                            $('#questions').find('div[group-id="' + group_id + '"]').append(`
+                                <ul class="list-group stack mb-40pt">`+ res.html +`</ul>`
+                            );
+                        }
                     }
 
-                    // Init Modal
-                    $('#mdl_question').find('select[name="type"]').val(0);
-                    $('#mdl_question').find('textarea[name="question"]').val('');
-                    $('#mdl_question').find('input[name="score"]').val(1);
-
-                    $('#mdl_question').find('div.options-wrap').empty();
-                    $('#mdl_question').find('div.options-wrap').html(template[current_option_type].clone());
+                    if(q_status == 'edit') {
+                        var ele_li = $('#questions').find('li[data-id="'+ res.question.id +'"]');
+                        ele_li.replaceWith($(res.html));
+                    }
 
                     $('#mdl_question').modal('toggle');
                 }
             }
         });
-    });
-
-    // ==== Edit Question ==== //
-    $('#questions').on('click', 'a.question-edit', function(e) {
-        e.preventDefault();
-        var route = $(this).attr('href');
-        console.log(route);
     });
 
     // ==== Delete Question ====/

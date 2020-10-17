@@ -140,7 +140,10 @@
                     { data: 'options'},
                     { data: 'action'},
                     { data: 'more' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Questions"
+                }
             }
         );
     });

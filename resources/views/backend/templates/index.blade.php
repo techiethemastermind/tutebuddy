@@ -90,7 +90,10 @@
                     { data: 'name'},
                     { data: 'status'},
                     { data: 'action' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Templates"
+                }
             }
         );
 

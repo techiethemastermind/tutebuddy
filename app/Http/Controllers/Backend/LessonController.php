@@ -404,11 +404,17 @@ class LessonController extends Controller
 
             if($schedule->lesson->lesson_type == 1) {
                 $route = route('lessons.live', [$schedule->lesson->slug, $schedule->lesson->id]);
+                $result = live_schedule($schedule->lesson);
+
+                if($result['status']) {
+                    $temp['action'] = '<a href="'. $route .'" target="_blank" class="btn btn-primary btn-sm">Join</a>';
+                } else {
+                    $temp['action'] = '<button type="button" class="btn btn-md btn-outline-primary" disabled>Scheduled</button>';
+                }
             } else {
                 $route = route('lessons.show', [$schedule->course->slug, $schedule->lesson->slug, 1]);
+                $temp['action'] = '<a href="'. $route .'" target="_blank" class="btn btn-primary btn-sm">View</a>';
             }
-
-            $temp['action'] = '<a href="'. $route .'" target="_blank" class="btn btn-primary btn-sm">Join</a>';
 
             array_push($data, $temp);
 

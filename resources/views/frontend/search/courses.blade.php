@@ -199,10 +199,33 @@
                     <div class="sidebar-heading">Category</div>
                     <ul class="sidebar-menu">
                         @foreach($parentCategories as $category)
-                        <li class="sidebar-menu-item 
-                            @if((isset($_GET['_t']) && $_GET['_k'] == $category->id) || (isset($_GET['_q']) && $_GET['_q'] == $category->name))
-                                active
-                            @endif">
+                        <?php
+                            $class = '';
+                            if((isset($_GET['_t']) && $_GET['_k'] == $category->id) || (isset($_GET['_q']) && $_GET['_q'] == $category->name)) {
+                                $class = 'active';
+                            }
+
+                            if(isset($_GET['_k']) && $class == '') {
+                                $category_id = $_GET['_k'];
+                                $sub_ids = $category->children->pluck('id')->toArray();
+                                if(in_array((int)$category_id, $sub_ids)) {
+                                    $class = 'active';
+                                }
+                                if($class == '') {
+                                    $subs = $category->children;
+                                    foreach($subs as $sub) {
+                                        $sub1_ids = $sub->children->pluck('id')->toArray();
+                                        if(in_array((int)$category_id, $sub1_ids)) {
+                                            $class = 'active';
+                                        }
+                                        if($class != '') {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        ?>
+                        <li class="sidebar-menu-item {{ $class }}">
                             <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="sidebar-menu-button">
                                 @if(!empty($category->thumb))
                                 <div class="avatar avatar-xs mr-3">

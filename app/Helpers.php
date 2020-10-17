@@ -403,3 +403,32 @@ if (!function_exists('str_random')) {
         return $randomString;
     }
 }
+
+if (!function_exists('live_schedule')) {
+
+    function live_schedule($lesson) {
+
+        $data = [
+            'status' => false
+        ];
+
+        if($lesson->lesson_type == 0) {
+            return $data;
+        }
+
+        $schedule = $lesson->schedule;
+
+        if(Carbon\Carbon::parse($schedule->date)->dayOfWeek == Carbon\Carbon::now()->dayOfWeek) {
+            $now = Carbon\Carbon::now()->toTimeString();
+            $start_time = $schedule->start_time;
+            $end_time = $schedule->end_time;
+            $dd_with_start_time = strtotime($start_time) - strtotime($now);
+
+            if($dd_with_start_time < 600 && (strtotime($now) < strtotime($end_time))) {
+                $data['status'] = true;
+            }
+        }
+
+        return $data;
+    }
+}

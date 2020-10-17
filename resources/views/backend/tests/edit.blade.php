@@ -311,6 +311,7 @@
 $(function() {
 
     var test_id = '{{ $test->id }}';
+    var lesson_id = '{{ $test->lesson_id }}';
 
     $('select[name="course"]').select2({ tags: true });
     $('select[name="lesson"]').select2({ tags: true });
@@ -490,8 +491,11 @@ $(function() {
         // Get Lessons by selected Course
         $.ajax({
             method: 'GET',
-            url: "{{ route('admin.test.getLessonsByCourse') }}",
-            data: {course_id: course},
+            url: "{{ route('admin.lessons.getLessonsByCourse') }}",
+            data: {
+                course_id: course,
+                lesson_id: lesson_id
+            },
             success: function(res) {
                 if (res.success) {
                     lesson_added = (res.lesson_id != null) ? true : false;

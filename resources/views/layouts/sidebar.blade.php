@@ -52,21 +52,21 @@
 
                     <ul class="sidebar-submenu collapse sm-indent" id="study_menu" style="">
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/live*') ? 'active' : '' }}">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/live-sessions*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.instructor.liveSessions') }}">
-                                <span class="sidebar-menu-text">Live Sessions</span>
+                                <span class="sidebar-menu-text">Scheduled Lessons</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/course*') ? 'active' : '' }}">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/enrolled-students*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.instructor.students') }}">
-                                <span class="sidebar-menu-text">Students</span>
+                                <span class="sidebar-menu-text">Enrolled Students</span>
                             </a>
                         </li>
 
                         <li class="sidebar-menu-item {{ Request::is('dashboard/submited-assignments*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.instructor.submitedAssignments') }}">
-                                <span class="sidebar-menu-text">Assignment Submited</span>
+                                <span class="sidebar-menu-text">Submited Assignments</span>
                             </a>
                         </li>
 

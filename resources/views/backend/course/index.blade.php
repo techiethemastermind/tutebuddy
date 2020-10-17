@@ -191,7 +191,10 @@
                     { data: 'category'},
                     { data: 'status'},
                     { data: 'action' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Courses"
+                }
             }
         );
 

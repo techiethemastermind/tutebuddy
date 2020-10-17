@@ -135,7 +135,10 @@ $(document).ready(function() {
                 { data: 'assigned'},
                 { data: 'action'},
                 { data: 'more' }
-            ]
+            ],
+            oLanguage: {
+                sEmptyTable: "You have no Quizzes"
+            }
         }
     );
 });

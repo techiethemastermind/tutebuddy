@@ -93,7 +93,10 @@ $(document).ready(function() {
                 { data: 'title'},
                 { data: 'progress'},
                 { data: 'action' }
-            ]
+            ],
+            oLanguage: {
+                sEmptyTable: "You have no Certificates"
+            }
         }
     );
 
