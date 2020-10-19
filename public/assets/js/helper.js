@@ -131,6 +131,24 @@ function convertToSlug(Text)
         ;
 }
 
+function checkValidForm(Form)
+{
+    var no_empty_eles = Form.find('input[tute-no-empty]');
+    var invalid_found = false;
+    $.each(no_empty_eles, function(idx, ele) {
+        if ($(ele).val() == '') {
+            $(ele).addClass('is-invalid');
+            var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
+            err_msg.insertAfter($(ele));
+            $(ele).focus();
+            invalid_found = true;
+        }
+    });
+
+    if(invalid_found) return false;
+    return (invalid_found) ? false : true;
+}
+
 // ===  Global Element Events === //
 $(document).on('change', 'input[data-preview]', function() {
     display_image(this, $($(this).attr('data-preview')));
@@ -138,4 +156,15 @@ $(document).on('change', 'input[data-preview]', function() {
 
 $(document).on('change', 'input[data-video-preview]', function() {
     display_iframe($(this).val(), $($(this).attr('data-video-preview')));
+});
+
+$(document).on('change', 'input[tute-file]', function(e) {
+    var file_name = $(this).val().replace(/C:\\fakepath\\/i, '');
+    var id = $(this).attr('id');
+    $('div.custom-file').find('label[for="'+ id +'"]').text(file_name);
+});
+
+$(document).on('keyup', 'input[tute-no-empty]', function() {
+    $(this).removeClass('is-invalid');
+    $(this).closest('.form-group').find('div.invalid-feedback').remove();
 });

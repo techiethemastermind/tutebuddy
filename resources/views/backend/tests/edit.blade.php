@@ -12,6 +12,17 @@
 <link type="text/css" href="{{ asset('assets/css/flatpickr.css') }}" rel="stylesheet">
 <link type="text/css" href="{{ asset('assets/css/flatpickr-airbnb.css') }}" rel="stylesheet">
 
+<!-- Quill Theme -->
+<link type="text/css" href="{{ asset('assets/css/quill.css') }}" rel="stylesheet">
+
+<style>
+
+#questions img {
+    max-width: 100%;
+}
+
+</style>
+
 @endpush
 
 <!-- Header Layout Content -->
@@ -65,7 +76,7 @@
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="title" value="{{ $test->title }}">
+                            placeholder="title" value="{{ $test->title }}" tute-no-empty>
                         @error('title')
                         <div class="invalid-feedback">Title is required field.</div>
                         @enderror
@@ -80,14 +91,34 @@
                         <div class="page-separator">
                             <div class="page-separator__text">Questions</div>
                         </div>
+                        @if(count($test->questions) > 0)
                         <ul class="list-group stack mb-40pt">
                             @foreach($test->questions as $question)
                             <li class="list-group-item d-flex quiz-item" data-id="{{ $question->id }}">
                                 <div class="flex d-flex flex-column">
                                     <div class="card-title mb-16pt">Question {{ $loop->iteration }}</div>
-                                    <div class="card-subtitle text-70 paragraph-max mb-8pt tute-question">{{ $question->question }}</div>
-                                    @if(!empty($question->image))
-                                    <img class="img-fluid rounded" src="{{ asset('/storage/uploads/' . $question->image) }}" alt="image">
+                                    <div class="card-subtitle text-70 paragraph-max mb-8pt tute-question">{!! $question->question !!}</div>
+                                    @if(!empty($question->attachment))
+                                    <div class="form-group">
+                                        <label class="form-label">Document</label>
+                                        <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                                            <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                                                @php $ext = pathinfo($question->attachment, PATHINFO_EXTENSION); @endphp
+                                                @if($ext == 'pdf')
+                                                <img class="img-fluid rounded" src="{{ asset('/images/pdf.png') }}" alt="image">
+                                                @else
+                                                <img class="img-fluid rounded" src="{{ asset('/images/docx.png') }}" alt="image">
+                                                @endif
+                                            </div>
+                                            <div class="flex">
+                                                <a href="{{ asset('/storage/attachments/' . $question->attachment) }}">
+                                                    <div class="form-label mb-4pt">{{ $question->attachment }}</div>
+                                                    <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     @endif
                                     <input type="hidden" name="score" value="{{ $question->score }}">
                                 </div>
@@ -104,6 +135,7 @@
                             </li>
                             @endforeach
                         </ul>
+                        @endif
                     </div>
 
                     <button type="button" id="btn_new_question" class="btn btn-block btn-outline-secondary">Add Quesion</button>
@@ -113,8 +145,8 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" id="btn_save_bundle" class="btn btn-accent">Save Draft</button>
-                            <button type="submit" id="btn_publish_bundle" class="btn btn-primary">Publish</button>
+                            <button type="submit" class="btn btn-accent">Save Draft</button>
+                            <button type="submit" class="btn btn-primary">Publish</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <div class="list-group-item d-flex">
@@ -129,13 +161,13 @@
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Information</div>
+                        <div class="page-separator__text">Options</div>
                     </div>
 
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="form-label">Test Type</label>
                                 <div class="custom-controls-stacked form-inline">
                                     <div class="custom-control custom-radio">
@@ -147,7 +179,7 @@
                                         <label for="test_course" class="custom-control-label">For Course</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Set Course -->
                             <div class="form-group">
@@ -172,6 +204,18 @@
                                 <label class="form-label">Lessons</label>
                                 <select name="lesson_id" class="form-control form-label"></select>
                                 <small class="form-text text-muted">Select a lesson.</small>
+                            </div>
+
+                            <!-- Duration -->
+                            <div class="form-group">
+                                <label class="form-label">Duration (Mins)</label>
+                                <input type="number" name="duration" class="form-control" min="1" placeholder="Mins" value="{{ $test->duration }}" tute-no-empty>
+                            </div>
+
+                            <!-- Total Marks -->
+                            <div class="form-group">
+                                <label class="form-label">Total Marks</label>
+                                <input type="number" name="score" class="form-control" placeholder="Total Marks" min="1" value="{{ $test->score }}" tute-no-empty>
                             </div>
 
                             <hr>
@@ -219,18 +263,21 @@
             </div>
 
             <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Question Image:</label>
-                    <div class="custom-file">
-                        <input type="file" name="image" class="custom-file-input">
-                        <label for="file" class="custom-file-label">Choose image</label>
-                    </div>
-                    <small class="form-text text-muted">Max file size is 5MB.</small>
-                </div>
 
                 <div class="form-group">
                     <label class="form-label">Question*</label>
-                    <textarea class="form-control" name="question" rows="4" placeholder="Type Question here"></textarea>
+
+                    <!-- Rich Text Editor by Quill -->
+                    <div id="q_new_editor" style="height: 300px;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Document:</label>
+                    <div class="custom-file">
+                        <input id="q_file" type="file" name="attachment" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
+                        <label for="q_file" class="custom-file-label">Choose ...</label>
+                    </div>
+                    <small class="form-text text-muted">PDF for Doc file (Max 5MB).</small>
                 </div>
 
                 <div class="form-group">
@@ -255,28 +302,31 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
 
-            {!! Form::open(['method' => 'PATCH', 'route' => ['admin.questions.update', $question->id], 'files' => true, 'id' =>'frm_question_edit']) !!}
+            {!! Form::open(['method' => 'PATCH', 'route' => ['admin.questions.update', 0], 'files' => true, 'id' =>'frm_question_edit']) !!}
 
             <div class="modal-header">
-                <h5 class="modal-title">New Question</h5>
+                <h5 class="modal-title">Edit Question</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
 
             <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Question Image:</label>
-                    <div class="custom-file">
-                        <input type="file" name="image" class="custom-file-input">
-                        <label for="file" class="custom-file-label">Choose image</label>
-                    </div>
-                    <small class="form-text text-muted">Max file size is 5MB.</small>
-                </div>
 
                 <div class="form-group">
                     <label class="form-label">Question*</label>
-                    <textarea class="form-control" name="question" rows="4" placeholder="Type Question here"></textarea>
+                    
+                    <!-- Rich Text Editor by Quill -->
+                    <div id="q_edit_editor" style="height: 300px;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Document:</label>
+                    <div class="custom-file">
+                        <input id="q_e_file" type="file" name="attachment" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
+                        <label for="q_e_file" class="custom-file-label">Choose ...</label>
+                    </div>
+                    <small class="form-text text-muted">Max file size is 5MB.</small>
                 </div>
 
                 <div class="form-group">
@@ -306,12 +356,39 @@
 <script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
+<!-- Quill -->
+<script src="{{ asset('assets/js/quill.min.js') }}"></script>
+<script src="{{ asset('assets/js/quill.js') }}"></script>
+
 <script>
 
 $(function() {
 
     var test_id = '{{ $test->id }}';
     var lesson_id = '{{ $test->lesson_id }}';
+
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],  
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code', 'image'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+    ];
+
+    var quill_new = new Quill('#q_new_editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+
+    var quill_edit = new Quill('#q_edit_editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
 
     $('select[name="course"]').select2({ tags: true });
     $('select[name="lesson"]').select2({ tags: true });
@@ -320,12 +397,6 @@ $(function() {
 
     $('select[name="course"]').on('change', function(e) {
         loadLessons($(this).val());
-    });
-
-    // When add title, Hide Error msg
-    $('#frm_test').on('keyup', 'input[name="title"], input[name="lesson"]', function() {
-        $(this).removeClass('is-invalid');
-        $(this).closest('.form-group').find('div.invalid-feedback').remove();
     });
 
     // Test Type setting
@@ -351,6 +422,12 @@ $(function() {
         e.preventDefault();
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
+                var question = quill_new.root.innerHTML;
+                formData.push({
+                    name: 'question',
+                    type: 'text',
+                    value: question
+                });
                 formData.push({
                     name: 'model_id',
                     type: 'int',
@@ -366,6 +443,7 @@ $(function() {
                 if(res.success) {
 
                     var ele_quiz_ul = $('#questions').find('ul');
+
                     if(ele_quiz_ul.length > 0) {
                         $(res.html).hide().appendTo(ele_quiz_ul).toggle(500);
                     } else {
@@ -394,13 +472,11 @@ $(function() {
         var mdl_edit = $('#mdl_question_edit');
         var ele_li = $(this).closest('li');
         var route = $(this).attr('href');
-        var question = ele_li.find('div.tute-question').text();
+        var question = ele_li.find('div.tute-question').html();
         var marks = ele_li.find('input[name="score"]').val();
 
-        console.log(ele_li);
-
         // set content
-        mdl_edit.find('textarea[name="question"]').val(question);
+        quill_edit.root.innerHTML = question;
         mdl_edit.find('input[name="score"]').val(marks);
         
         $('#frm_question_edit').attr('action', route);
@@ -412,6 +488,12 @@ $(function() {
 
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
+                var question = quill_edit.root.innerHTML;
+                formData.push({
+                    name: 'question',
+                    type: 'text',
+                    value: question
+                });
                 formData.push({
                     name: 'model_id',
                     type: 'int',

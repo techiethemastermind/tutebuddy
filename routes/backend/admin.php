@@ -157,6 +157,7 @@ Route::resource('tests', 'TestController');
 Route::get('tests/restore/{id}', 'TestController@restore')->name('test.restore');
 Route::get('ajax/tests/list/{type}', 'TestController@getList')->name('getTestsByAjax');
 Route::get('ajax/test/publish/{id}', 'TestController@publish')->name('test.publish');
+Route::get('ajax/test/delete/forever/{id}', 'TestController@foreverDelete')->name('test.foreverDelete');
 Route::get('ajax/test/lessons', 'TestController@getLessons')->name('test.getLessonsByCourse');
 
 //==== Transactions Route ==== //

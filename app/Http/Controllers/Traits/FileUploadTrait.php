@@ -88,4 +88,18 @@ trait FileUploadTrait
 
         return $finalRequest;
     }
+
+    public function saveFile($file)
+    {
+        if (!file_exists(public_path('storage/attachments'))) {
+            mkdir(public_path('storage/attachments'), 0777);
+        }
+
+        $extension = array_last(explode('.', $file->getClientOriginalName()));
+        $name = array_first(explode('.', $file->getClientOriginalName()));
+        $filename = time() . '-' . str_slug($name) . '.' . $extension;
+        $file->move(public_path('storage/attachments'), $filename);
+
+        return $filename;
+    }
 }

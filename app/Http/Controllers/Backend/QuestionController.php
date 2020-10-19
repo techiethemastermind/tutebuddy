@@ -125,6 +125,13 @@ class QuestionController extends Controller
             $question_data['image'] = $image_url;
         }
 
+        // Attachment
+        if(!empty($data['attachment'])) {
+            $file = $request->file('attachment');
+            $attachment_url = $this->saveFile($file);
+            $question_data['attachment'] = $attachment_url;
+        }
+
         try {
 
             $question = Question::create($question_data);
@@ -247,6 +254,20 @@ class QuestionController extends Controller
 
             $image_url = $this->saveImage($image, 'upload', true);
             $update_data['image'] = $image_url;
+        }
+
+        // Attachment
+        if(!empty($request->attachment)) {
+            $file = $request->file('attachment');
+
+            // Delete existing img file
+            if (File::exists(public_path('/storage/uploads/' . Question::find($id)->attachment))) {
+                File::delete(public_path('/storage/uploads/' . Question::find($id)->attachment));
+                File::delete(public_path('/storage/uploads/thumb/' . Question::find($id)->attachment));
+            }
+
+            $attachment_url = $this->saveFile($file);
+            $update_data['attachment'] = $attachment_url;
         }
 
         try {
@@ -481,13 +502,32 @@ class QuestionController extends Controller
         $update_route = route('admin.questions.update', $question->id);
         $delete_route = route('admin.questions.delete', $question->id);
 
-        $img = !empty($question->image) ? '<img class="img-fluid rounded" src="'. asset('/storage/uploads/' . $question->image) .'" alt="image">' : '';
+        $doc = '';
+
+        if(!empty($question->attachment)) {
+            $ext = pathinfo($question->attachment, PATHINFO_EXTENSION);
+            $src = ($ext == 'pdf') ? asset('/images/pdf.png') : asset('/images/docx.png');
+            $doc = '<div class="form-group">
+                        <label class="form-label">Document</label>
+                        <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                            <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                                <img class="img-fluid rounded" src="'. $src .'" alt="document">
+                            </div>
+                            <div class="flex">
+                                <a href="'. asset('/storage/attachments/' . $question->attachment) .'">
+                                    <div class="form-label mb-4pt">'. $question->attachment .'</div>
+                                    <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>';
+        }
 
         return '<li class="list-group-item d-flex quiz-item" data-id="'. $question->id .'">
                     <div class="flex d-flex flex-column">
                         <div class="card-title mb-16pt">Question ' . $count . '</div>
                         <div class="card-subtitle text-70 paragraph-max mb-8pt tute-question">'. $question->question .'</div>
-                        '. $img .'
+                        '. $doc .'
                         <input type="hidden" name="score" value="'. $question->score .'">
                     </div>
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Test;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Question;
 
 use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\File;
@@ -146,16 +147,22 @@ class TestController extends Controller
 
             if($item->trashed()) {
                 $restore_route = route('admin.assignment.restore', $item->id);
-                $btn_delete = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
-                    data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
-            }
+                $btn_restore = '<a href="'. $restore_route. '" class="btn btn-primary btn-sm" data-action="restore" data-toggle="tooltip"
+                    data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
 
-            if(auth()->user()->hasRole('Administrator')) {
-                $temp['action'] = $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                $forever_delete_route = route('admin.test.foreverDelete', $item->id);
+
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="restore" data-toggle="tooltip"
+                data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
+
+                $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
             } else {
-                $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+                if(auth()->user()->hasRole('Administrator')) {
+                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                } else {
+                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+                }
             }
-
             array_push($data, $temp);
         }
 
@@ -268,6 +275,33 @@ class TestController extends Controller
     {
         try {
             Test::find($id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Delete Forever
+     */
+    public function foreverDelete($id)
+    {
+        try {
+            
+            $questions = Question::where('model_id', $id)->where('model_type', Test::class)->get();
+            foreach($questions as $question) {
+                $question->forceDelete();
+            }
+
+            Test::withTrashed()->where('id', $id)->forceDelete();
 
             return response()->json([
                 'success' => true,

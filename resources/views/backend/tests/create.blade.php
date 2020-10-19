@@ -12,6 +12,17 @@
 <link type="text/css" href="{{ asset('assets/css/flatpickr.css') }}" rel="stylesheet">
 <link type="text/css" href="{{ asset('assets/css/flatpickr-airbnb.css') }}" rel="stylesheet">
 
+<!-- Quill Theme -->
+<link type="text/css" href="{{ asset('assets/css/quill.css') }}" rel="stylesheet">
+
+<style>
+
+#questions img {
+    max-width: 100%;
+}
+
+</style>
+
 @endpush
 
 <!-- Header Layout Content -->
@@ -63,7 +74,7 @@
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="title" value="">
+                            placeholder="title" value="" tute-no-empty>
                         @error('title')
                         <div class="invalid-feedback">Title is required field.</div>
                         @enderror
@@ -83,8 +94,8 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" id="btn_save_bundle" class="btn btn-accent">Save Draft</button>
-                            <button type="submit" id="btn_publish_bundle" class="btn btn-primary">Publish</button>
+                            <button type="submit" class="btn btn-accent">Save Draft</button>
+                            <button type="submit" class="btn btn-primary">Publish</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <div class="list-group-item d-flex">
@@ -105,7 +116,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="form-label">Test Type</label>
                                 <div class="custom-controls-stacked form-inline">
                                     <div class="custom-control custom-radio">
@@ -117,7 +128,7 @@
                                         <label for="test_course" class="custom-control-label">For Course</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Set Course -->
                             <div class="form-group">
@@ -141,6 +152,18 @@
                                 <label class="form-label">Lessons</label>
                                 <select name="lesson_id" class="form-control"></select>
                                 <small class="form-text text-muted">Select a lesson.</small>
+                            </div>
+
+                            <!-- Duration -->
+                            <div class="form-group">
+                                <label class="form-label">Duration (Mins)</label>
+                                <input type="number" name="duration" class="form-control" min="1" placeholder="Mins" value="" tute-no-empty>
+                            </div>
+
+                            <!-- Total Marks -->
+                            <div class="form-group">
+                                <label class="form-label">Total Marks</label>
+                                <input type="number" name="score" class="form-control" placeholder="Total Marks" min="1" value="" tute-no-empty>
                             </div>
 
                             <hr>
@@ -190,18 +213,70 @@
             </div>
 
             <div class="modal-body">
-                <div class="form-group">
-                    <label class="form-label">Question Image:</label>
-                    <div class="custom-file">
-                        <input type="file" name="image" class="custom-file-input">
-                        <label for="file" class="custom-file-label">Choose image</label>
-                    </div>
-                    <small class="form-text text-muted">Max file size is 5MB.</small>
-                </div>
 
                 <div class="form-group">
                     <label class="form-label">Question*</label>
-                    <textarea class="form-control" name="question" rows="4" placeholder="Type Question here"></textarea>
+
+                    <!-- Rich Text Editor by Quill -->
+                    <div id="q_new_editor" style="height: 300px;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Document:</label>
+                    <div class="custom-file">
+                        <input id="q_file" type="file" name="attachment" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
+                        <label for="q_file" class="custom-file-label">Choose ...</label>
+                    </div>
+                    <small class="form-text text-muted">PDF for Doc file (Max 5MB).</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Marks (Optional)</label>
+                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+            </div>
+
+            <input type="hidden" name="model_type" value="test">
+
+            {!! Form::close() !!}
+        </div>
+    </div>
+</div>
+
+<!-- Modal for add edit question -->
+<div id="mdl_question_edit" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+
+            {!! Form::open(['method' => 'PATCH', 'route' => ['admin.questions.update', 0], 'files' => true, 'id' =>'frm_question_edit']) !!}
+
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Question</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label class="form-label">Question*</label>
+                    
+                    <!-- Rich Text Editor by Quill -->
+                    <div id="q_edit_editor" style="height: 300px;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Document:</label>
+                    <div class="custom-file">
+                        <input id="q_e_file" type="file" name="attachment" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
+                        <label for="q_e_file" class="custom-file-label">Choose ...</label>
+                    </div>
+                    <small class="form-text text-muted">Max file size is 5MB.</small>
                 </div>
 
                 <div class="form-group">
@@ -231,11 +306,38 @@
 <script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
+<!-- Quill -->
+<script src="{{ asset('assets/js/quill.min.js') }}"></script>
+<script src="{{ asset('assets/js/quill.js') }}"></script>
+
 <script>
 
 $(function() {
 
     var status = 'create';
+
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],  
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code', 'image'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+    ];
+
+    var quill_new = new Quill('#q_new_editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+
+    var quill_edit = new Quill('#q_edit_editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
 
     $('select[name="course"]').select2();
     $('select[name="lesson"]').select2();
@@ -244,12 +346,6 @@ $(function() {
 
     $('select[name="course"]').on('change', function(e) {
         loadLessons($(this).val());
-    });
-
-    // When add title, Hide Error msg
-    $('#frm_test').on('keyup', 'input[name="title"], input[name="lesson"]', function() {
-        $(this).removeClass('is-invalid');
-        $(this).closest('.form-group').find('div.invalid-feedback').remove();
     });
 
     // Test Type setting
@@ -295,6 +391,12 @@ $(function() {
         e.preventDefault();
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
+                var question = quill_new.root.innerHTML;
+                formData.push({
+                    name: 'question',
+                    type: 'text',
+                    value: question
+                });
                 formData.push({
                     name: 'model_id',
                     type: 'int',
@@ -307,10 +409,11 @@ $(function() {
                 });
             },
             success: function(res) {
-                console.log(res);
+
                 if(res.success) {
 
                     var ele_quiz_ul = $('#questions').find('ul');
+
                     if(ele_quiz_ul.length > 0) {
                         $(res.html).hide().appendTo(ele_quiz_ul).toggle(500);
                     } else {
@@ -333,8 +436,101 @@ $(function() {
         });
     });
 
+    // Edit question
+    $('#questions').on('click', 'a.edit', function(e) {
+        e.preventDefault();
+        var mdl_edit = $('#mdl_question_edit');
+        var ele_li = $(this).closest('li');
+        var route = $(this).attr('href');
+        var question = ele_li.find('div.tute-question').html();
+        var marks = ele_li.find('input[name="score"]').val();
+
+        // set content
+        quill_edit.root.innerHTML = question;
+        mdl_edit.find('input[name="score"]').val(marks);
+        
+        $('#frm_question_edit').attr('action', route);
+        mdl_edit.modal('toggle');
+    });
+
+    $('#frm_question_edit').on('submit', function(e) {
+        e.preventDefault();
+
+        $(this).ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+                var question = quill_edit.root.innerHTML;
+                formData.push({
+                    name: 'question',
+                    type: 'text',
+                    value: question
+                });
+                formData.push({
+                    name: 'model_id',
+                    type: 'int',
+                    value: $('#test_id').val()
+                });
+                formData.push({
+                    name: 'send_type',
+                    type: 'text',
+                    value: 'ajax'
+                });
+            },
+            success: function(res) {
+                if(res.success) {
+                    var ele_li = $('li[data-id="'+ res.question.id +'"]');
+                    ele_li.replaceWith(res.html);
+                    $('#mdl_question_edit').modal('toggle');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
+    // Delete a question
+    $('#questions').on('click', 'a.delete', function(e) {
+
+        e.preventDefault();
+        var route = $(this).attr('href');
+        var question_item = $(this).closest('li');
+
+        swal({
+            title: "Are you sure?",
+            text: "This Question will removed from this quiz",
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
+
+        }, function(val) {
+            if (val) {
+                $.ajax({
+                    method: 'GET',
+                    url: route,
+                    success: function(res) {
+                        if (res.success) {
+                            question_item.toggle( function() { 
+                                $(this).remove();
+                                adjustOrder();
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+
     $('#frm_test').on('submit', function(e) {
         e.preventDefault();
+
+        console.log('here');
+
+        if(!checkValidForm($(this))){
+            return false;
+        }
 
         $(this).ajaxSubmit({
             success: function(res) {
