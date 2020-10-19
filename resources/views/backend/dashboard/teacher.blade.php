@@ -70,7 +70,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Upcomming Lessons</strong></p>
-                    <a href="{{ route('admin.instructor.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="{{ route('admin.instructor.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true">
@@ -180,7 +180,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Upcomming Lessons</strong></p>
-                    <a href="{{ route('admin.instructor.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="{{ route('admin.instructor.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true">
@@ -295,7 +295,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Students Roster (Enrolled Students)</strong></p>
-                    <a href="{{ route('admin.instructor.students') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browser All</a>
+                    <a href="{{ route('admin.instructor.students') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
