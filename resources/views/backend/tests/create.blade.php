@@ -526,8 +526,6 @@ $(function() {
     $('#frm_test').on('submit', function(e) {
         e.preventDefault();
 
-        console.log('here');
-
         if(!checkValidForm($(this))){
             return false;
         }

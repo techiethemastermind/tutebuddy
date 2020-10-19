@@ -210,6 +210,10 @@ $(function() {
     $('#frm_assignments').on('submit', function(e) {
         e.preventDefault();
 
+        if(!checkValidForm($(this))){
+            return false;
+        }
+
         $('#frm_assignments').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
                 var content = assignment_editor.root.innerHTML;
