@@ -146,7 +146,7 @@ class TestController extends Controller
             }
 
             if($item->trashed()) {
-                $restore_route = route('admin.assignment.restore', $item->id);
+                $restore_route = route('admin.test.restore', $item->id);
                 $btn_restore = '<a href="'. $restore_route. '" class="btn btn-primary btn-sm" data-action="restore" data-toggle="tooltip"
                     data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
 

@@ -69,6 +69,7 @@ Route::resource('assignments', 'AssignmentsController');
 Route::get('assignments/restore/{id}', 'AssignmentsController@restore')->name('assignment.restore');
 Route::get('ajax/assignments/list/{type}', 'AssignmentsController@getList')->name('getAssignmentsByAjax');
 Route::get('ajax/assignments/publish/{id}', 'AssignmentsController@publish')->name('assignment.publish');
+Route::get('ajax/assignments/delete/forever/{id}', 'AssignmentsController@foreverDelete')->name('assignment.foreverDelete');
 Route::get('ajax/assignments/lessons', 'AssignmentsController@getLessons')->name('assignment.getLessonsByCourse');
 Route::get('assignments/result/{id}', 'AssignmentsController@show_result')->name('assignments.show_result');
 Route::post('assignment-result/answer', 'AssignmentsController@result_answer')->name('assignments.result_answer');

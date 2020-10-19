@@ -321,14 +321,21 @@ class AssignmentsController extends Controller
 
             if($item->trashed()) {
                 $restore_route = route('admin.assignment.restore', $item->id);
-                $btn_delete = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
-                    data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
-            }
+                $btn_restore = '<a href="'. $restore_route. '" class="btn btn-primary btn-sm" data-action="restore" data-toggle="tooltip"
+                    data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
 
-            if(auth()->user()->hasRole('Administrator')) {
-                $temp['action'] = $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                $forever_delete_route = route('admin.assignment.foreverDelete', $item->id);
+
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="restore" data-toggle="tooltip"
+                data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
+
+                $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
             } else {
-                $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+                if(auth()->user()->hasRole('Administrator')) {
+                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                } else {
+                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+                }
             }
 
             array_push($data, $temp);
@@ -568,5 +575,27 @@ class AssignmentsController extends Controller
             'action' => 'update'
         ]);
 
+    }
+
+    /**
+     * Delete Forever
+     */
+    public function foreverDelete($id)
+    {
+        try {
+
+            Assignment::withTrashed()->where('id', $id)->forceDelete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

@@ -117,7 +117,7 @@
                                             class="text-hide">Toggle all</span></label>
                                 </div>
                             </th>
-                            <th> Sr No. </th>
+                            <th style="width: 40px;"> SN. </th>
                             <th> Title </th>
                             <th> Course </th>
                             <th> lesson </th>
