@@ -57,10 +57,6 @@ class AssignmentsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'lesson_id' => 'required'
-        ]);
 
         $data = $request->all();
         $assignment = Assignment::create($data);
@@ -68,7 +64,7 @@ class AssignmentsController extends Controller
         // Attachment
         if(isset($data['attachment'])) {
             $attachment = $request->file('attachment');
-            $attachment_url = $this->saveImage($attachment, 'upload', true);
+            $attachment_url = $this->saveFile($attachment);
             $assignment->attachment = $attachment_url;
         }
         $assignment->user_id = auth()->user()->id;
@@ -100,17 +96,16 @@ class AssignmentsController extends Controller
 
         $data = $request->all();
 
-        // Bundle image
+        // Document
         if(!empty($data['attachment'])) {
             $attachment = $request->file('attachment');
 
             // Delete existing file
-            if (File::exists(public_path('/storage/uploads/' . $assignment->attachment))) {
-                File::delete(public_path('/storage/uploads/' . $assignment->attachment));
-                File::delete(public_path('/storage/uploads/thumb/' . $assignment->attachment));
+            if (File::exists(public_path('/storage/attachments/' . $assignment->attachment))) {
+                File::delete(public_path('/storage/attachments/' . $assignment->attachment));
             }
 
-            $attachment_url = $this->saveImage($attachment, 'upload', true);
+            $attachment_url = $this->saveFile($attachment);
             $data['attachment'] = $attachment_url;
         }
 

@@ -60,10 +60,6 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <div class="page-separator">
-                        <div class="page-separator__text">Bundle Information</div>
-                    </div>
-
                     <label class="form-label">Assignment Title</label>
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
@@ -75,11 +71,42 @@
                     </div>
 
                     <label class="form-label">Content</label>
-                    <div class="form-group mb-48pt">
+                    <div class="form-group mb-24pt">
                         <!-- quill editor -->
-                        <div id="assignment_editor" class="mb-0" style="min-height: 300px;"></div>
-                        <small class="form-text text-muted">Edit Assignment</small>
-                        <textarea id="assignment_content" style="display: none;">{{ $assignment->content }}</textarea>
+                        <div id="assignment_editor" class="mb-0" style="min-height: 400px;">
+                            {!! $assignment->content !!}
+                        </div>
+                    </div>
+
+                    @if(!empty($assignment->attachment))
+                    <div class="form-group mb-24pt">
+                        <label class="form-label">Attached Document:</label>
+                        <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                            <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                                @php $ext = pathinfo($assignment->attachment, PATHINFO_EXTENSION); @endphp
+                                @if($ext == 'pdf')
+                                <img class="img-fluid rounded" src="{{ asset('/images/pdf.png') }}" alt="image">
+                                @else
+                                <img class="img-fluid rounded" src="{{ asset('/images/docx.png') }}" alt="image">
+                                @endif
+                            </div>
+                            <div class="flex">
+                                <a href="{{ asset('/storage/attachments/' . $assignment->attachment) }}">
+                                    <div class="form-label mb-4pt">{{ $assignment->attachment }}</div>
+                                    <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    <label class="form-label">Document:</label>
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input id="q_file" type="file" name="attachment" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
+                            <label for="q_file" class="custom-file-label">Choose ...</label>
+                        </div>
+                        <small class="form-text text-muted">PDF for Doc file (Max 5MB).</small>
                     </div>
                 </div>
 
@@ -130,7 +157,7 @@
                             <!-- Set Lesson -->
                             <div class="form-group">
                                 <label class="form-label">Lessons</label>
-                                <select name="lesson_id" class="form-control form-label"></select>
+                                <select name="lesson_id" class="form-control"></select>
                             </div>
 
                             <!-- Set Duration -->
@@ -143,15 +170,6 @@
                             <div class="form-group">
                                 <label class="form-label">Total Marks</label>
                                 <input type="number" name="total_mark" class="form-control" placeholder="5" value="{{ $assignment->total_mark }}">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Attachment File</label>
-                                <div class="custom-file">
-                                    <input type="file" name="attachment" class="custom-file-input">
-                                    <label for="file" class="custom-file-label">Choose file</label>
-                                </div>
-                                <small class="form-text text-muted">Max file size is 5MB.</small>
                             </div>
                         </div>
                     </div>
@@ -181,14 +199,25 @@
 
 $(function() {
 
+    var lesson_id = '{{ $assignment->lesson_id }}';
+
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],  
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code', 'image'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+    ];
+
     // Init Quill Editor for Assignment Content
     var assignment_editor = new Quill('#assignment_editor', {
         theme: 'snow',
-        placeholder: 'Assignment Content'
+        placeholder: 'Assignment Content',
+        modules: {
+            toolbar: toolbarOptions
+        },
     });
-
-    var assignment_content = JSON.parse($('#assignment_content').val());
-    assignment_editor.setContents(assignment_content);
 
     $('select[name="course"]').select2({ tags: true });
     $('select[name="lesson"]').select2({ tags: true });
@@ -210,7 +239,7 @@ $(function() {
 
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
-                var content = JSON.stringify(assignment_editor.getContents().ops);
+                var content = assignment_editor.root.innerHTML;
 
                 // Append Course ID
                 formData.push({
@@ -235,8 +264,11 @@ $(function() {
         // Get Lessons by selected Course
         $.ajax({
             method: 'GET',
-            url: "{{ route('admin.assignment.getLessonsByCourse') }}",
-            data: {course_id: course},
+            url: "{{ route('admin.lessons.getLessonsByCourse') }}",
+            data: {
+                course_id: course,
+                lesson_id: lesson_id
+            },
             success: function(res) {
                 if (res.success) {
                     lesson_added = (res.lesson_id != null) ? true : false;

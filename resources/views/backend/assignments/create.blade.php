@@ -60,25 +60,29 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <div class="page-separator">
-                        <div class="page-separator__text">Bundle Information</div>
-                    </div>
-
                     <label class="form-label">Assignment Title</label>
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="title" value="">
+                            placeholder="title" value="" tute-no-empty>
                         @error('title')
                         <div class="invalid-feedback">Title is required field.</div>
                         @enderror
                     </div>
 
                     <label class="form-label">Content</label>
-                    <div class="form-group mb-48pt">
+                    <div class="form-group mb-24pt">
                         <!-- quill editor -->
-                        <div id="assignment_editor" class="mb-0" style="min-height: 300px;"></div>
-                        <small class="form-text text-muted">Edit Assignment</small>
+                        <div id="assignment_editor" class="mb-0" style="min-height: 400px;"></div>
+                    </div>
+
+                    <label class="form-label">Document:</label>
+                    <div class="form-group">
+                        <div class="custom-file">
+                            <input id="attach_file" type="file" name="attachment" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
+                            <label for="attach_file" class="custom-file-label">Choose ...</label>
+                        </div>
+                        <small class="form-text text-muted">PDF for Doc file (Max 5MB).</small>
                     </div>
                 </div>
 
@@ -125,32 +129,22 @@
                                 <small class="form-text text-muted">Select a course.</small>
                             </div>
 
+                            <!-- Set Lesson -->
+                            <div class="form-group">
+                                <label class="form-label">Lessons</label>
+                                <select name="lesson_id" class="form-control"></select>
+                            </div>
+
                             <!-- Set Duration -->
                             <div class="form-group">
                                 <label class="form-label">Due Date</label>
                                 <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
                             </div>
 
-                            <!-- Set Lesson -->
-                            <div class="form-group">
-                                <label class="form-label">Lessons</label>
-                                <select name="lesson_id" class="form-control form-label"></select>
-                            </div>
-
                             <!-- Total Mark -->
                             <div class="form-group">
                                 <label class="form-label">Total Marks</label>
-                                <input type="number" name="total_mark" class="form-control" placeholder="5" value="5">
-                            </div>
-
-                            <!-- Attachment -->
-                            <div class="form-group">
-                                <label class="form-label">Attachment File</label>
-                                <div class="custom-file">
-                                    <input type="file" name="attachment" class="custom-file-input">
-                                    <label for="file" class="custom-file-label">Choose file</label>
-                                </div>
-                                <small class="form-text text-muted">Max file size is 5MB.</small>
+                                <input type="number" name="total_mark" class="form-control" placeholder="5" value="5" tute-no-empty>
                             </div>
                         </div>
                     </div>
@@ -180,10 +174,22 @@
 
 $(function() {
 
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],  
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code', 'image'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+    ];
+
     // Init Quill Editor for Assignment Content
     var assignment_editor = new Quill('#assignment_editor', {
         theme: 'snow',
-        placeholder: 'Assignment Content'
+        placeholder: 'Assignment Content',
+        modules: {
+            toolbar: toolbarOptions
+        },
     });
 
     $('select[name="course"]').select2({ tags: true });
@@ -206,7 +212,7 @@ $(function() {
 
         $('#frm_assignments').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
-                var content = JSON.stringify(assignment_editor.getContents().ops);
+                var content = assignment_editor.root.innerHTML;
 
                 // Append Course ID
                 formData.push({
@@ -232,7 +238,7 @@ $(function() {
         // Get Lessons by selected Course
         $.ajax({
             method: 'GET',
-            url: "{{ route('admin.assignment.getLessonsByCourse') }}",
+            url: "{{ route('admin.lessons.getLessonsByCourse') }}",
             data: {course_id: course},
             success: function(res) {
                 if (res.success) {

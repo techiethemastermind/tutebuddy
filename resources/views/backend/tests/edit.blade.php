@@ -68,9 +68,6 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <div class="page-separator">
-                        <div class="page-separator__text">Bundle Information</div>
-                    </div>
 
                     <label class="form-label">Test Title</label>
                     <div class="form-group mb-24pt">
