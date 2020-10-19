@@ -289,6 +289,24 @@ class TestController extends Controller
         }
     }
 
+    public function restore($id) {
+
+        try {
+            Test::withTrashed()->find($id)->restore();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'restore'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
     /**
      * Delete Forever
      */
