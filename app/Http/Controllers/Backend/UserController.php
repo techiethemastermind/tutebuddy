@@ -56,14 +56,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
-        ]);
-    
+    {    
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
     
@@ -117,19 +110,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
-        ]);
-    
+    {    
         $input = $request->all();
-        if(!empty($input['password'])){ 
+
+        if(!empty($input['password'])) { 
             $input['password'] = Hash::make($input['password']);
         } else {
-            $input = array_except($input,array('password'));    
+            $input = array_except($input, array('password'));    
+        }
+
+        if(!isset($input['active'])) {
+            $input['active'] = 0;
         }
 
         $user = User::find($id);
@@ -146,8 +137,7 @@ class UserController extends Controller
     
         $user->assignRole($request->input('roles'));
     
-        return redirect()->route('admin.users.index')
-                        ->with('success','User updated successfully');
+        return back()->with('success','User updated successfully');
     }
     
     /**
@@ -175,6 +165,30 @@ class UserController extends Controller
         $input = $request->all();
 
         $user = User::find($id);
+
+        if(isset($input['update_type']) && $input['update_type'] == 'password') {
+
+            $hashedPassword = $user->password;
+
+            if (Hash::check($input['current_password'], $hashedPassword)) {
+                if($input['new_password'] == $input['confirm_password']) {
+                    $input['password'] = Hash::make($input['new_password']);
+                } else {
+                    return response()->json([
+                        'success' => false,
+                        'action' => 'update',
+                        'message' => 'Please confirm password'
+                    ]);
+                }
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'action' => 'update',
+                    'message' => 'Incorrect current password provided'
+                ]);
+            }
+        }
+        
         $user->update($input);
 
         $avatar = $request->has('avatar') ? $request->file('avatar') : false;

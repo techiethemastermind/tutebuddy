@@ -81,6 +81,15 @@ if(!isset($_GET["active"])) {
                             </a>
                         </div>
 
+                        <div class="col-auto border-left border-right">
+                            <a href="#password" data-toggle="tab" role="tab" aria-selected="false"
+                                class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                                <span class="flex d-flex flex-column">
+                                    <strong class="card-title">Change Password</strong>
+                                </span>
+                            </a>
+                        </div>
+
                         @if(auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Instructor'))
                         <div class="col-auto border-left border-right">
                             <a href="#bank" data-toggle="tab" role="tab" aria-selected="false"
@@ -263,6 +272,32 @@ if(!isset($_GET["active"])) {
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
 
+                        {!! Form::close() !!}
+                    </div>
+
+                    <!-- Tab Content for Profile Setting -->
+                    <div id="password" class="tab-pane p-4 fade text-70">
+                        {!! Form::model($user, ['method' => 'POST', 'files' => true, 'route' =>
+                        ['admin.myaccount.update', $user->id]]) !!}
+
+                        <div class="form-group mb-48pt">
+                            <label class="form-label" for="current_pwd">Current Password:</label>
+                            <input id="current_pwd" name="current_password" type="password" class="form-control" placeholder="Type current password ..." tute-no-empty>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="new_pwd">New Password:</label>
+                            <input id="new_pwd" name="new_password" type="password" class="form-control" placeholder="Type a new password ..." tute-no-empty>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="cfm_pwd">Confirm Password:</label>
+                            <input id="cfm_pwd" name="confirm_password" type="password" class="form-control" placeholder="Confirm your new password ..." tute-no-empty>
+                        </div>
+
+                        <input type="hidden" name="update_type" value="password">
+
+                        <button type="submit" class="btn btn-primary mt-48pt">Save password</button>
                         {!! Form::close() !!}
                     </div>
 
@@ -467,7 +502,7 @@ if(!isset($_GET["active"])) {
                 tags: true
             });
 
-            $('#account form').submit(function (e) {
+            $('form').submit(function (e) {
                 e.preventDefault();
 
                 $(this).ajaxSubmit({

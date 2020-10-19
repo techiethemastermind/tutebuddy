@@ -41,6 +41,16 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
+        if (!$user->verified) {
+            auth()->logout();
+            return back()->with('warning', 'We have sent you an activation code. \n please check your email.');
+        }
+
+        if (!$user->active) {
+            auth()->logout();
+            return back()->with('warning', 'Your account has been disabled by admin. \n please contact to support.');
+        }
+
         if(config("access.captcha.registration") > 0) {
             // Recaptcha
             $vars = array(
@@ -58,15 +68,7 @@ class LoginController extends Controller
             curl_close($ch);
 
             if($response['success'] && $response['action'] == 'login' && $response['score']>0.5) {
-                if (!$user->verified) {
-                    auth()->logout();
-                    return back()->with('warning', 'We have sent you an activation code, please check your email.');
-                }
-        
-                if (!$user->active) {
-                    auth()->logout();
-                    return back()->with('warning', 'Your account has been disabled by admin. please contact to support.');
-                }
+                return redirect()->intended($this->redirectTo);
             } else {
                 auth()->logout();
                 return back()->withErrors(['captcha' => 'ReCaptcha Error']);

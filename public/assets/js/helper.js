@@ -168,3 +168,26 @@ $(document).on('keyup', 'input[tute-no-empty]', function() {
     $(this).removeClass('is-invalid');
     $(this).closest('.form-group').find('div.invalid-feedback').remove();
 });
+
+$(document).on('submit', 'form', function(e) {
+
+    var Form = $(this);
+    var no_empty_eles = Form.find('input[tute-no-empty]');
+    var invalid_found = false;
+    $.each(no_empty_eles, function(idx, ele) {
+        if ($(ele).val() == '') {
+            $(ele).addClass('is-invalid');
+            var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
+            err_msg.insertAfter($(ele));
+            $(ele).focus();
+            invalid_found = true;
+        }
+    });
+
+    if(!invalid_found) {
+        return true;
+    } else {
+        e.preventDefault();
+        return false;
+    }
+});
