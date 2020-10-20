@@ -48,47 +48,76 @@
 
     <div class="container page__container page-section">
 
-        <div class="row">
-            <div class="col-lg-3">
+        <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+            <div class="card-header p-0 nav">
+                <div id="tbl_selector" class="row no-gutters" role="tablist">
+                    <div class="col-auto">
+                        <a href="{{ route('admin.getquizzesByAjax', 'all') }}" data-toggle="tab" role="tab" aria-selected="true"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
+                            <span class="h2 mb-0 mr-3 count-all">{{ $count['all'] }}</span>
+                            <span class="flex d-flex flex-column">
+                                <strong class="card-title">All</strong>
+                                <small class="card-subtitle text-50">All Tests</small>
+                            </span>
+                        </a>
+                    </div>
 
-                <div class="page-separator">
-                    <div class="page-separator__text">Search</div>
-                </div>
+                    <div class="col-auto border-left border-right">
+                        <a href="{{ route('admin.getquizzesByAjax', 'published') }}" data-toggle="tab" role="tab"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h2 mb-0 mr-3 count-published">{{ $count['published'] }}</span>
+                            <span class="flex d-flex flex-column">
+                                <strong class="card-title">Published</strong>
+                                <small class="card-subtitle text-50">In progressing</small>
+                            </span>
+                        </a>
+                    </div>
 
-                <div class="form-group">
-                    <label class="form-label">Course:</label>
-                    <select name="courses" id="courses" class="form-control custom-select" data-toggle="select">
-                        @foreach($courses as $course)
-                        <option value="{{ $course->id }}">{{ $course->title }}</option>
-                        @endforeach
-                    </select>
+                    <div class="col-auto border-left border-right">
+                        <a href="{{ route('admin.getquizzesByAjax', 'pending') }}" data-toggle="tab" role="tab"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h2 mb-0 mr-3 count-pending">{{ $count['pending'] }}</span>
+                            <span class="flex d-flex flex-column">
+                                <strong class="card-title">Pending</strong>
+                                <small class="card-subtitle text-50">Pending to Review</small>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-auto border-left border-right">
+                        <a href="{{ route('admin.getquizzesByAjax', 'deleted') }}" data-toggle="tab" role="tab"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h2 mb-0 mr-3 count-deleted">{{ $count['deleted'] }}</span>
+                            <span class="flex d-flex flex-column">
+                                <strong class="card-title">Archived</strong>
+                                <small class="card-subtitle text-50">Deleted Tests</small>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-lg-9">
-                <div class="card p-relative o-hidden mb-lg-32pt">
-                    <div class="table-responsive" data-toggle="lists">
-                        <table id="tbl_quizs" class="table mb-0 thead-border-top-0 table-nowrap">
-                            <thead>
-                                <tr>
-                                    <th style="width: 18px;" class="pr-0">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-toggle-check-all" data-target="#clients" id="customCheckAll_clients">
-                                            <label class="custom-control-label" for="customCheckAll_clients"><span class="text-hide">Toggle all</span></label>
-                                        </div>
-                                    </th>
-                                    <th style="width: 40px;">No.</th>
-                                    <th>Title</th>
-                                    <th>Questions</th>
-                                    <th>Assinged</th>
-                                    <th style="width: 100px;">Actions</th>
-                                    <th style="width: 24px;"></th>
-                                </tr>
-                            </thead>
-                            <tbody class="list"></tbody>
-                        </table>
-                    </div>
-                </div>
+            <div class="table-responsive" data-toggle="lists">
+                <table id="tbl_quizs" class="table mb-0 thead-border-top-0 table-nowrap">
+                    <thead>
+                        <tr>
+                            <th style="width: 18px;" class="pr-0">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input js-toggle-check-all" data-target="#clients" id="customCheckAll_clients">
+                                    <label class="custom-control-label" for="customCheckAll_clients"><span class="text-hide">Toggle all</span></label>
+                                </div>
+                            </th>
+                            <th style="width: 40px;">No.</th>
+                            <th>Title</th>
+                            <th>Course</th>
+                            <th>Lesson</th>
+                            <th>Questions</th>
+                            <th>Assinged</th>
+                            <th style="width: 100px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list"></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -111,7 +140,13 @@ var table, route;
 
 $(document).ready(function() {
 
-    route = '/dashboard/ajax/quizs/list/' + $('#courses').val();
+    var route = $('#tbl_selector a[aria-selected="true"]').attr('href');
+
+    $('#tbl_selector').on('click', 'a[role="tab"]', function(e) {
+        e.preventDefault();
+        route = $(this).attr('href');
+        table.ajax.url( route ).load();
+    });
     
     table = $('#tbl_quizs').DataTable(
         {
@@ -131,10 +166,11 @@ $(document).ready(function() {
                 { data: 'index'},
                 { data: 'no'},
                 { data: 'title' },
+                { data: 'course' },
+                { data: 'lesson' },
                 { data: 'questions'},
                 { data: 'assigned'},
-                { data: 'action'},
-                { data: 'more' }
+                { data: 'action'}
             ],
             oLanguage: {
                 sEmptyTable: "You have no Quizzes"

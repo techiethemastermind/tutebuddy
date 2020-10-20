@@ -21,7 +21,7 @@ class CoursesController extends Controller
     /**
      * Show Selected Course
      */
-    public function show ($slug)
+    public function show($slug)
     {
         $course = Course::where('slug', $slug)->first();
 
@@ -70,6 +70,29 @@ class CoursesController extends Controller
             return response()->json([
                 'success' => false,
                 'msg' => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Add Favorite
+     */
+    public function addFavorite($id)
+    {
+        $rlt = DB::table('course_favorite')->insert([
+            'course_id' => $id,
+            'user_id' => auth()->user()->id
+        ]);
+
+        if($rlt) {
+            return response()->json([
+                'success' => true,
+                'action' => 'add_favorite'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'action' => 'add_favorite'
             ]);
         }
     }

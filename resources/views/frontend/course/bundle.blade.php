@@ -13,7 +13,7 @@
 
                     @if(auth()->check())
                         <a href="#" class="btn btn-outline-white mr-12pt"><i
-                                class="material-icons icon--left">favorite_border</i> Add Wishlist</a>
+                                class="material-icons icon--left">favorite_border</i> Add Favorite</a>
                         <a href="#" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i>
                             Share</a>
                     @endif

@@ -12,16 +12,16 @@ class Question extends Model
     protected static function boot()
     {
         parent::boot();
-        if (auth()->check()) {
-            if (auth()->user()->hasRole('Instructor')) {
-                static::addGlobalScope('filter', function (Builder $builder) {
-                    $courses = auth()->user()->courses->pluck('id');
-                    $builder->whereHas('tests', function ($q) use ($courses) {
-                        $q->whereIn('tests.course_id', $courses);
-                    });
-                });
-            }
-        }
+        // if (auth()->check()) {
+        //     if (auth()->user()->hasRole('Instructor')) {
+        //         static::addGlobalScope('filter', function (Builder $builder) {
+        //             $courses = auth()->user()->courses->pluck('id');
+        //             $builder->whereHas('tests', function ($q) use ($courses) {
+        //                 $q->whereIn('tests.course_id', $courses);
+        //             });
+        //         });
+        //     }
+        // }
 
         static::deleting(function ($question) { // before delete() method call this
             // if ($question->isForceDeleting()) {

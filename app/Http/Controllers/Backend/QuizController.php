@@ -26,22 +26,51 @@ class QuizController extends Controller
      * List of Quiz
      */
     public function index() {
+        $count = [
+            'all' => Quiz::all()->count(),
+            'published' => Quiz::where('published', 1)->count(),
+            'pending' => Quiz::where('published', 0)->count(),
+            'deleted' => Quiz::onlyTrashed()->count()
+        ];
 
-        $courses = Course::all();
-        return view('backend.quiz.index', compact('courses'));
+        return view('backend.quiz.index', compact('count'));
     }
 
     /**
-     * Get Quizs by Course id
+     * List data for Datatable
      */
-    public function getList($id) {
+    public function getList($type) {
 
-        $quizs = quiz::where('course_id', $id)->get();
+        switch ($type) {
+            case 'all':
+                $quizs = Quiz::all();
+            break;
+            case 'published':
+                $quizs = Quiz::where('published', 1)->get();
+            break;
+            case 'pending':
+                $quizs = Quiz::where('published', 0)->get();
+            break;
+            case 'deleted':
+                $quizs = Quiz::onlyTrashed()->get();
+            break;
+            default:
+                $quizs = Quiz::all();
+        }
+
         $data = $this->getArrayData($quizs);
+
+        $count = [
+            'all' => Quiz::all()->count(),
+            'published' => Quiz::where('published', 1)->count(),
+            'pending' => Quiz::where('published', 0)->count(),
+            'deleted' => Quiz::onlyTrashed()->count()
+        ];
 
         return response()->json([
             'success' => true,
-            'data' => $data
+            'data' => $data,
+            'count' => $count
         ]);
     }
 
@@ -61,6 +90,7 @@ class QuizController extends Controller
 
         $data = $request->all();
         $quiz_data = [
+            'user_id' => auth()->user()->id,
             'course_id' => $data['course_id'],
             'lesson_id' => $data['lesson_id'],
             'title' => $data['title'],
@@ -189,6 +219,36 @@ class QuizController extends Controller
                                     </div>
                                 </div>
                             </div>';
+            
+            $temp['course'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        <span class="avatar-title rounded-circle">' . substr($quiz->course->title, 0, 2) . '</span>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex d-flex flex-column">
+                                                <p class="mb-0"><strong class="js-lists-values-lead">'
+                                                . $quiz->course->title . '</strong></p>
+                                                <small class="js-lists-values-email text-50">'. $quiz->course->teachers[0]->name .'</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+
+            $temp['lesson'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded-circle">' . substr($quiz->lesson->title, 0, 2) . '</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex d-flex flex-column">
+                                            <p class="mb-0"><strong class="js-lists-values-lead">'
+                                            . $quiz->lesson->title . '</strong></p>
+                                            <small class="js-lists-values-email text-50">'. $quiz->course->teachers[0]->name .'</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
 
             $temp['questions'] = $quiz->questions->count();
 
@@ -207,23 +267,106 @@ class QuizController extends Controller
             $show_route = route('admin.quizs.show', $quiz->id);
             $edit_route = route('admin.quizs.edit', $quiz->id);
             $delete_route = route('admin.quizs.destroy', $quiz->id);
+            $publish_route = route('admin.quizs.publish', $quiz->id);
 
             $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
             $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
             $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
 
-            if($quiz->trashed()) {
-                $restore_route = route('admin.quizs.restore', $quiz->id);
-                $btn_delete = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
-                    data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
+            if($quiz->published == 0) {
+                $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
+                    data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
+            } else {
+                $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
+                    data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
             }
 
-            $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
-            $temp['more'] = '<a href="javascript:void(0)" class="text-50"><i class="material-icons">more_vert</i></a>';
+            if($quiz->trashed()) {
+                $restore_route = route('admin.test.restore', $quiz->id);
+                $btn_restore = '<a href="'. $restore_route. '" class="btn btn-primary btn-sm" data-action="restore" data-toggle="tooltip"
+                    data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
+
+                $forever_delete_route = route('admin.quizs.foreverDelete', $quiz->id);
+
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="restore" data-toggle="tooltip"
+                data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
+
+                $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
+            } else {
+                if(auth()->user()->hasRole('Administrator')) {
+                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                } else {
+                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+                }
+            }
 
             array_push($data, $temp);
         }
 
         return $data;
+    }
+
+    /**
+     * Publish or Unpublish
+     */
+    public function publish($id)
+    {
+        $quiz = Quiz::find($id);
+        if($quiz->published == 1) {
+            $quiz->published = 0;
+        } else {
+            $quiz->published = 1;
+        }
+
+        $quiz->save();
+
+        return response()->json([
+            'success' => true,
+            'action' => 'publish',
+            'published' => $quiz->published
+        ]);
+    }
+
+    /**
+     * Restore a Quiz
+     */
+    public function restore($id)
+    {
+        try {
+            Quiz::withTrashed()->find($id)->restore();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'restore'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Delete Forever
+     */
+    public function foreverDelete($id)
+    {
+        try {
+
+            Quiz::withTrashed()->where('id', $id)->forceDelete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }

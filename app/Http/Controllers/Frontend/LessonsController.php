@@ -35,6 +35,7 @@ class LessonsController extends Controller
         $prev = Step::where('lesson_id', $lesson->id)->where('step', $order - 1)->first();
         $step = Step::where('lesson_id', $lesson->id)->where('step', $order)->first();
         $next = Step::where('lesson_id', $lesson->id)->where('step', $order + 1)->first();
+        $discussions = $course->discussions->take(5);
 
         if($step->type == 'test') {
 
@@ -52,7 +53,7 @@ class LessonsController extends Controller
             }
             
         } else {
-            return view('frontend.course.lesson', compact('lesson', 'step', 'prev', 'next'));
+            return view('frontend.course.lesson', compact('lesson', 'step', 'prev', 'next', 'discussions'));
         }
     }
 
@@ -385,7 +386,7 @@ class LessonsController extends Controller
             // Attachment URL
             if(!empty($request->doc_file)) {
                 $file = $request->file('doc_file');
-                $file_url = $this->saveImage($file, 'upload', true);
+                $file_url = $this->saveFile($file);
                 $data['attachment_url'] = $file_url;
             }
             $data['user_id'] = auth()->user()->id;
@@ -403,7 +404,7 @@ class LessonsController extends Controller
                     File::delete(public_path('/storage/uploads/thumb/' . $assignment->attachment_url));
                 }
 
-                $file_url = $this->saveImage($file, 'upload', true);
+                $file_url = $this->saveFile($file);
                 $result->attachment_url = $file_url;
             }
 

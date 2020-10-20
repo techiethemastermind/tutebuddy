@@ -75,6 +75,7 @@
             </ul>
         </div>
     </div>
+
     <div class="bg-primary pb-lg-64pt py-32pt">
         <div class="container page__container">
             <nav class="course-nav">
@@ -89,6 +90,7 @@
                 </a>
                 @endforeach
             </nav>
+            
             @if($step->type == 'video')
             <div class="js-player bg-primary embed-responsive embed-responsive-16by9 mb-32pt">
                 <div class="player embed-responsive-item">
@@ -362,6 +364,7 @@
                     </div>
                     <div class="border-top">
                         <div class="list-group list-group-flush">
+
                             @foreach($lesson->assignments as $assignment)
 
                             @if($assignment->result)
@@ -396,6 +399,7 @@
                             @endif
 
                             @endforeach
+
                         </div>
                     </div>
                 </div>
@@ -410,36 +414,9 @@
 
                         <div class="list-group list-group-flush">
 
-                            <div class="list-group-item p-3">
-                                <div class="row align-items-start">
-                                    <div class="col-md-3 mb-8pt mb-md-0">
-                                        <div class="media align-items-center">
-                                            <div class="media-left mr-12pt">
-                                                <a href="" class="avatar avatar-sm">
-                                                    <!-- <img src="LB" alt="avatar" class="avatar-img rounded-circle"> -->
-                                                    <span class="avatar-title rounded-circle">LB</span>
-                                                </a>
-                                            </div>
-                                            <div class="d-flex flex-column media-body media-middle">
-                                                <a href="" class="card-title">Laza Bogdan</a>
-                                                <small class="text-muted">2 days ago</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col mb-8pt mb-md-0">
-                                        <p class="mb-8pt"><a href="fixed-discussion.html" class="text-body"><strong>Using
-                                                    Angular HttpClientModule instead of HttpModule</strong></a></p>
+                            @if($discussions->count() > 0)
 
-                                        <a href="fixed-discussion.html" class="chip chip-outline-secondary">Angular
-                                            fundamentals</a>
-
-                                    </div>
-                                    <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                        <h5 class="m-0">1</h5>
-                                        <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
-                                    </div>
-                                </div>
-                            </div>
+                            @foreach($discussions as $discussion)
 
                             <div class="list-group-item p-3">
                                 <div class="row align-items-start">
@@ -447,33 +424,41 @@
                                         <div class="media align-items-center">
                                             <div class="media-left mr-12pt">
                                                 <a href="" class="avatar avatar-sm">
-                                                    <!-- <img src="AC" alt="avatar" class="avatar-img rounded-circle"> -->
-                                                    <span class="avatar-title rounded-circle">AC</span>
+                                                    <span class="avatar-title rounded-circle">{{ substr($discussion->user->name, 0, 2) }}</span>
                                                 </a>
                                             </div>
                                             <div class="d-flex flex-column media-body media-middle">
-                                                <a href="" class="card-title">Adam Curtis</a>
-                                                <small class="text-muted">3 days ago</small>
+                                                <a href="" class="card-title">{{ $discussion->user->name }}</a>
+                                                <small class="text-muted">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($discussion->updated_at))->diffForHumans() }}</small>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col mb-8pt mb-md-0">
-                                        <p class="mb-0"><a href="fixed-discussion.html" class="text-body"><strong>Why am I
-                                                    getting an error when trying to install angular/http@2.4.2</strong></a></p>
+                                        <p class="mb-8pt"><a href="fixed-discussion.html" class="text-body"><strong>{{ $discussion->title }}</strong></a></p>
+                                        <?php $topics = json_decode($discussion->topics); ?>
+                                        @foreach($topics as $topic)
+                                        <a href="{{ route('admin.discussions.show', $discussion->id) }}" class="chip chip-outline-secondary">
+                                            {{ $discussion->topic($topic) }}
+                                        </a>
+                                        @endforeach
 
                                     </div>
                                     <div class="col-auto d-flex flex-column align-items-center justify-content-center">
-                                        <h5 class="m-0">1</h5>
+                                        <h5 class="m-0">{{ $discussion->results->count() }}</h5>
                                         <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
                                     </div>
                                 </div>
                             </div>
+
+                            @endforeach
+
+                            @endif
 
                         </div>
 
                     </div>
 
-                    <a href="fixed-discussions.html" class="btn btn-outline-secondary">See all discussions for this lesson</a>
+                    <a href="{{ route('admin.discussions.topics') }}" class="btn btn-outline-secondary">See all discussions for this lesson</a>
                 </div>
             </div>
         </div>

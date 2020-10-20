@@ -289,6 +289,30 @@ class TestController extends Controller
         }
     }
 
+    /**
+     * Publish or Unpublish
+     */
+    public function publish($id)
+    {
+        $test = Test::find($id);
+        if($test->published == 1) {
+            $test->published = 0;
+        } else {
+            $test->published = 1;
+        }
+
+        $test->save();
+
+        return response()->json([
+            'success' => true,
+            'action' => 'publish',
+            'published' => $test->published
+        ]);
+    }
+
+    /**
+     * Restore a Test
+     */
     public function restore($id) {
 
         try {

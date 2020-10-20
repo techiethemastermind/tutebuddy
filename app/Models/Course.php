@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use App\User;
 use App\Models\Lesson;
 use App\Models\Certificate;
+use Illuminate\Support\Facades\DB;
 
 class Course extends Model
 {
@@ -75,6 +76,11 @@ class Course extends Model
     public function tests()
     {
         return $this->hasMany(Quiz::class);
+    }
+
+    public function discussions()
+    {
+        return $this->hasMany(Discussion::class);
     }
 
     public function mediaVideo()
@@ -144,5 +150,11 @@ class Course extends Model
     public function isReviewed()
     {
         return (auth()->check() && $this->reviews()->where('user_id', '=', auth()->user()->id)->count() > 0);
+    }
+
+    public function favorited()
+    {
+        $favorite = DB::table('course_favorite')->where('course_id', $this->id)->where('user_id', auth()->user()->id)->first();
+        return ($favorite) ? true : false;
     }
 }

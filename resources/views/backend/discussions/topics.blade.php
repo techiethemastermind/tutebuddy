@@ -53,7 +53,7 @@
                             <div class="col-md-3 mb-8pt mb-md-0">
                                 <div class="media align-items-center">
                                     <div class="media-left mr-12pt">
-                                        <a href="" class="avatar avatar-sm">
+                                        <a href="{{ route('admin.discussions.show', $discussion->id) }}" class="avatar avatar-sm">
                                             @if(!empty($discussion->user->avatar))
                                             <img src="{{ asset('/storage/avatars/' . $discussion->user->avatar) }}" alt="{{ $discussion->user->avatar }}"
                                             class="avatar-img rounded-circle">
@@ -69,11 +69,23 @@
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <p class="mb-8pt">
-                                    <a href="{{ route('admin.discussions.show', $discussion->id) }}" class="text-body">
-                                        <strong>{{ $discussion->title }}</strong></a>
-                                </p>
-
+                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        <a href="{{ route('admin.discussions.show', $discussion->id) }}">
+                                            <span class="avatar-title rounded bg-primary text-white">{{ substr($discussion->title, 0, 2) }}</span>
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <a href="{{ route('admin.discussions.show', $discussion->id) }}">
+                                            <small class="js-lists-values-project">
+                                                <strong>{{ $discussion->title }}</strong></small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-8pt mb-md-0 pt-1">
                                 <?php $topics = json_decode($discussion->topics); ?>
                                 @foreach($topics as $topic)
                                 <a href="{{ route('admin.discussions.show', $discussion->id) }}" class="chip chip-outline-secondary">

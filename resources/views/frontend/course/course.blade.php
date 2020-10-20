@@ -76,31 +76,34 @@
                     <h1 class="text-white">{{ $course->title }}</h1>
                     <p class="lead text-white-50 measure-hero-lead mb-24pt">{{ $course->short_description }}</p>
 
-                    @if(auth()->check())
-                    @if(!$is_mine)
-                    <a href="#" class="btn btn-outline-white mr-12pt"><i
-                            class="material-icons icon--left">favorite_border</i> Add Wishlist</a>
+                    @if(auth()->check() && !$is_mine)
+                    @if($course->favorited())
+                    <button data-route="{{ route('course.addFavorite', $course->id) }}" disabled class="btn btn-white mr-12pt"><i
+                            class="material-icons icon--left">favorite_border</i> Added to Favorite</button>
+                    @else
+                    <button data-route="{{ route('course.addFavorite', $course->id) }}" id="btn_add_favorite" class="btn btn-outline-white mr-12pt"><i
+                            class="material-icons icon--left">favorite_border</i> Add Favorite</button>
                     @endif
-                    <a href="#" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i>
+                    <a href="javascript:void(0)" id="btn_add_share" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i>
                         Share</a>
                     @endif
 
                     @if($course->progress() == 100)
-                    @if(!$course->isUserCertified())
-                    <form method="post" action="{{route('admin.certificates.generate')}}"
-                        style="display: inline-block;">
-                        @csrf
-                        <input type="hidden" value="{{$course->id}}" name="course_id">
-                        <button class="btn btn-outline-white" id="finish">
-                            <i class="material-icons icon--left">done</i>
-                            @lang('labels.frontend.course.finish_course')
+                        @if(!$course->isUserCertified())
+                        <form method="post" action="{{route('admin.certificates.generate')}}"
+                            style="display: inline-block;">
+                            @csrf
+                            <input type="hidden" value="{{$course->id}}" name="course_id">
+                            <button class="btn btn-outline-white" id="finish">
+                                <i class="material-icons icon--left">done</i>
+                                @lang('labels.frontend.course.finish_course')
+                            </button>
+                        </form>
+                        @else
+                        <button disabled="disabled" class="btn btn-white">
+                            <i class="material-icons icon--left">done</i> @lang('labels.frontend.course.certified')
                         </button>
-                    </form>
-                    @else
-                    <button disabled="disabled" class="btn btn-white">
-                        <i class="material-icons icon--left">done</i> @lang('labels.frontend.course.certified')
-                    </button>
-                    @endif
+                        @endif
                     @endif
 
                 </div>
@@ -147,7 +150,191 @@
         </div>
     </div>
 
-    @if(!auth()->check() || !$course->isEnrolled())
+    @if(auth()->check() && $course->isEnrolled() || $is_mine)
+
+    <div class="container page__container">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="border-left-2 page-section pl-32pt">
+
+                    @if(isset($course->mediaVideo))
+                    <div class="mb-32pt">
+                        <div class="bg-primary embed-responsive embed-responsive-16by9" data-domfactory-upgraded="player">
+                            <div class="player embed-responsive-item">
+                                <div class="player__content">
+                                    <div class="player__image"
+                                        style="--player-image: url({{ asset('storage/uploads/' . $course->course_image) }})">
+                                    </div>
+                                    <a href="" class="player__play bg-primary">
+                                        <span class="material-icons">play_arrow</span>
+                                    </a>
+                                </div>
+                                <div class="player__embed d-none">
+                                    <?php
+                                        $embed = Embed::make($course->mediaVideo->url)->parseUrl();
+                                        $embed->setAttribute([
+                                            'id'=>'display_course_video',
+                                            'class'=>'embed-responsive-item',
+                                            'allowfullscreen' => true
+                                        ]);
+
+                                        echo $embed->getHtml();
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @endif
+
+                    @foreach($course->lessons as $lesson)
+
+                    <div class="d-flex align-items-center page-num-container" id="sec-{{ $lesson->id }}">
+                        <div class="page-num">{{ $loop->iteration }}</div>
+                        <a href="{{ route('lessons.show', [$course->slug, $lesson->slug, 1]) }}">
+                            <h4>{{ $lesson->title }}
+                                @if($lesson->isCompleted())
+                                <span class="badge badge-dark badge-notifications ml-2 p-1">
+                                    <i class="material-icons m-0">check</i>
+                                </span>
+                                @endif
+                            </h4>
+                        </a>
+                    </div>
+
+                    <p class="text-70 mb-24pt">{{ $lesson->short_text }}</p>
+
+                    @if($lesson->lesson_type == 1)
+
+                    <?php
+                        $schedule = $lesson->schedule;
+                    ?>
+                    @if($schedule)
+                    <p class="text-70 mb-24pt">
+                        <span class="mr-20pt">
+                            <i class="material-icons text-muted icon--left">schedule</i>
+                            Start: {{ $schedule->start_time }}
+                        </span>
+
+                        <span>
+                            <i class="material-icons text-muted icon--left">schedule</i>
+                            End: {{ $schedule->end_time }}
+                        </span>
+                    </p>
+
+                    <div class="mb-32pt">
+                        <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank"
+                            data-lesson-id="" class="btn btn-outline-accent-dodger-blue btn-block btn-live-session">Join
+                            To Live Session</a>
+                    </div>
+                    @endif
+
+                    @else
+
+                    <div class="mb-32pt">
+                        <ul class="accordion accordion--boxed js-accordion mb-0" id="toc-{{ $lesson->id }}">
+                            <li class="accordion__item @if($loop->iteration == 1) open @endif">
+                                <a class="accordion__toggle" data-toggle="collapse" data-parent="#toc-{{ $lesson->id }}"
+                                    href="#toc-content-{{ $lesson->id }}">
+                                    <span class="flex">{{ $lesson->steps->count() }} Steps</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu">
+                                    <ul class="list-unstyled collapse @if($loop->iteration == 1) show @endif"
+                                        id="toc-content-{{ $lesson->id }}">
+
+                                        @foreach( $lesson->steps as $step )
+
+                                        <li class="accordion__menu-link">
+                                            <span
+                                                class="material-icons icon-16pt icon--left text-body">{{ config('stepicons')[$step['type']] }}</span>
+                                            <a class="flex"
+                                                href="{{ route('lessons.show', [$course->slug, $lesson->slug, $step->step]) }}">
+                                                Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
+                                            </a>
+                                            @if($step['duration'])
+                                            <span class="text-muted">
+                                                {{ $step['duration'] }} min
+                                            </span>
+                                            @else
+                                            <span class="material-icons icon-16pt icon--left text-body text-muted">
+                                                alarm
+                                            </span>
+                                            @endif
+                                        </li>
+
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    @endif
+
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="page-section col-lg-5 border-left-2 dv-sticky">
+                <div class="container page__container">
+                    <div class="mb-lg-64pt">
+                        <div class="page-separator">
+                            <div class="page-separator__text">About this course</div>
+                        </div>
+                        <div class="course-description"></div>
+                    </div>
+
+                    <div class="mb-lg-64pt">
+                        <div class="page-separator">
+                            <div class="page-separator__text">What you’ll learn</div>
+                        </div>
+                        <ul class="list-unstyled">
+                            @foreach($course->lessons as $lesson)
+                            <li class="d-flex align-items-center">
+                                <span class="material-icons text-50 mr-8pt">check</span>
+                                <span class="text-70">{{ $lesson->title }}</span>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                    <div class="mb-lg-64pt">
+                        <div class="page-separator">
+                            <div class="page-separator__text">About the Teachers</div>
+                        </div>
+
+                        @foreach($course->teachers as $teacher)
+
+                        <div class="pt-sm-32pt pt-md-0 d-flex flex-column">
+                            <div class="avatar avatar-xl avatar-online mb-lg-16pt">
+                                @if(empty($teacher->avatar))
+                                <span class="avatar-title rounded-circle">{{ substr($teacher->name, 0, 2) }}</span>
+                                @else
+                                <img src="{{ asset('/storage/avatars/'. $teacher->avatar) }}" alt="{{ $teacher->name }}"
+                                    class="avatar-img rounded-circle">
+                                @endif
+                            </div>
+                            <h4 class="m-0">{{ $teacher->name }}</h4>
+                            <p class="lh-1">
+                                <small class="text-muted">Angular, Web Development</small>
+                            </p>
+                            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
+                                <a href="{{ route('profile.show', $teacher->uuid) }}"
+                                    class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">Follow</a>
+                                <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-outline-secondary">View Profile</a>
+                            </div>
+                        </div>
+
+                        @endforeach
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @else
 
     <div class="page-section bg-alt border-bottom-2">
 
@@ -176,7 +363,7 @@
         </div>
     </div>
 
-    <div class="page-section border-bottom-2">
+    <div class="page-section">
         <div class="container page__container">
 
             <div class="page-separator">
@@ -331,163 +518,7 @@
             </div>
         </div>
     </div>
-
-    @else
-    <div class="container page__container border-bottom-2">
-        <div class="row">
-            <div class="col-lg-7">
-                <div class="border-left-2 page-section pl-32pt">
-
-                    @if(isset($course->mediaVideo))
-                    <div class="form-group mb-32pt">
-                        <button class="btn btn-block btn-primary" data-target="#mdl_intro_video">Watch Intro
-                            Video</button>
-                    </div>
-                    @endif
-
-                    @foreach($course->lessons as $lesson)
-
-                    <div class="d-flex align-items-center page-num-container" id="sec-{{ $lesson->id }}">
-                        <div class="page-num">{{ $loop->iteration }}</div>
-                        <h4>{{ $lesson->title }}
-                            @if($lesson->isCompleted())
-                            <span class="badge badge-dark badge-notifications ml-2 p-1">
-                                <i class="material-icons m-0">check</i>
-                            </span>
-                            @endif
-                        </h4>
-                    </div>
-
-                    <p class="text-70 mb-24pt">{{ $lesson->short_text }}</p>
-
-                    @if($lesson->lesson_type == 1)
-
-                    <?php
-                        $schedule = $lesson->schedule;
-                    ?>
-                    @if($schedule)
-                    <p class="text-70 mb-24pt">
-                        <span class="mr-20pt">
-                            <i class="material-icons text-muted icon--left">schedule</i>
-                            Start: {{ $schedule->start_time }}
-                        </span>
-
-                        <span>
-                            <i class="material-icons text-muted icon--left">schedule</i>
-                            End: {{ $schedule->end_time }}
-                        </span>
-                    </p>
-
-                    <div class="mb-32pt">
-                        <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank"
-                            data-lesson-id="" class="btn btn-outline-accent-dodger-blue btn-block btn-live-session">Join
-                            To Live Session</a>
-                    </div>
-                    @endif
-
-                    @else
-
-                    <div class="mb-32pt">
-                        <ul class="accordion accordion--boxed js-accordion mb-0" id="toc-{{ $lesson->id }}">
-                            <li class="accordion__item @if($loop->iteration == 1) open @endif">
-                                <a class="accordion__toggle" data-toggle="collapse" data-parent="#toc-{{ $lesson->id }}"
-                                    href="#toc-content-{{ $lesson->id }}">
-                                    <span class="flex">{{ $lesson->steps->count() }} Steps</span>
-                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
-                                </a>
-                                <div class="accordion__menu">
-                                    <ul class="list-unstyled collapse @if($loop->iteration == 1) show @endif"
-                                        id="toc-content-{{ $lesson->id }}">
-
-                                        @foreach( $lesson->steps as $step )
-
-                                        <li class="accordion__menu-link">
-                                            <span
-                                                class="material-icons icon-16pt icon--left text-body">{{ config('stepicons')[$step['type']] }}</span>
-                                            <a class="flex"
-                                                href="{{ route('lessons.show', [$course->slug, $lesson->slug, $step->step]) }}">
-                                                Step {{ $step['step'] }} : <span>{{ $step['title'] }}</span>
-                                            </a>
-                                            @if($step['duration'])
-                                            <span class="text-muted">
-                                                {{ $step['duration'] }} min
-                                            </span>
-                                            @else
-                                            <span class="material-icons icon-16pt icon--left text-body text-muted">
-                                                alarm
-                                            </span>
-                                            @endif
-                                        </li>
-
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                    @endif
-
-                    @endforeach
-                </div>
-            </div>
-            <div class="page-section col-lg-5 border-left-2 dv-sticky">
-                <div class="container page__container">
-                    <div class="mb-lg-64pt">
-                        <div class="page-separator">
-                            <div class="page-separator__text">About this course</div>
-                        </div>
-                        <div class="course-description"></div>
-                    </div>
-
-                    <div class="mb-lg-64pt">
-                        <div class="page-separator">
-                            <div class="page-separator__text">What you’ll learn</div>
-                        </div>
-                        <ul class="list-unstyled">
-                            @foreach($course->lessons as $lesson)
-                            <li class="d-flex align-items-center">
-                                <span class="material-icons text-50 mr-8pt">check</span>
-                                <span class="text-70">{{ $lesson->title }}</span>
-                            </li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                    <div class="mb-lg-64pt">
-                        <div class="page-separator">
-                            <div class="page-separator__text">About the Teachers</div>
-                        </div>
-
-                        @foreach($course->teachers as $teacher)
-
-                        <div class="pt-sm-32pt pt-md-0 d-flex flex-column">
-                            <div class="avatar avatar-xl avatar-online mb-lg-16pt">
-                                @if(empty($teacher->avatar))
-                                <span class="avatar-title rounded-circle">{{ substr($teacher->name, 0, 2) }}</span>
-                                @else
-                                <img src="{{ asset('/storage/avatars/'. $teacher->avatar) }}" alt="{{ $teacher->name }}"
-                                    class="avatar-img rounded-circle">
-                                @endif
-                            </div>
-                            <h4 class="m-0">{{ $teacher->name }}</h4>
-                            <p class="lh-1">
-                                <small class="text-muted">Angular, Web Development</small>
-                            </p>
-                            <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
-                                <a href="fixed-teacher-profile.html"
-                                    class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">Follow</a>
-                                <a href="fixed-teacher-profile.html" class="btn btn-outline-secondary">View Profile</a>
-                            </div>
-                        </div>
-
-                        @endforeach
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
+    
     @endif
 
     <div class="page-section bg-alt border-top-2 border-bottom-2">
@@ -836,6 +867,33 @@ $(function() {
                         }
                     }
                 });
+            }
+        });
+    });
+
+    $('#btn_add_favorite').on('click', function(e) {
+        
+        var route = $(this).attr('data-route');
+        $.ajax({
+            method: 'GET',
+            url: route,
+            beforeSend: function() {
+                // setting a timeout
+                $('#btn_add_favorite').addClass('is-loading is-loading-sm');
+            },
+            success: function(res) {
+                if(res) {
+                    $('#btn_add_favorite').attr('disabled', 'disabled');
+                    $('#btn_add_favorite').removeClass('btn-outline-white is-loading is-loading-sm');
+                    $('#btn_add_favorite').addClass('btn-white');
+                    $('#btn_add_favorite').html('<i class="material-icons icon--left">favorite_border</i> Added to Favorite');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            },
+            complete: function() {
+                $('#btn_add_favorite').removeClass('is-loading is-loading-sm');
             }
         });
     });

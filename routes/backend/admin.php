@@ -57,6 +57,7 @@ Route::resource('courses', 'CourseController');
 Route::get('courses/restore/{id}', 'CourseController@restore')->name('courses.restore');
 Route::get('ajax/courses/list/{type}', 'CourseController@getList')->name('getCoursesByAjax');
 Route::get('ajax/courses/publish/{id}', 'CourseController@publish')->name('courses.publish');
+Route::get('ajax/courses/delete/forever/{id}', 'CourseController@foreverDelete')->name('courses.foreverDelete');
 
 //===== Bundles Routes =====//
 Route::resource('bundles', 'BundlesController');
@@ -96,7 +97,10 @@ Route::get('learn/course/{id}', 'LearnController@course')->name('learn.course');
 
 //===== Quiz Routes =====//
 Route::resource('quizs', 'QuizController');
-Route::get('ajax/quizs/list/{course_id}', 'QuizController@getList')->name('getTestsByAjax');
+Route::get('ajax/quizs/restore/{id}', 'QuizController@restore')->name('quizs.restore');
+Route::get('ajax/quizs/publish/{id}', 'QuizController@publish')->name('quizs.publish');
+Route::get('ajax/quizs/list/{type}', 'QuizController@getList')->name('getquizzesByAjax');
+Route::get('ajax/quizs/delete/forever/{id}', 'QuizController@foreverDelete')->name('quizs.foreverDelete');
 
 //===== Questions Routes =====//
 Route::resource('questions', 'QuestionController');

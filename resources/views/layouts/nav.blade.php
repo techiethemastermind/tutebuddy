@@ -237,7 +237,9 @@
 
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <div class="dropdown-header"><strong>Account</strong></div>
+                        <div class="dropdown-header">
+                            <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->roles->pluck('name')[0] }})
+                        </div>
                         <a class="dropdown-item" href="{{ route('admin.myaccount') }}">My Account</a>
                         <a class="dropdown-item" href="">Help Center</a>
                         <a class="dropdown-item" href="">Forum</a>

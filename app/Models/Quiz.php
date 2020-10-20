@@ -4,12 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Quiz extends Model
 {
     use SoftDeletes;
     
     protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+        if (auth()->check()) {
+            if (auth()->user()->hasRole('Instructor')) {
+                static::addGlobalScope('filter', function (Builder $builder) {
+                    $builder->where('user_id', auth()->user()->id);
+                });
+            }
+        }
+    }
 
     public function course()
     {

@@ -425,6 +425,9 @@ class CourseController extends Controller
         ]);
     }
 
+    /**
+     * Delete a Course
+     */
     public function destroy($id) {
 
         try {
@@ -443,6 +446,9 @@ class CourseController extends Controller
         }
     }
 
+    /**
+     * Restore a Course
+     */
     public function restore($id) {
 
         try {
@@ -482,6 +488,28 @@ class CourseController extends Controller
         ]);
     }
 
+    /**
+     * Delete Forever
+     */
+    public function foreverDelete($id)
+    {
+        try {
+
+            Course::withTrashed()->where('id', $id)->forceDelete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
     public function getArrayData($courses) {
         $data = [];
         $i = 0;
@@ -517,7 +545,7 @@ class CourseController extends Controller
                                         <div class="flex d-flex flex-column">
                                             <p class="mb-0"><strong class="js-lists-values-lead">'
                                             . $course->teachers[0]->name . '</strong></p>
-                                            <small class="js-lists-values-email text-50">Teacher</small>
+                                            <small class="js-lists-values-email text-50">'. auth()->user()->roles->pluck('name')[0] . '</small>
                                         </div>
                                     </div>
                                 </div>
@@ -565,8 +593,15 @@ class CourseController extends Controller
 
             if($course->trashed()) {
                 $restore_route = route('admin.courses.restore', $course->id);
-                $temp['action'] = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
-                    data-original-title="Restore to Review"><i class="material-icons">arrow_back</i></a>';
+                $forever_delete_route = route('admin.courses.foreverDelete', $course->slug);
+
+                $btn_restore = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
+                data-original-title="Restore to Review"><i class="material-icons">arrow_back</i></a>';
+
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="restore" data-toggle="tooltip"
+                data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
+
+                $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
             }
 
             array_push($data, $temp);

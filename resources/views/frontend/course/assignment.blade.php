@@ -41,7 +41,7 @@
 
         <div class="pb-32pt">
             <h3>{{ $assignment->title }}</h3>
-            <div id="assignment_content" class="font-size-16pt text-black-100"></div>
+            <div id="assignment_content" class="font-size-16pt text-black-100">{!! $assignment->content !!}</div>
         </div>
 
         <div class="page-separator">
@@ -52,14 +52,36 @@
             <form id="frm_assignment" method="POST" action="{{ route('assignment.save') }}" enctype="multipart/form-data">@csrf
                 <div class="form-group">
                     <label class="form-label">Submit Content</label>
-                    <div id="submit_content" style="min-height: 300px;"></div>
+                    <div id="submit_content" style="min-height: 300px;">@if(!empty($assignment->result)){!! $assignment->result->content !!}@endif</div>
                 </div>
+
+                @if(!empty($assignment->result->attachment_url))
+                <div class="form-group mb-24pt">
+                    <label class="form-label">Attached Document:</label>
+                    <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                        <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                            @php $ext = pathinfo($assignment->result->attachment_url, PATHINFO_EXTENSION); @endphp
+                            @if($ext == 'pdf')
+                            <img class="img-fluid rounded" src="{{ asset('/images/pdf.png') }}" alt="image">
+                            @else
+                            <img class="img-fluid rounded" src="{{ asset('/images/docx.png') }}" alt="image">
+                            @endif
+                        </div>
+                        <div class="flex">
+                            <a href="{{ asset('/storage/attachments/' . $assignment->result->attachment_url) }}">
+                                <div class="form-label mb-4pt">{{ $assignment->result->attachment_url }}</div>
+                                <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endif
 
                 <div class="form-group">
                     <label class="form-label">Upload Doc</label>
                     <div class="custom-file">
-                        <input type="file" id="file_doc" name="doc_file" class="custom-file-input">
-                        <label for="file" class="custom-file-label">Choose file</label>
+                        <input type="file" id="file_doc" name="doc_file" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
+                        <label for="file_doc" class="custom-file-label">Choose file</label>
                     </div>
                 </div>
 
@@ -72,12 +94,6 @@
     </div>
 
 </div>
-<div class="d-none">
-    <textarea id="a_text">{{ $assignment->content }}</textarea>
-    <textarea id="s_text">@if(!empty($assignment->result)){{ $assignment->result->content }}@endif</textarea>
-    <div id="a_editor"></div>
-</div>
-
 
 @push('after-scripts')
 
@@ -89,23 +105,11 @@
 
     $(function() {
 
-        // Set Assignment
-        var json_a_text = JSON.parse($('#a_text').val());
-        var a_quill = new Quill('#a_editor');
-        a_quill.setContents(json_a_text);
-        var a_html = a_quill.root.innerHTML;
-
-        $('#assignment_content').html(a_html);
-
         // Set Submitted Assignments if it is exist
         var s_quill = new Quill('#submit_content', {
             theme: 'snow',
             placeholder: 'Course description'
         });
-        if($('#s_text').val() != '') {
-            var json_s_text = JSON.parse($('#s_text').val());
-            s_quill.setContents(json_s_text);
-        }
 
         $('#frm_assignment').on('submit', function(e){
             e.preventDefault();
@@ -115,7 +119,7 @@
                     formData.push({
                         name: 'content',
                         type: 'text',
-                        value: JSON.stringify(s_quill.getContents().ops)
+                        value: s_quill.root.innerHTML
                     });
                 },
                 success: function(res) {

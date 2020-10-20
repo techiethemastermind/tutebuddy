@@ -73,9 +73,7 @@
                     <label class="form-label">Content</label>
                     <div class="form-group mb-24pt">
                         <!-- quill editor -->
-                        <div id="assignment_editor" class="mb-0" style="min-height: 400px;">
-                            {!! $assignment->content !!}
-                        </div>
+                        <div id="assignment_editor" class="mb-0" style="min-height: 400px;">{!! $assignment->content !!}</div>
                     </div>
 
                     @if(!empty($assignment->attachment))
