@@ -89,15 +89,28 @@ class QuizController extends Controller
     public function store(Request $request) {
 
         $data = $request->all();
+
+        $duration = 0;
+        if(!empty($data['duration_hours'])) {
+            $duration = (int)$data['duration_hours'] * 60;
+        }
+        $duration += (int)$data['duration_mins'];
+
         $quiz_data = [
             'user_id' => auth()->user()->id,
             'course_id' => $data['course_id'],
             'lesson_id' => $data['lesson_id'],
             'title' => $data['title'],
             'description' => $data['short_description'],
-            'duration' => $data['duration'],
-            'score' => $data['score']
+            'duration' => $duration,
+            'score' => $data['score'],
+            'type' => $data['type']
         ];
+
+        if($data['type'] == "2") {
+            $quiz_data['start_date'] = $data['start_date'];
+            $quiz_data['timezone'] = $data['timezone'];
+        }
 
         if(isset($data['model_id']) && ($data['model_id'] != -1)) {
             try {
@@ -148,14 +161,26 @@ class QuizController extends Controller
      */
     public function update(Request $request, $id) {
 
+        $duration = 0;
+        if(!empty($request->duration_hours)) {
+            $duration = (int)$request->duration_hours * 60;
+        }
+        $duration += (int)$request->duration_mins;
+
         $updateData = [
             'course_id' => $request->course_id,
             'lesson_id' => $request->lesson_id,
-            'duration' => $request->duration,
+            'duration' => $duration,
             'score' => $request->score,
             'title' => $request->title,
-            'description' => $request->short_description 
+            'description' => $request->short_description,
+            'type' => $request->type
         ];
+
+        if($request->type == "2") {
+            $updateData['start_date'] = $request->start_date;
+            $updateData['timezone'] = $request->timezone;
+        }
 
         try {
             quiz::find($id)->update($updateData);

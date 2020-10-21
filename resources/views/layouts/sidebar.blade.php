@@ -369,7 +369,7 @@
                         </li>
                         @endcan
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/institution*') ? 'active' : '' }}">
+                        <!-- <li class="sidebar-menu-item {{ Request::is('dashboard/institution*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="">
                                 <span class="sidebar-menu-text">Institutions</span>
                             </a>
@@ -379,7 +379,7 @@
                             <a class="sidebar-menu-button" href="">
                                 <span class="sidebar-menu-text">Teachers</span>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
 

@@ -8,6 +8,10 @@
 <link type="text/css" href="{{ asset('assets/css/select2/select2.css') }}" rel="stylesheet">
 <link type="text/css" href="{{ asset('assets/css/select2/select2.min.css') }}" rel="stylesheet">
 
+<!-- Flatpickr -->
+<link type="text/css" href="{{ asset('assets/css/flatpickr.css') }}" rel="stylesheet">
+<link type="text/css" href="{{ asset('assets/css/flatpickr-airbnb.css') }}" rel="stylesheet">
+
 <style>
 .modal .modal-body {
     max-height: 80vh;
@@ -246,14 +250,59 @@
 
                             <!-- Duration -->
                             <div class="form-group">
-                                <label class="form-label">Duration (Mins)</label>
-                                <input type="number" name="duration" class="form-control" min="1" placeholder="Mins" value="{{ $quiz->duration }}">
+                                <label class="form-label">Duration</label>
+                                <?php
+                                    $hours = (int)((int)$quiz->duration / 60);
+                                    $mins = (int)$quiz->duration % 60;
+                                ?>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="number" name="duration_hours" class="form-control" min="1" placeholder="Hours" value="{{ $hours }}">
+                                        <small class="text-muted text-right">Hours</small>
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" name="duration_mins" class="form-control" min="1" placeholder="Mins" value="{{ $mins }}" tute-no-empty>
+                                        <small class="text-muted text-right">Minutes</small>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Total Marks -->
                             <div class="form-group">
                                 <label class="form-label">Total Marks</label>
                                 <input type="number" name="score" class="form-control" placeholder="Total Marks" min="1" value="{{ $quiz->score }}">
+                            </div>
+
+                            <!-- Quiz Type -->
+                            <div class="form-group">
+                                <label class="form-label">Quiz Type</label>
+                                <div class="custom-controls-stacked">
+                                    <div class="custom-control custom-radio py-2">
+                                        <input id="q_type_1" name="type" type="radio" class="custom-control-input" @if($quiz->type == 1) checked="true" @endif value="1">
+                                        <label for="q_type_1" class="custom-control-label">Take at any time</label>
+                                    </div>
+                                    <div class="custom-control custom-radio py-2">
+                                        <input id="q_type_2" name="type" type="radio" class="custom-control-input" @if($quiz->type == 2) checked="true" @endif value="2">
+                                        <label for="q_type_2" class="custom-control-label">Take at fixed time</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div for="q_type_1" class="@if($quiz->type == 1) d-none @endif">
+                                <hr>
+                                <!-- Due Data -->
+                                <div class="form-group">
+                                    <label class="form-label">Due Date</label>
+                                    <input name="start_date" type="hidden" class="form-control flatpickr-input" data-toggle="flatpickr" 
+                                    value="{{ $quiz->start_date }}">
+                                </div>
+
+                                <!-- Timezone -->
+                                <div class="form-group">
+                                    <label class="form-label">Timezone</label>
+                                    <select name="timezone" class="form-control"></select>
+                                    <small class="form-text text-muted">Select timezone</small>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -381,8 +430,12 @@
 <script src="{{ asset('assets/js/select2/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2/select2.js') }}"></script>
 
-<!-- jQuery Form -->
-<script src="{{ asset('assets/js/jquery.form.min.js') }}"></script>
+<!-- Flatpickr -->
+<script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
+<script src="{{ asset('assets/js/flatpickr.js') }}"></script>
+
+<!-- Timezone Picker -->
+<script src="{{ asset('assets/js/timezones.full.js') }}"></script>
 
 <script>
 
@@ -443,6 +496,24 @@ $(function() {
 
     $('select[name="course_id"]').select2();
     $('select[name="lesson_id"]').select2();
+
+    // Timezone
+    $('select[name="timezone"]').timezones();
+    if('{{ $quiz->type }}' == 2) {
+        $('select[name="timezone"]').val('{{ $quiz->timezone }}').change();
+    }
+
+    // Course Type
+    $('#q_type_1').on('change', function(e) {
+        var style = $(this).prop('checked') ? 'none' : 'block';
+        $('div[for="q_type_1"]').css('display', style);
+    });
+
+    // Course Type
+    $('#q_type_2').on('change', function(e) {
+        var style = $(this).prop('checked') ? 'block' : 'none';
+        $('div[for="q_type_1"]').css('display', style);
+    });
 
     //=== Load Lesson by Course
     loadLessons(course_id, lesson_id);

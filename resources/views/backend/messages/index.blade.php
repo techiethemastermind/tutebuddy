@@ -239,6 +239,11 @@ $(function() {
         }
     });
 
+    setTimeout(() => {
+        console.log('clicked');
+        $('#recent_chats').find('li').first().trigger('click');        
+    }, 1000);
+
     function loadMessage(partner, thread) {
 
         $.ajax({

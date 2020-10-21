@@ -2,6 +2,10 @@
 
 @section('content')
 
+<?php
+    $contact_type = ['', 'By Email', 'Call me on Mobile', 'Call me on Business Phone'];
+?>
+
 <!-- Header Layout Content -->
 <div class="mdk-header-layout__content page-content ">
 
@@ -71,9 +75,9 @@
                         <td>{{ $contact->company }}</td>
                         <td>{{ $contact->company_email }}</td>
                         <td>{{ $contact->business_phone }}</td>
-                        <td>{{ $contact->contact_type }}</td>
+                        <td>{{ $contact_type[$contact->contact_type] }}</td>
                         <td>
-                            @include('backend.buttons.show', ['show_route' => route('admin.contacts.show', $contact->id)])
+                            @include('backend.buttons.edit', ['edit_route' => route('admin.contacts.edit', $contact->id)])
                             @include('backend.buttons.delete', ['delete_route' => route('admin.contacts.destroy', $contact->id)])
                         </td>
                     </tr>

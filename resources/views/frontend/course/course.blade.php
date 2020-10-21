@@ -125,7 +125,7 @@
                                 </div>
                                 <div class="media-body">
                                     <a class="card-title m-0"
-                                        href="fixed-teacher-profile.html">{{ $course->teachers[0]->name }}</a>
+                                        href="{{ route('profile.show', $course->teachers[0]->uuid) }}">{{ $course->teachers[0]->name }}</a>
                                     <p class="text-50 lh-1 mb-0">Instructor</p>
                                 </div>
                             </div>
@@ -662,7 +662,7 @@
             <div class="pb-16pt mb-16pt border-bottom row">
                 <div class="col-md-3 mb-16pt mb-md-0">
                     <div class="d-flex">
-                        <a href="fixed-student-profile.html" class="avatar avatar-sm mr-12pt">
+                        <a href="{{ route('profile.show', $review->user->uuid) }}" class="avatar avatar-sm mr-12pt">
                             @if(!empty($review->user->avatar))
                             <img src="{{ asset('storage/avatars/' . $review->user->avatar ) }}" alt="avatar"
                                 class="avatar-img rounded-circle">
@@ -672,7 +672,7 @@
                         </a>
                         <div class="flex">
                             <p class="small text-muted m-0">{{ $review->created_at->diffforhumans() }}</p>
-                            <a href="fixed-student-profile.html" class="card-title">{{ $review->user->name }}</a>
+                            <a href="{{ route('profile.show', $review->user->uuid) }}" class="card-title">{{ $review->user->name }}</a>
                         </div>
                     </div>
                 </div>

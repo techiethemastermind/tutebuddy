@@ -53,7 +53,7 @@ class PageController extends Controller
                                 <\/div>
                                 <div class=\"form-group\">
                                     <label class=\"form-label\">Best time to reach you:<\/label>
-                                    <input name=\"meet_time\" type=\"text\" class=\"form-control\" placeholder=\"Best time ...\">
+                                    <input name=\"meet_time\" type=\"datetime-local\" class=\"form-control\" placeholder=\"Best time ...\">
                                 <\/div>
                                 <div class=\"form-group \">
                                     <label class=\"form-label\">Message *:<\/label>
@@ -63,15 +63,15 @@ class PageController extends Controller
                                 <label class=\"form-label\">How would you like us to contact you?<\/label>
                                 <div class=\"form-group form-inline mb-24pt\">
                                     <div class=\"custom-control custom-radio\">
-                                        <input id=\"by_email\" name=\"contact_type\" type=\"radio\" value=\"By Email\" class=\"custom-control-input\" checked=\"\">
+                                        <input id=\"by_email\" name=\"contact_type\" type=\"radio\" value=\"1\" class=\"custom-control-input\" checked=\"\">
                                         <label for=\"by_email\" class=\"custom-control-label\">By Email</label>
                                     </div>
                                     <div class=\"custom-control custom-radio ml-3\">
-                                        <input id=\"by_mobile_phone\" name=\"contact_type\" type=\"radio\" value=\"By Mobile Phone\" class=\"custom-control-input\" >
+                                        <input id=\"by_mobile_phone\" name=\"contact_type\" type=\"radio\" value=\"2\" class=\"custom-control-input\" >
                                         <label for=\"by_mobile_phone\" class=\"custom-control-label\">Call me on Mobile</label>
                                     </div>
                                     <div class=\"custom-control custom-radio ml-3\">
-                                        <input id=\"by_business_phone\" name=\"contact_type\" type=\"radio\" value=\"By Business Phone\" class=\"custom-control-input\">
+                                        <input id=\"by_business_phone\" name=\"contact_type\" type=\"radio\" value=\"3\" class=\"custom-control-input\">
                                         <label for=\"by_business_phone\" class=\"custom-control-label\">Call me on Business Phone</label>
                                     </div>
                                 </div>
