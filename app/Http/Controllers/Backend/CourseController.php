@@ -711,4 +711,60 @@ class CourseController extends Controller
 
         return $data;
     }
+
+    /**
+     * Add Favorite
+     */
+    public function addFavorite($course_id)
+    {
+        $rlt = DB::table('course_favorite')->insert([
+            'course_id' => $course_id,
+            'user_id' => auth()->user()->id
+        ]);
+
+        if($rlt) {
+            return response()->json([
+                'success' => true,
+                'action' => 'add_favorite'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'action' => 'add_favorite'
+            ]);
+        }
+        
+    }
+
+    /**
+     * Remove course from Favoirtes
+     */
+    public function removeFavorite()
+    {
+        $favorite = DB::table('course_favorite')->where('course_id', $course_id)->where('user_id', auth()->user()->id);
+        if($favorite->count() > 0) {
+            $rlt = $favorite->delete();
+            if($rlt) {
+                return response()->json([
+                    'success' => true,
+                    'action' => 'remove_favorite'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'action' => 'remove_favorite'
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Get favorite Courses
+     */
+    public function favorites()
+    {
+        $favorites = DB::table('course_favorite')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $courses = Course::whereIn('id', $favorites)->paginate(10);
+        return view('backend.course.favorites', compact('courses'));
+    }
 }

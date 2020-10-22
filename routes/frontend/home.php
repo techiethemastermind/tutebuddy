@@ -8,7 +8,6 @@ Route::post('courses/{id}/review', 'CoursesController@addReview')->name('courses
 Route::get('courses/review/{id}/edit', 'CoursesController@editReview')->name('courses.review.edit');
 Route::post('courses/review/{id}/edit', 'CoursesController@updateReview')->name('courses.review.update');
 Route::get('courses/review/{id}/delete', 'CoursesController@deleteReview')->name('courses.review.delete');
-Route::get('ajax/course/add-favorite/{id}', 'CoursesController@addFavorite')->name('course.addFavorite');
 
 // ==== Search Result ====//
 Route::get('search', 'SearchController@searchPage')->name('search.page');
@@ -31,10 +30,11 @@ Route::get('page/{slug}', 'PageController@getPage')->name('page.show');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('course/{course_slug}/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');
-    Route::get('quiz/{test_id}/{index}', 'LessonsController@getQuestion')->name('quiz.questions.get');
-    Route::post('quiz/questions/{id}', 'LessonsController@completeQuestion')->name('quiz.complete');
-    Route::get('quiz-result/{test_id}', 'LessonsController@testResult')->name('quiz.result');
-    Route::get('quiz-result/{id}/complete', 'LessonsController@testComplete')->name('quiz.result.complete');
+    
+    // Route::get('quiz/{test_id}/{index}', 'LessonsController@getQuestion')->name('quiz.questions.get');
+    // Route::post('quiz/questions/{id}', 'LessonsController@completeQuestion')->name('quiz.complete');
+    // Route::get('quiz-result/{test_id}', 'LessonsController@testResult')->name('quiz.result');
+    // Route::get('quiz-result/{id}/complete', 'LessonsController@testComplete')->name('quiz.result.complete');
 
     Route::get('lesson/live/{lesson_slug}/{lesson_id}', 'LessonsController@liveSession')->name('lessons.live');
 
@@ -44,6 +44,11 @@ Route::group(['middleware' => 'auth'], function () {
     // Assignment
     Route::get('assignment/{id}', 'LessonsController@assignment')->name('lesson.assignment');
     Route::post('assignment/save', 'LessonsController@saveAssignment')->name('assignment.save');
+
+    // Take Quiz for Student
+    Route::get('quiz/{lesson_slug}/{quiz_id}', 'StudentController@startQuiz')->name('student.quiz.show');
+    Route::post('quiz/save', 'StudentController@saveQuiz')->name('student.quiz.save');
+    Route::get('quiz-result/{lesson_slug}/{quiz_id}', 'StudentController@quizResult')->name('student.quiz.result');
 
     // Cart and Checkout
     Route::post('cart/checkout', 'CartController@checkout')->name('cart.checkout');

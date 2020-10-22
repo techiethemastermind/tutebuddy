@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Quiz;
 use App\Models\QuestionGroup;
+use App\Models\Lesson;
 
 use Illuminate\Support\Facades\DB;
 
@@ -104,7 +105,8 @@ class QuizController extends Controller
             'description' => $data['short_description'],
             'duration' => $duration,
             'score' => $data['score'],
-            'type' => $data['type']
+            'type' => $data['type'],
+            'take_type' => $data['take_type']
         ];
 
         if($data['type'] == "2") {
@@ -174,7 +176,8 @@ class QuizController extends Controller
             'score' => $request->score,
             'title' => $request->title,
             'description' => $request->short_description,
-            'type' => $request->type
+            'type' => $request->type,
+            'take_type' => $request->take_type
         ];
 
         if($request->type == "2") {
@@ -393,5 +396,111 @@ class QuizController extends Controller
                 'message' => $e->getMessage()
             ]);
         }
+    }
+
+    /**
+     * Student
+     */
+    public function studentQuizs()
+    {
+        // Get purchased Course IDs
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+        $quizs = Quiz::whereIn('lesson_id', $lesson_ids)->get();
+
+        $count = [
+            'all' => Quiz::whereIn('lesson_id', $lesson_ids)->count(),
+            'deleted' => Quiz::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+        ];
+
+        return view('backend.quiz.student', compact('count'));
+    }
+
+    /**
+     * 
+     */
+    public function getStudentQuizsByAjax($type)
+    {
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+
+        switch($type) {
+
+            case 'all':
+                $assignments = Quiz::whereIn('lesson_id', $lesson_ids)->get();
+            break;
+
+            case 'deleted':
+                $assignments = Quiz::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->get();
+            break;
+
+        }
+
+        $data = $this->getStudentData($assignments);
+
+        $count = [
+            'all' => Quiz::whereIn('lesson_id', $lesson_ids)->count(),
+            'deleted' => Quiz::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+    }
+
+    public function getStudentData($quizs)
+    {
+        $data = [];
+        foreach($quizs as $item) {
+            $lesson = Lesson::find($item->lesson->id);
+            $course = $lesson->course;
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                    </div>';
+            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded bg-primary text-white">'. substr($item->title, 0, 2) .'</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex flex-column">
+                                        <small class="js-lists-values-project">
+                                            <strong>'. $item->title .'</strong></small>
+                                        <small class="text-70">
+                                            '. $item->lesson->course->title .' |
+                                            '. $item->lesson->title .'
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>';
+
+            $temp['type'] = 'Any time';
+            if($item->type == 2) {
+                $temp['type'] = 'Fixed time';
+            }
+
+            $hours = floor($item->duration / 60);
+            $mins = $item->duration % 60;
+
+            $temp['duration'] = $hours . ' Hours ' . $mins . ' Mins';
+
+            $temp['due'] = '<strong>N/A</strong>';
+            if(!empty($item->due_date)) {
+                $temp['due'] = '<strong>' . $item->due_date . '</strong>';
+            }
+            $temp['mark'] = '<strong>' . $item->score . '</strong>';
+
+            $show_route = route('student.quiz.show', [$item->lesson->slug, $item->id]);
+            $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Start</a>';
+
+            $temp['action'] = $btn_show . '&nbsp;';
+
+            array_push($data, $temp);
+        }
+
+        return $data;
     }
 }

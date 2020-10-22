@@ -26,6 +26,10 @@ Route::get('ajax/my-assignments/{type}', 'AssignmentsController@getStudentAssign
 Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
 Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
 Route::get('my/paths', 'BundlesController@studentBundles')->name('student.bundles');
+Route::get('my/quizs', 'QuizController@studentQuizs')->name('student.quizs');
+Route::get('ajax/my-quizs/{type}', 'QuizController@getStudentQuizsByAjax')->name('student.getMyQuizzesByAjax');
+Route::get('my/tests', 'TestController@studentTests')->name('student.tests');
+Route::get('ajax/my-tests/{type}', 'TestController@getStudentTestsByAjax')->name('student.getMyTestsByAjax');
 
 // Workspace for Teachers
 Route::get('live-sessions/all', 'LessonController@instructorLiveSessions')->name('instructor.liveSessions');
@@ -55,9 +59,11 @@ Route::resource('media', 'MediaController');
 //===== Courses Routes =====//
 Route::resource('courses', 'CourseController');
 Route::get('courses/restore/{id}', 'CourseController@restore')->name('courses.restore');
+Route::get('courses/get/favorites', 'CourseController@favorites')->name('courses.favorites');
 Route::get('ajax/courses/list/{type}', 'CourseController@getList')->name('getCoursesByAjax');
 Route::get('ajax/courses/publish/{id}', 'CourseController@publish')->name('courses.publish');
 Route::get('ajax/courses/delete/forever/{id}', 'CourseController@foreverDelete')->name('courses.foreverDelete');
+Route::get('ajax/course/add-favorite/{course_id}', 'CourseController@addFavorite')->name('course.addFavorite');
 
 //===== Bundles Routes =====//
 Route::resource('bundles', 'BundlesController');

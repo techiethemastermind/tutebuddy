@@ -204,42 +204,64 @@
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
-                        Study
+                        My Study
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
 
                     <ul class="sidebar-submenu collapse sm-indent" id="study_menu" style="">
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/live*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.liveSessions') }}">
-                                <span class="sidebar-menu-text">My Live Sessions</span>
-                            </a>
-                        </li>
-
                         <li class="sidebar-menu-item {{ Request::is('dashboard/my/course*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.student.courses') }}">
-                                <span class="sidebar-menu-text">My Courses</span>
+                                <span class="sidebar-menu-text">Courses</span>
                             </a>
                         </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/assignment*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.assignments') }}">
-                                <span class="sidebar-menu-text">My Assignments</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/instructor*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.instructors') }}">
-                                <span class="sidebar-menu-text">My Instructors</span>
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/live*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.liveSessions') }}">
+                                <span class="sidebar-menu-text">Live Sessions</span>
                             </a>
                         </li>
 
                         <li class="sidebar-menu-item {{ Request::is('dashboard/my/path*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.student.bundles') }}">
-                                <span class="sidebar-menu-text">My Paths</span>
+                                <span class="sidebar-menu-text">Paths</span>
                             </a>
                         </li>
 
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/instructor*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.instructors') }}">
+                                <span class="sidebar-menu-text">Instructors</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#my_task_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment</span>
+                        My Tasks
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul class="sidebar-submenu collapse sm-indent" id="my_task_menu" style="">
+                    
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/assignment*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.assignments') }}">
+                                <span class="sidebar-menu-text">Assignments</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/quiz*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.quizs') }}">
+                                <span class="sidebar-menu-text">Quizzes</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/test*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.student.tests') }}">
+                                <span class="sidebar-menu-text">Tests</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -261,6 +283,12 @@
                         <li class="sidebar-menu-item {{ Request::is('search/instructor*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('teachers.search') }}">
                                 <span class="sidebar-menu-text">Instructors</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('courses/get/favorite*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.courses.favorites') }}">
+                                <span class="sidebar-menu-text">Favorites</span>
                             </a>
                         </li>
 

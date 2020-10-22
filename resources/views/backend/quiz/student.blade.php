@@ -18,13 +18,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Assignments</h2>
+                    <h2 class="mb-0">My Quizzes</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            Assignments
+                            My Quizzes
                         </li>
 
                     </ol>
@@ -37,7 +37,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">Assignments</div>
+            <div class="page-separator__text">My Quizzes</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -46,23 +46,23 @@
                 <div id="tbl_selector" class="row no-gutters" role="tablist">
 
                     <div class="col-auto">
-                        <a href="{{ route('admin.student.getMyAssignmentsByAjax', 'all') }}" data-toggle="tab" role="tab" aria-selected="true"
+                        <a href="{{ route('admin.student.getMyQuizzesByAjax', 'all') }}" data-toggle="tab" role="tab" aria-selected="true"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                             <span class="h2 mb-0 mr-3 count-all">{{ $count['all'] }}</span>
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">All</strong>
-                                <small class="card-subtitle text-50">All Assignments</small>
+                                <small class="card-subtitle text-50">All Quizzes</small>
                             </span>
                         </a>
                     </div>
 
                     <div class="col-auto border-left border-right">
-                        <a href="{{ route('admin.student.getMyAssignmentsByAjax', 'deleted') }}" data-toggle="tab" role="tab"
+                        <a href="{{ route('admin.student.getMyQuizzesByAjax', 'deleted') }}" data-toggle="tab" role="tab"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                             <span class="h2 mb-0 mr-3 count-deleted">{{ $count['deleted'] }}</span>
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">Achieved</strong>
-                                <small class="card-subtitle text-50">Achieved Assignments</small>
+                                <small class="card-subtitle text-50">Achieved Quizzes</small>
                             </span>
                         </a>
                     </div>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date">
-                <table id="tbl_assignments" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='15'>
+                <table id="tbl_quizs" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='15'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0">
@@ -82,8 +82,10 @@
                                 </div>
                             </th>
                             <th> Title </th>
+                            <th> Type </th>
+                            <th> Duration </th>
                             <th> Due Date </th>
-                            <th> Mark </th>
+                            <th> Total Marks </th>
                             <th> Actions </th>
                         </tr>
                     </thead>
@@ -110,7 +112,7 @@
             table.ajax.url( route ).load();
         });
 
-        var table = $('#tbl_assignments').DataTable(
+        var table = $('#tbl_quizs').DataTable(
             {
                 lengthChange: false,
                 searching: false,
@@ -129,6 +131,8 @@
                 columns: [
                     { data: 'index' },
                     { data: 'title' },
+                    { data: 'type' },
+                    { data: 'duration' },
                     { data: 'due' },
                     { data: 'mark' },
                     { data: 'action' }

@@ -60,9 +60,4 @@ class Question extends Model
         }
         return false;
     }
-
-    public function tests()
-    {
-        return $this->belongsTo(Test::class, 'test_id');
-    }
 }

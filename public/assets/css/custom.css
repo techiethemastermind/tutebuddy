@@ -38,6 +38,9 @@
 [dir=ltr] .sidebar-light .sidebar-submenu .sidebar-menu-text {
     border-left: 1px solid #aaa;
 }
+[dir=ltr] .font-color-red {
+    color: red !important;
+}
 /** Pagenation **/
 [dir=ltr] .page-link {
     font-size: 0.8rem;

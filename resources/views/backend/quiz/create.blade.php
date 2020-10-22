@@ -161,6 +161,16 @@
                                 <input type="number" name="score" class="form-control" placeholder="Total Marks" min="1" value="" tute-no-empty>
                             </div>
 
+                            <!-- Quiz Process -->
+                            <div class="form-group">
+                                <label class="form-label">Take Quiz</label>
+                                <div class="custom-control custom-checkbox">
+                                    <input id="take_quiz" name="take_type" type="checkbox" class="custom-control-input" value="1">
+                                    <label for="take_quiz" class="custom-control-label">Allow Quiz to be paused and resumed</label>
+                                </div>
+                                <small class="text-muted text-right">Checked: Allow, Unchecked: Disallow </small>
+                            </div>
+
                             <!-- Quiz Type -->
                             <div class="form-group">
                                 <label class="form-label">Quiz Type</label>

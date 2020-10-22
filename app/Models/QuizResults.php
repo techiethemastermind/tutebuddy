@@ -3,10 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class QuizResults extends Model
 {
     protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+        if (auth()->check()) {
+            if (auth()->user()->hasRole('Student')) {
+                static::addGlobalScope('filter', function (Builder $builder) {
+                    $builder->where('user_id', auth()->user()->id);
+                });
+            }
+        }
+    }
     
     public function answers()
     {

@@ -78,10 +78,10 @@
 
                     @if(auth()->check() && !$is_mine)
                     @if($course->favorited())
-                    <button data-route="{{ route('course.addFavorite', $course->id) }}" disabled class="btn btn-white mr-12pt"><i
+                    <button data-route="{{ route('admin.course.addFavorite', $course->id) }}" disabled class="btn btn-white mr-12pt"><i
                             class="material-icons icon--left">favorite_border</i> Added to Favorite</button>
                     @else
-                    <button data-route="{{ route('course.addFavorite', $course->id) }}" id="btn_add_favorite" class="btn btn-outline-white mr-12pt"><i
+                    <button data-route="{{ route('admin.course.addFavorite', $course->id) }}" id="btn_add_favorite" class="btn btn-outline-white mr-12pt"><i
                             class="material-icons icon--left">favorite_border</i> Add Favorite</button>
                     @endif
                     <a href="javascript:void(0)" id="btn_add_share" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i>

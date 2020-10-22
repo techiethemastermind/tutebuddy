@@ -74,29 +74,6 @@ class CoursesController extends Controller
         }
     }
 
-    /**
-     * Add Favorite
-     */
-    public function addFavorite($id)
-    {
-        $rlt = DB::table('course_favorite')->insert([
-            'course_id' => $id,
-            'user_id' => auth()->user()->id
-        ]);
-
-        if($rlt) {
-            return response()->json([
-                'success' => true,
-                'action' => 'add_favorite'
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'action' => 'add_favorite'
-            ]);
-        }
-    }
-
     function getCoursesByKey()
     {
         //
