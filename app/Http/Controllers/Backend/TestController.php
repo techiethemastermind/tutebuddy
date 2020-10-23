@@ -366,7 +366,7 @@ class TestController extends Controller
         // Get purchased Course IDs
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
-        $test_result_ids = DB::table('test_results')->where('user_id', auth()->user()->id)->pluck('tests_id');
+        $test_result_ids = DB::table('test_results')->where('user_id', auth()->user()->id)->pluck('test_id');
 
         $count = [
             'all' => Test::whereIn('lesson_id', $lesson_ids)->count(),
@@ -383,7 +383,7 @@ class TestController extends Controller
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
-        $test_result_ids = DB::table('test_results')->where('user_id', auth()->user()->id)->pluck('tests_id');
+        $test_result_ids = DB::table('test_results')->where('user_id', auth()->user()->id)->pluck('test_id');
 
         switch($type) {
 

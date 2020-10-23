@@ -42,8 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('ajax/step/{id}/complete/{type}', 'LessonsController@completeStep')->name('ajax.step.complete');
 
     // Assignment
-    Route::get('assignment/{id}', 'LessonsController@assignment')->name('lesson.assignment');
-    Route::post('assignment/save', 'LessonsController@saveAssignment')->name('assignment.save');
+    Route::get('assignment/{lesson_slug}/{id}', 'StudentController@startAssignment')->name('student.assignment.show');
+    Route::post('assignment/save', 'StudentController@saveAssignment')->name('student.assignment.save');
 
     // Take Quiz for Student
     Route::get('quiz/{lesson_slug}/{quiz_id}', 'StudentController@startQuiz')->name('student.quiz.show');

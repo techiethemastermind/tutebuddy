@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 use App\Models\Quiz;
 use App\Models\Question;
@@ -18,10 +19,66 @@ use App\Models\QuizResultAnswers;
 use App\Models\ChapterStudent;
 use App\Models\Test;
 use App\Models\TestResult;
+use App\Models\Assignment;
+use App\Models\AssignmentResult;
 
 class StudentController extends Controller
 {
     use FileUploadTrait;
+
+    /**
+     * Show a Assignment for Student
+     */
+    public function startAssignment($lesson_slug, $assignment_id)
+    {
+        $assignment = Assignment::find($assignment_id);
+        return view('frontend.assignment.start', compact('assignment'));
+    }
+
+    public function saveAssignment(Request $request)
+    {
+        $data = $request->all();
+
+        // Find Assignment Result
+        $assignment = Assignment::find($request->assignment_id);
+        $result = $assignment->result;
+        $data['submit_date'] = Carbon::now()->format('Y-m-d H:i:s');
+
+        if(!$result) {
+            // Attachment URL
+            if(!empty($request->doc_file)) {
+                $file = $request->file('doc_file');
+                $file_url = $this->saveFile($file);
+                $data['attachment_url'] = $file_url;
+            }
+            $data['user_id'] = auth()->user()->id;
+            
+            AssignmentResult::create($data);
+        } else {
+
+            // Attachment URL
+            if(!empty($request->doc_file)) {
+                $file = $request->file('doc_file');
+
+                // Delete existing file
+                if (File::exists(public_path('/storage/attachments/' . $result->attachment_url))) {
+                    File::delete(public_path('/storage/attachments/' . $result->attachment_url));
+                }
+
+                $file_url = $this->saveFile($file);
+                $result->attachment_url = $file_url;
+            }
+
+            $result->content = $request->content;
+            $result->submit_date = $data['submit_date'];
+            $result->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully Saved',
+        ]);
+    }
 
     /**
      * Show Quiz For Student

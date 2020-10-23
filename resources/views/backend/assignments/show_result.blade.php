@@ -38,12 +38,11 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="page-separator">
-                    <div class="page-separator__text">Assignment</div>
+                    <div class="page-separator__text">{{ $result->assignment->title }}</div>
                 </div>
 
                 <div class="pb-32pt">
-                    <h3>{{ $result->assignment->title }}</h3>
-                    <div id="assignment_content" class="font-size-16pt text-black-100"></div>
+                    <div id="assignment_content" class="font-size-16pt text-black-100">{!! $result->assignment->content !!}</div>
                 </div>
 
                 <div class="page-separator">
@@ -51,11 +50,28 @@
                 </div>
 
                 <div class="pb-32pt">
-                    <div id="submited_content" class="font-size-16pt text-black-100"></div>
-                    @if($result->attachment_url)
-                    <a href="{{ asset('/storage/uploads/' . $result->attachment_url) }}" target="_blank">
-                        <img src="{{ asset('/storage/uploads/' . $result->attachment_url) }}" class="img-fluid rounded" alt="Uploads">
-                    </a>
+                    <div id="submited_content" class="font-size-16pt text-black-100">{!! $result->content !!}</div>
+
+                    @if(!empty($result->attachment_url))
+                    <div class="form-group mb-24pt card card-body">
+                        <label class="form-label">Attached Document:</label>
+                        <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                            <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                                @php $ext = pathinfo($result->attachment_url, PATHINFO_EXTENSION); @endphp
+                                @if($ext == 'pdf')
+                                <img class="img-fluid rounded" src="{{ asset('/images/pdf.png') }}" alt="image">
+                                @else
+                                <img class="img-fluid rounded" src="{{ asset('/images/docx.png') }}" alt="image">
+                                @endif
+                            </div>
+                            <div class="flex">
+                                <a href="{{ asset('/storage/attachments/' . $result->attachment_url) }}">
+                                    <div class="form-label mb-4pt">{{ $result->attachment_url }}</div>
+                                    <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                     @endif
                 </div>
             </div>
@@ -69,15 +85,7 @@
                         <form id="frm_a_result" method="POST" action="{{ route('admin.assignments.result_answer') }}" enctype="multipart/form-data">@csrf
                             <div class="form-group">
                                 <label for="" class="form-label">Assignment Mark</label>
-                                <select name="mark" id="mark" class="form-control">
-                                @for($i = 0; $i <= $result->assignment->total_mark; $i++)
-                                    @if($result->mark == $i)
-                                    <option value="{{ $i }}" selected>{{ $i }}</option>
-                                    @else
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                    @endif
-                                @endfor
-                                </select>
+                                <input name="mark" class="form-control" value="{{ $result->mark }}">
                             </div>
 
                             <div class="form-group">
@@ -85,11 +93,32 @@
                                 <textarea name="answer" rows="10" class="form-control">{{ $result->answer }}</textarea>
                             </div>
 
+                            @if(!empty($result->answer_attach))
+                            <div class="form-group mb-24pt card card-body">
+                                <label class="form-label">Attached Document:</label>
+                                <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                                    <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                                        @php $ext = pathinfo($result->answer_attach, PATHINFO_EXTENSION); @endphp
+                                        @if($ext == 'pdf')
+                                        <img class="img-fluid rounded" src="{{ asset('/images/pdf.png') }}" alt="image">
+                                        @else
+                                        <img class="img-fluid rounded" src="{{ asset('/images/docx.png') }}" alt="image">
+                                        @endif
+                                    </div>
+                                    <div class="flex">
+                                        <a href="{{ asset('/storage/attachments/' . $result->answer_attach) }}">
+                                            <div class="form-label mb-4pt">{{ $result->answer_attach }}</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
                             <div class="form-group">
                                 <label for="" class="form-label">Attachment</label>
                                 <div class="custom-file">
-                                    <input type="file" id="file_doc" name="answer_attach" class="custom-file-input">
-                                    <label for="file" class="custom-file-label">Choose file</label>
+                                    <input type="file" id="file_doc" name="answer_attach" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
+                                    <label for="file_doc" class="custom-file-label">Choose file</label>
                                 </div>
                             </div>
 
@@ -125,21 +154,6 @@
 
     $(function() {
 
-        // Set Assignment
-        var json_a_text = JSON.parse($('#a_text').val());
-        var a_quill = new Quill('#a_editor');
-        a_quill.setContents(json_a_text);
-        var a_html = a_quill.root.innerHTML;
-
-        $('#assignment_content').html(a_html);
-
-        var json_s_text = JSON.parse($('#s_text').val());
-        var s_quill = new Quill('#s_editor')
-        s_quill.setContents(json_s_text);
-        var s_html = s_quill.root.innerHTML;
-
-        $('#submited_content').html(s_html);
-
         $('#frm_a_result').on('submit', function(e) {
             e.preventDefault();
 
@@ -152,6 +166,7 @@
                 }
             });
         });
+
     });
 </script>
 

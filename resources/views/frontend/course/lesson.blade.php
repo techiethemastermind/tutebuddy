@@ -339,11 +339,11 @@
                                             </div>
                                             <div class="media-body">
                                                 <p class="mb-8pt">
-                                                    <a href="{{ route('lesson.assignment', $assignment->id) }}" class="text-body">
+                                                    <a href="{{ route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]) }}" class="text-body">
                                                         <strong>{{ $assignment->title }}</strong>
                                                     </a>
                                                 </p>
-                                                <a href="{{ route('lesson.assignment', $assignment->id) }}" target="_blank" class="chip chip-outline-secondary">Review</a>
+                                                <a href="{{ route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]) }}" target="_blank" class="chip chip-outline-secondary">Review</a>
                                             </div>
                                         </div>
                                     </div>
@@ -382,11 +382,11 @@
                                             </div>
                                             <div class="media-body">
                                                 <p class="mb-8pt">
-                                                    <a href="{{ route('lesson.assignment', $assignment->id) }}" class="text-body">
+                                                    <a href="{{ route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]) }}" class="text-body">
                                                         <strong>{{ $assignment->title }}</strong>
                                                     </a>
                                                 </p>
-                                                <a href="{{ route('lesson.assignment', $assignment->id) }}" target="_blank" class="chip chip-outline-secondary">Review Answer</a>
+                                                <a href="{{ route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]) }}" target="_blank" class="chip chip-outline-secondary">Review Answer</a>
                                             </div>
                                         </div>
                                     </div>

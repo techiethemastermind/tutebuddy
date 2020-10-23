@@ -86,7 +86,7 @@
                             <th> Duration </th>
                             <th> Due Date </th>
                             <th> Total Marks </th>
-                            <th> Actions </th>
+                            <th style="width: 100px;"> Actions </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle"></tbody>

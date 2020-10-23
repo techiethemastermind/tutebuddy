@@ -37,26 +37,12 @@ class CourseController extends Controller
      */
     public function index() {
 
-        if(auth()->user()->hasRole('Instructor')) {
-
-            $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
-            $courses = Course::whereIn('id', $course_ids);
-
-            $count = [
-                'all' => $courses->count(),
-                'published' => $courses->where('published', 1)->count(),
-                'pending' => $courses->where('published', 0)->count(),
-                'deleted' => $courses->onlyTrashed()->count()
-            ];
-
-        } else {
-            $count = [
-                'all' => Course::all()->count(),
-                'published' => Course::where('published', 1)->count(),
-                'pending' => Course::where('published', 0)->count(),
-                'deleted' => Course::onlyTrashed()->count()
-            ];
-        }
+        $count = [
+            'all' => Course::all()->count(),
+            'published' => Course::where('published', 1)->count(),
+            'pending' => Course::where('published', 0)->count(),
+            'deleted' => Course::onlyTrashed()->count()
+        ];
 
         return view('backend.course.index', compact('count'));
     }
@@ -74,60 +60,28 @@ class CourseController extends Controller
      */
     public function getList($type) {
 
-        if(auth()->user()->hasRole('Instructor')) {
+        $count = [
+            'all' => Course::all()->count(),
+            'published' => Course::where('published', 1)->count(),
+            'pending' => Course::where('published', 0)->count(),
+            'deleted' => Course::onlyTrashed()->count()
+        ];
 
-            $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
-            $_courses = Course::whereIn('id', $course_ids);
-
-            $count = [
-                'all' => $_courses->count(),
-                'published' => $_courses->where('published', 1)->count(),
-                'pending' => $_courses->where('published', 0)->count(),
-                'deleted' => $_courses->onlyTrashed()->count()
-            ];
-
-            switch ($type) {
-                case 'all':
-                    $courses = Course::whereIn('id', $course_ids)->get();
-                break;
-                case 'published':
-                    $courses = Course::whereIn('id', $course_ids)->where('published', 1)->get();
-                break;
-                case 'pending':
-                    $courses = Course::whereIn('id', $course_ids)->where('published', 0)->get();
-                break;
-                case 'deleted':
-                    $courses = Course::whereIn('id', $course_ids)->onlyTrashed()->get();
-                break;
-                default:
-                    $courses = Course::whereIn('id', $course_ids)->get();
-            }
-
-        } else {
-            
-            $count = [
-                'all' => Course::all()->count(),
-                'published' => Course::where('published', 1)->count(),
-                'pending' => Course::where('published', 0)->count(),
-                'deleted' => Course::onlyTrashed()->count()
-            ];
-
-            switch ($type) {
-                case 'all':
-                    $courses = Course::all();
-                break;
-                case 'published':
-                    $courses = Course::where('published', 1)->get();
-                break;
-                case 'pending':
-                    $courses = Course::where('published', 0)->get();
-                break;
-                case 'deleted':
-                    $courses = Course::onlyTrashed()->get();
-                break;
-                default:
-                    $courses = Course::all();
-            }
+        switch ($type) {
+            case 'all':
+                $courses = Course::all();
+            break;
+            case 'published':
+                $courses = Course::where('published', 1)->get();
+            break;
+            case 'pending':
+                $courses = Course::where('published', 0)->get();
+            break;
+            case 'deleted':
+                $courses = Course::onlyTrashed()->get();
+            break;
+            default:
+                $courses = Course::all();
         }
 
         $data = $this->getArrayData($courses);

@@ -501,11 +501,12 @@ class QuizController extends Controller
                 $start_time = \Carbon\Carbon::parse($item->start_date)->timestamp;
 
                 $diff = $start_time - $now;
-                if($item->result == 2) {
+
+                if($item->type == 2) {
                     if($diff < 1800) {
                         $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
                     } else {
-                        $btn_show = '<button type="button" class="btn btn-md btn-outline-primary" disabled>Scheduled</button>';
+                        $btn_show = '<button class="btn btn-outline-primary btn-sm" disabled>Scheduled</button>';
                     }
                 } else {
                     $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';

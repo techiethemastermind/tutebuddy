@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Lesson;
+use App\Models\Course;
 
 class Assignment extends Model
 {
@@ -39,6 +40,11 @@ class Assignment extends Model
     public function lesson()
     {
         return $this->belongsTo(Lesson::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 
     public function result()

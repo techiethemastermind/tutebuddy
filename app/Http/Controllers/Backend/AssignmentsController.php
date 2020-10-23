@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use App\Models\Assignment;
 use App\Models\AssignmentResult;
@@ -422,7 +423,7 @@ class AssignmentsController extends Controller
             $temp['due'] = '<strong>' . $item->due_date . '</strong>';
             $temp['mark'] = '<strong>' . $item->total_mark . '</strong>';
 
-            $show_route = route('lesson.assignment', $item->id);
+            $show_route = route('student.assignment.show', [$item->lesson->slug, $item->id]);
             $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">View</a>';
 
             $temp['action'] = $btn_show . '&nbsp;';
@@ -514,8 +515,15 @@ class AssignmentsController extends Controller
                                     </div>
                                 </div>';
 
+            
+            $ext = pathinfo($result->attachment_url, PATHINFO_EXTENSION);
             if(!empty($result->attachment_url)) {
-                $temp['attachment'] = '<a href="'. asset('/storage/uploads/' . $result->attachment_url ) .'" target="_blank">'. $result->attachment_url .'</a>';
+                if($ext == 'pdf') {
+                    $img = '<img class="img-fluid rounded w-50" src="'. asset('/images/pdf.png') .'" alt="image">';
+                } else {
+                    $img = '<img class="img-fluid rounded w-50" src="'. asset('/images/docx.png') .'" alt="image">';
+                }
+                $temp['attachment'] = '<a href="'. asset('/storage/attachments/' . $result->attachment_url ) .'" target="_blank">'. $img .'</a>';
             } else {
                 $temp['attachment'] = 'N/A';
             }
@@ -555,18 +563,19 @@ class AssignmentsController extends Controller
             $attachment = $request->file('answer_attach');
 
             // Delete existing file
-            if (File::exists(public_path('/storage/uploads/' . $result->answer_attach))) {
-                File::delete(public_path('/storage/uploads/' . $result->answer_attach));
-                File::delete(public_path('/storage/uploads/thumb/' . $result->answer_attach));
+            if (File::exists(public_path('/storage/attachments/' . $result->answer_attach))) {
+                File::delete(public_path('/storage/attachments/' . $result->answer_attach));
             }
 
-            $attachment_url = $this->saveImage($attachment, 'upload', true);
+            $attachment_url = $this->saveFile($attachment);
             $data['answer_attach'] = $attachment_url;
         }
         
         $result->mark = $data['mark'];
         $result->answer = $data['answer'];
         $result->answer_attach = $data['answer_attach'];
+        $result->status = 1;
+        $result->submit_date = Carbon::now();
 
         $result->save();
 
@@ -574,7 +583,6 @@ class AssignmentsController extends Controller
             'success' => true,
             'action' => 'update'
         ]);
-
     }
 
     /**
