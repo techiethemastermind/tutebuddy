@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class TestResult extends Model
 {
-    protected $fillable = ['tests_id', 'content', 'attachment_url', 'mark'];
+    protected $fillable = ['test_id', 'user_id', 'content', 'attachment', 'mark', 'status'];
 
-    public function assignment()
+    public function test()
     {
         return $this->belongsTo(Test::class);
     }

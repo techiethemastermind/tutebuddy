@@ -106,10 +106,12 @@
                                                     {{ config('app.currency') . $course->private_price }} <small class="text-50">(Private)</small>
                                                 </span>
                                                 
+                                                <a href="{{ route('admin.course.removeFavorite', $course->id) }}" name="remove_favorite" data-toggle="tooltip" data-title="Remove Favorite" data-placement="top" 
+                                                    data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite font-color-red @if(!$course->favorited()) d-none @endif"
+                                                    data-original-title="" title="">favorite</a>
                                                 <a href="{{ route('admin.course.addFavorite', $course->id) }}" name="add_favorite" data-toggle="tooltip" data-title="Add Favorite" data-placement="top" 
-                                                    data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite @if($course->favorited()) font-color-red @endif"
-                                                    @if($course->favorited()) disabled @endif
-                                                    data-original-title="" title="">@if($course->favorited()) favorite @else favorite_border @endif</a>
+                                                    data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite @if($course->favorited()) d-none @endif"
+                                                    data-original-title="" title="">favorite_border</a>
                                             </div>
                                             <div class="d-flex">
                                                 <span class="text-70 text-muted mr-8pt"><strong>Session Time: {{ $course->duration() }},</strong></span>
@@ -253,19 +255,39 @@
 <script>
 
 $(function(e) {
+
     $('a[name="add_favorite"]').on('click', function(e) {
         e.preventDefault();
         var route = $(this).attr('href');
-        var btn = $(this);
+        var btn_add_favorite = $(this);
 
         $.ajax({
             method: 'GET',
             url: route,
             success: function(res) {
                 if(res) {
-                    btn.attr('disabled', 'disabled');
-                    btn.addClass('font-color-red');
-                    btn.html('favorite');
+                    btn_add_favorite.addClass('d-none');
+                    btn_add_favorite.siblings('a[name="remove_favorite"]').removeClass('d-none');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $('a[name="remove_favorite"]').on('click', function(e) {
+        e.preventDefault();
+        var route = $(this).attr('href');
+        var btn_remove_favorite = $(this);
+
+        $.ajax({
+            method: 'GET',
+            url: route,
+            success: function(res) {
+                if(res) {
+                    btn_remove_favorite.addClass('d-none');
+                    btn_remove_favorite.siblings('a[name="add_favorite"]').removeClass('d-none');
                 }
             },
             error: function(err) {

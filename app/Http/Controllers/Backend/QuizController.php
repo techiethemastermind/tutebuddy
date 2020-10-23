@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Quiz;
+use App\Models\QuizResults;
 use App\Models\QuestionGroup;
 use App\Models\Lesson;
 
@@ -106,7 +107,7 @@ class QuizController extends Controller
             'duration' => $duration,
             'score' => $data['score'],
             'type' => $data['type'],
-            'take_type' => $data['take_type']
+            'take_type' => $request->take_type
         ];
 
         if($data['type'] == "2") {
@@ -407,40 +408,41 @@ class QuizController extends Controller
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
         $quizs = Quiz::whereIn('lesson_id', $lesson_ids)->get();
+        $quiz_result_ids = QuizResults::where('user_id', auth()->user()->id)->pluck('quiz_id');
 
         $count = [
             'all' => Quiz::whereIn('lesson_id', $lesson_ids)->count(),
-            'deleted' => Quiz::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+            'result' => Quiz::whereIn('id', $quiz_result_ids)->whereIn('lesson_id', $lesson_ids)->count()
         ];
 
         return view('backend.quiz.student', compact('count'));
     }
 
     /**
-     * 
+     * Get Student data by Ajax
      */
     public function getStudentQuizsByAjax($type)
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+        $quiz_result_ids = QuizResults::where('user_id', auth()->user()->id)->pluck('quiz_id');
 
         switch($type) {
 
             case 'all':
-                $assignments = Quiz::whereIn('lesson_id', $lesson_ids)->get();
+                $quizs = Quiz::whereIn('lesson_id', $lesson_ids)->get();
             break;
 
-            case 'deleted':
-                $assignments = Quiz::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->get();
+            case 'result':
+                $quizs = Quiz::whereIn('id', $quiz_result_ids)->whereIn('lesson_id', $lesson_ids)->get();
             break;
-
         }
 
-        $data = $this->getStudentData($assignments);
+        $data = $this->getStudentData($quizs);
 
         $count = [
             'all' => Quiz::whereIn('lesson_id', $lesson_ids)->count(),
-            'deleted' => Quiz::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+            'result' => Quiz::whereIn('id', $quiz_result_ids)->whereIn('lesson_id', $lesson_ids)->count()
         ];
 
         return response()->json([
@@ -488,13 +490,31 @@ class QuizController extends Controller
             $temp['duration'] = $hours . ' Hours ' . $mins . ' Mins';
 
             $temp['due'] = '<strong>N/A</strong>';
-            if(!empty($item->due_date)) {
-                $temp['due'] = '<strong>' . $item->due_date . '</strong>';
+            if(!empty($item->start_date)) {
+                $temp['due'] = '<strong>' . $item->start_date . '</strong>';
             }
             $temp['mark'] = '<strong>' . $item->score . '</strong>';
 
-            $show_route = route('student.quiz.show', [$item->lesson->slug, $item->id]);
-            $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Start</a>';
+            if(empty($item->result)) {
+                $show_route = route('student.quiz.show', [$item->lesson->slug, $item->id]);
+                $now = \Carbon\Carbon::now()->timestamp;
+                $start_time = \Carbon\Carbon::parse($item->start_date)->timestamp;
+
+                $diff = $start_time - $now;
+                if($item->result == 2) {
+                    if($diff < 1800) {
+                        $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
+                    } else {
+                        $btn_show = '<button type="button" class="btn btn-md btn-outline-primary" disabled>Scheduled</button>';
+                    }
+                } else {
+                    $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
+                }
+                
+            } else {
+                $show_route = route('student.quiz.result', [$item->lesson->slug, $item->id]);
+                $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Result</a>';
+            }
 
             $temp['action'] = $btn_show . '&nbsp;';
 

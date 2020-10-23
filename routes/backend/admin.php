@@ -9,27 +9,14 @@ Route::resource('users','UserController');
 Route::get('account', 'UserController@myAccount')->name('myaccount');
 Route::post('account/{id}/update', 'UserController@updateAccount')->name('myaccount.update');
 Route::post('child-account', 'UserController@childAccount')->name('myaccount.child');
+Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
+Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
 
 //===== Roles Routes =====//
 Route::resource('roles','RoleController');
 
 //===== Dashboard Routes =====//
 Route::get('/', 'DashboardController@index')->name('dashboard');
-
-// For Students Study
-Route::get('my/live-sessions', 'LessonController@studentLiveSessions')->name('student.liveSessions');
-Route::get('ajax/live-sessions/{type}', 'LessonController@getStudentLiveSessionsByAjax')->name('student.getLiveSessionsByAjax');
-Route::get('my/courses', 'CourseController@studentCourses')->name('student.courses');
-Route::get('ajax/my-courses/{type}', 'CourseController@getStudentCoursesByAjax')->name('student.getMyCoursesByAjax');
-Route::get('my/assignments', 'AssignmentsController@studentAssignments')->name('student.assignments');
-Route::get('ajax/my-assignments/{type}', 'AssignmentsController@getStudentAssignmentsByAjax')->name('student.getMyAssignmentsByAjax');
-Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
-Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
-Route::get('my/paths', 'BundlesController@studentBundles')->name('student.bundles');
-Route::get('my/quizs', 'QuizController@studentQuizs')->name('student.quizs');
-Route::get('ajax/my-quizs/{type}', 'QuizController@getStudentQuizsByAjax')->name('student.getMyQuizzesByAjax');
-Route::get('my/tests', 'TestController@studentTests')->name('student.tests');
-Route::get('ajax/my-tests/{type}', 'TestController@getStudentTestsByAjax')->name('student.getMyTestsByAjax');
 
 // Workspace for Teachers
 Route::get('live-sessions/all', 'LessonController@instructorLiveSessions')->name('instructor.liveSessions');
@@ -64,12 +51,17 @@ Route::get('ajax/courses/list/{type}', 'CourseController@getList')->name('getCou
 Route::get('ajax/courses/publish/{id}', 'CourseController@publish')->name('courses.publish');
 Route::get('ajax/courses/delete/forever/{id}', 'CourseController@foreverDelete')->name('courses.foreverDelete');
 Route::get('ajax/course/add-favorite/{course_id}', 'CourseController@addFavorite')->name('course.addFavorite');
+Route::get('ajax/course/remove-favorite/{course_id}', 'CourseController@removeFavorite')->name('course.removeFavorite');
+Route::get('my/courses', 'CourseController@studentCourses')->name('student.courses');
+Route::get('ajax/my-courses/{type}', 'CourseController@getStudentCoursesByAjax')->name('student.getMyCoursesByAjax');
 
 //===== Bundles Routes =====//
 Route::resource('bundles', 'BundlesController');
 Route::get('bundles/restore/{id}', 'BundlesController@restore')->name('bundle.restore');
 Route::get('ajax/bundles/list/{type}', 'BundlesController@getList')->name('getBundlesByAjax');
 Route::get('ajax/bundles/publish/{id}', 'BundlesController@publish')->name('bundle.publish');
+Route::get('ajax/bundle/add-favorite/{course_id}', 'BundlesController@addFavorite')->name('bundle.addFavorite');
+Route::get('my/paths', 'BundlesController@studentBundles')->name('student.bundles');
 
 //===== Assignment Routes =====//
 Route::resource('assignments', 'AssignmentsController');
@@ -80,6 +72,8 @@ Route::get('ajax/assignments/delete/forever/{id}', 'AssignmentsController@foreve
 Route::get('ajax/assignments/lessons', 'AssignmentsController@getLessons')->name('assignment.getLessonsByCourse');
 Route::get('assignments/result/{id}', 'AssignmentsController@show_result')->name('assignments.show_result');
 Route::post('assignment-result/answer', 'AssignmentsController@result_answer')->name('assignments.result_answer');
+Route::get('my/assignments', 'AssignmentsController@studentAssignments')->name('student.assignments');
+Route::get('ajax/my-assignments/{type}', 'AssignmentsController@getStudentAssignmentsByAjax')->name('student.getMyAssignmentsByAjax');
 
 //===== Lessons Routes =====//
 Route::resource('lessons', 'LessonController');
@@ -87,6 +81,8 @@ Route::get('lessons/delete/{id}', 'LessonController@deleteLesson')->name('lesson
 Route::get('lessons/lesson/{id}', 'LessonController@getLesson')->name('lesson.getById');
 Route::get('steps/delete/{id}', 'LessonController@deleteStep')->name('steps.delete');
 Route::get('ajax/lessons-by-course', 'LessonController@getLessons')->name('lessons.getLessonsByCourse');
+Route::get('my/live-sessions', 'LessonController@studentLiveSessions')->name('student.liveSessions');
+Route::get('ajax/live-sessions/{type}', 'LessonController@getStudentLiveSessionsByAjax')->name('student.getLiveSessionsByAjax');
 
 //===== Schedule Routes ====//
 Route::get('schedule', 'ScheduleController@index')->name('schedule');
@@ -107,6 +103,8 @@ Route::get('ajax/quizs/restore/{id}', 'QuizController@restore')->name('quizs.res
 Route::get('ajax/quizs/publish/{id}', 'QuizController@publish')->name('quizs.publish');
 Route::get('ajax/quizs/list/{type}', 'QuizController@getList')->name('getquizzesByAjax');
 Route::get('ajax/quizs/delete/forever/{id}', 'QuizController@foreverDelete')->name('quizs.foreverDelete');
+Route::get('my/quizs', 'QuizController@studentQuizs')->name('student.quizs');
+Route::get('ajax/my-quizs/{type}', 'QuizController@getStudentQuizsByAjax')->name('student.getMyQuizzesByAjax');
 
 //===== Questions Routes =====//
 Route::resource('questions', 'QuestionController');
@@ -119,7 +117,6 @@ Route::post('questions/add-section', 'QuestionController@addSection')->name('que
 //===== Questions Options Routes =====//
 Route::resource('questions_options', 'QuestionOptionsController');
 Route::get('questions_options/delete/{id}', 'QuestionOptionsController@delete')->name('questions_options.delete');
-
 
 //==== Settings Route ====//
 Route::get('settings/general', 'ConfigController@getGeneralSettings')->name('settings.general');
@@ -170,6 +167,8 @@ Route::get('ajax/tests/list/{type}', 'TestController@getList')->name('getTestsBy
 Route::get('ajax/test/publish/{id}', 'TestController@publish')->name('test.publish');
 Route::get('ajax/test/delete/forever/{id}', 'TestController@foreverDelete')->name('test.foreverDelete');
 Route::get('ajax/test/lessons', 'TestController@getLessons')->name('test.getLessonsByCourse');
+Route::get('my/tests', 'TestController@studentTests')->name('student.tests');
+Route::get('ajax/my-tests/{type}', 'TestController@getStudentTestsByAjax')->name('student.getMyTestsByAjax');
 
 //==== Transactions Route ==== //
 Route::get('transactions', 'PaymentController@getTransactions')->name('transactions');

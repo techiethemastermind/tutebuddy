@@ -116,9 +116,13 @@
                                     </div>
                                 </div>
 
-                                <a href="" data-toggle="tooltip" data-title="Add Favorite"
+                                @if(auth()->check() && auth()->user()->hasRole('Student'))
+
+                                <a href="{{ route('admin.bundle.addFavorite', $bundle->id) }}" data-toggle="tooltip" data-title="Add Favorite"
                                     data-placement="top" data-boundary="window"
                                     class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
+
+                                @endif
 
                             </div>
 
@@ -208,7 +212,15 @@
                                                     <a class="card-title" href="{{ route('courses.show', $course->slug) }}">{{ $course->title }}</a>
                                                     <small class="text-50 font-weight-bold mb-4pt">{{ $course->teachers[0]->title }}</small>
                                                 </div>
-                                                <a href="{{ route('courses.show', $course->slug) }}" data-toggle="tooltip" data-title="Add Favorite" data-placement="top" data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
+
+                                                @if(auth()->check())
+                                                <a href="{{ route('admin.course.removeFavorite', $course->id) }}" name="remove_favorite" data-toggle="tooltip" data-title="Remove Favorite" data-placement="top" 
+                                                    data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite font-color-red @if(!$course->favorited()) d-none @endif"
+                                                    data-original-title="" title="">favorite</a>
+                                                <a href="{{ route('admin.course.addFavorite', $course->id) }}" name="add_favorite" data-toggle="tooltip" data-title="Add Favorite" data-placement="top" 
+                                                    data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite @if($course->favorited()) d-none @endif"
+                                                    data-original-title="" title="">favorite_border</a>
+                                                @endif
                                             </div>
                                             <div class="d-flex">
                                                 <div class="rating flex">
@@ -255,7 +267,6 @@
                                             </div>
                                             @endforeach
                                         </div>
-
 
                                         <div class="row align-items-center">
                                             <div class="col-auto">
@@ -475,5 +486,56 @@
 <!-- // END Header Layout Content -->
 
 @include('layouts.parts.search-script');
+
+@push('after-scripts')
+
+<script>
+
+$(function(e) {
+
+    $('a[name="add_favorite"]').on('click', function(e) {
+        e.preventDefault();
+        var route = $(this).attr('href');
+        var btn_add_favorite = $(this);
+
+        $.ajax({
+            method: 'GET',
+            url: route,
+            success: function(res) {
+                if(res) {
+                    btn_add_favorite.addClass('d-none');
+                    btn_add_favorite.siblings('a[name="remove_favorite"]').removeClass('d-none');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $('a[name="remove_favorite"]').on('click', function(e) {
+        e.preventDefault();
+        var route = $(this).attr('href');
+        var btn_remove_favorite = $(this);
+
+        $.ajax({
+            method: 'GET',
+            url: route,
+            success: function(res) {
+                if(res) {
+                    btn_remove_favorite.addClass('d-none');
+                    btn_remove_favorite.siblings('a[name="add_favorite"]').removeClass('d-none');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+});
+
+</script>
+
+@endpush
 
 @endsection

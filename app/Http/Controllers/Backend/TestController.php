@@ -357,4 +357,101 @@ class TestController extends Controller
             ]);
         }
     }
+
+    /**
+     * Student Tests
+     */
+    public function studentTests()
+    {
+        // Get purchased Course IDs
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+        $test_result_ids = DB::table('test_results')->where('user_id', auth()->user()->id)->pluck('tests_id');
+
+        $count = [
+            'all' => Test::whereIn('lesson_id', $lesson_ids)->count(),
+            'result' => Test::whereIn('lesson_id', $lesson_ids)->whereIn('id', $test_result_ids)->count()
+        ];
+
+        return view('backend.tests.student', compact('count'));
+    }
+
+    /**
+     * Get Test Data By Ajax
+     */
+    public function getStudentTestsByAjax($type)
+    {
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+        $test_result_ids = DB::table('test_results')->where('user_id', auth()->user()->id)->pluck('tests_id');
+
+        switch($type) {
+
+            case 'all':
+                $tests = Test::whereIn('lesson_id', $lesson_ids)->get();
+            break;
+
+            case 'result':
+                $tests = Test::whereIn('lesson_id', $lesson_ids)->whereIn('id', $test_result_ids)->get();
+            break;
+        }
+
+        $data = $this->getStudentData($tests);
+
+        $count = [
+            'all' => Test::whereIn('lesson_id', $lesson_ids)->count(),
+            'result' => Test::whereIn('lesson_id', $lesson_ids)->whereIn('id', $test_result_ids)->count()
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+    }
+
+    public function getStudentData($tests)
+    {
+        $data = [];
+        foreach($tests as $item) {
+            $lesson = Lesson::find($item->lesson->id);
+            $course = $lesson->course;
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                    </div>';
+            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded bg-primary text-white">'. substr($item->title, 0, 2) .'</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex flex-column">
+                                        <small class="js-lists-values-project">
+                                            <strong>'. $item->title .'</strong></small>
+                                        <small class="text-70">
+                                            '. $item->lesson->course->title .' |
+                                            '. $item->lesson->title .'
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>';
+
+
+            $hours = floor($item->duration / 60);
+            $mins = $item->duration % 60;
+
+            $temp['duration'] = $hours . ' Hours ' . $mins . ' Mins';
+            $temp['mark'] = '<strong>' . $item->score . '</strong>';
+
+            $show_route = route('student.test.show', [$item->lesson->slug, $item->id]);
+            $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Start</a>';
+
+            $temp['action'] = $btn_show . '&nbsp;';
+
+            array_push($data, $temp);
+        }
+
+        return $data;
+    }
 }

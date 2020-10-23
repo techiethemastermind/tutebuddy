@@ -739,7 +739,7 @@ class CourseController extends Controller
     /**
      * Remove course from Favoirtes
      */
-    public function removeFavorite()
+    public function removeFavorite($course_id)
     {
         $favorite = DB::table('course_favorite')->where('course_id', $course_id)->where('user_id', auth()->user()->id);
         if($favorite->count() > 0) {

@@ -303,8 +303,8 @@
                                 <!-- Due Data -->
                                 <div class="form-group">
                                     <label class="form-label">Due Date</label>
-                                    <input name="start_date" type="hidden" class="form-control flatpickr-input" data-toggle="flatpickr" 
-                                    value="{{ $quiz->start_date }}">
+                                    <input name="start_date" type="text" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" 
+                                    data-flatpickr-alt-format="F j, Y at H:i" data-flatpickr-date-format="Y-m-d H:i" value="{{ $quiz->start_date }}">
                                 </div>
 
                                 <!-- Timezone -->

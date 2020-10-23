@@ -398,10 +398,9 @@ class LessonsController extends Controller
             if(!empty($request->doc_file)) {
                 $file = $request->file('doc_file');
 
-                // Delete existing img file
-                if (File::exists(public_path('/storage/uploads/' . $assignment->attachment_url))) {
-                    File::delete(public_path('/storage/uploads/' . $assignment->attachment_url));
-                    File::delete(public_path('/storage/uploads/thumb/' . $assignment->attachment_url));
+                // Delete existing file
+                if (File::exists(public_path('/storage/attachments/' . $result->attachment_url))) {
+                    File::delete(public_path('/storage/attachments/' . $result->attachment_url));
                 }
 
                 $file_url = $this->saveFile($file);

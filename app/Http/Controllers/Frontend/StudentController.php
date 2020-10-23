@@ -8,24 +8,36 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Traits\FileUploadTrait;
+use Illuminate\Support\Facades\File;
 
 use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\QuizResults;
 use App\Models\QuizResultAnswers;
 use App\Models\ChapterStudent;
+use App\Models\Test;
+use App\Models\TestResult;
 
 class StudentController extends Controller
 {
+    use FileUploadTrait;
+
+    /**
+     * Show Quiz For Student
+     */
     public function startQuiz($lesson_slug, $quiz_id)
     {
         $quiz = Quiz::find($quiz_id);
-        return view('frontend.course.quiz', compact('quiz'));
+        if($quiz->result) {
+            return redirect()->route('student.quiz.result', [$quiz->lesson->slug, $quiz->id]);
+        } else {
+            return view('frontend.quiz.start', compact('quiz'));
+        }
     }
 
     /**
      * Save Quiz
-     * 
      */
     public function saveQuiz(Request $request)
     {
@@ -141,6 +153,69 @@ class StudentController extends Controller
     public function quizResult($lesson_slug, $quiz_id)
     {
         $quiz = Quiz::find($quiz_id);
-        return view('frontend.course.quiz_result', compact('quiz'));
+        return view('frontend.quiz.result', compact('quiz'));
+    }
+
+    /**
+     * Show Test for Student
+     */
+    public function startTest($lesson_slug, $test_id)
+    {
+        $test = Test::find($test_id);
+        return view('frontend.test.start', compact('test'));
+    }
+
+    /**
+     * Save a Test
+     */
+    public function saveTest(Request $request)
+    {
+        $data = $request->all();
+
+        $test = Test::find($data['test_id']);
+        $test_result = $test->result;
+
+        if(!$test_result) {
+            $result_data = [
+                'test_id' => $data['test_id'],
+                'content' => $data['content'],
+                'user_id' => auth()->user()->id
+            ];
+    
+            // Attachment URL
+            if(!empty($request->doc_file)) {
+                $file = $request->file('doc_file');
+                $file_url = $this->saveFile($file);
+                $result_data['attachment'] = $file_url;
+            }
+    
+            $test_result = TestResult::create($result_data);
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully Saved',
+            ]);
+        } else {
+            // Attachment URL
+            if(!empty($request->doc_file)) {
+                $file = $request->file('doc_file');
+
+                // Delete existing file
+                if (File::exists(public_path('/storage/attachments/' . $test_result->attachment))) {
+                    File::delete(public_path('/storage/attachments/' . $test_result->attachment));
+                }
+
+                $file_url = $this->saveFile($file);
+                $test_result->attachment = $file_url;
+            }
+
+            $test_result->content = $data['content'];
+            $test_result->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully Updated',
+            ]);
+        }
     }
 }

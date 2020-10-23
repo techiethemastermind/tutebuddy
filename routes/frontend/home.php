@@ -50,6 +50,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('quiz/save', 'StudentController@saveQuiz')->name('student.quiz.save');
     Route::get('quiz-result/{lesson_slug}/{quiz_id}', 'StudentController@quizResult')->name('student.quiz.result');
 
+    // Take test for Student
+    Route::get('test/{lesson_slug}/{test_id}', 'StudentController@startTest')->name('student.test.show');
+    Route::post('test/save', 'StudentController@saveTest')->name('student.test.save');
+
     // Cart and Checkout
     Route::post('cart/checkout', 'CartController@checkout')->name('cart.checkout');
     Route::post('cart/add', 'CartController@addToCart')->name('cart.addToCart');

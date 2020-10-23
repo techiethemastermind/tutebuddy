@@ -100,7 +100,7 @@
             <ul class="nav navbar-nav flex navbar-list__item">
                 <li class="nav-item">
                     <i class="material-icons text-50 mr-8pt">tune</i>
-                    Choose the correct answer below:
+                    Please click start Button to see Quizzes:
                 </li>
             </ul>
             <div class="nav navbar-nav ml-sm-auto navbar-list__item">
@@ -126,7 +126,7 @@
             <p class="text-50 mb-0">Note: There can be multiple correct answers to this question.</p>
         </div>
 
-        <div class="border-left-2 pl-32pt pb-64pt">
+        <div class="border-left-2 pl-32pt pb-64pt tute-questions d-none">
 
             <form id="frm_quiz" method="POST" action="{{ route('student.quiz.save') }}">@csrf
 
@@ -242,8 +242,6 @@ $.ajaxSetup({
     }
 });
 
-$('#frm_quiz .options-wrap').find('input').attr('disabled', true);
-
 $('#btn_complete').on('click', function() {
 
     $('#frm_quiz').ajaxSubmit({
@@ -270,7 +268,7 @@ $('#btn_complete').on('click', function() {
 
 $('#btn_start').on('click', function(e) {
 
-    $('#frm_quiz .options-wrap').find('input').removeAttr('disabled');
+    $('div.tute-questions').removeClass('d-none');
 
     if(take_type == '1') {
         if(timer == undefined) {
@@ -290,7 +288,6 @@ $('#btn_start').on('click', function(e) {
             console.log('finish quiz');
         }
     }
-    
 });
 
 function getTimer(status = true) {
