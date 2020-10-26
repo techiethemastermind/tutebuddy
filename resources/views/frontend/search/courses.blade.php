@@ -106,12 +106,14 @@
                                                     {{ config('app.currency') . $course->private_price }} <small class="text-50">(Private)</small>
                                                 </span>
                                                 
+                                                @if(auth()->check())
                                                 <a href="{{ route('admin.course.removeFavorite', $course->id) }}" name="remove_favorite" data-toggle="tooltip" data-title="Remove Favorite" data-placement="top" 
                                                     data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite font-color-red @if(!$course->favorited()) d-none @endif"
                                                     data-original-title="" title="">favorite</a>
                                                 <a href="{{ route('admin.course.addFavorite', $course->id) }}" name="add_favorite" data-toggle="tooltip" data-title="Add Favorite" data-placement="top" 
                                                     data-boundary="window" class="ml-4pt material-icons text-20 card-course__icon-favorite @if($course->favorited()) d-none @endif"
                                                     data-original-title="" title="">favorite_border</a>
+                                                @endif
                                             </div>
                                             <div class="d-flex">
                                                 <span class="text-70 text-muted mr-8pt"><strong>Session Time: {{ $course->duration() }},</strong></span>

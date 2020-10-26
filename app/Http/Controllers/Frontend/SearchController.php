@@ -151,7 +151,7 @@ class SearchController extends Controller
                     'title' => $category->name,
                     'description' => $category->description,
                     'image' => $image,
-                    'url' => config("app.url") . 'search/courses?_q=' . $course->title . '&_t=category&_k=' . $category->id
+                    'url' => config("app.url") . 'search/courses?_q=' . $q . '&_t=category&_k=' . $category->id
                 ]
             );
         }

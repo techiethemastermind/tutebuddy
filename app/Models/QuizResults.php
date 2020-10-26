@@ -31,8 +31,8 @@ class QuizResults extends Model
         return $this->belongsTo(Quiz::class);
     }
 
-    public function student()
+    public function user()
     {
-        return User::find($this->user_id);
+        return $this->belongsTo(User::class);
     }
 }

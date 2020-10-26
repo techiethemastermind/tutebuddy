@@ -305,25 +305,22 @@ class LessonController extends Controller
 
     public function getStudentLiveSessionsByAjax($type)
     {
-        $courses_id = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
 
         if($type == 'all') {
-            $schedules = Schedule::whereIn('course_id', $courses_id)->get();
+            $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
         }
 
         if($type == 'today') {
-            $all = Schedule::whereIn('course_id', $courses_id)->get();
+            $all = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
             $schedules = [];
 
             foreach($all as $schedule) {
-                if(Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+                if($schedule && Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
                     array_push($schedules, $schedule);
                 }
             }
-        }
-
-        if($type == 'deleted') {
-            $schedules = [];
         }
 
         $data = $this->getArrayData($schedules);
@@ -340,21 +337,21 @@ class LessonController extends Controller
 
     function getStudentCounts()
     {
-        $courses_id = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $schedules = Schedule::whereIn('course_id', $courses_id)->get();
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
+        $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
         $all_count = count($schedules);
         $today_count = 0;
         
         foreach($schedules as $schedule) {
-            if(Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+            if($schedule && Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
                 $today_count++;
             }
         }
 
         $count = [
             'all' => $all_count,
-            'today' => $today_count,
-            'deleted' => 0
+            'today' => $today_count
         ];
 
         return $count;
@@ -433,7 +430,8 @@ class LessonController extends Controller
     function getInstructorCounts()
     {
         $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $schedules = Schedule::whereIn('course_id', $course_ids)->get();
+        $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
+        $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
         $all_count = count($schedules);
         $today_count = 0;
         
@@ -445,8 +443,7 @@ class LessonController extends Controller
 
         $count = [
             'all' => $all_count,
-            'today' => $today_count,
-            'deleted' => 0
+            'today' => $today_count
         ];
 
         return $count;
@@ -455,13 +452,14 @@ class LessonController extends Controller
     public function getInstructorLiveSessionsByAjax($type)
     {
         $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
 
         if($type == 'all') {
-            $schedules = Schedule::whereIn('course_id', $course_ids)->whereNotNull('lesson_id')->get();
+            $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
         }
 
         if($type == 'today') {
-            $all = Schedule::whereIn('course_id', $course_ids)->get();
+            $all = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
             $schedules = [];
 
             foreach($all as $schedule) {
@@ -469,10 +467,6 @@ class LessonController extends Controller
                     array_push($schedules, $schedule);
                 }
             }
-        }
-
-        if($type == 'deleted') {
-            $schedules = [];
         }
 
         $data = $this->getArrayData($schedules);
