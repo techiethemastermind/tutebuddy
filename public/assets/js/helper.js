@@ -133,7 +133,7 @@ function convertToSlug(Text)
 
 function checkValidForm(Form)
 {
-    var no_empty_eles = Form.find('input[tute-no-empty]');
+    var no_empty_eles = Form.find('input[tute-no-empty], textarea[tute-no-empty], select[tute-no-empty]');
     var invalid_found = false;
     $.each(no_empty_eles, function(idx, ele) {
         if ($(ele).val() == '') {
@@ -164,7 +164,7 @@ $(document).on('change', 'input[tute-file]', function(e) {
     $('div.custom-file').find('label[for="'+ id +'"]').text(file_name);
 });
 
-$(document).on('keyup', 'input[tute-no-empty]', function() {
+$(document).on('keyup', 'input[tute-no-empty], textarea[tute-no-empty], select[tute-no-empty]', function() {
     $(this).removeClass('is-invalid');
     $(this).closest('.form-group').find('div.invalid-feedback').remove();
 });
@@ -172,7 +172,7 @@ $(document).on('keyup', 'input[tute-no-empty]', function() {
 $(document).on('submit', 'form', function(e) {
 
     var Form = $(this);
-    var no_empty_eles = Form.find('input[tute-no-empty]');
+    var no_empty_eles = Form.find('input[tute-no-empty], textarea[tute-no-empty], select[tute-no-empty]');
     var invalid_found = false;
     $.each(no_empty_eles, function(idx, ele) {
         if ($(ele).val() == '') {

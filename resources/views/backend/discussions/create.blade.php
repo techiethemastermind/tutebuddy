@@ -28,7 +28,7 @@
                                                 class="col-md-3 col-form-label form-label">Question title</label>
                                             <div class="col-md-9">
                                                 <input id="title" type="text" name="title" placeholder="Your question ..."
-                                                    value="" class="form-control @error('title') is-invalid @enderror">
+                                                    value="" class="form-control @error('title') is-invalid @enderror" tute-no-empty>
                                             </div>
                                         </div>
                                     </div>
@@ -44,7 +44,7 @@
                                             class="col-md-3 col-form-label form-label">Question details</label>
                                         <div class="col-md-9">
                                             <textarea id="question" name="question" placeholder="Describe your question in detail ..."
-                                                rows="8" class="form-control @error('question') is-invalid @enderror"></textarea>
+                                                rows="8" class="form-control @error('question') is-invalid @enderror" tute-no-empty></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                                     <div class="form-row align-items-center">
                                         <label class="col-md-3 col-form-label form-label">Tags:</label>
                                         <div class="col-md-9">
-                                            <select id="topics" name="topics[]" multiple="multiple" class="form-control custom-select">
+                                            <select id="topics" name="topics[]" multiple="multiple" class="form-control custom-select" tute-no-empty>
                                                 @foreach($topics as $topic)
                                                 <option value="{{ $topic->id }}">{{ $topic->topic }}</option>
                                                 @endforeach
@@ -100,7 +100,7 @@
                                     recieve notifications on our website.</small>
                             </div>
                             <div class="list-group-item">
-                                <button type="submit" class="btn btn-accent">Post Question</button>
+                                <button id="btn_submit" type="button" class="btn btn-accent">Post Question</button>
                             </div>
                         </div>
 
@@ -137,10 +137,54 @@
 
 <script>
     $(function() {
-        $('#course').select2();
+
         $('#topics').select2({
             tags: true
         });
+
+        $('select[name="course"]').select2();
+        $('select[name="lesson"]').select2();
+
+        loadLessons($('select[name="course"]').val());
+
+        $('select[name="course"]').on('change', function(e) {
+            loadLessons($(this).val());
+        });
+
+        $('#btn_submit').on('click', function(e) {
+            e.preventDefault();
+
+            if(!checkValidForm($('#frm_discussions'))){
+                return false;
+            }
+
+            $('#frm_discussions').ajaxSubmit({
+                success: function(res) {
+                    var url = '/dashboard/discussions/' + res.discussion_id + '/edit';
+                    window.location.href = url;
+                }
+            })
+        });
+
+        function loadLessons(course) {
+
+            // Get Lessons by selected Course
+            $.ajax({
+                method: 'GET',
+                url: "{{ route('admin.lessons.getLessonsByCourse') }}",
+                data: {course_id: course},
+                success: function(res) {
+                    if (res.success) {
+                        lesson_added = (res.lesson_id != null) ? true : false;
+                        $('select[name="lesson"]').html(res.options);
+                    }
+                },
+                error: function(err) {
+                    var errMsg = getErrorMessage(err);
+                    console.log(errMsg);
+                }
+            });
+        }
     });
 </script>
 

@@ -88,16 +88,11 @@ class DiscussionController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'question' => 'required',
-            'topics' => 'required'
-        ]);
-
         $data = $request->all();
         $question_data = [
             'user_id' => auth()->user()->id,
             'course_id' => $data['course'],
+            'lesson_id' => $data['lesson'],
             'title' => $data['title'],
             'question' => $data['question']
         ];
@@ -120,7 +115,10 @@ class DiscussionController extends Controller
 
         $discusson = Discussion::create($question_data);
 
-        return redirect()->route('admin.discussions.edit', $discusson->id);
+        return response()->json([
+            'success' => true,
+            'discussion_id' => $discusson->id
+        ]);
     }
 
     public function edit($id)
@@ -139,6 +137,7 @@ class DiscussionController extends Controller
         $question_data = [
             'user_id' => auth()->user()->id,
             'course_id' => $data['course'],
+            'lesson_id' => $data['lesson'],
             'title' => $data['title'],
             'question' => $data['question']
         ];

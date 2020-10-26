@@ -164,7 +164,6 @@ class ReviewController extends Controller
                 $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
                     data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
             }
-            
 
             if($review->trashed()) {
                 $restore_route = route('admin.review.restore', $course->id);
@@ -172,8 +171,12 @@ class ReviewController extends Controller
                     data-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
             }
 
-            $temp['action'] = $btn_show . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
-
+            if(auth()->user()->hasRole('Administrator')) {
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+            } else {
+                $temp['action'] = $btn_show . '&nbsp;';
+            }
+            
             array_push($data, $temp);
         }
 

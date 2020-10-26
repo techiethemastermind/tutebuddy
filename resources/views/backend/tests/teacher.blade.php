@@ -138,7 +138,10 @@
                     { data: 'student' },
                     { data: 'attachment' },
                     { data: 'action' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Tests"
+                }
             }
         );
     });

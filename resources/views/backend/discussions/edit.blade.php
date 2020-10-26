@@ -61,6 +61,18 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="list-group-item">
+                                <div class="form-group m-0" role="group" aria-labelledby="label-topic">
+                                    <div class="form-row align-items-center">
+                                        <label class="col-md-3 col-form-label form-label">Lesson</label>
+                                        <div class="col-md-9">
+                                            <select id="lesson" name="lesson" class="form-control custom-select"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="list-group-item">
                                 <div class="form-group m-0" role="group" aria-labelledby="label-topic">
                                     <div class="form-row align-items-center">
@@ -125,8 +137,18 @@
 
 <script>
     $(function() {
+        var lesson_id = '{{ $discussion->lesson_id }}'
         $('#topics').select2({
             tags: true
+        });
+
+        $('select[name="course"]').select2();
+        $('select[name="lesson"]').select2();
+
+        loadLessons($('select[name="course"]').val());
+
+        $('select[name="course"]').on('change', function(e) {
+            loadLessons($(this).val());
         });
 
         $('#frm_discussions').on('submit', function(e) {
@@ -139,6 +161,29 @@
                 }
             });
         });
+
+        function loadLessons(course) {
+
+            // Get Lessons by selected Course
+            $.ajax({
+                method: 'GET',
+                url: "{{ route('admin.lessons.getLessonsByCourse') }}",
+                data: {
+                    course_id: course,
+                    lesson_id: lesson_id
+                },
+                success: function(res) {
+                    if (res.success) {
+                        lesson_added = (res.lesson_id != null) ? true : false;
+                        $('select[name="lesson"]').html(res.options);
+                    }
+                },
+                error: function(err) {
+                    var errMsg = getErrorMessage(err);
+                    console.log(errMsg);
+                }
+            });
+        }
     });
 </script>
 

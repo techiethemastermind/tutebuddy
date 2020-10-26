@@ -132,7 +132,10 @@
                     { data: 'due' },
                     { data: 'mark' },
                     { data: 'action' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Assignments"
+                }
             }
         );
     });

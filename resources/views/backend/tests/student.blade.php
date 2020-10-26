@@ -132,7 +132,10 @@
                     { data: 'duration' },
                     { data: 'mark' },
                     { data: 'action' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Tests"
+                }
             }
         );
     });

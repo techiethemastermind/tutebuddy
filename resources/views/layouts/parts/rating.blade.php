@@ -8,13 +8,13 @@
 <span class="rating__item">
     <span class="material-icons">star_half</span>
 </span>
-@else
+@elseif(($r-1) < 5)
 <span class="rating__item">
     <span class="material-icons">star_border</span>
 </span>
 @endif
 
-@for($r_a = $r; $r < 5; $r++) 
+@for($r_a = $r; $r_a < 5; $r_a++) 
 <span class="rating__item">
     <span class="material-icons">star_border</span>
 </span>

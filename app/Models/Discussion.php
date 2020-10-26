@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class Discussion extends Model
 {
-    protected $fillable = ['user_id', 'course_id', 'title', 'question', 'topics'];
+    protected $fillable = ['user_id', 'course_id', 'lesson_id', 'title', 'question', 'topics'];
 
     public function user()
     {

@@ -678,22 +678,7 @@
                 </div>
                 <div class="col-md-9">
                     <div class="rating mb-8pt">
-                        @for($r = 1; $r <= $review->rating; $r++)
-                            <span class="rating__item">
-                                <span class="material-icons">star</span>
-                            </span>
-                            @endfor
-
-                            @if($review->rating > ($r-1))
-                            <span class="rating__item"><span class="material-icons">star_half</span></span>
-                            @else
-                            <span class="rating__item"><span class="material-icons">star_border</span></span>
-                            @endif
-
-                            @for($r_a = $r; $r < 5; $r++) <span class="rating__item">
-                                <span class="material-icons">star_border</span>
-                                </span>
-                                @endfor
+                        @include('layouts.parts.rating', ['rating' => $review->rating])
                     </div>
                     <p class="text-70 mb-0">{{ $review->content }}</p>
                 </div>
