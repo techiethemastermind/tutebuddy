@@ -351,11 +351,11 @@ class AssignmentsController extends Controller
         // Get purchased Course IDs
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
-        $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
+        $assignment_ids = AssignmentResult::where('user_id', auth()->user()->id)->pluck('assignment_id');
 
         $count = [
             'all' => Assignment::whereIn('lesson_id', $lesson_ids)->count(),
-            'deleted' => Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+            'marked' => Assignment::whereIn('id', $assignment_ids)->count()
         ];
 
         return view('backend.assignments.student', compact('count'));
@@ -366,6 +366,7 @@ class AssignmentsController extends Controller
         // Get purchased Course IDs
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+        $assignment_ids = AssignmentResult::where('user_id', auth()->user()->id)->pluck('assignment_id');
 
         switch($type) {
 
@@ -373,8 +374,8 @@ class AssignmentsController extends Controller
                 $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
             break;
 
-            case 'deleted':
-                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->get();
+            case 'marked':
+                $assignments = Assignment::whereIn('id', $assignment_ids)->get();
             break;
 
         }
@@ -383,7 +384,7 @@ class AssignmentsController extends Controller
 
         $count = [
             'all' => Assignment::whereIn('lesson_id', $lesson_ids)->count(),
-            'deleted' => Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+            'marked' => Assignment::whereIn('id', $assignment_ids)->count()
         ];
 
         return response()->json([
@@ -400,6 +401,7 @@ class AssignmentsController extends Controller
             $lesson = Lesson::find($item->lesson->id);
             $course = $lesson->course;
             $temp = [];
+
             $temp['index'] = '<div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
                         <label class="custom-control-label"><span class="text-hide">Check</span></label>
@@ -413,8 +415,8 @@ class AssignmentsController extends Controller
                                         <small class="js-lists-values-project">
                                             <strong>'. $item->title .'</strong></small>
                                         <small class="text-70">
-                                            Course: '. $item->lesson->course->title .' |
-                                            Lesson: '. $item->lesson->title .'
+                                            Course: '. $lesson->course->title .' |
+                                            Lesson: '. $lesson->title .'
                                         </small>
                                     </div>
                                 </div>
@@ -423,8 +425,11 @@ class AssignmentsController extends Controller
             $temp['due'] = '<strong>' . $item->due_date . '</strong>';
             $temp['mark'] = '<strong>' . $item->total_mark . '</strong>';
 
-            $show_route = route('student.assignment.show', [$item->lesson->slug, $item->id]);
-            $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">View</a>';
+            if($item->result->count() > 0) {
+                $btn_show = '<a href="'. route('student.assignment.result', [$lesson->slug, $item->id]). '" class="btn btn-success btn-sm">Review</a>';
+            } else {
+                $btn_show = '<a href="'. route('student.assignment.show', [$lesson->slug, $item->id]). '" class="btn btn-primary btn-sm">Start</a>';
+            }
 
             $temp['action'] = $btn_show . '&nbsp;';
 
@@ -548,7 +553,7 @@ class AssignmentsController extends Controller
     public function show_result($id)
     {
         $result = AssignmentResult::find($id);
-        return view('backend.assignments.show_result', compact('result'));
+        return view('backend.assignments.result', compact('result'));
     }
 
     /**

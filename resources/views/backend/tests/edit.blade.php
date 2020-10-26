@@ -182,7 +182,7 @@
                             <div class="form-group">
                                 <label class="form-label">Course</label>
                                 <div class="form-group mb-0">
-                                    <select name="course" class="form-control @error('course') is-invalid @enderror">
+                                    <select name="course_id" class="form-control @error('course') is-invalid @enderror">
                                         @foreach($courses as $course)
                                         <option value="{{ $course->id }}" @if($course->id == $test->lesson->course->id) selected @endif>
                                             {{ $course->title }}
@@ -215,24 +215,35 @@
                                 <input type="number" name="score" class="form-control" placeholder="Total Marks" min="1" value="{{ $test->score }}" tute-no-empty>
                             </div>
 
-                            <hr>
-
-                            <!-- Set Evaluation -->
-                            <div class="form-group" for="evaluation">
-                                <label class="form-label">Evaluation:</label>
+                            <!-- Test Type -->
+                            <div class="form-group">
+                                <label class="form-label">Test Type</label>
                                 <div class="custom-controls-stacked">
-                                    <div class="custom-control custom-radio py-1">
-                                        <input id="score_by_mark" name="score_type" type="radio" class="custom-control-input" value="1" checked="">
-                                        <label for="score_by_mark" class="custom-control-label">Score by Mark</label>
+                                    <div class="custom-control custom-radio py-2">
+                                        <input id="t_type_1" name="type" type="radio" class="custom-control-input" @if($test->type == 0) checked="true" @endif value="0">
+                                        <label for="t_type_1" class="custom-control-label">Take at any time</label>
                                     </div>
-                                    <div class="custom-control custom-radio py-1">
-                                        <input id="score_by_grade" name="score_type" type="radio" class="custom-control-input" value="2">
-                                        <label for="score_by_grade" class="custom-control-label">Score by Grade</label>
+                                    <div class="custom-control custom-radio py-2">
+                                        <input id="t_type_2" name="type" type="radio" class="custom-control-input" @if($test->type == 1) checked="true" @endif value="1">
+                                        <label for="t_type_2" class="custom-control-label">Take at fixed time</label>
                                     </div>
-                                    <div class="custom-control custom-radio py-1">
-                                        <input id="no_score" name="score_type" type="radio" class="custom-control-input" value="0">
-                                        <label for="no_score" class="custom-control-label">No Scoring</label>
-                                    </div>
+                                </div>
+                            </div>
+
+                            <div for="t_type_1" @if($test->type == 0) style="display: none;" @endif>
+                                <hr>
+                                <!-- Due Data -->
+                                <div class="form-group">
+                                    <label class="form-label">Due Date</label>
+                                    <input name="start_date" type="text" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" 
+                                    data-flatpickr-alt-format="F j, Y at H:i" data-flatpickr-date-format="Y-m-d H:i" value="{{ $test->start_date }}">
+                                </div>
+
+                                <!-- Timezone -->
+                                <div class="form-group">
+                                    <label class="form-label">Timezone</label>
+                                    <select name="timezone" class="form-control"></select>
+                                    <small class="form-text text-muted">Select timezone</small>
                                 </div>
                             </div>
                         </div>
@@ -357,6 +368,9 @@
 <script src="{{ asset('assets/js/quill.min.js') }}"></script>
 <script src="{{ asset('assets/js/quill.js') }}"></script>
 
+<!-- Timezone Picker -->
+<script src="{{ asset('assets/js/timezones.full.js') }}"></script>
+
 <script>
 
 $(function() {
@@ -387,12 +401,31 @@ $(function() {
         theme: 'snow'
     });
 
-    $('select[name="course"]').select2({ tags: true });
-    $('select[name="lesson"]').select2({ tags: true });
+    $('select[name="course_id"]').select2({ tags: true });
+    $('select[name="lesson_id"]').select2({ tags: true });
 
-    loadLessons($('select[name="course"]').val());
+    // Timezone
+    $('select[name="timezone"]').timezones();
+    if('{{ $test->type }}' == 1) {
+        $('select[name="timezone"]').val('{{ $test->timezone }}').change();
+    }
 
-    $('select[name="course"]').on('change', function(e) {
+    // Course Type
+    $('#t_type_1').on('change', function(e) {
+        var style = $(this).prop('checked') ? 'none' : 'block';
+        $('div[for="t_type_1"]').css('display', style);
+    });
+
+    // Course Type
+    $('#t_type_2').on('change', function(e) {
+        console.log('dddd');
+        var style = $(this).prop('checked') ? 'block' : 'none';
+        $('div[for="t_type_1"]').css('display', style);
+    });
+
+    loadLessons($('select[name="course_id"]').val());
+
+    $('select[name="course_id"]').on('change', function(e) {
         loadLessons($(this).val());
     });
 

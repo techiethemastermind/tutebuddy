@@ -11,12 +11,13 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Builder;
 
 use App\Models\Lesson;
+use App\Models\Course;
 
 class Test extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['lesson_id', 'course_id', 'user_id', 'description', 'title', 'content', 'type', 'duration', 'score'];
+    protected $fillable = ['lesson_id', 'course_id', 'user_id', 'description', 'title', 'content', 'type', 'duration', 'score', 'start_date', 'timezone'];
 
     protected static function boot()
     {
@@ -39,6 +40,11 @@ class Test extends Model
     public function lesson()
     {
         return $this->belongsTo(Lesson::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 
     public function result()

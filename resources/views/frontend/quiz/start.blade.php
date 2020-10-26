@@ -105,14 +105,12 @@
             </ul>
             <div class="nav navbar-nav ml-sm-auto navbar-list__item">
                 <div class="nav-item d-flex flex-column flex-sm-row ml-sm-16pt">
+                    @if($quiz->type == 1)
                     <a href="javascript:void(0)" id="btn_start"
                         class="btn justify-content-center btn-accent w-100 w-sm-auto mb-16pt mb-sm-0 ml-sm-16pt">
                             Start Quiz
                         <i class="material-icons icon--right">keyboard_arrow_right</i></a>
-                    <!-- <a href="javascript:void(0)" id="btn_finish"
-                        class="btn justify-content-center btn-primary w-100 w-sm-auto mb-16pt mb-sm-0 ml-sm-16pt">
-                            Finish Quiz
-                        <i class="material-icons icon--right">keyboard_arrow_right</i></a> -->
+                    @endif
                 </div>
             </div>
         </div>
@@ -126,7 +124,7 @@
             <p class="text-50 mb-0">Note: There can be multiple correct answers to this question.</p>
         </div>
 
-        <div class="border-left-2 pl-32pt pb-64pt tute-questions d-none">
+        <div class="border-left-2 pl-32pt pb-64pt tute-questions">
 
             <form id="frm_quiz" method="POST" action="{{ route('student.quiz.save') }}">@csrf
 
@@ -234,23 +232,89 @@
 var time = '{{ $quiz->duration }}'; // Min
 var timer, time;
 var take_type = '{{ $quiz->take_type }}';
+var type = '{{ $quiz->type }}';
 
-// Ajax Header for Ajax Call
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+$(function() {
+
+    // Ajax Header for Ajax Call
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+    });
+
+    $('#btn_complete').on('click', function() {
+
+        $('#frm_quiz').ajaxSubmit({
+            success: function(res) {
+                
+                if(res.success) {
+                    swal({
+                        title: "Quiz Completed!",
+                        text: "Your Score will be loaded",
+                        type: 'warning',
+                        showCancelButton: false,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirm',
+                        dangerMode: false,
+                    }, function (val) {
+                        if(val) {
+                            window.location.href = '/quiz-result/{{$quiz->lesson->slug}}/{{ $quiz->id }}';
+                        }
+                    });
+                }
+            },
+        });
+    });
+
+    if(type == 2) {
+        getTimer(true);
     }
-});
 
-$('#btn_complete').on('click', function() {
+    $('#btn_start').on('click', function(e) {
 
-    $('#frm_quiz').ajaxSubmit({
-        success: function(res) {
-            
-            if(res.success) {
+        if(take_type == '1') { // Allow pause in middle of take quiz
+            if(timer == undefined) {
+                getTimer(true);
+                $(this).html('Stop Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
+            } else {
+                clearInterval(timer);
+                timer = undefined
+                $(this).html('Start Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
+            }
+        } else {
+            if(timer == undefined) {
+                getTimer(true);
+                $(this).html('Finish Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
+            } else {
+                clearInterval(timer);
+                console.log('finish quiz');
+            }
+        }
+    });
+
+    function getTimer(status = true) {
+
+        var x = time * 60;
+
+        timer = setInterval(function() {
+            x--;
+            var hours = Math.floor( x / 3600 );
+            var minutes = Math.floor( ( x - 3600 * hours ) / 60 );
+            var seconds = x - hours * 3600 - minutes * 60;
+
+            if (hours < 10) {hours = "0" + hours;}
+            if (minutes < 10) {minutes = "0" + minutes;}
+            if (seconds < 10) {seconds = "0" + seconds;}
+
+            $('#time').html(hours + ':' + minutes + ':' + seconds);
+
+            if(x == 0) {
+                clearInterval(timer);
+
                 swal({
-                    title: "Quiz Completed!",
-                    text: "Your Score will be loaded",
+                    title: "Time is up!",
+                    text: "Next Question will load",
                     type: 'warning',
                     showCancelButton: false,
                     showConfirmButton: true,
@@ -258,74 +322,15 @@ $('#btn_complete').on('click', function() {
                     dangerMode: false,
                 }, function (val) {
                     if(val) {
-                        window.location.href = '/quiz-result/{{$quiz->lesson->slug}}/{{ $quiz->id }}';
+                        load_question(t_step);
                     }
                 });
             }
-        },
-    });
-});
 
-$('#btn_start').on('click', function(e) {
-
-    $('div.tute-questions').removeClass('d-none');
-
-    if(take_type == '1') {
-        if(timer == undefined) {
-            getTimer(true);
-            $(this).html('Stop Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
-        } else {
-            clearInterval(timer);
-            timer = undefined
-            $(this).html('Start Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
-        }
-    } else {
-        if(timer == undefined) {
-            getTimer(true);
-            $(this).html('Finish Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
-        } else {
-            clearInterval(timer);
-            console.log('finish quiz');
-        }
+        }, 1000);
     }
 });
 
-function getTimer(status = true) {
-
-    var x = time * 60;
-
-    timer = setInterval(function() {
-        x--;
-        var hours = Math.floor( x / 3600 );
-        var minutes = Math.floor( ( x - 3600 * hours ) / 60 );
-        var seconds = x - hours * 3600 - minutes * 60;
-
-        if (hours < 10) {hours = "0" + hours;}
-        if (minutes < 10) {minutes = "0" + minutes;}
-        if (seconds < 10) {seconds = "0" + seconds;}
-
-        $('#time').html(hours + ':' + minutes + ':' + seconds);
-
-        if(x == 0) {
-            clearInterval(timer);
-
-            swal({
-                title: "Time is up!",
-                text: "Next Question will load",
-                type: 'warning',
-                showCancelButton: false,
-                showConfirmButton: true,
-                confirmButtonText: 'Confirm',
-                dangerMode: false,
-            }, function (val) {
-                if(val) {
-                    load_question(t_step);
-                }
-            });
-        }
-
-    }, 1000);
-}
 </script>
 
 @endpush

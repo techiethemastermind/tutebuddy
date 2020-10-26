@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Test;
+use App\Models\TestResult;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Question;
@@ -13,6 +14,7 @@ use App\Models\Question;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class TestController extends Controller
 {
@@ -207,7 +209,7 @@ class TestController extends Controller
     }
 
     /**
-     * Store new Assignment
+     * Store new test
      */
     public function store(Request $request)
     {
@@ -233,7 +235,7 @@ class TestController extends Controller
     }
 
     /**
-     * Edit Assignment
+     * Edit test
      */
     public function edit($id)
     {
@@ -444,8 +446,13 @@ class TestController extends Controller
             $temp['duration'] = $hours . ' Hours ' . $mins . ' Mins';
             $temp['mark'] = '<strong>' . $item->score . '</strong>';
 
-            $show_route = route('student.test.show', [$item->lesson->slug, $item->id]);
-            $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Start</a>';
+            if($item->result->count() > 0) {
+                $show_route = route('student.test.result', [$item->lesson->slug, $item->id]);
+                $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Review</a>';
+            } else {
+                $show_route = route('student.test.show', [$item->lesson->slug, $item->id]);
+                $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
+            }
 
             $temp['action'] = $btn_show . '&nbsp;';
 
@@ -453,5 +460,162 @@ class TestController extends Controller
         }
 
         return $data;
+    }
+
+    /**
+     * Submitted Tests
+     */
+    public function submitedTests()
+    {
+        $tests = Test::where('user_id', auth()->user()->id)->get();
+        $test_ids = Test::where('user_id', auth()->user()->id)->pluck('id');
+        $test_results = TestResult::whereIn('test_id', $test_ids);
+
+        $count = [
+            'all' => $test_results->count(),
+            'marked' => $test_results->whereNotNull('mark')->count()
+        ];
+
+        return view('backend.tests.teacher', compact('count'));
+    }
+
+    /**
+     * Table Data For Submitted Tests
+     */
+    public function getSubmitedTestsByAjax($type)
+    {
+        $tests = Test::where('user_id', auth()->user()->id)->get();
+        $test_ids = Test::where('user_id', auth()->user()->id)->pluck('id');
+
+        $count = [
+            'all' => TestResult::whereIn('test_id', $test_ids)->count(),
+            'marked' => TestResult::whereIn('test_id', $test_ids)->whereNotNull('mark')->count()
+        ];
+
+        switch($type)
+        {
+            case 'all':
+                $test_results = TestResult::whereIn('test_id', $test_ids)->orderBy('updated_at', 'desc')->get();
+            break;
+
+            case 'marked':
+                $test_results = TestResult::whereIn('test_id', $test_ids)->orderBy('updated_at', 'desc')->whereNotNull('mark')->get();
+            break;
+        }
+
+        $data = [];
+        foreach($test_results as $result) {
+            $temp = [];
+            $temp['index'] = '<div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
+                                <label class="custom-control-label"><span class="text-hide">Check</span></label>
+                            </div>';
+            
+            $temp['subject'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        <span class="avatar-title rounded bg-primary text-white">
+                                            '. substr($result->test->title, 0, 2) .'
+                                        </span>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <small class="js-lists-values-project">
+                                                <strong>'. $result->test->title .'</strong>
+                                            </small>
+                                            <small class="text-70">
+                                                Course: '. $result->test->course->title .' | Lesson: '. $result->test->lesson->title .'
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>';
+
+            if(!empty($result->user->avatar)) {
+                $avatar = '<img src="'. asset('/storage/avatars/' . $result->user->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';
+            } else {
+                $avatar = '<span class="avatar-title rounded-circle">'. substr($result->user->name, 0, 2) .'</span>';
+            }
+
+            $temp['student'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        '. $avatar .'
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex d-flex flex-column">
+                                                <p class="mb-0"><strong class="js-lists-values-name">'. $result->user->name .'</strong></p>
+                                                <small class="js-lists-values-email text-50">'. $result->user->email .'</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+
+            
+            $ext = pathinfo($result->attachment, PATHINFO_EXTENSION);
+            if(!empty($result->attachment)) {
+                if($ext == 'pdf') {
+                    $img = '<img class="rounded w-50" src="'. asset('/images/pdf.png') .'" alt="image">';
+                } else {
+                    $img = '<img class="rounded w-50" src="'. asset('/images/docx.png') .'" alt="image">';
+                }
+                $temp['attachment'] = '<a href="'. asset('/storage/attachments/' . $result->attachment ) .'" target="_blank">'. $img .'</a>';
+            } else {
+                $temp['attachment'] = 'N/A';
+            }
+
+            $btn_show = view('backend.buttons.show', ['show_route' => route('admin.tests.show_result', $result->id)]);
+            
+            $temp['action'] = $btn_show . '&nbsp;';
+
+            array_push($data, $temp);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+    }
+
+    /**
+     * Show Result
+     */
+    public function show_result($test_id)
+    {
+        $result = TestResult::find($test_id);
+        return view('backend.tests.result', compact('result'));
+    }
+
+    /**
+     * Answer of Assignment Answer
+     */
+    public function result_answer(Request $request)
+    {
+        $data = $request->all();
+        $result = TestResult::find($data['result_id']);
+
+        if(!empty($data['answer_attach'])) {
+            $attachment = $request->file('answer_attach');
+
+            // Delete existing file
+            if (File::exists(public_path('/storage/attachments/' . $result->answer_attach))) {
+                File::delete(public_path('/storage/attachments/' . $result->answer_attach));
+            }
+
+            $attachment_url = $this->saveFile($attachment);
+            $data['answer_attach'] = $attachment_url;
+        }
+        
+        $result->mark = $data['mark'];
+        $result->answer = $data['answer'];
+        $result->answer_attach = $data['answer_attach'];
+        $result->status = 1;
+        $result->submit_date = Carbon::now();
+
+        $result->save();
+
+        return response()->json([
+            'success' => true,
+            'action' => 'update'
+        ]);
     }
 }

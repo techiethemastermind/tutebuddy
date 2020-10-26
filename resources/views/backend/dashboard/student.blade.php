@@ -572,20 +572,14 @@
 
                         <div class="card card-group-row__card card-sm">
                             <div class="card-body d-flex align-items-center">
-                                <a href="{{ route('lessons.show', [
-                                        $testResult->test->course->slug,
-                                        $testResult->test->lesson->slug,
-                                        $testResult->test->step->step]) }}"
+                                <a href="{{ route('student.test.show', [ $testResult->test->lesson->slug, $testResult->test->id]) }}"
                                     class="avatar overlay overlay--primary avatar-4by3 mr-12pt">
                                     <img src="{{ asset('/storage/uploads/thumb/' . $testResult->test->course->course_image ) }}"
                                         alt="{{ $testResult->test->title }}" class="avatar-img rounded">
                                     <span class="overlay__content"></span>
                                 </a>
                                 <div class="flex mr-12pt">
-                                    <a class="card-title" href="{{ route('lessons.show', [
-                                        $testResult->test->course->slug,
-                                        $testResult->test->lesson->slug,
-                                        $testResult->test->step->step]) }}">{{ $testResult->test->title }}</a>
+                                    <a class="card-title" href="{{ route('student.test.show', [ $testResult->test->lesson->slug, $testResult->test->id]) }}">{{ $testResult->test->title }}</a>
                                     <div class="card-subtitle text-50">
                                         {{ Carbon\Carbon::parse($testResult->updated_at)->diffForHumans() }}
                                     </div>
@@ -596,46 +590,6 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="progress rounded-0" style="height: 4px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 37%;"
-                                aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div> -->
-
-                            <!-- <div class="card-footer">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex mr-2">
-                                        <a href="{{ route('lessons.show', [
-                                        $testResult->test->course->slug,
-                                        $testResult->test->lesson->slug,
-                                        $testResult->test->step->step]) }}" class="btn btn-light btn-sm">
-
-                                            <i class="material-icons icon--left">playlist_add_check</i> Reset
-                                            <span class="badge badge-dark badge-notifications ml-2">5</span>
-
-                                        </a>
-                                    </div>
-
-                                    <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
-                                                class="material-icons">more_horiz</i></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('lessons.show', [
-                                            $testResult->test->course->slug,
-                                            $testResult->test->lesson->slug,
-                                            $testResult->test->step->step]) }}" class="dropdown-item">Continue</a>
-                                            <a href="{{ route('quiz.result', $testResult->test->id) }}"
-                                                class="dropdown-item">View Result</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="{{ route('lessons.show', [
-                                            $testResult->test->course->slug,
-                                            $testResult->test->lesson->slug,
-                                            $testResult->test->step->step]) }}" class="dropdown-item text-danger">Reset
-                                                Quiz</a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div> -->
                         </div>
                     </div>
 

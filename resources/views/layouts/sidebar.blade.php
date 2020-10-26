@@ -66,7 +66,13 @@
 
                         <li class="sidebar-menu-item {{ Request::is('dashboard/submited-assignments*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.instructor.submitedAssignments') }}">
-                                <span class="sidebar-menu-text">Submited Assignments</span>
+                                <span class="sidebar-menu-text">Submitted Assignments</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/submited-tests*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.instructor.submitedTests') }}">
+                                <span class="sidebar-menu-text">Submitted Tests</span>
                             </a>
                         </li>
 

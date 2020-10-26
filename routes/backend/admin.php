@@ -23,8 +23,6 @@ Route::get('live-sessions/all', 'LessonController@instructorLiveSessions')->name
 Route::get('ajax/instructor-sessions/{type}', 'LessonController@getInstructorLiveSessionsByAjax')->name('teacher.getInstructorSessionsByAjax');
 Route::get('enrolled-students', 'UserController@enrolledStudents')->name('instructor.students');
 Route::get('ajax/enrolled-students', 'UserController@getEnrolledStudentsByAjax')->name('instructor.getEnrolledStudentsByAjax');
-Route::get('submited-assignments', 'AssignmentsController@submitedAssignments')->name('instructor.submitedAssignments');
-Route::get('ajax/submited-assignments/{type}', 'AssignmentsController@getSubmitedAssignmentsByAjax')->name('instructor.getSubmitedAssignmentsByAjax');
 
 //===== Categories Routes =====//
 Route::resource('categories', 'CategoryController');
@@ -70,7 +68,9 @@ Route::get('ajax/assignments/list/{type}', 'AssignmentsController@getList')->nam
 Route::get('ajax/assignments/publish/{id}', 'AssignmentsController@publish')->name('assignment.publish');
 Route::get('ajax/assignments/delete/forever/{id}', 'AssignmentsController@foreverDelete')->name('assignment.foreverDelete');
 Route::get('ajax/assignments/lessons', 'AssignmentsController@getLessons')->name('assignment.getLessonsByCourse');
-Route::get('assignments/result/{id}', 'AssignmentsController@show_result')->name('assignments.show_result');
+Route::get('submited-assignments', 'AssignmentsController@submitedAssignments')->name('instructor.submitedAssignments');
+Route::get('ajax/submited-assignments/{type}', 'AssignmentsController@getSubmitedAssignmentsByAjax')->name('instructor.getSubmitedAssignmentsByAjax');
+Route::get('submited-assignments/result/{id}', 'AssignmentsController@show_result')->name('assignments.show_result');
 Route::post('assignment-result/answer', 'AssignmentsController@result_answer')->name('assignments.result_answer');
 Route::get('my/assignments', 'AssignmentsController@studentAssignments')->name('student.assignments');
 Route::get('ajax/my-assignments/{type}', 'AssignmentsController@getStudentAssignmentsByAjax')->name('student.getMyAssignmentsByAjax');
@@ -169,6 +169,10 @@ Route::get('ajax/test/delete/forever/{id}', 'TestController@foreverDelete')->nam
 Route::get('ajax/test/lessons', 'TestController@getLessons')->name('test.getLessonsByCourse');
 Route::get('my/tests', 'TestController@studentTests')->name('student.tests');
 Route::get('ajax/my-tests/{type}', 'TestController@getStudentTestsByAjax')->name('student.getMyTestsByAjax');
+Route::get('submited-tests', 'TestController@submitedTests')->name('instructor.submitedTests');
+Route::get('ajax/submited-tests/{type}', 'TestController@getSubmitedTestsByAjax')->name('instructor.getSubmitedTestsByAjax');
+Route::get('submited-tests/result/{id}', 'TestController@show_result')->name('tests.show_result');
+Route::post('test-result/answer', 'TestController@result_answer')->name('tests.result_answer');
 
 //==== Transactions Route ==== //
 Route::get('transactions', 'PaymentController@getTransactions')->name('transactions');

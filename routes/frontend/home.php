@@ -30,12 +30,6 @@ Route::get('page/{slug}', 'PageController@getPage')->name('page.show');
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('course/{course_slug}/{lesson_slug}/{step}', 'LessonsController@show')->name('lessons.show');
-    
-    // Route::get('quiz/{test_id}/{index}', 'LessonsController@getQuestion')->name('quiz.questions.get');
-    // Route::post('quiz/questions/{id}', 'LessonsController@completeQuestion')->name('quiz.complete');
-    // Route::get('quiz-result/{test_id}', 'LessonsController@testResult')->name('quiz.result');
-    // Route::get('quiz-result/{id}/complete', 'LessonsController@testComplete')->name('quiz.result.complete');
-
     Route::get('lesson/live/{lesson_slug}/{lesson_id}', 'LessonsController@liveSession')->name('lessons.live');
 
     Route::get('lesson/{id}/complete', 'LessonsController@completeLesson')->name('lesson.complete');
@@ -44,6 +38,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Assignment
     Route::get('assignment/{lesson_slug}/{id}', 'StudentController@startAssignment')->name('student.assignment.show');
     Route::post('assignment/save', 'StudentController@saveAssignment')->name('student.assignment.save');
+    Route::get('assignment-result/{lesson_slug}/{test_id}', 'StudentController@assignmentResult')->name('student.assignment.result');
 
     // Take Quiz for Student
     Route::get('quiz/{lesson_slug}/{quiz_id}', 'StudentController@startQuiz')->name('student.quiz.show');
@@ -53,6 +48,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Take test for Student
     Route::get('test/{lesson_slug}/{test_id}', 'StudentController@startTest')->name('student.test.show');
     Route::post('test/save', 'StudentController@saveTest')->name('student.test.save');
+    Route::get('test-result/{lesson_slug}/{test_id}', 'StudentController@TestResult')->name('student.test.result');
 
     // Cart and Checkout
     Route::post('cart/checkout', 'CartController@checkout')->name('cart.checkout');

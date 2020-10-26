@@ -4,6 +4,10 @@
 
 @push('after-styles')
 
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('assets/css/select2.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">
+
 <!-- jQuery Datatable CSS -->
 <link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
 
@@ -18,13 +22,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Tests</h2>
+                    <h2 class="mb-0">Test Submitted</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Tests
+                            Test Submitted
                         </li>
 
                     </ol>
@@ -37,7 +41,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">My Tests</div>
+            <div class="page-separator__text">Test Submitted</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -46,23 +50,23 @@
                 <div id="tbl_selector" class="row no-gutters" role="tablist">
 
                     <div class="col-auto">
-                        <a href="{{ route('admin.student.getMyTestsByAjax', 'all') }}" data-toggle="tab" role="tab" aria-selected="true"
+                        <a href="{{ route('admin.instructor.getSubmitedTestsByAjax', 'all') }}" data-toggle="tab" role="tab" aria-selected="true"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                             <span class="h2 mb-0 mr-3 count-all">{{ $count['all'] }}</span>
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">All</strong>
-                                <small class="card-subtitle text-50">All Quizzes</small>
+                                <small class="card-subtitle text-50">All Assignments</small>
                             </span>
                         </a>
                     </div>
 
                     <div class="col-auto border-left border-right">
-                        <a href="{{ route('admin.student.getMyTestsByAjax', 'result') }}" data-toggle="tab" role="tab"
+                        <a href="{{ route('admin.instructor.getSubmitedTestsByAjax', 'marked') }}" data-toggle="tab" role="tab"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
-                            <span class="h2 mb-0 mr-3 count-result">{{ $count['result'] }}</span>
+                            <span class="h2 mb-0 mr-3 count-marked">{{ $count['marked'] }}</span>
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">Marked</strong>
-                                <small class="card-subtitle text-50">Marked Tests</small>
+                                <small class="card-subtitle text-50">Marked Assignments</small>
                             </span>
                         </a>
                     </div>
@@ -70,21 +74,23 @@
             </div>
 
             <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date">
-                <table id="tbl_tests" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='15'>
+                <table id="tbl_results" class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                        data-target="#toggle" id="checkall">
-                                    <label class="custom-control-label" for="checkall"><span
-                                            class="text-hide">Toggle all</span></label>
+                                        data-target="#assignment" data-domfactory-upgraded="toggle-check-all">
+                                    <label class="custom-control-label">
+                                        <span class="text-hide">Toggle all</span>
+                                    </label>
                                 </div>
                             </th>
-                            <th> Title </th>
-                            <th> Duration </th>
-                            <th> Total Marks </th>
-                            <th> Actions </th>
+
+                            <th>Subject</th>
+                            <th>Student</th>
+                            <th>Attachment</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle"></tbody>
@@ -110,7 +116,7 @@
             table.ajax.url( route ).load();
         });
 
-        var table = $('#tbl_tests').DataTable(
+        var table = $('#tbl_results').DataTable(
             {
                 lengthChange: false,
                 searching: false,
@@ -128,9 +134,9 @@
                 },
                 columns: [
                     { data: 'index' },
-                    { data: 'title' },
-                    { data: 'duration' },
-                    { data: 'mark' },
+                    { data: 'subject' },
+                    { data: 'student' },
+                    { data: 'attachment' },
                     { data: 'action' }
                 ]
             }

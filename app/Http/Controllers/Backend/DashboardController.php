@@ -18,6 +18,8 @@ use App\Models\Bundle;
 use App\Models\AssignmentResult;
 use App\Models\TestResultAnswers;
 use App\Models\Discussion;
+use App\Models\Quiz;
+use App\Models\QuizResults;
 
 class DashboardController extends Controller
 {
@@ -72,10 +74,12 @@ class DashboardController extends Controller
                 $bundles = Bundle::where('user_id', auth()->user()->id)->limit(5)->get();
                 $test_ids = Test::whereIn('course_id', $course_ids)->limit(5)->pluck('id');
                 $testResults = TestResult::whereIn('test_id', $test_ids)->limit(5)->get();
+                $quiz_ids = Quiz::whereIn('course_id', $course_ids)->limit(5)->pluck('id');
+                $quizResults = QuizResults::whereIn('quiz_id', $quiz_ids)->limit(5)->get();
                 $discussions = Discussion::limit(5)->get();
 
                 return view('backend.dashboard.teacher', compact('schedules', 'live_lessons',
-                    'students', 'assignments', 'assignment_results', 'bundles', 'testResults', 'discussions'));
+                    'students', 'assignments', 'assignment_results', 'bundles', 'testResults', 'quizResults', 'discussions'));
             break;
 
             case 'student':

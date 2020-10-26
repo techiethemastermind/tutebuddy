@@ -81,6 +81,15 @@ class StudentController extends Controller
     }
 
     /**
+     * Show Assignment Result
+     */
+    public function assignmentResult($lesson_slug, $assignment_id)
+    {
+        $assignment = Assignment::find($assignment_id);
+        return view('frontend.assignment.result', compact('assignment'));
+    }
+
+    /**
      * Show Quiz For Student
      */
     public function startQuiz($lesson_slug, $quiz_id)
@@ -274,5 +283,14 @@ class StudentController extends Controller
                 'message' => 'Successfully Updated',
             ]);
         }
+    }
+
+    /**
+     * Show Test Result
+     */
+    public function testResult($lesson_slug, $test_id)
+    {
+        $test = Test::find($test_id);
+        return view('frontend.test.result', compact('test'));
     }
 }

@@ -57,12 +57,12 @@
                     </div>
 
                     <div class="col-auto border-left border-right">
-                        <a href="{{ route('admin.student.getMyAssignmentsByAjax', 'deleted') }}" data-toggle="tab" role="tab"
+                        <a href="{{ route('admin.student.getMyAssignmentsByAjax', 'marked') }}" data-toggle="tab" role="tab"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
-                            <span class="h2 mb-0 mr-3 count-deleted">{{ $count['deleted'] }}</span>
+                            <span class="h2 mb-0 mr-3 count-marked">{{ $count['marked'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">Achieved</strong>
-                                <small class="card-subtitle text-50">Achieved Assignments</small>
+                                <strong class="card-title">Marked</strong>
+                                <small class="card-subtitle text-50">Marked Assignments</small>
                             </span>
                         </a>
                     </div>

@@ -527,8 +527,16 @@
                                     </div>
                                 </td>
                                 <td>
+                                    <?php
+                                        $ext = pathinfo($result->attachment_url, PATHINFO_EXTENSION);
+                                        if($ext == 'pdf') {
+                                            $img = '<img class="rounded" src="'. asset('/images/pdf.png') .'" alt="image" style="width: 50px;">';
+                                        } else {
+                                            $img = '<img class="rounded" src="'. asset('/images/docx.png') .'" alt="image" style="width: 50px;">';
+                                        }
+                                    ?>
                                     @if(!empty($result->attachment_url))
-                                    <a href="{{ asset('/storage/uploads/' . $result->attachment_url ) }}" target="_blank">{{ $result->attachment_url }}</a>
+                                    <a href="{{ asset('/storage/uploads/' . $result->attachment_url ) }}" target="_blank">{!! $img !!}</a>
                                     @else
                                     N/A
                                     @endif
@@ -593,13 +601,14 @@
             </div>
             @endif
 
+            <!-- Test Result -->
             @if(count($testResults) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">Quizz Submitted</div>
+                <div class="page-separator__text">Test Submitted</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
-                        <a href="{{ route('admin.discussions.topics') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                        <a href="{{ route('admin.tests.index') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
                     </div>
                 </div>
             </div>
@@ -612,68 +621,75 @@
 
                         <div class="card card-group-row__card card-sm">
                             <div class="card-body d-flex align-items-center">
-                                <a href="{{ route('lessons.show', [
-                                        $testResult->test->course->slug,
-                                        $testResult->test->lesson->slug,
-                                        $testResult->test->step->step]) }}"
+                                <a href="{{ route('student.test.result', [ $testResult->test->lesson->slug, $testResult->test->id]) }}"
                                     class="avatar overlay overlay--primary avatar-4by3 mr-12pt">
                                     <img src="{{ asset('/storage/uploads/thumb/' . $testResult->test->course->course_image ) }}"
                                         alt="{{ $testResult->test->title }}" class="avatar-img rounded">
                                     <span class="overlay__content"></span>
                                 </a>
                                 <div class="flex mr-12pt">
-                                    <a class="card-title" href="{{ route('lessons.show', [
-                                        $testResult->test->course->slug,
-                                        $testResult->test->lesson->slug,
-                                        $testResult->test->step->step]) }}">{{ $testResult->test->title }}</a>
+                                    <a class="card-title" href="{{ route('student.test.result', [ $testResult->test->lesson->slug, $testResult->test->id]) }}">{{ $testResult->test->title }}</a>
                                     <div class="card-subtitle text-50">
                                         {{ Carbon\Carbon::parse($testResult->updated_at)->diffForHumans() }}
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column align-items-center">
-                                    <span class="lead text-headings lh-1">{{ $testResult->test_result }}</span>
-                                    <small class="text-50 text-uppercase text-headings">Score</small>
+                                    <span class="lead text-headings lh-1">By: {{ $testResult->user->name }}</span>
+                                    <a class="card-title" href="{{ route('student.test.result', [ $testResult->test->lesson->slug, $testResult->test->id]) }}">
+                                        <small class="text-50 text-uppercase text-headings">
+                                            {{ $testResult->test->course->title }} | {{ $testResult->test->lesson->title }}
+                                        </small>
+                                    </a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- <div class="progress rounded-0" style="height: 4px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 37%;"
-                                aria-valuenow="37" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div> -->
+                @endforeach
 
-                            <div class="card-footer">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex mr-2">
-                                        <a href="{{ route('lessons.show', [
-                                        $testResult->test->course->slug,
-                                        $testResult->test->lesson->slug,
-                                        $testResult->test->step->step]) }}" class="btn btn-light btn-sm">
+            </div>
+            @endif
 
-                                            <i class="material-icons icon--left">playlist_add_check</i> Reset
-                                            <span class="badge badge-dark badge-notifications ml-2">5</span>
+            <!-- Quiz Result -->
+            @if(count($quizResults) > 0)
+            <div class="page-separator">
+                <div class="page-separator__text">Quiz Submitted</div>
+                <div class="d-flex flex">
+                    <div class="flex">&nbsp;</div>
+                    <div style="padding-left: 8px; background-color: #f5f7fa;">
+                        <a href="{{ route('admin.quizs.index') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                    </div>
+                </div>
+            </div>
 
-                                        </a>
+            <div class="row card-group-row">
+
+                @foreach($quizResults as $quizResult)
+
+                    <div class="card-group-row__col col-md-6">
+
+                        <div class="card card-group-row__card card-sm">
+                            <div class="card-body d-flex align-items-center">
+                                <a href="{{ route('student.quiz.result', [ $quizResult->quiz->lesson->slug, $quizResult->quiz->id]) }}"
+                                    class="avatar overlay overlay--primary avatar-4by3 mr-12pt">
+                                    <img src="{{ asset('/storage/uploads/thumb/' . $quizResult->quiz->course->course_image ) }}"
+                                        alt="{{ $quizResult->quiz->title }}" class="avatar-img rounded">
+                                    <span class="overlay__content"></span>
+                                </a>
+                                <div class="flex mr-12pt">
+                                    <a class="card-title" href="{{ route('student.quiz.result', [ $quizResult->quiz->lesson->slug, $quizResult->quiz->id]) }}">
+                                        {{ $quizResult->quiz->title }}</a>
+                                    <div class="card-subtitle text-50">
+                                        {{ Carbon\Carbon::parse($quizResult->updated_at)->diffForHumans() }}
                                     </div>
-
-                                    <div class="dropdown">
-                                        <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
-                                                class="material-icons">more_horiz</i></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a href="{{ route('lessons.show', [
-                                            $testResult->test->course->slug,
-                                            $testResult->test->lesson->slug,
-                                            $testResult->test->step->step]) }}" class="dropdown-item">Continue</a>
-                                            <a href="{{ route('quiz.result', $testResult->test->id) }}"
-                                                class="dropdown-item">View Result</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="{{ route('lessons.show', [
-                                            $testResult->test->course->slug,
-                                            $testResult->test->lesson->slug,
-                                            $testResult->test->step->step]) }}" class="dropdown-item text-danger">Reset
-                                                Quiz</a>
-                                        </div>
-                                    </div>
-
+                                </div>
+                                <div class="d-flex flex-column align-items-center">
+                                    <span class="lead text-headings lh-1">By: {{ $quizResult->user->name }}</span>
+                                    <a class="card-title" href="{{ route('student.quiz.result', [ $quizResult->quiz->lesson->slug, $quizResult->quiz->id]) }}">
+                                        <small class="text-50 text-uppercase text-headings">
+                                            {{ $quizResult->quiz->course->title }} | {{ $quizResult->quiz->lesson->title }}
+                                        </small>
+                                    </a>
                                 </div>
                             </div>
                         </div>

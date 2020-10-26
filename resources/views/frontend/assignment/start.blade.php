@@ -17,7 +17,7 @@
             <nav class="nav navbar-nav">
                 <div class="nav-item navbar-list__item">
                     <a href="{{ route('courses.show', $assignment->course->slug) }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to Course
+                        <i class="material-icons icon--left">keyboard_backspace</i> Review Course
                     </a>
                 </div>
                 <div class="nav-item navbar-list__item">

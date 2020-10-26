@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use App\User;
 
 class QuizResults extends Model
 {
@@ -28,5 +29,10 @@ class QuizResults extends Model
 
     public function quiz(){
         return $this->belongsTo(Quiz::class);
+    }
+
+    public function student()
+    {
+        return User::find($this->user_id);
     }
 }
