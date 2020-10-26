@@ -425,7 +425,7 @@ class AssignmentsController extends Controller
             $temp['due'] = '<strong>' . $item->due_date . '</strong>';
             $temp['mark'] = '<strong>' . $item->total_mark . '</strong>';
 
-            if($item->result->count() > 0) {
+            if($item->result && $item->result->count() > 0) {
                 $btn_show = '<a href="'. route('student.assignment.result', [$lesson->slug, $item->id]). '" class="btn btn-success btn-sm">Review</a>';
             } else {
                 $btn_show = '<a href="'. route('student.assignment.show', [$lesson->slug, $item->id]). '" class="btn btn-primary btn-sm">Start</a>';
