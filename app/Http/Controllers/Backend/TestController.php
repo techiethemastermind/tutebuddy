@@ -446,7 +446,7 @@ class TestController extends Controller
             $temp['duration'] = $hours . ' Hours ' . $mins . ' Mins';
             $temp['mark'] = '<strong>' . $item->score . '</strong>';
 
-            if($item->result->count() > 0) {
+            if($item->result && $item->result->count() > 0) {
                 $show_route = route('student.test.result', [$item->lesson->slug, $item->id]);
                 $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Review</a>';
             } else {
