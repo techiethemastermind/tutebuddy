@@ -16,7 +16,7 @@
                 <div class="card-header">
                     <div class="row align-items-center" style="white-space: nowrap;">
                         <div class="col-lg-auto">
-                            <form class="search-form  d-lg-inline-flex mb-8pt mb-lg-0" action="fixed-discussions.html">
+                            <form class="search-form  d-lg-inline-flex mb-8pt mb-lg-0" action="">
                                 <input type="text" class="form-control w-lg-auto" placeholder="Search discussions">
                                 <button class="btn" type="submit" role="button"><i
                                         class="material-icons">search</i></button>

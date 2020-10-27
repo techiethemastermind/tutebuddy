@@ -27,10 +27,11 @@ class CalendarService
                 foreach($schedules as $schedule) {
 
                     $course_title = (strlen($course->title) > 12) ? (substr($course->title, 0, 12) . '...') : $course->title;
-                    $base_date = Carbon::parse($schedule['date']); // Base date of Schedule
 
-                    $start_date = Carbon::parse($data['start']); // start date
-                    $end_date = Carbon::parse($data['end']);
+                    $schedule_start_time = timezone()->convertToLocal(Carbon::parse($schedule['date'] . ' ' . $schedule['start_time']));
+                    $base_date = Carbon::parse($schedule_start_time); // Base date of Schedule
+                    $start_date = Carbon::parse(timezone()->convertToLocal(Carbon::parse($data['start']))); // start date
+                    $end_date = Carbon::parse(timezone()->convertToLocal(Carbon::parse($data['end'])));
 
                     if($repeat_type == 'week') {
 
@@ -48,8 +49,8 @@ class CalendarService
 
                             if($repeat_check == 0) {
 
-                                $start = $i_date->format('Y-m-d') . 'T' . $schedule['start_time'];
-                                $end = $i_date->format('Y-m-d') . 'T' . $schedule['end_time'];
+                                $start = $i_date->format('Y-m-d') . 'T' . Carbon::parse(timezone()->convertToLocal(Carbon::parse($schedule['start_time'])))->format('H:i:s');
+                                $end = $i_date->format('Y-m-d') . 'T' . Carbon::parse(timezone()->convertToLocal(Carbon::parse($schedule['end_time'])))->format('H:i:s');
         
                                 $item = [
                                     'id' => $schedule->id,
@@ -73,7 +74,7 @@ class CalendarService
                                 array_push($calendarData, $item);
                             }
                             // Init start Date
-                            $start_date = Carbon::parse($data['start']); // start date                       
+                            $start_date = Carbon::parse(timezone()->convertToLocal(Carbon::parse($data['start']))); // start date                       
                         }
 
                     }
@@ -89,8 +90,8 @@ class CalendarService
                             $m_date = $f_m_date->addMonths($i);
                             $m_date = $f_m_date->addDays($date_index - 1)->format('Y-m-d');
 
-                            $start = $m_date . 'T' . $schedule['start_time'];
-                            $end = $m_date . 'T' . $schedule['end_time'];
+                            $start = $m_date . 'T' . Carbon::parse(timezone()->convertToLocal(Carbon::parse($schedule['start_time'])))->format('H:i:s');
+                            $end = $m_date . 'T' . Carbon::parse(timezone()->convertToLocal(Carbon::parse($schedule['end_time'])))->format('H:i:s');
                             $item = [
                                 'id' => $schedule->id,
                                 'title' => 'Course: '. $course_title,

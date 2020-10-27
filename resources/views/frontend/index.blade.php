@@ -459,7 +459,7 @@
                             </div>
                             <div class="media ml-12pt">
                                 <div class="media-left mr-12pt">
-                                    <a href="fixed-student-profile.html" class="avatar avatar-sm">
+                                    <a href="{{ route('profile.show', $review->user->uuid) }}" class="avatar avatar-sm">
                                         @if(!empty($review->user->avatar))
                                         <img src="{{asset('/storage/avatars/' . $review->user->avatar )}}" alt="Avatar" class="avatar-img rounded-circle">
                                         @else
@@ -468,7 +468,7 @@
                                     </a>
                                 </div>
                                 <div class="media-body media-middle">
-                                    <a href="fixed-student-profile.html" class="card-title">Umberto Kass</a>
+                                    <a href="{{ route('profile.show', $review->user->uuid) }}" class="card-title">Umberto Kass</a>
                                     <div class="rating mt-4pt">
                                         @include('layouts.parts.rating', ['rating' => $review->rating])
                                     </div>

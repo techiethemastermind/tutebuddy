@@ -180,7 +180,7 @@
                             @endif
                         </span>
                         <div class="media-body">
-                            <a class="card-title m-0" href="fixed-teacher-profile.html">{{ $lesson->course->teachers[0]->name }}</a>
+                            <a class="card-title m-0" href="{{ route('profile.show', $lesson->course->teachers[0]->uuid) }}">{{ $lesson->course->teachers[0]->name }}</a>
                             <p class="text-50 lh-1 mb-0">Instructor</p>
                         </div>
                     </div>
@@ -434,7 +434,7 @@
                                         </div>
                                     </div>
                                     <div class="col mb-8pt mb-md-0">
-                                        <p class="mb-8pt"><a href="fixed-discussion.html" class="text-body"><strong>{{ $discussion->title }}</strong></a></p>
+                                        <p class="mb-8pt"><a href="" class="text-body"><strong>{{ $discussion->title }}</strong></a></p>
                                         <?php $topics = json_decode($discussion->topics); ?>
                                         @foreach($topics as $topic)
                                         <a href="{{ route('admin.discussions.show', $discussion->id) }}" class="chip chip-outline-secondary">

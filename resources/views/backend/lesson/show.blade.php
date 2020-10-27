@@ -145,7 +145,7 @@
                             @endif
                         </span>
                         <div class="media-body">
-                            <a class="card-title m-0" href="fixed-teacher-profile.html">{{ $lesson->course->teachers[0]->name }}</a>
+                            <a class="card-title m-0" href="{{ route('profile.show', $lesson->course->teachers[0]->uuid) }}">{{ $lesson->course->teachers[0]->name }}</a>
                             <p class="text-50 lh-1 mb-0">Instructor</p>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
 
             <div class="d-flex align-items-center mb-heading">
                 <h4 class="m-0">Discussions</h4>
-                <a href="fixed-discussions-ask.html" class="text-underline ml-auto">Ask a Question</a>
+                <a href="" class="text-underline ml-auto">Ask a Question</a>
             </div>
 
             <div class="border-top">
@@ -219,11 +219,11 @@
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <p class="mb-8pt"><a href="fixed-discussion.html" class="text-body"><strong>Using
+                                <p class="mb-8pt"><a href="" class="text-body"><strong>Using
                                             Angular HttpClientModule instead of HttpModule</strong></a></p>
 
 
-                                <a href="fixed-discussion.html" class="chip chip-outline-secondary">Angular
+                                <a href="" class="chip chip-outline-secondary">Angular
                                     fundamentals</a>
 
 
@@ -252,7 +252,7 @@
                                 </div>
                             </div>
                             <div class="col mb-8pt mb-md-0">
-                                <p class="mb-0"><a href="fixed-discussion.html" class="text-body"><strong>Why am I
+                                <p class="mb-0"><a href="" class="text-body"><strong>Why am I
                                             getting an error when trying to install angular/http@2.4.2</strong></a></p>
 
                             </div>
@@ -267,7 +267,7 @@
 
             </div>
 
-            <a href="fixed-discussions.html" class="btn btn-outline-secondary">See all discussions for this lesson</a>
+            <a href="" class="btn btn-outline-secondary">See all discussions for this lesson</a>
 
         </div>
     </div>

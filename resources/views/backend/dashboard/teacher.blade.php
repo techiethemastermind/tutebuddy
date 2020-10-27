@@ -176,7 +176,7 @@
             @endif -->
 
             <!-- Live Lessons -->
-            @if(count($live_lessons) > 0)
+            @if(count($schedules) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>Upcomming Lessons</strong></p>
@@ -209,8 +209,8 @@
                         </thead>
                         <tbody class="list" id="schedule_list">
 
-                            @foreach($live_lessons as $lesson)
-                                @php $schedule = $lesson->schedule @endphp
+                            @foreach($schedules as $schedule)
+                            
                                 <tr>
                                     <td>
                                         <div class="custom-control custom-checkbox">
@@ -226,10 +226,10 @@
                                         </strong>
                                     </td>
                                     <td>
-                                        <strong>{{ $schedule->start_time }}</strong>
+                                        <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($schedule->start_time)))->format('H:i:s') }}</strong>
                                     </td>
                                     <td>
-                                        <strong>{{ $schedule->end_time }}</strong>
+                                        <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($schedule->end_time)))->format('H:i:s') }}</strong>
                                     </td>
                                     <td>
                                         <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">

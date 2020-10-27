@@ -310,7 +310,7 @@ if(!isset($_GET["active"])) {
                                     <label class="col-form-label form-label col-sm-3">Your current plan</label>
                                     <div class="col-sm-9 d-flex align-items-center">
                                         <div class="flex">Basic, $9 per month</div>
-                                        <a href="fixed-billing-upgrade.html" class="text-secondary">Change plan</a>
+                                        <a href="" class="text-secondary">Change plan</a>
                                     </div>
                                 </div>
                             </div>
@@ -335,7 +335,7 @@ if(!isset($_GET["active"])) {
                                         <img src="{{ asset('assets/img/visa.svg') }}" alt="visa"
                                             width="38" class="mr-16pt">
                                         <div class="flex">Visa ending with 2819</div>
-                                        <a href="fixed-billing-payment.html" class="text-secondary">Change method</a>
+                                        <a href="" class="text-secondary">Change method</a>
                                     </div>
                                 </div>
                             </div>

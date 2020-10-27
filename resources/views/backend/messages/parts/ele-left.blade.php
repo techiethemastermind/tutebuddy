@@ -14,7 +14,7 @@
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <div class="flex mr-3">
-                    <a href="fixed-profile.html" class="text-body"><strong>{{ $partner->name }}</strong></a>
+                    <a href="" class="text-body"><strong>{{ $partner->name }}</strong></a>
                 </div>
                 <div>
                     <small class="text-50">{{ \Carbon\Carbon::parse($message->created_at)->format('h:i A | M d Y') }}</small>

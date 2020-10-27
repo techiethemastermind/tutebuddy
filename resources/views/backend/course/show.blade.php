@@ -81,7 +81,7 @@
                                     @endif
                                 </div>
                                 <div class="media-body">
-                                    <a class="card-title m-0" href="fixed-teacher-profile.html">{{ $course->teachers[0]->name }}</a>
+                                    <a class="card-title m-0" href="">{{ $course->teachers[0]->name }}</a>
                                     <p class="text-50 lh-1 mb-0">Instructor</p>
                                 </div>
                             </div>
@@ -206,9 +206,9 @@
                                 <small class="text-muted">Angular, Web Development</small>
                             </p>
                             <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
-                                <a href="fixed-teacher-profile.html"
+                                <a href=""
                                     class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">Follow</a>
-                                <a href="fixed-teacher-profile.html" class="btn btn-outline-secondary">View Profile</a>
+                                <a href="" class="btn btn-outline-secondary">View Profile</a>
                             </div>
                         </div>
 
@@ -358,7 +358,7 @@
             <div class="pb-16pt mb-16pt border-bottom row">
                 <div class="col-md-3 mb-16pt mb-md-0">
                     <div class="d-flex">
-                        <a href="fixed-student-profile.html" class="avatar avatar-sm mr-12pt">
+                        <a href="" class="avatar avatar-sm mr-12pt">
                             @if(!empty($review->user->avatar))
                             <img src="{{ asset('storage/avatars/' . $review->user->avatar ) }}" alt="avatar" class="avatar-img rounded-circle">
                             @else
@@ -367,7 +367,7 @@
                         </a>
                         <div class="flex">
                             <p class="small text-muted m-0">{{ $review->created_at->diffforhumans() }}</p>
-                            <a href="fixed-student-profile.html" class="card-title">{{ $review->user->name }}</a>
+                            <a href="" class="card-title">{{ $review->user->name }}</a>
                         </div>
                     </div>
                 </div>
@@ -486,7 +486,7 @@
                                 data-partial-height="44" data-toggle="popover" data-trigger="click">
 
 
-                                <a href="fixed-student-course.html" class="js-image" data-position="">
+                                <a href="" class="js-image" data-position="">
                                     <img src="{{ asset('assets/img/paths/angular_430x168.png') }}" alt="course">
                                     <span class="overlay__content align-items-start justify-content-start">
                                         <span class="overlay__action card-body d-flex align-items-center">
@@ -503,11 +503,11 @@
                                     <div class="card-body">
                                         <div class="d-flex">
                                             <div class="flex">
-                                                <a class="card-title" href="fixed-student-course.html">Learn Angular
+                                                <a class="card-title" href="">Learn Angular
                                                     fundamentals</a>
                                                 <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
                                             </div>
-                                            <a href="fixed-student-course.html" data-toggle="tooltip"
+                                            <a href="" data-toggle="tooltip"
                                                 data-title="Add Favorite" data-placement="top" data-boundary="window"
                                                 class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
                                         </div>
@@ -594,7 +594,7 @@
                                         </div>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
+                                        <a href="" class="btn btn-primary">Watch trailer</a>
                                     </div>
                                 </div>
 
@@ -610,7 +610,7 @@
                                 data-partial-height="44" data-toggle="popover" data-trigger="click">
 
 
-                                <a href="fixed-student-course.html" class="js-image" data-position="">
+                                <a href="" class="js-image" data-position="">
                                     <img src="{{ asset('assets/img/paths/swift_430x168.png') }}" alt="course">
                                     <span class="overlay__content align-items-start justify-content-start">
                                         <span class="overlay__action card-body d-flex align-items-center">
@@ -624,11 +624,11 @@
                                     <div class="card-body">
                                         <div class="d-flex">
                                             <div class="flex">
-                                                <a class="card-title" href="fixed-student-course.html">Build an iOS
+                                                <a class="card-title" href="">Build an iOS
                                                     Application in Swift</a>
                                                 <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
                                             </div>
-                                            <a href="fixed-student-course.html" data-toggle="tooltip"
+                                            <a href="" data-toggle="tooltip"
                                                 data-title="Remove Favorite" data-placement="top" data-boundary="window"
                                                 class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite</a>
                                         </div>
@@ -715,7 +715,7 @@
                                         </div>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
+                                        <a href="" class="btn btn-primary">Watch trailer</a>
                                     </div>
                                 </div>
 
@@ -731,7 +731,7 @@
                                 data-partial-height="44" data-toggle="popover" data-trigger="click">
 
 
-                                <a href="fixed-student-course.html" class="js-image" data-position="">
+                                <a href="" class="js-image" data-position="">
                                     <img src="{{ asset('assets/img/paths/wordpress_430x168.png') }}" alt="course">
                                     <span class="overlay__content align-items-start justify-content-start">
                                         <span class="overlay__action card-body d-flex align-items-center">
@@ -745,11 +745,11 @@
                                     <div class="card-body">
                                         <div class="d-flex">
                                             <div class="flex">
-                                                <a class="card-title" href="fixed-student-course.html">Build a WordPress
+                                                <a class="card-title" href="">Build a WordPress
                                                     Website</a>
                                                 <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
                                             </div>
-                                            <a href="fixed-student-course.html" data-toggle="tooltip"
+                                            <a href="" data-toggle="tooltip"
                                                 data-title="Add Favorite" data-placement="top" data-boundary="window"
                                                 class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
                                         </div>
@@ -836,7 +836,7 @@
                                         </div>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
+                                        <a href="" class="btn btn-primary">Watch trailer</a>
                                     </div>
                                 </div>
 
@@ -852,7 +852,7 @@
                                 data-partial-height="44" data-toggle="popover" data-trigger="click">
 
 
-                                <a href="fixed-student-course.html" class="js-image" data-position="left">
+                                <a href="" class="js-image" data-position="left">
                                     <img src="{{ asset('assets/img/paths/react_430x168.png') }}" alt="course">
                                     <span class="overlay__content align-items-start justify-content-start">
                                         <span class="overlay__action card-body d-flex align-items-center">
@@ -866,11 +866,11 @@
                                     <div class="card-body">
                                         <div class="d-flex">
                                             <div class="flex">
-                                                <a class="card-title" href="fixed-student-course.html">Become a React
+                                                <a class="card-title" href="">Become a React
                                                     Native Developer</a>
                                                 <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
                                             </div>
-                                            <a href="fixed-student-course.html" data-toggle="tooltip"
+                                            <a href="" data-toggle="tooltip"
                                                 data-title="Add Favorite" data-placement="top" data-boundary="window"
                                                 class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
                                         </div>
@@ -957,7 +957,7 @@
                                         </div>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
+                                        <a href="" class="btn btn-primary">Watch trailer</a>
                                     </div>
                                 </div>
 
@@ -973,7 +973,7 @@
                                 data-partial-height="44" data-toggle="popover" data-trigger="click">
 
 
-                                <a href="fixed-student-course.html" class="js-image" data-position="left">
+                                <a href="" class="js-image" data-position="left">
                                     <img src="{{ asset('assets/img/paths/react_430x168.png') }}" alt="course">
                                     <span class="overlay__content align-items-start justify-content-start">
                                         <span class="overlay__action card-body d-flex align-items-center">
@@ -987,11 +987,11 @@
                                     <div class="card-body">
                                         <div class="d-flex">
                                             <div class="flex">
-                                                <a class="card-title" href="fixed-student-course.html">Become a React
+                                                <a class="card-title" href="">Become a React
                                                     Native Developer</a>
                                                 <small class="text-50 font-weight-bold mb-4pt">Elijah Murray</small>
                                             </div>
-                                            <a href="fixed-student-course.html" data-toggle="tooltip"
+                                            <a href="" data-toggle="tooltip"
                                                 data-title="Add Favorite" data-placement="top" data-boundary="window"
                                                 class="ml-4pt material-icons text-20 card-course__icon-favorite">favorite_border</a>
                                         </div>
@@ -1078,7 +1078,7 @@
                                         </div>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="fixed-student-course.html" class="btn btn-primary">Watch trailer</a>
+                                        <a href="" class="btn btn-primary">Watch trailer</a>
                                     </div>
                                 </div>
 

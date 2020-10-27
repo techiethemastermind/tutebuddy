@@ -35,7 +35,7 @@
         <div class="page-section">
 
             <!-- My Lessons Section -->
-            <!-- @if(count($schedules) > 0)
+            @if(count($schedules) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
                     <p class="page-separator__text bg-white mb-0"><strong>My Live Lessons</strong></p>
@@ -85,121 +85,10 @@
                                         </strong>
                                     </td>
                                     <td>
-                                        <strong>{{ $schedule->start_time }}</strong>
+                                        <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($schedule->start_time)))->format('H:i:s') }}</strong>
                                     </td>
                                     <td>
-                                        <strong>{{ $schedule->end_time }}</strong>
-                                    </td>
-                                    <td>
-                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                            <div class="avatar avatar-sm mr-8pt">
-                                                <span class="avatar-title rounded bg-primary text-white">
-                                                    {{ substr($schedule->course->title, 0, 2) }}
-                                                </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="d-flex flex-column">
-                                                    <small class="js-lists-values-project">
-                                                        <strong>{{ $schedule->course->title }}</strong></small>
-                                                    <small
-                                                        class="js-lists-values-location text-50">{{ $schedule->course->teachers[0]->name }}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                            <div class="avatar avatar-sm mr-8pt">
-                                                <span class="avatar-title rounded bg-accent text-white">
-                                                    {{ substr($schedule->lesson->title, 0, 2) }}
-                                                </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="d-flex flex-column">
-                                                    <small class="js-lists-values-project">
-                                                        <strong>{{ $schedule->lesson->title }}</strong></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <?php
-                                        if($schedule->lesson->lesson_type == 1) {
-                                            $route = route('lessons.live', [$schedule->lesson->slug, $schedule->lesson->id]);
-                                        } else {
-                                            $route = route('lessons.show', [$schedule->course->slug, $schedule->lesson->slug, 1]);
-                                        }
-                                        ?>
-                                        <a href="{{ $route }}" target="_blank" class="btn btn-primary btn-sm">Join</a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Top 5 live sessions</small>
-                </div>
-            </div>
-            @endif -->
-
-            <!-- My Lessons Section -->
-            @if(count($live_lessons) > 0)
-            <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
-                <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>My Live Lessons</strong></p>
-                    <a href="{{ route('admin.student.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
-                </div>
-                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
-                    data-lists-sort-desc="true">
-                    <table class="table mb-0 thead-border-top-0 table-nowrap">
-                        <thead>
-                            <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#schedule_list" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
-                                <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Weekday</a>
-                                </th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>Course title</th>
-                                <th>Lesson title</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody class="list" id="schedule_list">
-
-                            @foreach($live_lessons as $lesson)
-                                @php $schedule = $lesson->schedule @endphp
-                                @if($schedule)
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row"
-                                                data-domfactory-upgraded="check-selected-row">
-                                            <label class="custom-control-label"><span
-                                                    class="text-hide">Check</span></label>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <strong>{{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $schedule->start_time }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $schedule->end_time }}</strong>
+                                        <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($schedule->end_time)))->format('H:i:s') }}</strong>
                                     </td>
                                     <td>
                                         <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
@@ -250,7 +139,6 @@
                                         @endif
                                     </td>
                                 </tr>
-                                @endif
                             @endforeach
                         </tbody>
                     </table>

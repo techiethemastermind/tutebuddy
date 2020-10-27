@@ -302,13 +302,15 @@ $(document).ready(function() {
         });
     }
 
+    console.log('{{ auth()->user()->timezone }}');
+
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
             right: 'prev,today,timeGridWeek,dayGridMonth,next'
         },
         initialView: 'timeGridWeek',
-        timeZone: 'UTC',
+        timeZone: '{{ auth()->user()->timezone }}',
         allDaySlot: false,
         slotMinTime: '01:00:00',
         selectable: true,

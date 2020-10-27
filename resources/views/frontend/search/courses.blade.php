@@ -195,7 +195,7 @@
                 <div class="sidebar sidebar-light sidebar-right py-16pt" data-perfect-scrollbar data-perfect-scrollbar-wheel-propagation="true">
 
                     <div class="d-flex align-items-center mb-24pt  d-lg-none">
-                        <form action="index.html" class="search-form search-form--light mx-16pt pr-0 pl-16pt">
+                        <form action="" class="search-form search-form--light mx-16pt pr-0 pl-16pt">
                             <input type="text" class="form-control pl-0" placeholder="Search">
                             <button class="btn" type="submit"><i class="material-icons">search</i></button>
                         </form>

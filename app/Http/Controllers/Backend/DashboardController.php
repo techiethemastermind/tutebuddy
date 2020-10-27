@@ -64,8 +64,9 @@ class DashboardController extends Controller
                 $courses = Course::all();
                 // $course_ids = $courses->pluck('id');
                 $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->limit(5)->pluck('course_id');
-                $live_lessons = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->limit(5)->get();
-                $schedules = Schedule::whereIn('course_id', $course_ids)->whereNotNull('lesson_id')->orderBy('created_at', 'desc')->limit(5)->get();
+                $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->limit(5)->pluck('id');
+                $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
+
                 $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
                 $students = User::whereIn('id', $student_ids)->limit(5)->get();
                 $assignments = Assignment::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->limit(5)->get();
@@ -78,8 +79,16 @@ class DashboardController extends Controller
                 $quizResults = QuizResults::whereIn('quiz_id', $quiz_ids)->limit(5)->get();
                 $discussions = Discussion::limit(5)->get();
 
-                return view('backend.dashboard.teacher', compact('schedules', 'live_lessons',
-                    'students', 'assignments', 'assignment_results', 'bundles', 'testResults', 'quizResults', 'discussions'));
+                return view('backend.dashboard.teacher', compact(
+                    'schedules',
+                    'students',
+                    'assignments', 
+                    'assignment_results',
+                    'bundles',
+                    'testResults',
+                    'quizResults',
+                    'discussions')
+                );
             break;
 
             case 'student':
@@ -91,8 +100,9 @@ class DashboardController extends Controller
                 $bundle_ids = DB::table('bundle_student')->where('user_id', auth()->user()->id)->pluck('bundle_id');
 
                 $purchased_courses = Course::whereIn('id', $course_ids)->limit(5)->get();
-                $schedules = Schedule::whereIn('course_id', $course_ids)->limit(5)->get();
-                $live_lessons = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->limit(5)->get();
+                $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->limit(5)->pluck('id');
+                $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
+
                 $bundles = Bundle::whereIn('id', $bundle_ids)->limit(3)->get();
                 $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->limit(5)->get();
                 $teachers = User::whereIn('id', $teachers_id)->limit(5)->get();
@@ -102,7 +112,6 @@ class DashboardController extends Controller
                     compact(
                         'purchased_courses',
                         'schedules',
-                        'live_lessons',
                         'bundles',
                         'assignments',
                         'teachers',
