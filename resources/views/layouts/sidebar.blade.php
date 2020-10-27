@@ -302,6 +302,14 @@
 
                 </li>
 
+                <!-- Course Perfermence (Result) -->
+                <li class="sidebar-menu-item {{ Request::is('dashboard/result*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('admin.results.student') }}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">poll</span>
+                        <span class="sidebar-menu-text">Course Perfermence</span>
+                    </a>
+                </li>
+
                 <!-- Cert -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/certificate*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('admin.certificates.index') }}">

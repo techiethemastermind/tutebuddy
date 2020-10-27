@@ -182,3 +182,8 @@ Route::get('orders', 'PaymentController@getOrders')->name('orders');
 
 //==== Contacts Route ====//
 Route::resource('contacts', 'ContactsController');
+
+//=== Result Sheet ===//
+Route::get('results', 'ResultsController@student')->name('results.student');
+Route::get('ajax/results', 'ResultsController@getStudentTableData')->name('results.getTableDataByAjax');
+Route::get('results/detail/{id}', 'ResultsController@getResultDetail')->name('results.detail');

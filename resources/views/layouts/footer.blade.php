@@ -8,7 +8,7 @@
                                     {{ asset('storage/logos/'.config('sidebar_logo')) }}
                                 @else 
                                     {{ asset('assets/img/logo/tutebuddy-menu-logo.png') }}
-                                @endif" alt="logo" class="img-fluid" />
+                                @endif" alt="logo" class="img-fluid" style="width: 80%;" />
                         </span>
                     </a>
                 </div>
