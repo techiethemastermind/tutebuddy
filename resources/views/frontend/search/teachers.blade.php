@@ -66,11 +66,44 @@
             </div>
 
             @if(count($teachers) > 0)
-            <div class="row card-group-row">
+            <div class="search-result wrapper">
 
                 @foreach($teachers as $teacher)
 
-                <div class="col-md-6 col-xl-4 card-group-row__col">
+                <div class="card card-body">
+                    <div class="media">
+                        <div class="media-left mr-12pt">
+                            <a href="{{ route('profile.show', $teacher->uuid) }}" class="avatar avatar-xxl mr-3 border">
+                                @if(!empty($teacher->avatar))
+                                <img src="{{ asset('/storage/avatars/' . $teacher->avatar) }}" alt="teacher" class="avatar-img">
+                                @else
+                                <img src="{{ asset('/storage/avatars/no-avatar.jpg') }}" alt="teacher" class="avatar-img">
+                                @endif
+                            </a>
+                        </div>
+                        <div class="media-body media-middle">
+                            <p class="card-title mb-8pt">{{ $teacher->name }} | {{ $teacher->headline }} </p>
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <div class="d-inline-flex align-items-center mb-8pt">
+                                        <div class="rating mr-8pt">
+                                            @include('layouts.parts.rating', ['rating' => $teacher->reviews->avg('rating')])
+                                        </div>
+                                        <small class="text-50">{{ $teacher->reviews->count() }}</small>
+                                    </div>
+                                    <p class="text-70 font-size-16pt">{{ str_limit($teacher->about, 150) }}
+                                        <a href="{{ route('profile.show', $teacher->uuid) }}" style="color: #005ea6;">Read More</a>
+                                    </p>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-primary btn-block">Get Started</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="col-md-6 col-xl-4 card-group-row__col">
                     <div class="card card-group-row__card">
                         <div class="card-header d-flex align-items-center">
                             <a href="{{ route('profile.show', $teacher->uuid) }}" class="card-title flex mr-12pt">{{ $teacher->name }}</a>
@@ -116,7 +149,7 @@
                         </div>
                         @endif
                     </div>
-                </div>
+                </div> -->
 
                 @endforeach
 
