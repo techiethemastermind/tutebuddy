@@ -135,10 +135,22 @@
 
 $(function() {
 
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],  
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code', 'image'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+    ];
+
     // Init Quill Editor for Page Content
     var editor = new Quill('#page_editor', {
         theme: 'snow',
-        placeholder: 'Page Content'
+        placeholder: 'Page Content',
+        modules: {
+            toolbar: toolbarOptions
+        },
     });
 
     $('input[name="title"]').on('focusout', function(e) {
