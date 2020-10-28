@@ -13,8 +13,8 @@
 [dir=ltr] .mdk-header-layout {
     position: inherit;
 }
-.page-content {
-    min-height: calc(100vh - 250px);
+.mdk-header-layout__content.page-content {
+    min-height: calc(100vh - 90px);
 }
 [dir=ltr] .sidebar-brand-icon {
     width: 8.125rem;
@@ -248,6 +248,12 @@ iframe.no-video {
 [dir=ltr] li.footer-menu-item {
     line-height: 24px;
     font-size: 12px;
+    font-weight: 500;
+}
+
+[dir=ltr] li.sidebar-menu-item {
+    line-height: 32px;
+    font-size: 15px;
     font-weight: 500;
 }
 

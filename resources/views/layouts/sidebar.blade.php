@@ -302,11 +302,11 @@
 
                 </li>
 
-                <!-- Course Perfermence (Result) -->
+                <!-- Course Perfermance (Result) -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/result*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('admin.results.student') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">poll</span>
-                        <span class="sidebar-menu-text">Course Perfermence</span>
+                        <span class="sidebar-menu-text">Course Perfermance</span>
                     </a>
                 </li>
 
@@ -315,6 +315,14 @@
                     <a class="sidebar-menu-button" href="{{ route('admin.certificates.index') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">new_releases</span>
                         <span class="sidebar-menu-text">My Certificates</span>
+                    </a>
+                </li>
+
+                <!-- Badges -->
+                <li class="sidebar-menu-item {{ Request::is('dashboard/badges*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('admin.results.student.badges') }}">
+                        <i class="material-icons sidebar-menu-icon sidebar-menu-icon--left fa fa-medal"></i>
+                        <span class="sidebar-menu-text">My Badges</span>
                     </a>
                 </li>
 

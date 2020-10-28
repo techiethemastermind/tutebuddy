@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Course;
@@ -132,5 +133,66 @@ class ResultsController extends Controller
 
 
         return view('backend.results.student_detail', compact('course', 'assignments', 'tests', 'quizs'));
+    }
+
+    /**
+     * Students Badges
+     */
+    public function badges()
+    {
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $courses = Course::whereIn('id', $course_ids)->get();
+        $badges = new Collection();
+
+        foreach($courses as $course) {
+            $lesson_ids = Lesson::where('course_id', $course->id)->pluck('id');
+
+            $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
+            foreach($assignments as $assignment) {
+                if($assignment->result) {
+                    $percent = round($assignment->result->mark / $assignment->total_mark * 100);
+                    if($percent > 70) {
+                        $badges->push((object)[
+                            'percent' => $percent,
+                            'type' => 'assignment',
+                            'data' => $assignment
+                        ]);
+                    }
+                }
+            }
+
+            $tests = Test::whereIn('lesson_id', $lesson_ids)->get();
+            foreach($tests as $test) {
+                if($test->result) {
+                    $percent = round($test->result->mark / $test->score * 100);
+                    if($percent > 70) {
+                        $badges->push((object)[
+                            'percent' => $percent,
+                            'type' => 'test',
+                            'data' => $test
+                        ]);
+                    }
+                }
+            }
+
+            $quizs = Quiz::whereIn('lesson_id', $lesson_ids)->get();
+            foreach($quizs as $quiz) {
+                if($quiz->result) {
+                    $percent = round($quiz->result->quiz_result / $quiz->score * 100);
+                    if($percent > 70) {
+                        $badges->push((object)[
+                            'percent' => $percent,
+                            'type' => 'quiz',
+                            'data' => $quiz
+                        ]);
+                    }
+                }
+            }
+        }
+
+        // Sort badge array
+        $badges = $badges->sortBy('percent')->reverse();
+
+        return view('backend.results.badges', compact('badges'));
     }
 }

@@ -187,3 +187,6 @@ Route::resource('contacts', 'ContactsController');
 Route::get('results', 'ResultsController@student')->name('results.student');
 Route::get('ajax/results', 'ResultsController@getStudentTableData')->name('results.getTableDataByAjax');
 Route::get('results/detail/{id}', 'ResultsController@getResultDetail')->name('results.detail');
+
+//=== My Badges ===//
+Route::get('badges', 'ResultsController@badges')->name('results.student.badges');
