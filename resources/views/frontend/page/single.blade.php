@@ -7,6 +7,13 @@
 <!-- Quill Theme -->
 <link type="text/css" href="{{ asset('assets/css/quill.css') }}" rel="stylesheet">
 
+<style>
+
+    [dir=ltr] p.ql-indent-1 {
+        margin-left: 2rem;
+    }
+</style>
+
 @endpush
 
 
