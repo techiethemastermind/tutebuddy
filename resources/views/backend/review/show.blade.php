@@ -39,16 +39,18 @@
         <div class="col-md-7 p-0">
             <div class="form-group">
                 <div class="media align-items-center">
-                    <a href="" class="media-left mr-16pt">
-                        @if(!empty($review->user->avatar))
-                        <img src="{{asset('/storage/avatars/' . $review->user->avatar)}}" alt="people" width="80" class="rounded-circle" />
-                        @else
-                        <img src="{{asset('/storage/avatars/no-avatar.jpg')}}" alt="people" width="80" class="rounded-circle" />
-                        @endif
-                    </a>
+                    <div class="media-left mr-16pt">
+                        <div class="avatar avatar-xxl mr-3">
+                            @if(!empty($review->user->avatar))
+                            <img src="{{asset('/storage/avatars/' . $review->user->avatar)}}" alt="people" class="avatar-img rounded-circle" />
+                            @else
+                            <img src="{{asset('/storage/avatars/no-avatar.jpg')}}" alt="people" class="avatar-img rounded-circle" />
+                            @endif
+                        </div>
+                    </div>
                     <div class="media-body">
                         <div class="form-group">
-                            <label class="form-label">Customer name</label>
+                            <label class="form-label font-size-16pt">Customer name</label>
                             <p>{{ $review->user->name }}</p>
                         </div>
                     </div>

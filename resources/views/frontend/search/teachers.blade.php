@@ -30,13 +30,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Browse Instructors</h2>
+                    <h2 class="mb-0">Find Instructors</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            Browse Instructors
+                            Find Instructors
                         </li>
                     </ol>
 
@@ -72,6 +72,7 @@
 
                 <div class="card card-body">
                     <div class="media">
+
                         <div class="media-left mr-12pt">
                             <a href="{{ route('profile.show', $teacher->uuid) }}" class="avatar avatar-xxl mr-3 border">
                                 @if(!empty($teacher->avatar))
@@ -81,6 +82,7 @@
                                 @endif
                             </a>
                         </div>
+
                         <div class="media-body media-middle">
                             <p class="card-title mb-8pt">{{ $teacher->name }} | {{ $teacher->headline }} </p>
                             <div class="row">
@@ -99,57 +101,18 @@
                                     <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-primary btn-block">Get Started</a>
                                 </div>
                             </div>
+                            <div class="mr-3 text-70">
+                                @if(!empty($teacher->qualifications))
+                                <i class="material-icons mr-8pt">school</i> <small class="text-100">Qualifications: </small>
+                                @foreach(json_decode($teacher->qualifications) as $qualification)
+                                <small>{{ $qualification }}</small>
+                                @endforeach
+                                @endif
+                            </div>
                         </div>
+
                     </div>
                 </div>
-
-                <!-- <div class="col-md-6 col-xl-4 card-group-row__col">
-                    <div class="card card-group-row__card">
-                        <div class="card-header d-flex align-items-center">
-                            <a href="{{ route('profile.show', $teacher->uuid) }}" class="card-title flex mr-12pt">{{ $teacher->name }}</a>
-                            <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-light btn-sm" data-toggle="tooltip" data-title="follow" data-placement="bottom">Follow</a>
-                        </div>
-                        <div class="card-body flex text-center d-flex flex-column align-items-center justify-content-center">
-                            <a href="{{ route('profile.show', $teacher->uuid) }}" class="avatar avatar-xxl overlay js-overlay overlay--primary rounded-circle p-relative o-hidden mb-16pt">
-                                @if(!empty($teacher->avatar))
-                                <img src="{{ asset('/storage/avatars/' . $teacher->avatar) }}" alt="teacher" class="avatar-img">
-                                @else
-                                <img src="{{ asset('/storage/avatars/no-avatar.jpg') }}" alt="teacher" class="avatar-img">
-                                @endif
-                                <span class="overlay__content"><i class="overlay__action material-icons icon-40pt">face</i></span>
-                            </a>
-                            <div class="flex">
-                                <div class="d-inline-flex align-items-center mb-8pt">
-                                    <div class="rating mr-8pt">
-                                    @if($teacher->reviews->count() > 0)
-                                        @include('layouts.parts.rating', ['rating' => $teacher->reviews->avg('rating')])
-                                    @endif
-                                    </div>
-                                    @if($teacher->reviews->count() > 0)
-                                    <small class="text-50">{{ number_format($teacher->reviews->avg('rating'), 2) }}/5</small>
-                                    @endif
-                                </div>
-                                <p class="h5">{{ $teacher->headline }}</p>
-                                <p class="text-70 measure-paragraph">{{ $teacher->about }}</p>
-                            </div>
-                        </div>
-                        @if(!empty($teacher->profession))
-                        <div class="card-body flex-0">
-                            <div class="d-flex align-items-center" style="display: block !important;">
-                            @php $pros = json_decode($teacher->profession); @endphp
-                            
-                                @foreach($pros as $pro)
-                                <?php
-                                    $category = App\Models\Category::find($pro);
-                                    $name = !empty($category) ? $category->name : $pro;
-                                ?>
-                                <a href="javascript:void()" class="chip chip-outline-secondary">{{ $name }}</a>
-                                @endforeach
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-                </div> -->
 
                 @endforeach
 

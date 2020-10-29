@@ -78,7 +78,7 @@
 
         @foreach($badges as $item)
 
-        <div class="media d-table badge-d-table">
+        <div class="media d-table badge-d-table card">
             <div class="media-left d-table-cell mr-24pt">
                 <?php
                     $badge = get_badge($item->percent);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Course;
 use App\Models\Review;
@@ -25,7 +26,9 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        return view('backend.review.index');
+        $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $reviews = Review::where('reviewable_type', Course::class)->whereIn('reviewable_id', $course_ids)->get();
+        return view('backend.review.index', compact('reviews'));
     }
 
     /**

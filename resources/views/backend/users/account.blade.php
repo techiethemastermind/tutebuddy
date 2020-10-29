@@ -76,10 +76,21 @@ if(!isset($_GET["active"])) {
                             <a href="#account" data-toggle="tab" role="tab" aria-selected="true"
                                 class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                                 <span class="flex d-flex flex-column">
-                                    <strong class="card-title">Information</strong>
+                                    <strong class="card-title">Personal Information</strong>
                                 </span>
                             </a>
                         </div>
+
+                        @if($user->hasRole('Instructor'))
+                        <div class="col-auto border-left border-right">
+                            <a href="#profession" data-toggle="tab" role="tab" aria-selected="false"
+                                class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                                <span class="flex d-flex flex-column">
+                                    <strong class="card-title">Professional Information</strong>
+                                </span>
+                            </a>
+                        </div>
+                        @endif
 
                         <div class="col-auto border-left border-right">
                             <a href="#password" data-toggle="tab" role="tab" aria-selected="false"
@@ -238,32 +249,6 @@ if(!isset($_GET["active"])) {
                                             </div>
                                         </div>
                                     </div>
-
-                                    @if($user->hasRole('Instructor'))
-                                    <div class="page-separator mt-32pt">
-                                        <div class="page-separator__text bg-white">Profession</div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <select id="categories" name="categories[]" class="form-control" multiple="multiple">
-                                        @if(!empty($user->profession))
-
-                                        @php $pros = json_decode($user->profession); @endphp
-
-                                        @foreach($pros as $pro)
-                                        <?php
-                                            $category = App\Models\Category::find($pro);
-                                            $name = !empty($category) ? $category->name : $pro;
-                                        ?>
-                                        <option value="{{ $pro }}" selected >{{ $name }}</option>
-                                        @endforeach
-
-                                        @endif
-                                        </select>
-                                    </div>
-
-                                    @endif
-
                                 </div>
                             </div>
                         </div>
@@ -273,6 +258,132 @@ if(!isset($_GET["active"])) {
                         </div>
 
                         {!! Form::close() !!}
+                    </div>
+
+                    <!-- Tab Content for Professional Information -->
+                    <div id="profession" class="tab-pane p-4 fade text-70">
+
+                        {!! Form::model($user, ['method' => 'POST', 'files' => true, 'route' =>
+                            ['admin.myaccount.update', $user->id]]) !!}
+
+                        <div class="form-group">
+                            <div class="row form-inline mb-16pt">
+                                <div class="col-10">
+                                    <div class="page-separator">
+                                        <div class="page-separator__text bg-white">Professional Qualifications and Certifications</div>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button id="btn_add_qualifications" class="btn btn-md btn-outline-secondary" type="button">+</button>
+                                </div>
+                            </div>
+                            <div class="wrap-qualifications">
+
+                            @if(!empty($user->qualifications))
+
+                                @foreach(json_decode($user->qualifications) as $qualification)
+                                <div class="row form-inline mb-8pt">
+                                    <div class="col-10">
+                                        <input type="text" name="qualification[]" class="form-control w-100" placeholder="Professional Qualifications and Certifications"
+                                        value="{{ $qualification }}">
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+                                    </div>
+                                </div>
+                                @endforeach
+
+                            @else
+                                <div class="row form-inline mb-8pt">
+                                    <div class="col-10">
+                                        <input type="text" name="qualification[]" class="form-control w-100" placeholder="Professional Qualifications and Certifications" >
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+                                    </div>
+                                </div>
+                            @endif
+
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-64pt">
+                            <div class="row form-inline mb-16pt">
+                                <div class="col-10">
+                                    <div class="page-separator">
+                                        <div class="page-separator__text bg-white">Achievements</div>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button id="btn_add_achievements" class="btn btn-md btn-outline-secondary" type="button">+</button>
+                                </div>
+                            </div>
+                            <div class="wrap-achievements">
+
+                            @if(!empty($user->achievements))
+
+                                @foreach(json_decode($user->achievements) as $achievement)
+                                <div class="row form-inline mb-8pt">
+                                    <div class="col-10">
+                                        <input type="text" name="achievement[]" class="form-control w-100" placeholder="Achievement"
+                                        value="{{ $achievement }}">
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+                                    </div>
+                                </div>
+                                @endforeach
+
+                            @else
+                                <div class="row form-inline mb-8pt">
+                                    <div class="col-10">
+                                        <input type="text" name="achievement[]" class="form-control w-100" placeholder="Achievement" >
+                                    </div>
+                                    <div class="col-2">
+                                        <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+                                    </div>
+                                </div>
+                            @endif
+
+                            </div>
+                        </div>
+
+                        <div class="form-group mt-64pt col-11">
+                            <div class="page-separator">
+                                <div class="page-separator__text bg-white">Experience</div>
+                            </div>
+                            {!! Form::textarea('experience', null, array('placeholder' => 'Experience...', 'class' =>
+                                'form-control', 'rows' => 5)) !!}
+                        </div>
+
+                        <div class="form-group mt-64pt col-11">
+                            <div class="page-separator">
+                                <div class="page-separator__text bg-white">Profession</div>
+                            </div>
+                            <div class="form-group">
+                                <select id="categories" name="categories[]" class="form-control" multiple="multiple">
+                                @if(!empty($user->profession))
+
+                                @php $pros = json_decode($user->profession); @endphp
+
+                                @foreach($pros as $pro)
+                                <?php
+                                    $category = App\Models\Category::find($pro);
+                                    $name = !empty($category) ? $category->name : $pro;
+                                ?>
+                                <option value="{{ $pro }}" selected >{{ $name }}</option>
+                                @endforeach
+
+                                @endif
+                                </select>
+                            </div>
+
+                            <div class="form-group text-right">
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+
+                        {{ Form::close() }}
                     </div>
 
                     <!-- Tab Content for Profile Setting -->
@@ -500,6 +611,33 @@ if(!isset($_GET["active"])) {
                     delay: 250
                 },
                 tags: true
+            });
+
+            var tmp = `<div class="row form-inline mb-8pt">
+                            <div class="col-10">
+                                <input type="text" class="form-control w-100" placeholder="Professional Qualifications and Certifications">
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
+                            </div>
+                        </div>`;
+
+            // Add Qualitications
+            $('#btn_add_qualifications').on('click', function(e) {
+                var row_qualification = $(tmp).clone();
+                row_qualification.find('input').attr('name', 'qualification[]');
+                row_qualification.appendTo('#profession .wrap-qualifications');
+            });
+
+            // Add Achievements
+            $('#btn_add_achievements').on('click', function(e) {
+                var row_achievement = $(tmp).clone();
+                row_achievement.find('input').attr('name', 'achievement[]');
+                row_achievement.appendTo('#profession .wrap-achievements');
+            });
+
+            $('#profession').on('click', 'button.remove', function(e) {
+                $(this).closest('.row').remove();
             });
 
             $('form').submit(function (e) {

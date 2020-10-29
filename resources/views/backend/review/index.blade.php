@@ -35,8 +35,52 @@
     </div>
 
     <div class="container page__container page-section">
+        @foreach($reviews as $review)
+        <div class="card card-body">
+            <div class="posts-card__content d-flex align-items-center flex-wrap">
+                <div class="avatar avatar-lg mr-3">
+                    @if(!empty($review->user->avatar))
+                    <img src="{{ asset('storage/avatars/' . $review->user->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
+                    @else
+                    <span class="avatar-title rounded-circle">{{ substr($review->user->name, 0, 2) }}</span>
+                    @endif
+                </div>
 
-        <div class="card mb-lg-32pt">
+                <div class="posts-card__title flex flex-column">
+                    <label class="card-title font-size-20pt">{{ $review->user->name }}</label>
+                </div>
+                <div class="flex align-items-center flex flex-column">
+                    <div class="rating rating-24">
+                        @include('layouts.parts.rating', ['rating' => $review->rating])
+                    </div>
+                </div>
+                <div class="flex flex-column">
+                    <a href="{{ route('admin.reviews.show', $review->id) }}" class="btn btn-primary">Review</a>
+                </div>
+            </div>
+
+            <div class="mb-12pt p-16pt">
+                <p class="text-70 font-size-16pt">{{ str_limit($review->content, 200) }}
+                    <a href="{{ route('admin.reviews.show', $review->id) }}" style="color: #005ea6;">Read More</a>
+                </p>
+                <div class="">
+                    <span class="font-size-16pt text-black-70 mr-32pt">{{ $review->course->title }},</span>
+
+                    @if($review->course->progress() > 99)
+                    <i class="font-size-16pt text-black-70 mr-32pt">Completed,</i>
+                    @else
+                    <i class="font-size-16pt text-black-70 mr-32pt">In Progressing,</i>
+                    @endif
+
+                    <i class="text-muted text-black-70 font-size-16pt">
+                        {{ \Carbon\Carbon::parse($review->updated_at)->toFormattedDateString() }}
+                    </i>
+                </div>
+            </div>
+        </div>
+        @endforeach
+
+        <!-- <div class="card mb-lg-32pt">
             <div class="table-responsive" data-toggle="lists" data-page-length='10' 
                     data-lists-values='["js-lists-values-name", "js-lists-values-rating"]'>
                 <table id="tbl_reviews" class="table mb-0 thead-border-top-0 table-nowrap">
@@ -66,7 +110,7 @@
                     <tbody class="list" id="toggle"></tbody>
                 </table>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 

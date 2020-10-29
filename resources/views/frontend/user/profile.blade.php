@@ -28,7 +28,14 @@
             @endif
             <div class="flex mb-32pt mb-md-0">
                 <h2 class="text-white mb-0">{{ $teacher->name }}</h2>
-                <p class="lead text-white-50 d-flex align-items-center">{{ $teacher->headline }} <span class="ml-16pt d-flex align-items-center">
+                <p class="lead text-white-50 d-flex align-items-center">
+                    {{ $teacher->headline }}
+                    <div class="d-inline-flex align-items-center mb-8pt">
+                        <div class="rating mr-8pt">
+                            @include('layouts.parts.rating', ['rating' => $teacher->reviews->avg('rating')])
+                        </div>
+                        <small class="text-white" style="padding-top: 2px;">{{ $teacher->reviews->count() }}</small>
+                    </div>
                 </p>
             </div>
             <a href="" class="btn btn-outline-white">Follow</a>
@@ -91,6 +98,43 @@
                             <p class="font-size-16pt">{{ $teacher->about }}</p>
                         </div>
                     </div>
+
+                    @if(!empty($teacher->qualifications))
+
+                    <div class="card">
+                        <div class="card-body p-5">
+                            <h4>Professional Qualifications and Certifications</h4>
+                            @foreach(json_decode($teacher->qualifications) as $qualification)
+                            <p class="font-size-16pt mb-1"><strong>{{ $loop->iteration }}. </strong> {{ $qualification }}</p>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    @endif
+
+                    @if(!empty($teacher->qualifications))
+
+                    <div class="card">
+                        <div class="card-body p-5">
+                            <h4>Achievements</h4>
+                            @foreach(json_decode($teacher->achievements) as $achievement)
+                            <p class="font-size-16pt mb-1"><strong>{{ $loop->iteration }}. </strong> {{ $achievement }}</p>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    @endif
+
+                    @if(!empty($teacher->experience))
+
+                    <div class="card">
+                        <div class="card-body p-5">
+                            <h4>Experience</h4>
+                            <p class="font-size-16pt mb-1">{{ $teacher->experience }}</p>
+                        </div>
+                    </div>
+
+                    @endif
                 </div>
             </div>
         </div>

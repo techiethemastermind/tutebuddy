@@ -203,6 +203,16 @@ class UserController extends Controller
             $user->save();
         }
 
+        if(isset($input['qualification'])) {
+            $user->qualifications = json_encode($input['qualification']);
+            $user->save();
+        }
+
+        if(isset($input['achievement'])) {
+            $user->achievements = json_encode($input['achievement']);
+            $user->save();
+        }
+
         return response()->json([
             'success' => true,
             'action' => 'update'
