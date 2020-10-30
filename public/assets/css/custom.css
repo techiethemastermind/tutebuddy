@@ -89,25 +89,9 @@
     font-size: 1.5rem;
     text-align: center;
 }
-[dir=ltr] ul.search_result {
-    position: absolute;
-    background-color: #fff;
-    font-size: 1rem;
-    margin-top: -3px;
-    box-sizing: border-box;
-    box-shadow: 0px 0px 2px 0px black;
-    width: 100%;
-    z-index: 100;
-}
-[dir=ltr] ul.search_result li {
-    padding: .5rem 1rem .5rem 1.5rem;
-    cursor: pointer;
-}
-[dir=ltr] ul.search_result li:hover {
-    background-color: #e9edf2;
-}
-[dir=ltr] .search_result li.active {
-    background-color: #e9edf2;
+
+[dir=ltr] .ui.fluid.search .results {
+    font-size: 0.9em !important;
 }
 
 [dir=ltr] .player__image {

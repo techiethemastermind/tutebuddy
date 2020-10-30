@@ -57,7 +57,7 @@
                                 </th>
 
                                 <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Weekday</a>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a>
                                 </th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
@@ -81,7 +81,14 @@
                                     </td>
 
                                     <td>
-                                        <strong>{{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}
+                                        <?php
+                                            $new_date = new DateTime;
+                                            $dayofweek = strtolower(App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek]);
+                                            $new_date->modify($dayofweek . ' this week');
+                                        ?>
+                                        <strong>
+                                            {{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}, 
+                                            {{ \Carbon\Carbon::parse($new_date)->toFormattedDateString() }}
                                         </strong>
                                     </td>
                                     <td>

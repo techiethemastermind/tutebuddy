@@ -32,12 +32,13 @@
 
     <div class="container page__container page-section">
 
-        <div class="page-separator">
-            <div class="page-separator__text">Review Detail</div>
-        </div>
+        <div class="col-md-10 p-0">
+            
+            <div class="form-group mb-32pt">
+                <div class="page-separator">
+                    <div class="page-separator__text">Review Detail</div>
+                </div>
 
-        <div class="col-md-7 p-0">
-            <div class="form-group">
                 <div class="media align-items-center">
                     <div class="media-left mr-16pt">
                         <div class="avatar avatar-xxl mr-3">
@@ -48,61 +49,50 @@
                             @endif
                         </div>
                     </div>
-                    <div class="media-body">
-                        <div class="form-group">
-                            <label class="form-label font-size-16pt">Customer name</label>
-                            <p>{{ $review->user->name }}</p>
+                    <div class="media-body d-flex">
+                        <div class="form-group flex">
+                            <label class="form-label font-size-16pt">Posted By</label>
+                            <p class="font-size-16pt font-weight-bold">{{ $review->user->name }}</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="" class="form-label">Course: </label>
-                <a href="{{ route('courses.show', $review->course->slug) }}">
-                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                        <div class="avatar avatar-sm mr-8pt">
-                            <span class="avatar-title rounded bg-primary text-white">
-                                {{ substr($review->course->title, 0, 2) }}
-                            </span>
+                            
+                        <div class="form-group flex">
+                            <label for="" class="form-label font-size-16pt">Course: </label>
+                            <a href="{{ route('courses.show', $review->course->slug) }}">
+                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        <span class="avatar-title rounded bg-primary text-white">
+                                            {{ substr($review->course->title, 0, 2) }}
+                                        </span>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <small class="js-lists-values-project">
+                                                <strong>{{ $review->course->title }}</strong></small>
+                                            <small class="js-lists-values-location text-50"> {{ $review->course->category->name }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="media-body">
-                            <div class="d-flex flex-column">
-                                <small class="js-lists-values-project">
-                                    <strong>{{ $review->course->title }}</strong></small>
-                                <small class="js-lists-values-location text-50"> {{ $review->course->category->name }}</small>
+
+                        <div class="form-group flex">
+                            <label for="" class="form-label font-size-16pt">Provided Rating: {{ $review->rating }}</label>
+                            <div class="rating rating-24">
+                                @include('layouts.parts.rating', ['rating' => $review->rating])
                             </div>
                         </div>
                     </div>
-                </a>
-                
-            </div>
-            <div class="form-group">
-                <label for="" class="form-label">Provided Rating: {{ $review->rating }}</label>
-                <div class="rating rating-24">
-                    @for($r = 1; $r <= $review->rating; $r++)
-                    <span class="rating__item">
-                        <span class="material-icons">star</span>
-                    </span>
-                    @endfor
-
-                    @if($review->rating > ($r-1))
-                    <span class="rating__item"><span class="material-icons">star_half</span></span>
-                    @else
-                    <span class="rating__item"><span class="material-icons">star_border</span></span>
-                    @endif
-
-                    @for($r_a = $r; $r < 5; $r++)
-                    <span class="rating__item">
-                        <span class="material-icons">star_border</span>
-                    </span>
-                    @endfor
                 </div>
             </div>
+            
             <div class="form-group">
-                <label for="" class="form-label">Content</label>
-                <p>{{ $review->content }}</p>
+                <div class="page-separator">
+                    <div class="page-separator__text">Review Content</div>
+                </div>
+                <p class="font-size-16pt text-70">{{ $review->content }}</p>
             </div>
-            <div class="form-group">
+
+            <!-- <div class="form-group">
                 <label for="" class="form-label">Status</label>
                 @if($review->published == 1)
                 <div class="d-flex flex-column">
@@ -122,7 +112,7 @@
                 @else
                 <button id="btn_publish" class="btn btn-accent">UnPublish</button>
                 @endif
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

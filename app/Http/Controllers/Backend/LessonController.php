@@ -369,7 +369,12 @@ class LessonController extends Controller
                         <label class="custom-control-label"><span class="text-hide">Check</span></label>
                     </div>';
 
-            $temp['weekday'] = '<strong>' . Schedule::WEEK_DAYS[Carbon::parse($schedule->date)->dayOfWeek] . '</strong>';
+            $new_date = new \DateTime;
+            $dayofweek = strtolower(Schedule::WEEK_DAYS[Carbon::parse($schedule->date)->dayOfWeek]);
+            $new_date->modify($dayofweek . ' this week');
+            $my_date = Schedule::WEEK_DAYS[Carbon::parse($schedule->date)->dayOfWeek] . ', ' . Carbon::parse($new_date)->toFormattedDateString();
+
+            $temp['weekday'] = '<strong>' . $my_date . '</strong>';
             $temp['start_time'] = '<strong>' . Carbon::parse(timezone()->convertToLocal(Carbon::parse($schedule->start_time)))->format('H:i:s') . '</strong>';
             $temp['end_time'] = '<strong>' . Carbon::parse(timezone()->convertToLocal(Carbon::parse($schedule->end_time)))->format('H:i:s') . '</strong>';
 

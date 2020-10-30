@@ -320,9 +320,14 @@
                                 <small class="text-muted">Angular, Web Development</small>
                             </p>
                             <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
+                                @if($is_mine)
+                                <button class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt" disabled>Follow</button>
+                                <button class="btn btn-outline-secondary" disabled>View Profile</button>
+                                @else
                                 <a href="{{ route('profile.show', $teacher->uuid) }}"
                                     class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">Follow</a>
                                 <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-outline-secondary">View Profile</a>
+                                @endif
                             </div>
                         </div>
 
@@ -504,7 +509,6 @@
                             </div>
                             @endif
                             
-
                             <!-- <button class="btn btn-primary mb-8pt btn-enroll" enroll-type="group"
                                 course-id="{{ $course->id }}">Group -
                                 {{ config('app.currency') . $course->group_price }}</button>
@@ -576,6 +580,7 @@
                                 <span class="rating__item"><span class="material-icons">star</span></span>
                                 <span class="rating__item"><span class="material-icons">star</span></span>
                             </div>
+                            <span class="text-muted ml-8pt">{{ $ratings_5 }} ratings</span>
                         </div>
                     </div>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
@@ -595,6 +600,7 @@
                                 <span class="rating__item"><span class="material-icons">star</span></span>
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                             </div>
+                            <span class="text-muted ml-8pt">{{ $ratings_4 }} ratings</span>
                         </div>
                     </div>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
@@ -614,6 +620,7 @@
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                             </div>
+                            <span class="text-muted ml-8pt">{{ $ratings_3 }} ratings</span>
                         </div>
                     </div>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
@@ -633,6 +640,7 @@
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                             </div>
+                            <span class="text-muted ml-8pt">{{ $ratings_2 }} ratings</span>
                         </div>
                     </div>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
@@ -652,6 +660,7 @@
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                             </div>
+                            <span class="text-muted ml-8pt">{{ $ratings_1 }} ratings</span>
                         </div>
                     </div>
 

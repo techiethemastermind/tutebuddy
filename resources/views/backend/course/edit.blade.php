@@ -317,13 +317,6 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <!-- Timezone -->
-                            <div class="form-group">
-                                <label class="form-label">Timezone</label>
-                                <select name="timezone" class="form-control"></select>
-                                <small class="form-text text-muted">Select timezone</small>
-                            </div>
-
                             <!-- Set Date -->
                             <div class="form-group">
                                 <div class="row">
@@ -343,6 +336,13 @@
                                     </div>
                                 </div>
                                 <small class="form-text text-muted">Course will start and end date</small>
+                            </div>
+
+                            <!-- Timezone -->
+                            <div class="form-group">
+                                <label class="form-label">Your Timezone</label>
+                                <select name="timezone" class="form-control" disabled></select>
+                                <small class="form-text text-muted">Select timezone</small>
                             </div>
 
                             <!-- Repeat -->
@@ -654,7 +654,7 @@ $(function() {
 
     // Timezone
     $('select[name="timezone"]').timezones();
-    $('select[name="timezone"]').val('{{ $course->timezone }}').change();
+    $('select[name="timezone"]').val('{{ auth()->user()->timezone }}').change();
 
     // Schedule Select on Lesson Modal
     $('select[name="lesson_schedule"]').select2();

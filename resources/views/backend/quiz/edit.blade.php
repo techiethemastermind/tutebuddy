@@ -298,11 +298,11 @@
                                 </div>
                             </div>
 
-                            <div for="q_type_1" class="@if($quiz->type == 1) d-none @endif">
+                            <div for="q_type_1" @if($quiz->type == 1) style="display: none;" @endif>
                                 <hr>
-                                <!-- Due Data -->
+                                <!-- Quiz Data -->
                                 <div class="form-group">
-                                    <label class="form-label">Due Date</label>
+                                    <label class="form-label">Quiz Date</label>
                                     <input name="start_date" type="text" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" 
                                     data-flatpickr-alt-format="F j, Y at H:i" data-flatpickr-date-format="Y-m-d H:i" value="{{ $quiz->start_date }}">
                                 </div>

@@ -124,6 +124,12 @@
 
         @endforeach
 
+        @if(count($badges) < 1)
+        <div class="card card-body">
+            <h4 class="mb-0">You have no badges</h4>
+        </div>
+        @endif
+
     </div>
 </div>
 

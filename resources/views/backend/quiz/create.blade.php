@@ -190,9 +190,9 @@
                                 <hr>
                                 <!-- Due Data -->
                                 <div class="form-group">
-                                    <label class="form-label">Due Date</label>
-                                    <input name="start_date" type="hidden" class="form-control flatpickr-input" data-toggle="flatpickr" 
-                                    value="<?php echo date("Y-m-d"); ?>">
+                                    <label class="form-label">Quiz Date</label>
+                                    <input name="start_date" type="text" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" 
+                                    data-flatpickr-alt-format="F j, Y at H:i" data-flatpickr-date-format="Y-m-d H:i" value="<?php echo date("Y-m-d H:i"); ?>">
                                 </div>
 
                                 <!-- Timezone -->

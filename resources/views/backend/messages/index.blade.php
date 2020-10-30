@@ -20,9 +20,25 @@
 [dir=ltr] #messages_content .message.right .message__body {
     margin-left: auto;
 }
-[dir=ltr] #messages_content {
-    height: 600px;
-    overflow: auto;
+[dir=ltr] div.dropdown-content {
+    position: absolute;
+    top: -216px;
+    right: 0;
+    width: 50%;
+    box-shadow: 0 3px 3px -2px rgb(39 44 51 / 10%), 0 3px 4px 0 rgb(39 44 51 / 4%), 0 1px 8px 0 rgb(39 44 51 / 2%);
+    transition: box-shadow .28s cubic-bezier(.4, 0, .2, 1);
+    will-change: box-shadow;
+    border-radius: .5rem;
+}
+[dir=ltr] div.dropdown-content span {
+    width: 35px;
+    float: left;
+    cursor: pointer;
+    padding: 0px 5px 0px 5px;
+    border-radius: 5px;
+}
+[dir=ltr] div.dropdown-content span:hover {
+    background-color: #99ccff;
 }
 </style>
 @endpush
@@ -31,33 +47,37 @@
 <div class="mdk-header-layout__content page-content ">
 
     <div data-push data-responsive-width="768px" data-has-scrollable-region data-fullbleed
-        class="mdk-drawer-layout js-mdk-drawer-layout">
-        <div class="mdk-drawer-layout__content" data-perfect-scrollbar>
+        class="mdk-drawer-layout js-mdk-drawer-layout" style="height: calc(100vh - 160px);">
+        <div class="mdk-drawer-layout__content">
 
             <div class="app-messages__container d-flex flex-column h-100 pb-4">
                 
-                <div class="flex pt-4" style="position: relative;" data-perfect-scrollbar>
-                    <div class="container page__container page__container" id="messages_content">
-                        <!-- <h1 class="text-shadow text-center">Welcome {{ auth()->user()->name }}</h1>
-                        <h2 class="text-center">Click Partner</h2> -->
+                <div class="flex pt-4" style="position: relative;" data-perfect-scrollbar id="wrap_message_content">
+                    <div class="container page__container page__container align-bottom" id="messages_content">
                     </div>
                 </div>
                 <div class="container page__container page__container">
                     <form method="post" action="{{route('admin.messages.reply')}}" id="message_reply">@csrf
                         <div class="input-group input-group-merge">
-                            <input type="text" name="message" class="form-control form-control-appended" autofocus="" required=""
+                            <input type="text" name="message" class="form-control form-control-appended form-control-lg" autofocus="" required=""
                                 placeholder="Type message">
                             <div class="input-group-append">
                                 <div class="input-group-text pr-2">
-                                    <button class="btn btn-flush" type="button"><i
-                                            class="material-icons">tag_faces</i></button>
+                                    <button id="btn_emoji" class="btn btn-flush" type="button">
+                                        <i class="material-icons icon-16pt">tag_faces</i>
+                                    </button>
+                                    <div for="emoji" class="dropdown-content p-3 bg-white text-left d-none">
+                                        @for($i = 128512; $i < 128556; $i++)
+                                        <span class="mr-8pt icon-24pt">&#{!! $i !!};</span>
+                                        @endfor
+                                    </div>
                                 </div>
                                 <div class="input-group-text pl-0">
                                     <div class="custom-file custom-file-naked d-flex"
                                         style="width: 24px; overflow: hidden;">
                                         <input type="file" class="custom-file-input" id="customFile">
                                         <label class="custom-file-label" style="color: inherit;" for="customFile">
-                                            <i class="material-icons">attach_file</i>
+                                            <i class="material-icons icon-16pt">attach_file</i>
                                         </label>
                                     </div>
                                 </div>
@@ -239,6 +259,19 @@ $(function() {
         }
     });
 
+    $('#btn_emoji').on('click', function() {
+        if($('div[for="emoji"]').hasClass('d-none')) {
+            $('div[for="emoji"]').removeClass('d-none');
+        } else {
+            $('div[for="emoji"]').addClass('d-none');
+        }
+    });
+
+    $('div.dropdown-content').on('click', 'span', function(){
+        var emoji = $(this).html();
+        $('input[name="message"]').val($('input[name="message"]').val() + emoji);
+    });
+
     setTimeout(() => {
         console.log('clicked');
         $('#recent_chats').find('li').first().trigger('click');        
@@ -272,8 +305,7 @@ $(function() {
                 method: 'GET',
                 url: "/dashboard/messages/last?partner=" + partner_id + "&thread=" + thread_id,
                 success: function(res) {
-
-                    if (res.success) {
+                    if (res.success && res.html != '') {
                         $(res.html).hide().appendTo('#messages_content ul').toggle(500);
                         updateScroll();
                     }
@@ -285,13 +317,11 @@ $(function() {
             });
         }
 
-    }, 3000);
+    }, 2000);
 
     function updateScroll() {
-        setTimeout(() => {
-            var element = document.getElementById("messages_content");
-            element.scrollTop = element.scrollHeight;
-        }, 500);
+        var element = document.getElementById("wrap_message_content");
+        element.scrollTop = element.scrollHeight;
     }
 
 });

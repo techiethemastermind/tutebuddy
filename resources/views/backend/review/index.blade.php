@@ -50,31 +50,39 @@
                     <label class="card-title font-size-20pt">{{ $review->user->name }}</label>
                 </div>
                 <div class="flex align-items-center flex flex-column">
-                    <div class="rating rating-24">
+                    <div class="rating rating-24 float-right">
                         @include('layouts.parts.rating', ['rating' => $review->rating])
                     </div>
                 </div>
-                <div class="flex flex-column">
-                    <a href="{{ route('admin.reviews.show', $review->id) }}" class="btn btn-primary">Review</a>
-                </div>
             </div>
 
-            <div class="mb-12pt p-16pt">
+            <div class="p-12pt">
                 <p class="text-70 font-size-16pt">{{ str_limit($review->content, 200) }}
-                    <a href="{{ route('admin.reviews.show', $review->id) }}" style="color: #005ea6;">Read More</a>
+                    <a href="{{ route('admin.reviews.show', $review->id) }}" class="ml-16pt font-weight-bold font-italic" style="color: #005ea6;">Read More</a>
                 </p>
-                <div class="">
-                    <span class="font-size-16pt text-black-70 mr-32pt">{{ $review->course->title }},</span>
+                <div class="d-flex">
 
-                    @if($review->course->progress() > 99)
-                    <i class="font-size-16pt text-black-70 mr-32pt">Completed,</i>
-                    @else
-                    <i class="font-size-16pt text-black-70 mr-32pt">In Progressing,</i>
-                    @endif
+                    <div class="flex flex-column flex-0">
+                        <span class="font-size-16pt text-black-70 pr-12pt mr-12pt border-right-2 font-weight-bold">{{ $review->course->title }}</span>
+                    </div>
 
-                    <i class="text-muted text-black-70 font-size-16pt">
-                        {{ \Carbon\Carbon::parse($review->updated_at)->toFormattedDateString() }}
-                    </i>
+                    <div class="flex flex-column flex-0">
+                        @if($review->course->progress() > 99)
+                        <i class="font-size-16pt text-black-70 pr-12pt mr-12pt border-right-2 font-weight-bold">Completed</i>
+                        @else
+                        <i class="font-size-16pt text-black-70 pr-12pt mr-12pt border-right-2 font-weight-bold">In Progressing</i>
+                        @endif
+                    </div>
+
+                    <div class="flex flex-column">
+                        <i class="text-muted text-black-70 font-size-16pt pr-12pt mr-12pt border-right-2 font-weight-bold">
+                            {{ \Carbon\Carbon::parse($review->updated_at)->toFormattedDateString() }}
+                        </i>
+                    </div>
+                    
+                    <div class="flex flex-column text-right">
+                        <a href="{{ route('admin.reviews.show', $review->id) }}" class="btn btn-primary">Detail</a>
+                    </div>
                 </div>
             </div>
         </div>

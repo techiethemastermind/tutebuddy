@@ -10,7 +10,6 @@ Route::post('courses/review/{id}/edit', 'CoursesController@updateReview')->name(
 Route::get('courses/review/{id}/delete', 'CoursesController@deleteReview')->name('courses.review.delete');
 
 // ==== Search Result ====//
-Route::get('search', 'SearchController@searchPage')->name('search.page');
 Route::get('search/courses', 'SearchController@courses')->name('courses.search');
 Route::get('search/instructors', 'SearchController@teachers')->name('teachers.search');
 

@@ -127,9 +127,9 @@
                     <label for="" class="form-label">Detail:</label>
                     <div class="card mb-0">
                         <div class="card-body">
-                            <div class="form-group">
+                            <div class="form-group form-inline">
                                 <label class="form-label">Timezone: </label>
-                                <span id="d_timezone" class="form-label text-muted">Europe/Amsterdam</span>
+                                <select id="d_timezone" name="timezone" class="form-control"></select>
                             </div>
 
                             <div class="form-group">
@@ -275,6 +275,9 @@
 <script src="{{ asset('assets/js/flatpickr.min.js') }}"></script>
 <script src="{{ asset('assets/js/flatpickr.js') }}"></script>
 
+<!-- Timezone Picker -->
+<script src="{{ asset('assets/js/timezones.full.js') }}"></script>
+
 <script>
 $(document).ready(function() {
 
@@ -282,6 +285,9 @@ $(document).ready(function() {
     var schedule_startStr, schedule_endStr, schedule_startTime, schedule_endTime, schedule_id;
 
     var schedule_data = $('#schedule_data').val();
+    var my_timezone = '{{ auth()->user()->timezone }}';
+
+    $('#d_timezone').timezones();
 
     if({{ $courses->count() }} < 1) {
         swal({
@@ -301,8 +307,6 @@ $(document).ready(function() {
             }
         });
     }
-
-    console.log('{{ auth()->user()->timezone }}');
 
     var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -438,6 +442,24 @@ $(document).ready(function() {
         });
     });
 
+    // Change timezone on Modal
+    $('#d_timezone').on('change', function() {
+
+        if(my_timezone != $(this).val()) {
+
+            var start_time = $('#course_start_time').val();
+            var new_time = convert_time(start_time, $(this).val());
+            $('#course_start_time').val(new_time);
+
+            var end_time = $('#course_end_time').val();
+            var new_time = convert_time(end_time, $(this).val());
+            $('#course_end_time').val(new_time);
+
+            my_timezone = $(this).val();
+        }
+    });
+
+    // Change Course
     $('select[name="course"]').on('change', function() {
         display_course_detail();
     });
@@ -570,11 +592,54 @@ $(document).ready(function() {
         var repeat_value = option.attr('data-repeat-value');
         var repeat_type = option.attr('data-repeat-type');
 
-        $('#d_timezone').text(timezone);
+        if(timezone == '') {
+            $('#d_timezone').val('{{ auth()->user()->timezone }}').change();
+        } else {
+            $('#d_timezone').val(timezone).change();
+        }
+        
         $('#d_start').text(start);
         $('#d_end').text(end);
         $('#d_repeat_value').text(repeat_value);
         $('#d_repeat_type').text(repeat_type);
+    }
+
+    // Convert time
+    function convert_time(time, timezone) {
+        var hours = parseInt(time.substr(0, time.indexOf(':')));
+        var mins = parseInt(time.substr(time.indexOf(':') + 1));
+
+        var d_obj = new Date();
+        d_obj.setHours(hours);
+        d_obj.setMinutes(mins);
+
+        var timezone_prev_time = d_obj.toLocaleString("en-US", {timeZone: my_timezone});
+        var timezone_prev_time_obj = new Date(timezone_prev_time);
+
+        var utc_prev_hours = timezone_prev_time_obj.getUTCHours();
+        var utc_prev_minutes = timezone_prev_time_obj.getUTCMinutes();
+
+        var timezone_time = d_obj.toLocaleString("en-US", {timeZone: timezone});
+        var timezone_time_obj = new Date(timezone_time);
+
+        var utc_hours = timezone_time_obj.getUTCHours();
+        var utc_minutes = timezone_time_obj.getUTCMinutes();
+
+        var diff_hours = utc_hours - utc_prev_hours;
+        var diff_minutes = utc_minutes - utc_prev_minutes;
+
+        var new_hours = hours + diff_hours;
+        var new_minutes = mins + diff_minutes;
+
+        if(new_hours < 10) {
+            new_hours = '0' + new_hours;
+        }
+
+        if(new_minutes < 10) {
+            new_minutes = '0' + new_minutes;
+        }
+
+        return new_hours + ':' + new_minutes;
     }
 });
 </script>

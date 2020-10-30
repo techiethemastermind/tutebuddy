@@ -80,7 +80,7 @@
                             </th>
 
                             <th>
-                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Weekday</a>
+                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a>
                             </th>
                             <th>Start Time</th>
                             <th>End Time</th>
