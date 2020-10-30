@@ -326,16 +326,19 @@ $(document).ready(function() {
             }
         }],
         eventContent: function(info) {
+            console.log(info);
+            var html = `<div class="fc-event-time">` + info.timeText + `</div>
+                        <div class="fc-event-time mb-8pt"> `+ info.event._def.extendedProps.timezone +`</div>`;
+            html += `<div class="fc-event-title-container">
+                        <div class="fc-event-title">` + info.event.title + `</div>
+                    </div>`;
             if(info.event._def.extendedProps.lesson !== undefined) {
-                var html = '<div class="fc-event-time">' + info.timeText + '</div>';
                 html += `<div class="fc-event-title-container">
-                            <div class="fc-event-title">` + info.event.title + `</div>
                             <div class="fc-event-desc fc-sticky">Lesson: ` + info.event._def.extendedProps.lesson + `</div>
                             <span class="badge badge-notifications badge-accent">Ready</span>
-                        </div>`;
-
-                return { html: html};
+                        </div>`;               
             }
+            return { html: html};
         },
         eventResize: function(info) {
             schedule_id = info.event.id;
@@ -420,7 +423,8 @@ $(document).ready(function() {
         var send_data = {
             id: course_id,
             start: start,
-            end: end
+            end: end,
+            timezone: $('#d_timezone').val()
         };
 
         $.ajax({
@@ -443,21 +447,21 @@ $(document).ready(function() {
     });
 
     // Change timezone on Modal
-    $('#d_timezone').on('change', function() {
+    // $('#d_timezone').on('change', function() {
 
-        if(my_timezone != $(this).val()) {
+    //     if(my_timezone != $(this).val()) {
 
-            var start_time = $('#course_start_time').val();
-            var new_time = convert_time(start_time, $(this).val());
-            $('#course_start_time').val(new_time);
+    //         var start_time = $('#course_start_time').val();
+    //         var new_time = convert_time(start_time, $(this).val());
+    //         $('#course_start_time').val(new_time);
 
-            var end_time = $('#course_end_time').val();
-            var new_time = convert_time(end_time, $(this).val());
-            $('#course_end_time').val(new_time);
+    //         var end_time = $('#course_end_time').val();
+    //         var new_time = convert_time(end_time, $(this).val());
+    //         $('#course_end_time').val(new_time);
 
-            my_timezone = $(this).val();
-        }
-    });
+    //         my_timezone = $(this).val();
+    //     }
+    // });
 
     // Change Course
     $('select[name="course"]').on('change', function() {
@@ -627,6 +631,8 @@ $(document).ready(function() {
 
         var diff_hours = utc_hours - utc_prev_hours;
         var diff_minutes = utc_minutes - utc_prev_minutes;
+
+        console.log(diff_hours);
 
         var new_hours = hours + diff_hours;
         var new_minutes = mins + diff_minutes;

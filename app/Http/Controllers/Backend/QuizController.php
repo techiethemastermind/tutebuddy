@@ -317,7 +317,7 @@ class QuizController extends Controller
 
                 $forever_delete_route = route('admin.quizs.foreverDelete', $quiz->id);
 
-                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="restore" data-toggle="tooltip"
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="forever-delete" data-toggle="tooltip"
                 data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
 
                 $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;

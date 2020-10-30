@@ -423,7 +423,7 @@ class QuestionController extends Controller
                                         ];
                                         
                                         $option = QuestionOption::create($optionData);
-                                        $html .= $this->getOptionHtml($option);
+                                        $html .= $this->getOptionHtml($option, $idx);
                                     }
                                     $html .= '
                                 </div>
@@ -445,7 +445,7 @@ class QuestionController extends Controller
         return $html;
     }
 
-    function getOptionHtml($option) {
+    function getOptionHtml($option, $idx) {
 
         $option_count = QuestionOption::where('question_id', $option->question_id)->count();
         $checked_str = ($option->correct == 1) ? 'checked' : '';
@@ -454,7 +454,7 @@ class QuestionController extends Controller
 
         if($option_type == 0) {
             return '<div class="custom-control custom-radio mb-8pt">
-                <input id="option_s'. $option->id .'_q'. $option->question_id .'" name="option_single_q'. $option->question_id .'" type="radio" class="custom-control-input" '. $checked_str .'>
+                <input id="option_s'. $option->id .'_q'. $option->question_id .'" name="option_single_q'. $option->question_id .'" type="radio" class="custom-control-input" '. $checked_str .' value="'. $idx .'">
                 <label for="option_s'. $option->id .'_q'. $option->question_id .'" class="custom-control-label">'. $option->option_text .'</label>
             </div>';
         }

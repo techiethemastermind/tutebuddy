@@ -166,24 +166,35 @@
                                 <input type="number" name="score" class="form-control" placeholder="Total Marks" min="1" value="" tute-no-empty>
                             </div>
 
-                            <hr>
-
-                            <!-- Set Evaluation -->
-                            <div class="form-group" for="evaluation">
-                                <label class="form-label">Evaluation:</label>
+                            <!-- Test Type -->
+                            <div class="form-group">
+                                <label class="form-label">Test Type</label>
                                 <div class="custom-controls-stacked">
-                                    <div class="custom-control custom-radio py-1">
-                                        <input id="score_by_mark" name="score_type" type="radio" class="custom-control-input" value="1" checked="">
-                                        <label for="score_by_mark" class="custom-control-label">Score by Mark</label>
+                                    <div class="custom-control custom-radio py-2">
+                                        <input id="t_type_1" name="type" type="radio" class="custom-control-input" value="0">
+                                        <label for="t_type_1" class="custom-control-label">Take at any time</label>
                                     </div>
-                                    <div class="custom-control custom-radio py-1">
-                                        <input id="score_by_grade" name="score_type" type="radio" class="custom-control-input" value="2">
-                                        <label for="score_by_grade" class="custom-control-label">Score by Grade</label>
+                                    <div class="custom-control custom-radio py-2">
+                                        <input id="t_type_2" name="type" type="radio" class="custom-control-input" value="1">
+                                        <label for="t_type_2" class="custom-control-label">Take at fixed time</label>
                                     </div>
-                                    <div class="custom-control custom-radio py-1">
-                                        <input id="no_score" name="score_type" type="radio" class="custom-control-input" value="0">
-                                        <label for="no_score" class="custom-control-label">No Scoring</label>
-                                    </div>
+                                </div>
+                            </div>
+
+                            <div for="t_type_1" style="display: none;">
+                                <hr>
+                                <!-- Test Data -->
+                                <div class="form-group">
+                                    <label class="form-label">Test Date</label>
+                                    <input name="start_date" type="text" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" 
+                                    data-flatpickr-alt-format="F j, Y at H:i" data-flatpickr-date-format="Y-m-d H:i" value="<?php echo date("Y-m-d H:i"); ?>">
+                                </div>
+
+                                <!-- Timezone -->
+                                <div class="form-group">
+                                    <label class="form-label">Timezone</label>
+                                    <select name="timezone" class="form-control"></select>
+                                    <small class="form-text text-muted">Select timezone</small>
                                 </div>
                             </div>
 
@@ -310,6 +321,9 @@
 <script src="{{ asset('assets/js/quill.min.js') }}"></script>
 <script src="{{ asset('assets/js/quill.js') }}"></script>
 
+<!-- Timezone Picker -->
+<script src="{{ asset('assets/js/timezones.full.js') }}"></script>
+
 <script>
 
 $(function() {
@@ -342,6 +356,23 @@ $(function() {
     $('select[name="course"]').select2();
     $('select[name="lesson"]').select2();
 
+    // Timezone
+    $('select[name="timezone"]').timezones();
+    $('select[name="timezone"]').val('{{ auth()->user()->timezone }}').change();
+
+    // Course Type
+    $('#t_type_1').on('change', function(e) {
+        var style = $(this).prop('checked') ? 'none' : 'block';
+        $('div[for="t_type_1"]').css('display', style);
+    });
+
+    // Course Type
+    $('#t_type_2').on('change', function(e) {
+        console.log('dddd');
+        var style = $(this).prop('checked') ? 'block' : 'none';
+        $('div[for="t_type_1"]').css('display', style);
+    });
+
     loadLessons($('select[name="course"]').val());
 
     $('select[name="course"]').on('change', function(e) {
@@ -363,8 +394,8 @@ $(function() {
     // Add New Question
     $('#btn_new_question').on('click', function() {
 
-        if($('input[name="title"]').val() == '') {
-            $('input[name="title"]').val('Untitled');
+        if(!checkValidForm($('#frm_test'))){
+            return false;
         }
 
         if(status == 'create') {

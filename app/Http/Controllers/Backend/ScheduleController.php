@@ -43,7 +43,8 @@ class ScheduleController extends Controller
             'course_id' => $request->id,
             'date' => $base_date,
             'start_time' => $start_time,
-            'end_time' => $end_time
+            'end_time' => $end_time,
+            'timezone' => $request->timezone
         ];
 
         $schedule = Schedule::create($new_data);

@@ -394,6 +394,7 @@ $(function() {
 
     // Timezone
     $('select[name="timezone"]').timezones();
+    $('select[name="timezone"]').val('{{ auth()->user()->timezone }}').change();
 
     // Course Type
     $('#q_type_1').on('change', function(e) {
@@ -496,6 +497,27 @@ $(function() {
 
         e.preventDefault();
 
+        if($('#frm_question').find('select[name="type"]').val() == '0') {
+            var single_options = $('#frm_question').find('.options-wrap').find('input[name="option_single"]');
+            $.each(single_options, function(idx, item){
+                $(item).val(idx);
+            });
+        }
+
+        if($('#frm_question').find('select[name="type"]').val() == '1') {
+            var multi_options = $('#frm_question').find('.options-wrap').find('input[name="option_multi[]"]');
+            $.each(multi_options, function(idx, item){
+                $(item).val(idx);
+            });
+        }
+
+        if($('#frm_question').find('select[name="type"]').val() == '2') {
+            var fill_options = $('#frm_question').find('.options-wrap').find('input[name="option_fill[]"]');
+            $.each(fill_options, function(idx, item){
+                $(item).val(idx);
+            });
+        }
+
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
@@ -585,16 +607,12 @@ $(function() {
     });
 
     $('#btn_addOptions').click(function () {
-        var option_num = $('.options-wrap').find('.row').last().find('input[name="'+ str_names[current_option_type] +'"]').val();
-        if(option_num == undefined) {
-            option_num = 0;
-        }
+        option_num = uniqId();
         var new_val = parseInt(option_num) + 1;
         var new_id = str_ids[current_option_type] + new_val;
         var new_ele = template[current_option_type].clone();
         new_ele.find('input[name="' + str_names[current_option_type] + '"]').attr('id', new_id);
         new_ele.find('label').attr('for', new_id);
-        new_ele.find('input[name="' + str_names[current_option_type] + '"]').val(new_val);
         new_ele.appendTo("#options .options-wrap");
     });
 
@@ -690,7 +708,6 @@ $(function() {
 
 });
 
-
 // Add New Question
 $('#btn_new_quiz').on('click', function(e) {
 
@@ -737,6 +754,27 @@ $('#btn_new_quiz').on('click', function(e) {
 
 function createQuestion() {
 
+    if($('#frm_question').find('select[name="type"]').val() == '0') {
+        var single_options = $('#frm_question').find('.options-wrap').find('input[name="option_single"]');
+        $.each(single_options, function(idx, item){
+            $(item).val(idx);
+        });
+    }
+
+    if($('#frm_question').find('select[name="type"]').val() == '1') {
+        var multi_options = $('#frm_question').find('.options-wrap').find('input[name="option_multi[]"]');
+        $.each(multi_options, function(idx, item){
+            $(item).val(idx);
+        });
+    }
+
+    if($('#frm_question').find('select[name="type"]').val() == '2') {
+        var fill_options = $('#frm_question').find('.options-wrap').find('input[name="option_fill[]"]');
+        $.each(fill_options, function(idx, item){
+            $(item).val(idx);
+        });
+    }
+
     $('#frm_question').ajaxSubmit({
         beforeSubmit: function(formData, formObject, formOptions) {
 
@@ -778,6 +816,9 @@ function createQuestion() {
             }
         }
     });
+}
+function uniqId() {
+    return Math.round(new Date().getTime() + (Math.random() * 100));
 }
 
 function loadQuestions() {

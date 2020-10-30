@@ -59,7 +59,8 @@ class CalendarService
                                     'end' => $end,
                                     'display' => 'block',
                                     'color' => $color_set['background_color'],
-                                    'textColor' => $color_set['font_color']
+                                    'textColor' => $color_set['font_color'],
+                                    'timezone' => $schedule->timezone
                                 ];
 
                                 // lesson check
@@ -99,7 +100,8 @@ class CalendarService
                                 'end' => $end,
                                 'display' => 'block',
                                 'color' => $color_set['background_color'],
-                                'textColor' => $color_set['font_color']
+                                'textColor' => $color_set['font_color'],
+                                'timezone' => $schedule->timezone
                             ];
 
                             array_push($calendarData, $item);

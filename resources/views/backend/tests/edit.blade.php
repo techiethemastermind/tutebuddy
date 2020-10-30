@@ -406,6 +406,7 @@ $(function() {
 
     // Timezone
     $('select[name="timezone"]').timezones();
+    $('select[name="timezone"]').val('{{ auth()->user()->timezone }}').change();
     if('{{ $test->type }}' == 1) {
         $('select[name="timezone"]').val('{{ $test->timezone }}').change();
     }

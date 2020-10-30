@@ -177,6 +177,35 @@ $(document).ready(function() {
             }
         }
     );
+
+    //=== Forever delete quiz === //
+    $('#tbl_quizs').on('click', 'a[data-action="forever-delete"]', function(e) {
+        e.preventDefault();
+        var route = $(this).attr('href');
+        swal({
+            title: "Are you sure?",
+            text: "This Quiz will removed forever",
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
+
+        }, function(val) {
+            if (val) {
+                $.ajax({
+                    method: 'GET',
+                    url: route,
+                    success: function(res) {
+                        if (res.success) {
+                            table.ajax.reload();
+                        }
+                    }
+                });
+            }
+        });
+    });
 });
 
 $('#courses').on('change', function() {
