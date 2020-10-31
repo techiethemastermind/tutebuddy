@@ -12,4 +12,14 @@ class DiscussionResults extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(DiscussionResults::class, 'post_user_id', 'user_id');
+    }
+
+    public function childs()
+    {
+        return $this->hasMany(DiscussionResults::class, 'post_user_id', 'user_id');
+    }
 }

@@ -79,15 +79,17 @@ class DashboardController extends Controller
                 $quizResults = QuizResults::whereIn('quiz_id', $quiz_ids)->limit(5)->get();
                 $discussions = Discussion::limit(5)->get();
 
-                return view('backend.dashboard.teacher', compact(
-                    'schedules',
-                    'students',
-                    'assignments', 
-                    'assignment_results',
-                    'bundles',
-                    'testResults',
-                    'quizResults',
-                    'discussions')
+                return view('backend.dashboard.teacher', 
+                    compact(
+                        'schedules',
+                        'students',
+                        'assignments', 
+                        'assignment_results',
+                        'bundles',
+                        'testResults',
+                        'quizResults',
+                        'discussions'
+                    )
                 );
             break;
 

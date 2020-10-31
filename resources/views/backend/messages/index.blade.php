@@ -114,7 +114,7 @@
                             <div class="px-3 form-group mb-0">
                                 <div class="input-group input-group-merge input-group-rounded flex-nowrap">
                                     <input type="text" id="filter" class="form-control form-control-prepended"
-                                        placeholder="Filter members">
+                                        placeholder="Search Users">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <span class="material-icons">filter_list</span>

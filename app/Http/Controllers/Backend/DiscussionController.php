@@ -67,9 +67,34 @@ class DiscussionController extends Controller
         ]);
     }
 
-    public function getTopics()
+    public function getTopics(Request $request)
     {
-        $discussions = Discussion::paginate(5);
+        if(isset($request->_q)) {
+            $discussions = Discussion::where('title', 'like', '%' . $request->_q . '%')->paginate(5);
+        } else {
+            $discussions = Discussion::paginate(5);
+        }
+
+        if(isset($request->_t)) {
+            switch($request->_t) {
+                case 'all':
+                    $discussions = Discussion::paginate(5);
+                break;
+
+                case 'my':
+                    $discussions = Discussion::where('user_id', auth()->user()->id)->paginate(5);
+                break;
+
+                case 'newst':
+                    $discussions = Discussion::OrderBy('updated_at', 'desc')->paginate(5);
+                break;
+
+                case 'unanswered':
+                    $discussions = Discussion::OrderBy('updated_at', 'desc')->paginate(5);
+                break;
+            }
+        }
+        
         return view('backend.discussions.topics', compact('discussions'));
     }
 
@@ -219,5 +244,68 @@ class DiscussionController extends Controller
             'success' => true,
             'result' => $html
         ]);
+    }
+
+    public function getSimilar(Request $request)
+    {
+        $discussions = Discussion::where('title', 'like', '%' . $request->key . '%')->limit(3)->get();
+
+        if(count($discussions) > 0) {
+
+            $html = '<div class="list-group list-group-flush">';
+            
+            foreach($discussions as $discussion) {
+
+                $topics = json_decode($discussion->topics);
+                $topic_html = '';
+
+                foreach($topics as $topic){
+                    $topic_html .= '<a href=' . route('admin.discussions.show', $discussion->id) . ' class="chip chip-outline-secondary">
+                        ' . $discussion->topic($topic) . '
+                    </a>';
+                } 
+
+                $html .= '<div class="list-group-item p-3">
+                            <div class="row align-items-start">
+                                <div class="col-md-3 mb-8pt mb-md-0">
+                                    <div class="media align-items-center">
+                                        <div class="media-left mr-12pt">
+                                            <a href="javascript:void(0)" class="avatar avatar-sm">
+                                                <span class="avatar-title rounded-circle">'. substr($discussion->user->name, 0, 2) .'</span>
+                                            </a>
+                                        </div>
+                                        <div class="d-flex flex-column media-body media-middle">
+                                            <a href="" class="card-title">'. $discussion->user->name .'</a>
+                                            <small class="text-muted">'. Carbon::createFromTimeStamp(strtotime($discussion->created_at))->diffForHumans() .'</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col mb-8pt mb-md-0">
+                                    <p class="mb-8pt">
+                                        <a href="'. route('admin.discussions.show', $discussion->id) .'" class="text-body">
+                                            <strong>'. $discussion->title .'</strong>
+                                        </a>
+                                    </p>
+                                    '. $topic_html .'
+                                </div>
+                                <div class="col-auto d-flex flex-column align-items-center justify-content-center">
+                                    <h5 class="m-0">'. $discussion->results->count() .'</h5>
+                                    <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
+                                </div>
+                            </div>
+                        </div>';
+            }
+
+            $html .= '</div>';
+
+            return response()->json([
+                'success' => true,
+                'html' => $html
+            ]);
+        } else {
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 }

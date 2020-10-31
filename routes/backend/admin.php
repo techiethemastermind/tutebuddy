@@ -139,6 +139,7 @@ Route::resource('discussions', 'DiscussionController');
 Route::get('topics', 'DiscussionController@getTopics')->name('discussions.topics');
 Route::get('ajax/discussions', 'DiscussionController@getTopicsByAjax')->name('table.getTopicsByAjax');
 Route::post('ajax/comment', 'DiscussionController@postComment')->name('ajax.postComment');
+Route::get('ajax/similar', 'DiscussionController@getSimilar')->name('ajax.getSimilar');
 
 // Messages Routes
 Route::get('messages', 'MessagesController@index')->name('messages.index');

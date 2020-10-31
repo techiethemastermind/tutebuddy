@@ -20,14 +20,14 @@
                     <div class="page-section">
                         <h4>Ask a question</h4>
                         <div class="card--connect pb-32pt">
-                            <div class="card o-hidden mb-0">
+                            <div class="card o-hidden mb-0 discussion-title">
                                 <div class="card-body table--elevated">
                                     <div class="form-group m-0" role="group" aria-labelledby="title">
                                         <div class="form-row align-items-center">
-                                            <label id="title" for="title"
+                                            <label for="title"
                                                 class="col-md-3 col-form-label form-label">Question title</label>
                                             <div class="col-md-9">
-                                                <input id="title" type="text" name="title" placeholder="Your question ..."
+                                                <input id="title" type="search" name="title" placeholder="Your question ..."
                                                     value="" class="form-control @error('title') is-invalid @enderror" tute-no-empty>
                                             </div>
                                         </div>
@@ -164,6 +164,30 @@
                     window.location.href = url;
                 }
             })
+        });
+
+        var timer, value;
+        $('#title').bind('keyup', function() {
+            clearTimeout(timer);
+            var str = $(this).val();
+            if (str.length > 2 && value != str) {
+                timer = setTimeout(function() {
+                    value = str;
+
+                    $.ajax({
+                        method: 'GET',
+                        url: '{{ route("admin.ajax.getSimilar") }}',
+                        data: { key: value },
+                        success: function(res) {
+                            console.log(res);
+                            if(res.success) {
+                                $('div.discussion-title').append(res.html);
+                            }
+                        }
+                    });
+
+                }, 1000);
+            }
         });
 
         function loadLessons(course) {

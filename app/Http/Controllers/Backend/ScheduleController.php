@@ -32,12 +32,12 @@ class ScheduleController extends Controller
 
     public function storeSchedule(Request $request) {
 
-        $request_start = timezone()->convertFromLocal(Carbon::parse($request->start)->format('Y-m-d H:i:s'));
-        $request_end = timezone()->convertFromLocal(Carbon::parse($request->end)->format('Y-m-d H:i:s'));
+        // $request_start = timezone()->convertFromLocal(Carbon::parse($request->start)->format('Y-m-d H:i:s'));
+        // $request_end = timezone()->convertFromLocal(Carbon::parse($request->end)->format('Y-m-d H:i:s'));
 
-        $base_date = $request_start->format('Y-m-d');
-        $start_time = $request_start->format('H:i:s');
-        $end_time = $request_end->format('H:i:s');
+        $base_date = Carbon::parse($request->start)->format('Y-m-d');
+        $start_time = Carbon::parse($request->start)->format('H:i:s');
+        $end_time = Carbon::parse($request->end)->format('H:i:s');
 
         $new_data = [
             'course_id' => $request->id,
@@ -94,10 +94,14 @@ class ScheduleController extends Controller
 
         $schedule = Schedule::find($request->id);
         $schedule->lesson_id = $request->lesson_id;
-        $request_start = timezone()->convertFromLocal(Carbon::parse($request->start)->format('Y-m-d H:i:s'));
-        $request_end = timezone()->convertFromLocal(Carbon::parse($request->end)->format('Y-m-d H:i:s'));
-        $schedule->start_time = $request_start->format('H:i:s');
-        $schedule->end_time = $request_end->format('H:i:s');
+        
+        // $request_start = timezone()->convertFromLocal(Carbon::parse($request->start)->format('Y-m-d H:i:s'));
+        // $request_end = timezone()->convertFromLocal(Carbon::parse($request->end)->format('Y-m-d H:i:s'));
+        // $schedule->start_time = $request_start->format('H:i:s');
+        // $schedule->end_time = $request_end->format('H:i:s');
+
+        $schedule->start_time = Carbon::parse($request->start)->format('H:i:s');
+        $schedule->end_time = Carbon::parse($request->end)->format('H:i:s');
 
         try {
             $schedule->save();
@@ -121,12 +125,10 @@ class ScheduleController extends Controller
     public function updateSchedule(Request $request) {
 
         $schedule = Schedule::find($request->id);
-        $request_start = timezone()->convertFromLocal(Carbon::parse($request->start)->format('Y-m-d H:i:s'));
-        $request_end = timezone()->convertFromLocal(Carbon::parse($request->end)->format('Y-m-d H:i:s'));
 
-        $schedule->date = $request_start->format('Y-m-d');
-        $schedule->start_time = $request_start->format('H:i:s');
-        $schedule->end_time = $request_end->format('H:i:s');
+        $schedule->date = Carbon::parse($request->start)->format('Y-m-d');
+        $schedule->start_time = Carbon::parse($request->start)->format('H:i:s');
+        $schedule->end_time = Carbon::parse($request->end)->format('H:i:s');
 
         try {
             $schedule->save();

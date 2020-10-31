@@ -92,10 +92,10 @@
                                         </strong>
                                     </td>
                                     <td>
-                                        <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($schedule->start_time)))->format('H:i:s') }}</strong>
+                                        <strong>{{ timezone()->convertFromTimezone($schedule->start_time, $schedule->timezone, 'H:i:s') }}</strong>
                                     </td>
                                     <td>
-                                        <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($schedule->end_time)))->format('H:i:s') }}</strong>
+                                        <strong>{{ timezone()->convertFromTimezone($schedule->end_time, $schedule->timezone, 'H:i:s') }}</strong>
                                     </td>
                                     <td>
                                         <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">

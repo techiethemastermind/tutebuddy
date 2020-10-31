@@ -375,8 +375,8 @@ class LessonController extends Controller
             $my_date = Schedule::WEEK_DAYS[Carbon::parse($schedule->date)->dayOfWeek] . ', ' . Carbon::parse($new_date)->toFormattedDateString();
 
             $temp['weekday'] = '<strong>' . $my_date . '</strong>';
-            $temp['start_time'] = '<strong>' . Carbon::parse(timezone()->convertToLocal(Carbon::parse($schedule->start_time)))->format('H:i:s') . '</strong>';
-            $temp['end_time'] = '<strong>' . Carbon::parse(timezone()->convertToLocal(Carbon::parse($schedule->end_time)))->format('H:i:s') . '</strong>';
+            $temp['start_time'] = '<strong>' . timezone()->convertFromTimezone($schedule->start_time, $schedule->timezone, 'H:i:s') . '</strong>';
+            $temp['end_time'] = '<strong>' . timezone()->convertFromTimezone($schedule->end_time, $schedule->timezone, 'H:i:s') . '</strong>';
 
             $temp['course'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                         <div class="avatar avatar-sm mr-8pt">

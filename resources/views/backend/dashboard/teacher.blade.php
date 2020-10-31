@@ -198,7 +198,7 @@
                                 </th>
 
                                 <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Weekday</a>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a>
                                 </th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
@@ -222,14 +222,21 @@
                                     </td>
 
                                     <td>
-                                        <strong>{{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}
+                                        <?php
+                                            $new_date = new DateTime;
+                                            $dayofweek = strtolower(App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek]);
+                                            $new_date->modify($dayofweek . ' this week');
+                                        ?>
+                                        <strong>
+                                            {{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}, 
+                                            {{ \Carbon\Carbon::parse($new_date)->toFormattedDateString() }}
                                         </strong>
                                     </td>
                                     <td>
-                                        <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($schedule->start_time)))->format('H:i:s') }}</strong>
+                                        <strong>{{ timezone()->convertFromTimezone($schedule->start_time, $schedule->timezone, 'H:i:s') }}</strong>
                                     </td>
                                     <td>
-                                        <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($schedule->end_time)))->format('H:i:s') }}</strong>
+                                        <strong>{{ timezone()->convertFromTimezone($schedule->end_time, $schedule->timezone, 'H:i:s') }}</strong>
                                     </td>
                                     <td>
                                         <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">

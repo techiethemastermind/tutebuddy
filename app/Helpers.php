@@ -419,9 +419,9 @@ if (!function_exists('live_schedule')) {
         $schedule = $lesson->schedule;
 
         if(Carbon\Carbon::parse($schedule->date)->dayOfWeek == Carbon\Carbon::now()->dayOfWeek) {
-            $now = Carbon\Carbon::now()->toTimeString();
-            $start_time = $schedule->start_time;
-            $end_time = $schedule->end_time;
+            $now = timezone()->convertFromTimezone(Carbon\Carbon::now(), $schedule->timezone, 'H:i:s');
+            $start_time = timezone()->convertFromTimezone(Carbon\Carbon::now()->toDateString() . ' '. $schedule->start_time, $schedule->timezone, 'H:i:s');
+            $end_time = timezone()->convertFromTimezone(Carbon\Carbon::now()->toDateString() . ' '. $schedule->end_time, $schedule->timezone, 'H:i:s');;
             $dd_with_start_time = strtotime($start_time) - strtotime($now);
 
             if($dd_with_start_time < 600 && (strtotime($now) < strtotime($end_time))) {

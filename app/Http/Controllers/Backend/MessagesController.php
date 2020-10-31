@@ -12,6 +12,9 @@ use Cmgmyr\Messenger\Models\Thread;
 
 use App\User;
 
+use App\Models\Course;
+use DB;
+
 class MessagesController extends Controller
 {
     public function index(Request $request) {
@@ -141,7 +144,22 @@ class MessagesController extends Controller
             ]);
         }
         $user_id = auth()->user()->id;
-        $users = User::where('name', 'like', '%' . $key . '%')->get();
+
+        if(auth()->user()->hasRole('Instructor')) {
+            $course_ids = DB::table('course_user')->where('user_id', $user_id)->pluck('course_id');
+            $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
+            $users = User::whereIn('id', $student_ids)->where('name', 'like', '%' . $key . '%')->get();
+        }
+
+        if(auth()->user()->hasRole('Student')) {
+            $course_ids = DB::table('course_student')->where('user_id', $user_id)->pluck('course_id');
+            $teacher_ids = DB::table('course_user')->whereIn('course_id', $course_ids)->pluck('user_id');
+            $users = User::whereIn('id', $teacher_ids)->where('name', 'like', '%' . $key . '%')->get();
+        }
+
+        if(auth()->user()->hasRole('Administrator')) {
+            $users = User::where('name', 'like', '%' . $key . '%')->get();
+        }
 
         // Thread
         $threads = Thread::forUser($user_id)->latest('updated_at')->get();

@@ -29,4 +29,15 @@ class Timezone
     {
         return Carbon::parse($date, auth()->user()->timezone)->setTimezone('UTC');
     }
+
+    /**
+     * @param $date
+     * @param string $timezone
+     * 
+     * @return Carbon
+     */
+    public function convertFromTimezone($date, $timezone, $format = 'D M j G:i:s T Y') : string
+    {
+        return Carbon::parse($date, $timezone)->setTimezone(auth()->user()->timezone ?? config('app.timezone'))->format($format);
+    }
 }

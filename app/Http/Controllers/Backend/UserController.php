@@ -284,8 +284,7 @@ class UserController extends Controller
 
     public function getEnrolledStudentsByAjax()
     {
-        $courses = Course::all();
-        $course_ids = $courses->pluck('id');
+        $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
         $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
         $students = User::whereIn('id', $student_ids)->get();
 
