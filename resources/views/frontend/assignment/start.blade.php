@@ -112,7 +112,7 @@
         @endif
     </div>
 
-    @if($assignment->result->status > 0)
+    @if(!empty($assignment->result) && $assignment->result->status > 0)
 
     <div class="container page__container page-section">
         <div class="page-separator">
