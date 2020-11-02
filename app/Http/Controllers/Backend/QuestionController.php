@@ -331,20 +331,35 @@ class QuestionController extends Controller
      */
     public function addSection(Request $request)
     {
-        $section = QuestionGroup::create([
-            'title' => $request->section_title,
-            'score' => $request->section_marks,
-            'model_id' => $request->model_id,
-            'model_type' => Quiz::class
-        ]);
 
-        $html = $this->getSectionHtml($section);
+        if($request->action == 'new') {
+            $section = QuestionGroup::create([
+                'title' => $request->section_title,
+                'score' => $request->section_marks,
+                'model_id' => $request->model_id,
+                'model_type' => Quiz::class
+            ]);
+    
+            $html = $this->getSectionHtml($section);
+    
+            return response()->json([
+                'success' => true,
+                'section' => $section,
+                'html' => $html
+            ]);
+        } else {
+            $section = QuestionGroup::find($request->group_id);
+            $section->title = $request->section_title;
+            $section->score = $request->section_marks;
+            $section->save();
 
-        return response()->json([
-            'success' => true,
-            'section' => $section,
-            'html' => $html
-        ]);
+            return response()->json([
+                'success' => true,
+                'title' => $request->section_title,
+                'score' => $request->section_marks
+            ]);
+        }
+        
     }
 
     function storeOptions($data, $question)
@@ -490,6 +505,7 @@ class QuestionController extends Controller
                                 <h5 class="badge badge-pill font-size-16pt badge-accent">'. $section->score .'</h4>
                             </div>
                         </div>
+                        <button type="button" class="btn btn-outline-primary ml-16pt btn-edit" data-id="'. $section->id .'">Edit</button>
                         <button type="button" class="btn btn-outline-primary ml-16pt btn-question" data-id="'. $section->id .'">Add Quesion</button>
                     </div>
                 </div>';

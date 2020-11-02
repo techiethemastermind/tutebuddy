@@ -106,10 +106,11 @@
                                     <div class="page-num">{{ $loop->iteration }}</div>
                                     <div class="flex">
                                         <div class="d-flex">
-                                            <h4 class="flex mb-0">{{ $group->title }}</h4>
+                                            <h4 class="flex mb-0 group-title" style="cursor:pointer;">{{ $group->title }}</h4>
                                             <h5 class="badge badge-pill font-size-16pt badge-accent">{{ $group->score }}</h4>
                                         </div>
                                     </div>
+                                    <button type="button" class="btn btn-outline-primary ml-16pt btn-edit" data-id="{{ $group->id }}">Edit</button>
                                     <button type="button" class="btn btn-outline-primary ml-16pt btn-question" data-id="{{ $group->id }}">Add Quesion</button>
                                 </div>
 
@@ -458,6 +459,7 @@ $(function() {
     var str_ids = ['option_s', 'option_m', 'option_f'];
     var str_names = ['option_single', 'option_multi[]', 'option_fill[]'];
     var q_status = 'new';
+    var s_status = 'new';
     
     var template = [
 
@@ -536,6 +538,7 @@ $(function() {
     //=== Add new section
     $('#btn_new_section').on('click', function(e) {
         e.preventDefault();
+        s_status = 'new';
         $('#mdl_section').modal('toggle');
     });
 
@@ -556,20 +559,53 @@ $(function() {
                     type: 'text',
                     value: 'ajax'
                 });
+
+                formData.push({
+                    name: 'action',
+                    type: 'text',
+                    value: s_status
+                });
+
+                if(s_status == 'edit') {
+                    formData.push({
+                        name: 'group_id',
+                        type: 'text',
+                        value: group_id
+                    });
+                }
             },
             success: function(res) {
-                var page_section = $('#questions').find('div.page-section');
-                if(page_section.length < 1) {
-                    $('#questions').html($('<div class="border-left-2 page-section pl-32pt"></div>'));
-                }
-                $(res.html).hide().appendTo($('#questions .page-section')).toggle(500);
-                $('#mdl_section').modal('toggle');
+                if(s_status == 'new') {
+                    var page_section = $('#questions').find('div.page-section');
+                    if(page_section.length < 1) {
+                        $('#questions').html($('<div class="border-left-2 page-section pl-32pt"></div>'));
+                    }
+                    $(res.html).hide().appendTo($('#questions .page-section')).toggle(500);
+                    $('#mdl_section').modal('toggle');
 
-                // init Modal
-                $('#frm_section input[name="section_title"]').val('');
-                $('#frm_section input[name="section_marks"]').val('');
+                    // init Modal
+                    $('#frm_section input[name="section_title"]').val('');
+                    $('#frm_section input[name="section_marks"]').val('');
+                } else {
+                    var group = $('#questions').find('div[group-id="'+ group_id +'"]');
+                    group.find('h4').text(res.title);
+                    group.find('h5').text(res.score);
+                    $('#mdl_section').modal('toggle');
+                }
             }
         });
+    });
+
+    // Edit Group Information
+    $('#questions').on('click', '.btn-edit', function(e) {
+        // init Modal
+        s_status = 'edit';
+        group_id = $(this).attr('data-id');
+        var title = $(this).closest('.group-wrap').find('h4').text();
+        var marks = $(this).closest('.group-wrap').find('h5').text();
+        $('#frm_section input[name="section_title"]').val(title);
+        $('#frm_section input[name="section_marks"]').val(marks);
+        $('#mdl_section').modal('toggle');
     });
 
     //=== Add new question to group

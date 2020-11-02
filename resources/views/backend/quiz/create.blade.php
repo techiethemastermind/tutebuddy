@@ -340,6 +340,7 @@ $(function() {
 
     var status = 'new';
     var q_status = 'new';
+    var s_status = 'new';
     var quiz_id = -1;
     var group_id;
     var current_option_type = 0;
@@ -422,6 +423,8 @@ $(function() {
             return false;
         }
 
+        s_status = 'new';
+
         if(status == 'new') {
 
             // Store Quiz
@@ -460,20 +463,53 @@ $(function() {
                     type: 'text',
                     value: 'ajax'
                 });
+
+                formData.push({
+                    name: 'action',
+                    type: 'text',
+                    value: s_status
+                });
+
+                if(s_status == 'edit') {
+                    formData.push({
+                        name: 'group_id',
+                        type: 'text',
+                        value: group_id
+                    });
+                }
             },
             success: function(res) {
-                var page_section = $('#questions').find('div.page-section');
-                if(page_section.length < 1) {
-                    $('#questions').html($('<div class="border-left-2 page-section pl-32pt"></div>'));
-                }
-                $(res.html).hide().appendTo($('#questions .page-section')).toggle(500);
-                $('#mdl_section').modal('toggle');
+                if(s_status == 'new') {
+                    var page_section = $('#questions').find('div.page-section');
+                    if(page_section.length < 1) {
+                        $('#questions').html($('<div class="border-left-2 page-section pl-32pt"></div>'));
+                    }
+                    $(res.html).hide().appendTo($('#questions .page-section')).toggle(500);
+                    $('#mdl_section').modal('toggle');
 
-                // init Modal
-                $('#frm_section input[name="section_title"]').val('');
-                $('#frm_section input[name="section_marks"]').val('');
+                    // init Modal
+                    $('#frm_section input[name="section_title"]').val('');
+                    $('#frm_section input[name="section_marks"]').val('');
+                } else {
+                    var group = $('#questions').find('div[group-id="'+ group_id +'"]');
+                    group.find('h4').text(res.title);
+                    group.find('h5').text(res.score);
+                    $('#mdl_section').modal('toggle');
+                }
             }
         });
+    });
+
+    // Edit Group Information
+    $('#questions').on('click', '.btn-edit', function(e) {
+        // init Modal
+        s_status = 'edit';
+        group_id = $(this).attr('data-id');
+        var title = $(this).closest('.group-wrap').find('h4').text();
+        var marks = $(this).closest('.group-wrap').find('h5').text();
+        $('#frm_section input[name="section_title"]').val(title);
+        $('#frm_section input[name="section_marks"]').val(marks);
+        $('#mdl_section').modal('toggle');
     });
 
     //=== Add new question to group
