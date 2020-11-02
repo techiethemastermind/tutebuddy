@@ -90,12 +90,12 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" id="btn_save_bundle" class="btn btn-accent">Save Draft</button>
-                            <button type="submit" id="btn_publish_bundle" class="btn btn-primary">Publish</button>
+                            <!-- <button type="submit" id="btn_save_bundle" class="btn btn-accent">Save Draft</button> -->
+                            <button type="submit" id="btn_publish_bundle" class="btn btn-primary">Save Assignment</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
+                                <!-- <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a> -->
                                 <i class="material-icons text-muted draft">clear</i>
                             </div>
                             <div class="list-group-item d-flex">
@@ -227,8 +227,22 @@ $(function() {
             },
             success: function(res) {
                 if(res.success) {
-                    var url = '/dashboard/assignments/' + res.assignment_id + '/edit';
-                    window.location.href = url;
+                    swal({
+                        title: "Successfully Stored",
+                        text: "Assignment is stored successfully",
+                        type: 'success',
+                        showCancelButton: true,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirm',
+                        cancelButtonText: 'Cancel',
+                        dangerMode: false,
+
+                    }, function(val) {
+                        if (val) {
+                            var url = '/dashboard/assignments/' + res.assignment_id + '/edit';
+                            window.location.href = url;
+                        }
+                    });
                 }
             },
             error: function(err) {
