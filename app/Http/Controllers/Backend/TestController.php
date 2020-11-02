@@ -139,6 +139,9 @@ class TestController extends Controller
             $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
             $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
 
+            $show_route = route('student.test.show', [$item->lesson->slug, $item->id]);
+            $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
+
             if($item->published == 0) {
                 $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
                     data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
@@ -160,9 +163,9 @@ class TestController extends Controller
                 $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
             } else {
                 if(auth()->user()->hasRole('Administrator')) {
-                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                    $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
                 } else {
-                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+                    $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
                 }
             }
             array_push($data, $temp);
@@ -220,6 +223,13 @@ class TestController extends Controller
 
         $data = $request->all();
         $data['user_id'] = auth()->user()->id;
+
+        $duration = 0;
+        if(!empty($data['duration_hours'])) {
+            $duration = (int)$data['duration_hours'] * 60;
+        }
+        $duration += (int)$data['duration_mins'];
+        $data['duration'] = $duration;
 
         if(!empty($data['test_id'])) {
             $test = Test::find($data['test_id']);

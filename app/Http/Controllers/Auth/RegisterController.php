@@ -77,6 +77,7 @@ class RegisterController extends Controller
             'uuid' => Str::uuid()->toString(),
             'name' => $data['name'],
             'email' => $data['email'],
+            'timezone' => $data['timezone'],
             'password' => Hash::make($data['password']),
             'verify_token' => str_random(40)
         ]);

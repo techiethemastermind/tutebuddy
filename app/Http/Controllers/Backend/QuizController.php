@@ -293,7 +293,7 @@ class QuizController extends Controller
                                 </div>';
             }
 
-            $show_route = route('admin.quizs.show', $quiz->id);
+            $show_route = route('student.quiz.show', [$quiz->lesson->slug, $quiz->id]);
             $edit_route = route('admin.quizs.edit', $quiz->id);
             $delete_route = route('admin.quizs.destroy', $quiz->id);
             $publish_route = route('admin.quizs.publish', $quiz->id);
@@ -323,9 +323,9 @@ class QuizController extends Controller
                 $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
             } else {
                 if(auth()->user()->hasRole('Administrator')) {
-                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                    $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
                 } else {
-                    $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+                    $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
                 }
             }
 
@@ -497,12 +497,13 @@ class QuizController extends Controller
 
             if(empty($item->result)) {
                 $show_route = route('student.quiz.show', [$item->lesson->slug, $item->id]);
-                $now = \Carbon\Carbon::now()->timestamp;
-                $start_time = \Carbon\Carbon::parse($item->start_date)->timestamp;
-
-                $diff = $start_time - $now;
 
                 if($item->type == 2) {
+                    $now = timezone()->convertFromTimezone(\Carbon\Carbon::now(), $item->timezone, 'H:i:s');
+                    $start_time = timezone()->convertFromTimezone($item->start_date, $item->timezone, 'H:i:s');
+
+                    $diff = strtotime($start_time) - strtotime($now);
+
                     if($diff < 1800) {
                         $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
                     } else {

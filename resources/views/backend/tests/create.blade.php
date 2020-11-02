@@ -156,8 +156,15 @@
 
                             <!-- Duration -->
                             <div class="form-group">
-                                <label class="form-label">Duration (Mins)</label>
-                                <input type="number" name="duration" class="form-control" min="1" placeholder="Mins" value="" tute-no-empty>
+                                <label class="form-label">Duration</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="number" name="duration_hours" class="form-control" min="1" placeholder="Hours" value="">
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" name="duration_mins" class="form-control" min="1" placeholder="Mins" value="" tute-no-empty>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Total Marks -->

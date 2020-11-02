@@ -41,6 +41,16 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
     {
+        if($request->role == 'user' && $user->hasRole('Administrator')) {
+            auth()->logout();
+            return back()->with('warning', 'Wrong Credentials added!');
+        }
+
+        if($request->role == 'admin' && !$user->hasRole('Administrator')) {
+            auth()->logout();
+            return back()->with('warning', 'Wrong Credentials added!');
+        }
+
         if (!$user->verified) {
             auth()->logout();
             return back()->with('warning', 'We have sent you an activation code. \n please check your email.');

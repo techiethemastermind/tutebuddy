@@ -55,6 +55,7 @@
                             <a href="/password/reset" class="small">Forgot your password?</a>
                         </p>
                     </div>
+                    <input type="hidden" name="role" value="{{ Request::is('admin') ? 'admin' : 'user' }}">
                     <button class="btn btn-primary">Login</button>
                     <input type="hidden" name="recaptcha_v3" id="recaptcha_v3">
                 </form>

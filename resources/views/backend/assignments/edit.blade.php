@@ -113,7 +113,9 @@
                     <div class="card">
                         <div class="card-header text-center">
                             <!-- <button type="submit" id="btn_save_bundle" class="btn btn-accent">Save Draft</button> -->
-                            <button type="submit" id="btn_publish_bundle" class="btn btn-primary">Save Assignment</button>
+                            <button type="submit" id="btn_publish_bundle" class="btn btn-accent">Save Assignment</button>
+                            <a href="{{ route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]) }}" 
+                                class="btn btn-primary">Preview</a>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <!-- <div class="list-group-item d-flex">

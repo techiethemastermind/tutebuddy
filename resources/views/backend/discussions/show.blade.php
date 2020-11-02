@@ -215,9 +215,11 @@
             var form = $(this).closest('.comment-group').find('form');            
             var postForm = $(this).closest('.comment-group').find('.post-form');
             if(postForm.hasClass('d-none')) {
-                $(this).closest('.comment-group').find('.post-form').removeClass('d-none'); 
+                $(this).closest('.comment-group').find('.post-form').removeClass('d-none');
+                $(this).text('Cancel');
             } else {
                 $(this).closest('.comment-group').find('.post-form').addClass('d-none');
+                $(this).text('Add Comment');
             }
         });
 

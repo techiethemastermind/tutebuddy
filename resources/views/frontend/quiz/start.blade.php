@@ -229,8 +229,8 @@
 
 <script>
 
-var time = '{{ $quiz->duration }}'; // Min
-var timer, time;
+var timer;
+var time = '{{ $duration }}'; // Min
 var take_type = '{{ $quiz->take_type }}';
 var type = '{{ $quiz->type }}';
 
@@ -295,7 +295,7 @@ $(function() {
 
     function getTimer(status = true) {
 
-        var x = time * 60;
+        var x = time;
 
         timer = setInterval(function() {
             x--;

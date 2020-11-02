@@ -96,9 +96,17 @@ class StudentController extends Controller
     {
         $quiz = Quiz::find($quiz_id);
         if($quiz->result) {
-            return redirect()->route('student.quiz.result', [$quiz->lesson->slug, $quiz->id]);
+            return redirect()->route('student.quiz.result', [$lesson_slug, $quiz->id]);
         } else {
-            return view('frontend.quiz.start', compact('quiz'));
+            if($quiz->type == 2) {
+                $start_time = timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone, 'H:i:s');
+                $now = timezone()->convertFromTimezone(Carbon::now(), $quiz->timezone, 'H:i:s');
+                $diff = strtotime($start_time) - strtotime($now);
+                $duration = $quiz->duration * 60 - $diff;
+            } else {
+                $duration = $quiz->duration * 60;
+            }
+            return view('frontend.quiz.start', compact('quiz', 'duration'));
         }
     }
 
@@ -228,7 +236,19 @@ class StudentController extends Controller
     public function startTest($lesson_slug, $test_id)
     {
         $test = Test::find($test_id);
-        return view('frontend.test.start', compact('test'));
+        if($test->result) {
+            return redirect()->route('student.test.result', [$lesson_slug, $test->id]);
+        } else {
+            if($test->type == 2) {
+                $start_time = timezone()->convertFromTimezone($test->start_date, $test->timezone, 'H:i:s');
+                $now = timezone()->convertFromTimezone(Carbon::now(), $test->timezone, 'H:i:s');
+                $diff = strtotime($start_time) - strtotime($now);
+                $duration = $test->duration * 60 - $diff;
+            } else {
+                $duration = $test->duration * 60;
+            }
+            return view('frontend.test.start', compact('test', 'duration'));
+        }
     }
 
     /**

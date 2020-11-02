@@ -209,8 +209,8 @@
 
 <script>
 
-    var time = '{{ $test->duration }}'; // Min
-    var timer, time;
+    var timer;
+    var time = '{{ $duration }}'; // Min
 
     $(function() {
 
@@ -259,7 +259,7 @@
 
         function getTimer(status = true) {
 
-            var x = time * 60;
+            var x = time;
 
             timer = setInterval(function() {
                 x--;

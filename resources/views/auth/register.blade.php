@@ -24,7 +24,7 @@
                     <form method="POST" action="{{ route('register') }}" class="card card-body p-32pt">
                         @csrf
                         <div class="form-group">
-                            <label class="form-label" for="name">Your first and last name:</label>
+                            <label class="form-label" for="name">Your first and last name*:</label>
                             <input id="name" type="text" name="name"
                                 class="form-control @error('name') is-invalid @enderror"
                                 placeholder="Your first and last name ...">
@@ -35,8 +35,9 @@
                             </span>
                             @enderror
                         </div>
+
                         <div class="form-group">
-                            <label class="form-label" for="email">Your email:</label>
+                            <label class="form-label" for="email">Your email*:</label>
                             <input id="email" type="email" name="email"
                                 class="form-control @error('email') is-invalid @enderror"
                                 placeholder="Your email address ...">
@@ -47,6 +48,17 @@
                             </span>
                             @enderror
                         </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="timezone">Your Timezone*:</label>
+                            <select name="timezone" class="form-control  @error('timezone') is-invalid @enderror"></select>
+                            @error('timezone')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
                         <div class="form-group mb-24pt">
                             <label class="form-label" for="password">Password:</label>
                             <input id="password" type="password" name="password" class="form-control"
@@ -77,12 +89,12 @@
                 <div class="col-lg-7 align-items-center">
                     <div class="flex" style="max-width: 100%">
                         <div class="card p-relative o-hidden mb-0">
-                            <div class="card-header card-header-tabs-basic nav px-0" role="tablist">
+                            <div class="card-header card-header-tabs-basic nav px-0 font-size-16pt" role="tablist">
                                 <a href="#tab1" data-toggle="tab" role="tab" aria-selected="true" class="active">Become An Instructor</a>
                                 <a href="#tab2" data-toggle="tab" role="tab" aria-selected="true" class="">Instructor Rules</a>
                                 <a href="#tab3" data-toggle="tab" role="tab" aria-selected="true" class="">Start With Courses</a>
                             </div>
-                            <div class="card-body tab-content text-70">
+                            <div class="card-body tab-content text-70 font-size-16pt">
                                 <div id="tab1" class="tab-pane fade in active show">
                                     <p>Unlock the potential of reaching out to millions of students through our online tutoring. You can offer pre-designed courses of your own or teach students on a one-on-one sessions.</p>
                                     <p>Use our powerful course builder to create engaging courses for your students and offer services at your own price. We offer multiple delivery media like text, audio, video or live streaming to help you provide the best means of transferring knowledge to your students.</p>
@@ -132,9 +144,12 @@
     </div>
 </div>
 
-@if(config("access.captcha.registration") > 0)
-
 @push('after-scripts')
+
+<!-- Timezone Picker -->
+<script src="{{ asset('assets/js/timezones.full.js') }}"></script>
+
+@if(config("access.captcha.registration") > 0)
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ config('captcha.key') }}"></script>
 
@@ -148,8 +163,30 @@
     });
 </script>
 
-@endpush
-
 @endif
+
+<script>
+    $(function() {
+        var offset = new Date().getTimezoneOffset() / 60;
+        if(Math.abs(offset) < 10) {
+            
+            if(offset < 0) {
+                offset = '+0' + Math.round(Math.abs(offset)) + ':00';
+            } else {
+                offset = '-0' + Math.round(Math.abs(offset)) + ':00';
+            }
+        } else {
+            if(offset < 0) {
+                offset = '+' + Math.round(Math.abs(offset)) + ':00';
+            } else {
+                offset = '-' + Math.round(Math.abs(offset)) + ':00';
+            }
+        }
+        $('select[name="timezone"]').timezones();
+        $('select[name="timezone"] option[data-offset="'+ offset +'"]').prop('selected', true);
+    });
+</script>
+
+@endpush
 
 @endsection
