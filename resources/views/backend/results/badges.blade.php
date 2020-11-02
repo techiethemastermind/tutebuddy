@@ -38,7 +38,7 @@
             ];
         }
 
-        if($percent >= 90 && $percent < 100 ) {
+        if($percent >= 90 && $percent <= 100 ) {
             return [
                 'title' => 'Gold Badge',
                 'image' => 'gold-badge.png'
