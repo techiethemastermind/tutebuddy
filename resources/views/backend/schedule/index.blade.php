@@ -287,8 +287,6 @@ $(document).ready(function() {
     var schedule_data = $('#schedule_data').val();
     var my_timezone = '{{ auth()->user()->timezone }}';
 
-    console.log(my_timezone);
-
     $('#d_timezone').timezones();
 
     if('{{ $courses->count() }}' < 1) {

@@ -7,26 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ config('app.name', 'TuteBuddy LMS') }}</title>
     <style>
-    body {
-        background-color: lightblue;
-        background-image: url("http://live.tutebuddy.com/images/background2.jpg");
-        background-repeat: no-repeat;
-        background-size: auto;
-    }
-    .logo {
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-left: -120px;
-        margin-top: -40px;
-    }
+        body {
+            background-color: lightblue;
+            background-image: url("http://live.tutebuddy.com/images/background2.jpg");
+            background-repeat: no-repeat;
+            background-size: auto;
+        }
+        .logo {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -120px;
+            margin-top: -40px;
+        }
     </style>
 </head>
 
 <body onload="redirect()">
     <input type="hidden" id="live_url" value="{{ $join_room }}">
-    <img src="http://live.tutebuddy.com/images/bbb-logo.png" width="240" alt="Online Learning Platform" class="logo" />
+    <img src="http://live.tutebuddy.com/images/tutebuddy.png" width="240" alt="Online Learning Platform" class="logo" />
 </body>
 
 <script>
