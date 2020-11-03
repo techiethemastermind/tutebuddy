@@ -288,8 +288,9 @@ $(document).ready(function() {
     var my_timezone = '{{ auth()->user()->timezone }}';
 
     $('#d_timezone').timezones();
+    $('#d_timezone').val(my_timezone).change();
 
-    if({{ $courses->count() }} < 1) {
+    if('{{ $courses->count() }}' < 1) {
         swal({
             title: "You have no courses",
             text: "Please add a course to schedule first",
