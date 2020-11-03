@@ -68,6 +68,19 @@
                                     <small class="text-50 mr-2">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($result->updated_at))->diffForHumans() }}</small>
                                     <button class="btn btn-sm btn-outline-secondary add-comment">Add Comment</button>
                                 </div>
+                                
+                                <div class="mt-3 card p-3 post-form d-none">
+                                    <form method="post" action="{{ route('admin.ajax.postComment') }}">@csrf
+                                        <div class="form-group">
+                                            <label class="form-label">reply</label>
+                                            <textarea class="form-control" name="content" rows="8" placeholder="Type here to reply to Matney ..."></textarea>
+                                        </div>
+                                        <input type="hidden" name="discussion_id" value="{{ $discussion->id }}">
+                                        <input type="hidden" name="post_user_id" value="{{ $result->user->id }}">
+                                        <button type="submit" class="btn btn-outline-secondary">Post comment</button>
+                                    </form>
+                                </div>
+
                                 @if(!empty($result->childs))
                                     @foreach($result->childs as $child)
                                     <div class="ml-sm-32pt mt-3 card p-3">
@@ -91,17 +104,7 @@
                                     </div>
                                     @endforeach
                                 @endif
-                                <div class="mt-3 card p-3 post-form d-none">
-                                    <form method="post" action="{{ route('admin.ajax.postComment') }}">@csrf
-                                        <div class="form-group">
-                                            <label class="form-label">reply</label>
-                                            <textarea class="form-control" name="content" rows="8" placeholder="Type here to reply to Matney ..."></textarea>
-                                        </div>
-                                        <input type="hidden" name="discussion_id" value="{{ $discussion->id }}">
-                                        <input type="hidden" name="post_user_id" value="{{ $result->user->id }}">
-                                        <button type="submit" class="btn btn-outline-secondary">Post comment</button>
-                                    </form>
-                                </div>
+                                
                             </div>
                         </div>
                         @endif

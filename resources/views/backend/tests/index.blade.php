@@ -76,7 +76,7 @@
                             <span class="h2 mb-0 mr-3 count-published">{{ $count['published'] }}</span>
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">Published</strong>
-                                <small class="card-subtitle text-50">In progressing</small>
+                                <small class="card-subtitle text-50">Published to Students</small>
                             </span>
                         </a>
                     </div>
@@ -87,7 +87,7 @@
                             <span class="h2 mb-0 mr-3 count-pending">{{ $count['pending'] }}</span>
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">Pending</strong>
-                                <small class="card-subtitle text-50">Pending to Review</small>
+                                <small class="card-subtitle text-50">Draft Saved</small>
                             </span>
                         </a>
                     </div>

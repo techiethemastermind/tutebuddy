@@ -9,9 +9,17 @@
         <div class="container page__container">
             <nav class="nav navbar-nav">
                 <div class="nav-item navbar-list__item">
-                    <a href="{{ route('courses.show', $quiz->course->slug) }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to Course
+                    @if(auth()->user()->hasRole('Student'))
+                    <a href="{{ route('admin.student.quizs') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
                     </a>
+                    @endif
+
+                    @if(auth()->user()->hasRole('Instructor'))
+                    <a href="{{ route('admin.quizs.index') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                    </a>
+                    @endif
                 </div>
                 <div class="nav-item navbar-list__item">
                     <div class="d-flex align-items-center flex-nowrap">
@@ -32,7 +40,7 @@
                         <div class="flex">
                             <a href="{{ route('courses.show', $quiz->lesson->course->slug) }}"
                                 class="card-title text-body mb-0">
-                                {{ $quiz->title }}
+                                {{ $quiz->course->title }}
                             </a>
                             <p class="lh-1 d-flex align-items-center mb-0">
                                 <span class="text-50 small font-weight-bold mr-8pt">

@@ -96,7 +96,7 @@
                         <strong>Lesson: {{ $item->data->lesson->title }}</strong>
                     </p>
                     <p class="font-size-16pt">
-                        <strong>{{ $badge['title'] }}</strong> awarded to {{ auth()->user()->name }} for excellent perfermance
+                        <strong>{{ $badge['title'] }}</strong> awarded to {{ auth()->user()->name }} for excellent Performance
                     </p>
                     <p class="font-size-20pt mb-0">
                         @if($item->type == 'assignment')

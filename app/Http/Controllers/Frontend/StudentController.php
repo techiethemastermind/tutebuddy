@@ -95,18 +95,26 @@ class StudentController extends Controller
     public function startQuiz($lesson_slug, $quiz_id)
     {
         $quiz = Quiz::find($quiz_id);
+        $status = 'stop';
         if($quiz->result) {
             return redirect()->route('student.quiz.result', [$lesson_slug, $quiz->id]);
         } else {
             if($quiz->type == 2) {
-                $start_time = timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone, 'H:i:s');
-                $now = timezone()->convertFromTimezone(Carbon::now(), $quiz->timezone, 'H:i:s');
+                $start_time = timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone);
+                $now = timezone()->convertToLocal(Carbon::now());
                 $diff = strtotime($start_time) - strtotime($now);
-                $duration = $quiz->duration * 60 - $diff;
+                if($diff > 0) {
+                    $duration = $quiz->duration * 60;
+                } else {
+                    $duration = $quiz->duration * 60 + $diff;
+                    if($duration > 0) {
+                        $status = 'started';
+                    }
+                }
             } else {
                 $duration = $quiz->duration * 60;
             }
-            return view('frontend.quiz.start', compact('quiz', 'duration'));
+            return view('frontend.quiz.start', compact('quiz', 'duration', 'status'));
         }
     }
 

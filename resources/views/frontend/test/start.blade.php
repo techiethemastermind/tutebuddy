@@ -18,9 +18,17 @@
         <div class="container page__container">
             <nav class="nav navbar-nav">
                 <div class="nav-item navbar-list__item">
-                    <a href="{{ route('courses.show', $lesson->course->slug) }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to Course
+                    @if(auth()->user()->hasRole('Student'))
+                    <a href="{{ route('admin.student.tests') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
                     </a>
+                    @endif
+
+                    @if(auth()->user()->hasRole('Instructor'))
+                    <a href="{{ route('admin.tests.index') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                    </a>
+                    @endif
                 </div>
                 <div class="nav-item navbar-list__item">
                     <div class="d-flex align-items-center flex-nowrap">
@@ -41,7 +49,7 @@
                         <div class="flex">
                             <a href="{{ route('courses.show', $lesson->course->slug) }}"
                                 class="card-title text-body mb-0">
-                                {{ $test->title }}
+                                {{ $lesson->course->title }}
                             </a>
                             <p class="lh-1 d-flex align-items-center mb-0">
                                 <span class="text-50 small font-weight-bold mr-8pt">
@@ -52,6 +60,19 @@
                         </div>
                     </div>
                 </div>
+            </nav>
+
+            <nav class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
+                @if(auth()->user()->hasRole('Instructor'))
+                <div class="">
+                    <a href="{{ route('admin.tests.edit', $test->id) }}" class="btn btn-accent">Edit</a>
+                    @if($test->published == 0)
+                    <a href="{{ route('admin.test.publish', $test->id) }}" id="btn_publish" class="btn btn-primary">Publish</a>
+                    @else
+                    <a href="{{ route('admin.test.publish', $test->id) }}" id="btn_publish" class="btn btn-info">Unpublish</a>
+                    @endif
+                </div>
+                @endif
             </nav>
         </div>
     </div>
@@ -190,10 +211,11 @@
                     <label for="file_doc" class="custom-file-label">Choose file</label>
                 </div>
             </div>
-
+            @if(auth()->user()->hasRole('Student'))
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
+            @endif
             <input type="hidden" name="test_id" value="{{ $test->id }}">
 
         </form>
@@ -226,7 +248,7 @@
         // Set Submitted tests if it is exist
         var s_quill = new Quill('#submit_content', {
             theme: 'snow',
-            placeholder: 'Course description',
+            placeholder: 'Answer Content',
             modules: {
                 toolbar: toolbarOptions
             },
@@ -293,6 +315,34 @@
 
             }, 1000);
         }
+
+        $('#btn_publish').on('click', function(e) {
+
+            e.preventDefault();
+            var button = $(this);
+
+            var url = $(this).attr('href');
+
+            $.ajax({
+                method: 'get',
+                url: url,
+                success: function(res) {
+                    console.log(res);
+                    if(res.success) {
+                        if(res.published == 1) {
+                            swal("Success!", 'Published successfully', "success");
+                            button.text('Unpublish');
+                            button.removeClass('btn-primary').addClass('btn-info');
+                        } else {
+                            swal("Success!", 'Unpublished successfully', "success");
+                            button.text('Publish');
+                            button.removeClass('btn-info').addClass('btn-primary');
+                        }
+                        
+                    }
+                }
+            });
+        });
         
     });
 </script>

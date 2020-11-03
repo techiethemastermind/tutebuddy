@@ -36,7 +36,7 @@ class Timezone
      * 
      * @return Carbon
      */
-    public function convertFromTimezone($date, $timezone, $format = 'D M j G:i:s T Y') : string
+    public function convertFromTimezone($date, $timezone = 'UTC', $format = 'D M j G:i:s T Y') : string
     {
         return Carbon::parse($date, $timezone)->setTimezone(auth()->user()->timezone ?? config('app.timezone'))->format($format);
     }

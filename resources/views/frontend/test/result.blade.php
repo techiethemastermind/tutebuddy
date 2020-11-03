@@ -9,9 +9,17 @@
         <div class="container page__container">
             <nav class="nav navbar-nav">
                 <div class="nav-item navbar-list__item">
-                    <a href="{{ route('courses.show', $test->course->slug) }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Review Course
+                    @if(auth()->user()->hasRole('Student'))
+                    <a href="{{ route('admin.student.tests') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
                     </a>
+                    @endif
+
+                    @if(auth()->user()->hasRole('Instructor'))
+                    <a href="{{ route('admin.tests.index') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                    </a>
+                    @endif
                 </div>
                 <div class="nav-item navbar-list__item">
                     <div class="d-flex align-items-center flex-nowrap">

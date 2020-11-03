@@ -27,9 +27,17 @@
         <div class="container page__container">
             <nav class="nav navbar-nav">
                 <div class="nav-item navbar-list__item">
-                    <a href="{{ route('courses.show', $lesson->course->slug) }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to Course
+                    @if(auth()->user()->hasRole('Student'))
+                    <a href="{{ route('admin.student.quizs') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
                     </a>
+                    @endif
+
+                    @if(auth()->user()->hasRole('Instructor'))
+                    <a href="{{ route('admin.quizs.index') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                    </a>
+                    @endif
                 </div>
                 <div class="nav-item navbar-list__item">
                     <div class="d-flex align-items-center flex-nowrap">
@@ -50,7 +58,7 @@
                         <div class="flex">
                             <a href="{{ route('courses.show', $lesson->course->slug) }}"
                                 class="card-title text-body mb-0">
-                                {{ $quiz->title }}
+                                {{ $lesson->course->title }}
                             </a>
                             <p class="lh-1 d-flex align-items-center mb-0">
                                 <span class="text-50 small font-weight-bold mr-8pt">
@@ -61,6 +69,19 @@
                         </div>
                     </div>
                 </div>
+            </nav>
+
+            <nav class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
+                @if(auth()->user()->hasRole('Instructor'))
+                <div class="">
+                    <a href="{{ route('admin.quizs.edit', $quiz->id) }}" class="btn btn-accent">Edit</a>
+                    @if($quiz->published == 0)
+                    <a href="{{ route('admin.quizs.publish', $quiz->id) }}" id="btn_publish" class="btn btn-primary">Publish</a>
+                    @else
+                    <a href="{{ route('admin.quizs.publish', $quiz->id) }}" id="btn_publish" class="btn btn-info">Unpublish</a>
+                    @endif
+                </div>
+                @endif
             </nav>
         </div>
     </div>
@@ -87,8 +108,20 @@
                             }
                             $seconds = '00';
                         ?>
-                        <p id="time" class="h1 text-white-50 font-weight-light m-0">{{ $hours }} : {{ $mins }} : {{ $seconds }}</p>
+                        <p id="time" class="h1 text-white-50 font-weight-light m-0 flex">{{ $hours }} : {{ $mins }} : {{ $seconds }}</p>
                     </div>
+                    @if($duration > 0)
+                    <p class="text-white-50 hero__lead measure-hero-lead float-right" style="clear: both;">
+                        Since: {{ timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone, 'D M j H:i:s') }}
+                    </p>
+                    @else
+                    <p class="text-white-50 hero__lead measure-hero-lead float-right mb-0" style="clear: both;">
+                        Quiz Unavailabe
+                    </p>
+                    <p class="text-white-50 font-size-16pt float-right" style="clear: both;">
+                        Start Time: {{ timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone, 'D M j H:i:s') }}
+                    </p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -213,9 +246,11 @@
 
             </form>
 
+            @if(auth()->user()->hasRole('Student') && $duration > 0)
             <div class="form-group text-right">
                 <button id="btn_complete" class="btn btn-primary mb-16pt mb-sm-0 ml-sm-16pt">Complete <i class="material-icons icon--right">keyboard_arrow_right</i></a></button>
             </div>
+            @endif
         </div>
     </div>
 </div>
@@ -233,6 +268,7 @@ var timer;
 var time = '{{ $duration }}'; // Min
 var take_type = '{{ $quiz->take_type }}';
 var type = '{{ $quiz->type }}';
+var status = '{{ $status }}'
 
 $(function() {
 
@@ -267,7 +303,9 @@ $(function() {
         });
     });
 
-    if(type == 2) {
+    console.log(status);
+
+    if(type == 2 && status == 'started') {
         getTimer(true);
     }
 
@@ -329,6 +367,33 @@ $(function() {
 
         }, 1000);
     }
+
+    $('#btn_publish').on('click', function(e) {
+
+        e.preventDefault();
+        var button = $(this);
+
+        var url = $(this).attr('href');
+
+        $.ajax({
+            method: 'get',
+            url: url,
+            success: function(res) {
+                if(res.success) {
+                    if(res.published == 1) {
+                        swal("Success!", 'Published successfully', "success");
+                        button.text('Unpublish');
+                        button.removeClass('btn-primary').addClass('btn-info');
+                    } else {
+                        swal("Success!", 'Unpublished successfully', "success");
+                        button.text('Publish');
+                        button.removeClass('btn-info').addClass('btn-primary');
+                    }
+                    
+                }
+            }
+        });
+    });
 });
 
 </script>

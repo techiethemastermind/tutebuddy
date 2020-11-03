@@ -112,20 +112,25 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <!-- <button type="submit" id="btn_save_bundle" class="btn btn-accent">Save Draft</button> -->
-                            <button type="submit" id="btn_publish_bundle" class="btn btn-accent">Save Assignment</button>
+                            <button type="submit" id="btn_draft" class="btn btn-accent">Save Draft</button>
+                            <button type="submit" id="btn_publish" class="btn btn-primary">Publish</button>
                             <a href="{{ route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]) }}" 
-                                class="btn btn-primary">Preview</a>
+                                class="btn btn-info">Preview</a>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
-                            <!-- <div class="list-group-item d-flex">
+                            @if($assignment->published == 0)
+                            <div class="list-group-item d-flex">
                                 <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
-                                <i class="material-icons text-muted draft">clear</i>
-                            </div> -->
+                                <i class="material-icons text-muted draft">check</i>
+                            </div>
+                            @endif
+
+                            @if($assignment->published == 1)
                             <div class="list-group-item d-flex">
                                 <a class="flex" href="javascript:void(0)"><strong>Publish</strong></a>
-                                <i class="material-icons text-muted publish">clear</i>
+                                <i class="material-icons text-muted publish">check</i>
                             </div>
+                            @endif
                         </div>
                     </div>
 
@@ -234,10 +239,10 @@ $(function() {
         $(this).closest('.form-group').find('div.invalid-feedback').remove();
     });
 
-    $('#frm_assignments').on('submit', function(e) {
+    $('#btn_draft').on('click', function(e) {
         e.preventDefault();
 
-        $(this).ajaxSubmit({
+        $('#frm_assignments').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
                 var content = assignment_editor.root.innerHTML;
 
@@ -247,10 +252,47 @@ $(function() {
                     type: 'text',
                     value: content
                 });
+
+                formData.push({
+                    name: 'published',
+                    type: 'integer',
+                    value: 0
+                });
             },
             success: function(res) {
                 if(res.success) {
-                    swal('Success!', 'Successfully Updated', 'success');
+                    swal('Success!', 'Successfully Stored to Draft', 'success');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $('#btn_publish').on('click', function(e) {
+        e.preventDefault();
+
+        $('#frm_assignments').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+                var content = assignment_editor.root.innerHTML;
+
+                // Append Course ID
+                formData.push({
+                    name: 'content',
+                    type: 'text',
+                    value: content
+                });
+
+                formData.push({
+                    name: 'published',
+                    type: 'integer',
+                    value: 1
+                });
+            },
+            success: function(res) {
+                if(res.success) {
+                    swal('Success!', 'Successfully Published', 'success');
                 }
             },
             error: function(err) {

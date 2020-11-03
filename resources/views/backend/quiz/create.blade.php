@@ -710,7 +710,22 @@ $(function() {
             },
             success: function(res) {
                 if(res.success) {
-                    swal("Success!", "Successfully updated", "success");
+                    swal({
+                        title: "Successfully Stored",
+                        text: "Quiz is stored successfully",
+                        type: 'success',
+                        showCancelButton: true,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirm',
+                        cancelButtonText: 'Cancel',
+                        dangerMode: false,
+
+                    }, function(val) {
+                        if (val) {
+                            var url = '/dashboard/quizs/' + res.quiz.id + '/edit';
+                            window.location.href = url;
+                        }
+                    });
                 } else {
                     swal('Warning!', res.message, 'warning');
                 }

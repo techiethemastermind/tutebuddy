@@ -142,18 +142,25 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" class="btn btn-accent">Save Draft</button>
-                            <button type="submit" class="btn btn-primary">Publish</button>
+                            <button type="submit" id="btn_draft" class="btn btn-accent">Save Draft</button>
+                            <button type="submit" id="btn_publish" class="btn btn-primary">Publish</button>
+                            <a href="{{ route('student.test.show', [$test->lesson->slug, $test->id]) }}" 
+                                class="btn btn-info">Preview</a>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
+                            @if($test->published == 0)
                             <div class="list-group-item d-flex">
                                 <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
-                                <i class="material-icons text-muted draft">clear</i>
+                                <i class="material-icons text-muted draft">check</i>
                             </div>
+                            @endif
+
+                            @if($test->published == 1)
                             <div class="list-group-item d-flex">
                                 <a class="flex" href="javascript:void(0)"><strong>Publish</strong></a>
-                                <i class="material-icons text-muted publish">clear</i>
+                                <i class="material-icons text-muted publish">check</i>
                             </div>
+                            @endif
                         </div>
                     </div>
 
@@ -584,13 +591,44 @@ $(function() {
         });
     });
 
-    $('#frm_test').on('submit', function(e) {
+    $('#btn_draft').on('click', function(e) {
         e.preventDefault();
 
-        $(this).ajaxSubmit({
+        $('#frm_test').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+
+                formData.push({
+                    name: 'published',
+                    type: 'integer',
+                    value: 0
+                });
+            },
             success: function(res) {
                 if(res.success) {
-                    swal('Success!', 'Successfully Updated', 'success');
+                    swal('Success!', 'Successfully Stored to Draft', 'success');
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    });
+
+    $('#btn_publish').on('click', function(e) {
+        e.preventDefault();
+
+        $('#frm_test').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+
+                formData.push({
+                    name: 'published',
+                    type: 'integer',
+                    value: 1
+                });
+            },
+            success: function(res) {
+                if(res.success) {
+                    swal('Success!', 'Successfully Published', 'success');
                 }
             },
             error: function(err) {

@@ -302,11 +302,11 @@
 
                 </li>
 
-                <!-- Course Perfermance (Result) -->
+                <!-- Course Performance (Result) -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/result*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('admin.results.student') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">poll</span>
-                        <span class="sidebar-menu-text">Course Perfermance</span>
+                        <span class="sidebar-menu-text">Course Performance</span>
                     </a>
                 </li>
 

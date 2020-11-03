@@ -16,19 +16,27 @@
         <div class="container page__container">
             <nav class="nav navbar-nav">
                 <div class="nav-item navbar-list__item">
-                    <a href="{{ route('courses.show', $assignment->course->slug) }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Review Course
+                    @if(auth()->user()->hasRole('Student'))
+                    <a href="{{ route('admin.student.assignments') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
                     </a>
+                    @endif
+
+                    @if(auth()->user()->hasRole('Instructor'))
+                    <a href="{{ route('admin.assignments.index') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                    </a>
+                    @endif
                 </div>
                 <div class="nav-item navbar-list__item">
                     <div class="d-flex align-items-center flex-nowrap">
                         <div class="mr-16pt">
-                            <a href="{{ route('courses.show', $assignment->course->slug) }}">
+                            <a href="{{ route('lessons.show', [$assignment->course->slug, $assignment->lesson->slug, 1]) }}">
                                 @if(!empty($assignment->course->course_image))
                                 <img src="{{ asset('storage/uploads/thumb/' . $assignment->course->course_image) }}"
                                     width="40" alt="Angular" class="rounded">
                                 @else
-                                <div class="avatar avatar-sm mr-8pt">
+                                <div class="avatar avatar-sm">
                                     <span class="avatar-title rounded bg-primary text-white">
                                         {{ substr($assignment->course->title, 0, 2) }}
                                     </span>
@@ -37,9 +45,9 @@
                             </a>
                         </div>
                         <div class="flex">
-                            <a href="{{ route('courses.show', $assignment->course->slug) }}"
+                            <a href="{{ route('lessons.show', [$assignment->course->slug, $assignment->lesson->slug, 1]) }}"
                                 class="card-title text-body mb-0">
-                                {{ $assignment->title }}
+                                {{ $assignment->course->title }} | {{ $assignment->lesson->title }}
                             </a>
                             <p class="lh-1 d-flex align-items-center mb-0">
                                 <span class="text-50 small font-weight-bold mr-8pt">
@@ -50,6 +58,19 @@
                         </div>
                     </div>
                 </div>
+            </nav>
+            
+            <nav class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
+                @if(auth()->user()->hasRole('Instructor'))
+                <div class="">
+                    <a href="{{ route('admin.assignments.edit', $assignment->id) }}" class="btn btn-accent">Edit</a>
+                    @if($assignment->published == 0)
+                    <a href="{{ route('admin.assignment.publish', $assignment->id) }}" id="btn_publish" class="btn btn-primary">Publish</a>
+                    @else
+                    <a href="{{ route('admin.assignment.publish', $assignment->id) }}" id="btn_publish" class="btn btn-info">Unpublish</a>
+                    @endif
+                </div>
+                @endif
             </nav>
         </div>
     </div>
@@ -188,10 +209,11 @@
                         <label for="file_doc" class="custom-file-label">Choose file</label>
                     </div>
                 </div>
-
+                @if(auth()->user()->hasRole('Student'))
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
+                @endif
                 <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
             </form>
         </div>
@@ -209,10 +231,22 @@
 
     $(function() {
 
+        var toolbarOptions = [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],  
+            ['bold', 'italic', 'underline'],
+            ['link', 'blockquote', 'code', 'image'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+        ];
+
         // Set Submitted Assignments if it is exist
         var s_quill = new Quill('#submit_content', {
             theme: 'snow',
-            placeholder: 'Course description'
+            placeholder: 'Answer Content',
+            modules: {
+                toolbar: toolbarOptions
+            },
         });
 
         $('#frm_assignment').on('submit', function(e){
@@ -232,6 +266,34 @@
                     }
                 }
             })
+        });
+
+        $('#btn_publish').on('click', function(e) {
+
+            e.preventDefault();
+            var button = $(this);
+
+            var url = $(this).attr('href');
+
+            $.ajax({
+                method: 'get',
+                url: url,
+                success: function(res) {
+                    console.log(res);
+                    if(res.success) {
+                        if(res.published == 1) {
+                            swal("Success!", 'Published successfully', "success");
+                            button.text('Unpublish');
+                            button.removeClass('btn-primary').addClass('btn-info');
+                        } else {
+                            swal("Success!", 'Unpublished successfully', "success");
+                            button.text('Publish');
+                            button.removeClass('btn-info').addClass('btn-primary');
+                        }
+                        
+                    }
+                }
+            });
         });
         
     });

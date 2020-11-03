@@ -292,7 +292,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">upcomming lessons</small>
+                    <small class="text-muted">Scheduled lessons</small>
                 </div>
             </div>
             @endif

@@ -90,14 +90,9 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <!-- <button type="submit" id="btn_save_bundle" class="btn btn-accent">Save Draft</button> -->
-                            <button type="submit" id="btn_publish_bundle" class="btn btn-accent">Save Assignment</button>
+                            <button type="submit" id="btn_publish" class="btn btn-accent">Save changes</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
-                            <!-- <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
-                                <i class="material-icons text-muted draft">clear</i>
-                            </div> -->
                             <div class="list-group-item d-flex">
                                 <a class="flex" href="javascript:void(0)"><strong>Publish</strong></a>
                                 <i class="material-icons text-muted publish">clear</i>

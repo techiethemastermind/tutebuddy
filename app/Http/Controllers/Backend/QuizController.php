@@ -178,7 +178,8 @@ class QuizController extends Controller
             'title' => $request->title,
             'description' => $request->short_description,
             'type' => $request->type,
-            'take_type' => $request->take_type
+            'take_type' => $request->take_type,
+            'published' => $request->published
         ];
 
         if($request->type == "2") {

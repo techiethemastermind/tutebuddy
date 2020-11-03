@@ -205,16 +205,25 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <a href="javascript:void(0);" class="btn btn-accent" id="btn_quiz_save">Save changes</a>
+                            <button type="submit" id="btn_quiz_save" class="btn btn-accent">Save Draft</button>
+                            <button type="submit" id="btn_quiz_publish" class="btn btn-primary">Publish</button>
+                            <a href="{{ route('student.quiz.show', [$quiz->lesson->slug, $quiz->id]) }}" 
+                                class="btn btn-info">Preview</a>
                         </div>
                         <div class="list-group list-group-flush">
+                            @if($quiz->published == 0)
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="#"><strong>Save Draft</strong></a>
-                                <i class="material-icons text-muted">check</i>
+                                <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
+                                <i class="material-icons text-muted draft">check</i>
                             </div>
-                            <div class="list-group-item">
-                                <a href="#" class="text-danger"><strong>Delete Quiz</strong></a>
+                            @endif
+
+                            @if($quiz->published == 1)
+                            <div class="list-group-item d-flex">
+                                <a class="flex" href="javascript:void(0)"><strong>Publish</strong></a>
+                                <i class="material-icons text-muted publish">check</i>
                             </div>
+                            @endif
                         </div>
                     </div>
 
@@ -790,12 +799,46 @@ $(function() {
     });
 
     // ==== Update quiz ==== //
-    $('#btn_quiz_save').on('click', function() {
+    $('#btn_quiz_save').on('click', function(e) {
+
+        e.preventDefault();
 
         $('#frm_quiz').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+
+                formData.push({
+                    name: 'published',
+                    type: 'integer',
+                    value: 0
+                });
+            },
             success: function(res) {
                 if(res.success) {
                     swal("Success!", "Successfully updated", "success");
+                } else {
+                    swal('Warning!', res.message, 'warning');
+                }
+            }
+        });
+    });
+
+    // ==== Update quiz ==== //
+    $('#btn_quiz_publish').on('click', function(e) {
+
+        e.preventDefault();
+
+        $('#frm_quiz').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+
+                formData.push({
+                    name: 'published',
+                    type: 'integer',
+                    value: 1
+                });
+            },
+            success: function(res) {
+                if(res.success) {
+                    swal("Success!", "Successfully Published", "success");
                 } else {
                     swal('Warning!', res.message, 'warning');
                 }
