@@ -33,7 +33,7 @@ class CalendarService
                     // $start_date = Carbon::parse(timezone()->convertToLocal(Carbon::parse($data['start']))); // start date
                     // $end_date = Carbon::parse(timezone()->convertToLocal(Carbon::parse($data['end'])));
 
-                    $base_date = Carbon::parse($schedule['date']);
+                    $base_date = Carbon::parse($schedule['date'] . ' ' . $schedule['start_time']);
                     $start_date = Carbon::parse($data['start']); // start date
                     $end_date = Carbon::parse($data['end']); // End date
 

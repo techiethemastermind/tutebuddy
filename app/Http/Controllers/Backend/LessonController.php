@@ -317,7 +317,7 @@ class LessonController extends Controller
             $schedules = [];
 
             foreach($all as $schedule) {
-                if($schedule && Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+                if($schedule && Carbon::parse($schedule->date . ' ' . $schedule->start_time)->dayOfWeek == Carbon::now()->dayOfWeek) {
                     array_push($schedules, $schedule);
                 }
             }
@@ -344,7 +344,7 @@ class LessonController extends Controller
         $today_count = 0;
         
         foreach($schedules as $schedule) {
-            if($schedule && Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+            if($schedule && Carbon::parse($schedule->date . ' ' . $schedule->start_time)->dayOfWeek == Carbon::now()->dayOfWeek) {
                 $today_count++;
             }
         }
@@ -370,9 +370,9 @@ class LessonController extends Controller
                     </div>';
 
             $new_date = new \DateTime;
-            $dayofweek = strtolower(Schedule::WEEK_DAYS[Carbon::parse($schedule->date)->dayOfWeek]);
+            $dayofweek = strtolower(Schedule::WEEK_DAYS[Carbon::parse($schedule->date . ' ' . $schedule->start_time)->dayOfWeek]);
             $new_date->modify($dayofweek . ' this week');
-            $my_date = Schedule::WEEK_DAYS[Carbon::parse($schedule->date)->dayOfWeek] . ', ' . Carbon::parse($new_date)->toFormattedDateString();
+            $my_date = Schedule::WEEK_DAYS[Carbon::parse($schedule->date . ' ' . $schedule->start_time)->dayOfWeek] . ', ' . Carbon::parse($new_date)->toFormattedDateString();
 
             $temp['weekday'] = '<strong>' . $my_date . '</strong>';
             $temp['start_time'] = '<strong>' . timezone()->convertFromTimezone($schedule->start_time, $schedule->timezone, 'H:i:s') . '</strong>';
@@ -441,7 +441,7 @@ class LessonController extends Controller
         $today_count = 0;
         
         foreach($schedules as $schedule) {
-            if(Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+            if(Carbon::parse($schedule->date . ' ' . $schedule->start_time)->dayOfWeek == Carbon::now()->dayOfWeek) {
                 $today_count++;
             }
         }
@@ -468,7 +468,7 @@ class LessonController extends Controller
             $schedules = [];
 
             foreach($all as $schedule) {
-                if(Carbon::parse($schedule->date)->dayOfWeek == Carbon::now()->dayOfWeek) {
+                if(Carbon::parse($schedule->date . ' ' . $schedule->start_time)->dayOfWeek == Carbon::now()->dayOfWeek) {
                     array_push($schedules, $schedule);
                 }
             }
