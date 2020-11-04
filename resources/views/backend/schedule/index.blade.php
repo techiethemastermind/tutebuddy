@@ -114,8 +114,8 @@
                     <label for="" class="form-label">Courses</label>
                     <select name="course" class="form-control form-label">
                         @foreach($courses as $course)
-                        <option value="{{ $course->id }}" data-timezone="{{ $course->timezone }}"
-                            data-start="{{ $course->start_date }}" data-end="{{ $course->end_date }}"
+                        <option value="{{ $course->id }}" data-start="{{ $course->start_date }}"
+                            data-end="{{ $course->end_date }}"
                             data-repeat-value="{{ $course->repeat_value }}"
                             data-repeat-type="{{ $course->repeat_type }}"> {{ $course->title }}
                         </option>
@@ -316,7 +316,7 @@ $(document).ready(function() {
         initialView: 'timeGridWeek',
         timeZone: '{{ auth()->user()->timezone }}',
         allDaySlot: false,
-        slotMinTime: '01:00:00',
+        slotMinTime: '00:00:00',
         selectable: true,
         eventSources: [{
             url: '{{ route("admin.getScheduleData") }}',
@@ -590,17 +590,12 @@ $(document).ready(function() {
 
         var option = ele ? $('select[name="course"] option:selected', ele) : $(
             'select[name="course"] option:selected');
-        var timezone = option.attr('data-timezone');
         var start = option.attr('data-start');
         var end = option.attr('data-end');
         var repeat_value = option.attr('data-repeat-value');
         var repeat_type = option.attr('data-repeat-type');
 
-        if(timezone == '') {
-            $('#d_timezone').val('{{ auth()->user()->timezone }}').change();
-        } else {
-            $('#d_timezone').val(timezone).change();
-        }
+        $('#d_timezone').val(my_timezone).change();
         
         $('#d_start').text(start);
         $('#d_end').text(end);
