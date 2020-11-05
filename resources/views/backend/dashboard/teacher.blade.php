@@ -65,116 +65,6 @@
     <div class="container page__container">
         <div class="page-section">
 
-            <!-- Schedules -->
-            <!-- @if(count($schedules) > 0)
-            <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
-                <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>Upcomming Lessons</strong></p>
-                    <a href="{{ route('admin.instructor.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
-                </div>
-                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
-                    data-lists-sort-desc="true">
-                    <table class="table mb-0 thead-border-top-0 table-nowrap">
-                        <thead>
-                            <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#schedule_list" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
-                                <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Weekday</a>
-                                </th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>Course title</th>
-                                <th>Lesson title</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="list" id="schedule_list">
-
-                            @foreach($schedules as $schedule)
-                                @if(!empty($schedule->lesson))
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row"
-                                                data-domfactory-upgraded="check-selected-row">
-                                            <label class="custom-control-label"><span
-                                                    class="text-hide">Check</span></label>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <strong>{{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $schedule->start_time }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ $schedule->end_time }}</strong>
-                                    </td>
-                                    <td>
-                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                            <div class="avatar avatar-sm mr-8pt">
-                                                <span class="avatar-title rounded bg-primary text-white">
-                                                    {{ substr($schedule->course->title, 0, 2) }}
-                                                </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="d-flex flex-column">
-                                                    <small class="js-lists-values-project">
-                                                        <strong>{{ $schedule->course->title }}</strong></small>
-                                                    <small
-                                                        class="js-lists-values-location text-50">{{ $schedule->course->teachers[0]->name }}</small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                            <div class="avatar avatar-sm mr-8pt">
-                                                <span class="avatar-title rounded bg-accent text-white">
-                                                    {{ substr($schedule->lesson->title, 0, 2) }}
-                                                </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="d-flex flex-column">
-                                                    <small class="js-lists-values-project">
-                                                        <strong>{{ $schedule->lesson->title }}</strong></small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <?php
-                                        if($schedule->lesson->lesson_type == 1) {
-                                            $route = route('lessons.live', [$schedule->lesson->slug, $schedule->lesson->id]);
-                                        } else {
-                                            $route = route('lessons.show', [$schedule->course->slug, $schedule->lesson->slug, 1]);
-                                        }
-                                        ?>
-                                        <a href="{{ $route }}" target="_blank" class="btn btn-primary btn-sm">Join</a>
-                                    </td>
-                                </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">upcomming lessons</small>
-                </div>
-            </div>
-            @endif -->
-
             <!-- Live Lessons -->
             @if(count($schedules) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -187,16 +77,7 @@
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#schedule_list" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
+                                <th style="width: 18px;" class="pr-0"></th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a>
                                 </th>
@@ -208,85 +89,76 @@
                             </tr>
                         </thead>
                         <tbody class="list" id="schedule_list">
+                            @foreach($schedules as $schedule)                
+                            <tr>
+                                <td></td>
 
-                            @foreach($schedules as $schedule)
-                            
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row"
-                                                data-domfactory-upgraded="check-selected-row">
-                                            <label class="custom-control-label"><span
-                                                    class="text-hide">Check</span></label>
+                                <td>
+                                    <?php
+                                        $new_date = new DateTime;
+                                        $dayofweek = strtolower(App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek]);
+                                        $new_date->modify($dayofweek . ' this week');
+                                    ?>
+                                    <strong>
+                                        {{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}, 
+                                        {{ \Carbon\Carbon::parse($new_date)->toFormattedDateString() }}
+                                    </strong>
+                                </td>
+                                <td>
+                                    <strong>{{ timezone()->convertFromTimezone($schedule->start_time, $schedule->timezone, 'H:i:s') }}</strong>
+                                </td>
+                                <td>
+                                    <strong>{{ timezone()->convertFromTimezone($schedule->end_time, $schedule->timezone, 'H:i:s') }}</strong>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <span class="avatar-title rounded bg-primary text-white">
+                                                {{ substr($schedule->course->title, 0, 2) }}
+                                            </span>
                                         </div>
-                                    </td>
-
-                                    <td>
-                                        <?php
-                                            $new_date = new DateTime;
-                                            $dayofweek = strtolower(App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek]);
-                                            $new_date->modify($dayofweek . ' this week');
-                                        ?>
-                                        <strong>
-                                            {{ App\Models\Schedule::WEEK_DAYS[\Carbon\Carbon::parse($schedule->date)->dayOfWeek] }}, 
-                                            {{ \Carbon\Carbon::parse($new_date)->toFormattedDateString() }}
-                                        </strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ timezone()->convertFromTimezone($schedule->start_time, $schedule->timezone, 'H:i:s') }}</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{ timezone()->convertFromTimezone($schedule->end_time, $schedule->timezone, 'H:i:s') }}</strong>
-                                    </td>
-                                    <td>
-                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                            <div class="avatar avatar-sm mr-8pt">
-                                                <span class="avatar-title rounded bg-primary text-white">
-                                                    {{ substr($schedule->course->title, 0, 2) }}
-                                                </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="d-flex flex-column">
-                                                    <small class="js-lists-values-project">
-                                                        <strong>{{ $schedule->course->title }}</strong></small>
-                                                    <small
-                                                        class="js-lists-values-location text-50">{{ $schedule->course->teachers[0]->name }}</small>
-                                                </div>
+                                        <div class="media-body">
+                                            <div class="d-flex flex-column">
+                                                <small class="js-lists-values-project">
+                                                    <strong>{{ $schedule->course->title }}</strong></small>
+                                                <small
+                                                    class="js-lists-values-location text-50">{{ $schedule->course->teachers[0]->name }}</small>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                            <div class="avatar avatar-sm mr-8pt">
-                                                <span class="avatar-title rounded bg-accent text-white">
-                                                    {{ substr($schedule->lesson->title, 0, 2) }}
-                                                </span>
-                                            </div>
-                                            <div class="media-body">
-                                                <div class="d-flex flex-column">
-                                                    <small class="js-lists-values-project">
-                                                        <strong>{{ $schedule->lesson->title }}</strong></small>
-                                                </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <span class="avatar-title rounded bg-accent text-white">
+                                                {{ substr($schedule->lesson->title, 0, 2) }}
+                                            </span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex flex-column">
+                                                <small class="js-lists-values-project">
+                                                    <strong>{{ $schedule->lesson->title }}</strong></small>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <?php
-                                        if($schedule->lesson->lesson_type == 1) {
-                                            $route = route('lessons.live', [$schedule->lesson->slug, $schedule->lesson->id]);
-                                        } else {
-                                            $route = route('lessons.show', [$schedule->course->slug, $schedule->lesson->slug, 1]);
-                                        }
-                                        
-                                        $result = live_schedule($schedule->lesson);
-                                        ?>
-                                        @if($result['status'])
-                                        <a href="{{ $route }}" target="_blank" class="btn btn-primary btn-sm">Join</a>
-                                        @else
-                                        <button type="button" class="btn btn-md btn-outline-primary" disabled>Scheduled</button>
-                                        @endif
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                                <td>
+                                    <?php
+                                    if($schedule->lesson->lesson_type == 1) {
+                                        $route = route('lessons.live', [$schedule->lesson->slug, $schedule->lesson->id]);
+                                    } else {
+                                        $route = route('lessons.show', [$schedule->course->slug, $schedule->lesson->slug, 1]);
+                                    }
+                                    
+                                    $result = live_schedule($schedule->lesson);
+                                    ?>
+                                    @if($result['status'])
+                                    <a href="{{ $route }}" target="_blank" class="btn btn-primary btn-sm">Join</a>
+                                    @else
+                                    <button type="button" class="btn btn-md btn-outline-primary" disabled>Scheduled</button>
+                                    @endif
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -308,16 +180,7 @@
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#schedule_list" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
+                                <th style="width: 18px;" class="pr-0"></th>
                                 <th>Name</th>
                                 <th>Course</th>
                                 <th>Start date</th>
@@ -328,16 +191,7 @@
                         <tbody>
                             @foreach($students as $student)
                             <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row"
-                                            data-domfactory-upgraded="check-selected-row">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Check</span>
-                                        </label>
-                                    </div>
-                                </td>
-
+                                <td></td>
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-sm mr-8pt">
@@ -400,16 +254,7 @@
                     <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#assignment" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
+                                <th style="width: 18px;" class="pr-0"></th>
                                 <th>Subject</th>
                                 <th>Due Date</th>
                                 <th>Total Mark</th>
@@ -420,12 +265,7 @@
                         <tbody class="list" id="assignment">
                             @foreach($assignments as $assignment)
                             <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                                    </div>
-                                </td>
+                                <td></td>
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-sm mr-8pt">
@@ -470,16 +310,7 @@
                     <table id="tbl_a_results" class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#assignment" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
+                                <th style="width: 18px;" class="pr-0"></th>
                                 <th>Subject</th>
                                 <th>Student</th>
                                 <th>Attachment</th>
@@ -489,12 +320,7 @@
                         <tbody class="list">
                             @foreach($assignment_results as $result)
                             <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                                    </div>
-                                </td>
+                                <td></td>
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-sm mr-8pt">

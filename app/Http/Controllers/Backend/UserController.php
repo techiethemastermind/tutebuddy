@@ -238,10 +238,7 @@ class UserController extends Controller
         $data = [];
         foreach($teachers as $teacher) {
             $temp = [];
-            $temp['index'] = '<div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                    </div>';
+            $temp['index'] = '';
 
             if(empty($teacher->avatar)) {
                 $avatar = '<span class="avatar-title rounded-circle">'. substr($teacher->name, 0, 2) .'</span>';
@@ -291,10 +288,7 @@ class UserController extends Controller
         $data = [];
         foreach($students as $student) {
             $temp = [];
-            $temp['index'] = '<div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                    </div>';
+            $temp['index'] = '';
             
             if(!empty($student->avatar)) {
                 $avatar = '<img src="'. asset('/storage/avatars/' . $student->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';

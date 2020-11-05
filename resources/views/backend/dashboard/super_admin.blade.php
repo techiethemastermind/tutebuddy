@@ -108,16 +108,7 @@
                     <table id="tbl_schedule" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#order_list" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
+                                <th style="width: 18px;" class="pr-0"></th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort"
                                         data-sort="js-lists-values-time">Ordered By

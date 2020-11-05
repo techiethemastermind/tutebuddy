@@ -45,14 +45,7 @@
                 <table id="tbl_sales" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='10'>
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                        data-target="#toggle" id="checkall">
-                                    <label class="custom-control-label" for="checkall"><span
-                                            class="text-hide">Toggle all</span></label>
-                                </div>
-                            </th>
+                            <th style="width: 18px;" class="pr-0"></th>
                             <th>
                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-order">Order</a>
                             </th>
@@ -68,14 +61,7 @@
                     </thead>
                     <tbody class="list" id="toggle">
                         <tr>
-                            <td class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-check-selected-row"
-                                        id="customCheck1_1" data-domfactory-upgraded="check-selected-row">
-                                    <label class="custom-control-label" for="customCheck1_1"><span
-                                            class="text-hide">Check</span></label>
-                                </div>
-                            </td>
+                            <td class="pr-0"></td>
 
                             <td>
                                 <strong>10002331</strong>

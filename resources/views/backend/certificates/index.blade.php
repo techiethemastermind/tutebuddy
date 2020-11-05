@@ -49,14 +49,7 @@
                 <table id="tbl_certs" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='10'>
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                        data-target="#toggle" id="customCheckAlltoggle">
-                                    <label class="custom-control-label" for="customCheckAlltoggle"><span
-                                            class="text-hide">Toggle all</span></label>
-                                </div>
-                            </th>
+                            <th style="width: 18px;" class="pr-0"></th>
                             <th> Sr No. </th>
                             <th> Course Name </th>
                             <th> Progress </th>

@@ -44,12 +44,7 @@
                 <table class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all" data-target="#clients" id="customCheckAll_clients">
-                                    <label class="custom-control-label" for="customCheckAll_clients"><span class="text-hide">Toggle all</span></label>
-                                </div>
-                            </th>
+                            <th style="width: 18px;" class="pr-0"></th>
                             <th style="width: 40px;">No.</th>
                             <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a></th>
                             <th>Company</th>
@@ -62,12 +57,7 @@
                     <tbody class="list" id="clients">
                     @foreach ($contacts as $contact)
                     <tr>
-                        <td class="pr-0">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input js-check-selected-row" id="customCheck1_clients_1">
-                                <label class="custom-control-label" for="customCheck1_clients_1"><span class="text-hide">Check</span></label>
-                            </div>
-                        </td>
+                        <td class="pr-0"></td>
                         <td>{{ $loop->iteration }}</td>
                         <td>
                             <strong>{{ $contact->name }}</strong>

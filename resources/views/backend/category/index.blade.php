@@ -102,14 +102,7 @@
                             <table id="tbl_categories" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='10'>
                                 <thead>
                                     <tr>
-                                        <th style="width: 18px;" class="pr-0">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                                    data-target="#toggle" id="customCheckAlltoggle">
-                                                <label class="custom-control-label" for="customCheckAlltoggle"><span
-                                                        class="text-hide">Toggle all</span></label>
-                                            </div>
-                                        </th>
+                                        <th style="width: 18px;" class="pr-0"></th>
                                         <th> Category Name </th>
                                         <th> Description </th>
                                         <th> Action </th>

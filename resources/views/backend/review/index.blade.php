@@ -35,6 +35,9 @@
     </div>
 
     <div class="container page__container page-section">
+
+    @if(count($reviews) > 0)
+
         @foreach($reviews as $review)
         <div class="card card-body">
             <div class="posts-card__content d-flex align-items-center flex-wrap">
@@ -87,38 +90,40 @@
             </div>
         </div>
         @endforeach
+        
+        <div class="p-8pt">
+            @if($reviews->hasPages())
+            {{ $reviews->links('layouts.parts.page') }}
+            @else
+            <ul class="pagination justify-content-start pagination-xsm m-0">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true" class="material-icons">chevron_left</span>
+                        <span>Prev</span>
+                    </a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Page 1">
+                        <span>1</span>
+                    </a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span>Next</span>
+                        <span aria-hidden="true" class="material-icons">chevron_right</span>
+                    </a>
+                </li>
+            </ul>
+            @endif
+        </div>
 
-        <!-- <div class="card mb-lg-32pt">
-            <div class="table-responsive" data-toggle="lists" data-page-length='10' 
-                    data-lists-values='["js-lists-values-name", "js-lists-values-rating"]'>
-                <table id="tbl_reviews" class="table mb-0 thead-border-top-0 table-nowrap">
+    @else
 
-                    <thead>
-                        <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all" data-target="#clients" id="customCheckAll_clients">
-                                    <label class="custom-control-label" for="customCheckAll_clients"><span class="text-hide">Toggle all</span></label>
-                                </div>
-                            </th>
-                            <th style="width: 40px;">No.</th>
-                            <th>
-                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Customer</a>
-                            </th>
-                            <th>Course</th>
-                            <th>
-                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-rate">Rate</a>
-                            </th>
-                            <th>Content</th>
-                            <th>Rate Time</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
+        <div class="card card-body">
+            <span class="card-title">No reviews.</span>
+        </div>
 
-                    <tbody class="list" id="toggle"></tbody>
-                </table>
-            </div>
-        </div> -->
+    @endif
     </div>
 </div>
 

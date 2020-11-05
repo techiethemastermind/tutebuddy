@@ -292,7 +292,7 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('courses/get/favorite*') ? 'active' : '' }}">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/courses/get/favorite*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.courses.favorites') }}">
                                 <span class="sidebar-menu-text">Favorites</span>
                             </a>
@@ -419,7 +419,7 @@
                         </li>
                         @endcan
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/institution*') ? 'active' : '' }}">
+                        <!-- <li class="sidebar-menu-item {{ Request::is('dashboard/institution*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="">
                                 <span class="sidebar-menu-text">Institutions</span>
                             </a>
@@ -429,7 +429,7 @@
                             <a class="sidebar-menu-button" href="">
                                 <span class="sidebar-menu-text">Teachers</span>
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </li>
 

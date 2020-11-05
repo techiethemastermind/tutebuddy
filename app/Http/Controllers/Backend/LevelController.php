@@ -214,10 +214,7 @@ class LevelController extends Controller
     function getArrayData($level, $space) {
 
         $array = [];
-        $array['index'] = '<div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                    <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                </div>';
+        $array['index'] = '';
         
         $array['order'] = ($level->parent == '0') ? '---' : $level->order;
 

@@ -231,10 +231,7 @@ class QuizController extends Controller
         foreach($quizs as $quiz) {
             $i++;
             $temp = [];
-            $temp['index'] = '<div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                    </div>';
+            $temp['index'] = '';
             $temp['no'] = $i;
             $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                 <div class="avatar avatar-sm mr-8pt">
@@ -460,10 +457,7 @@ class QuizController extends Controller
             $lesson = Lesson::find($item->lesson->id);
             $course = $lesson->course;
             $temp = [];
-            $temp['index'] = '<div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                    </div>';
+            $temp['index'] = '';
             $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                 <div class="avatar avatar-sm mr-8pt">
                                     <span class="avatar-title rounded bg-primary text-white">'. substr($item->title, 0, 2) .'</span>

@@ -237,10 +237,7 @@ class CategoryController extends Controller
     function getArrayData($category, $space) {
 
         $array = [];
-        $array['index'] = '<div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                    <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                </div>';
+        $array['index'] = '';
 
         if(empty($category->thumb)) {
             $avatar = '<span class="avatar-title rounded-circle">' . substr($category->name, 0, 2) . '</span>';

@@ -65,6 +65,66 @@
     color: #ffc926;
 }
 </style>
+
+
+<style>
+
+/* Button used to open the chat form - fixed at the bottom of the page */
+.open-button {
+    background-color: #0085eb;
+    color: white;
+    padding: 12px;
+    border: none;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 28px;
+    border-radius: 100% !important;
+    z-index: 99;
+}
+
+/* The popup chat - hidden by default */
+.chat-popup {
+    display: none;
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    z-index: 100;
+    box-shadow: 0px 0 2px 0px black;
+    border-radius: 5px;
+}
+
+/* Add styles to the form container */
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+/* Full-width textarea */
+.form-container textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 15px 0;
+  border: none;
+  background: #f1f1f1;
+  resize: none;
+  min-height: 150px;
+}
+
+/* When the textarea gets focus, do something */
+.form-container textarea:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
+</style>
+
 @endpush
 
 <div class="mdk-header-layout__content page-content">
@@ -773,10 +833,52 @@
 <input type="hidden" id="course_description" value="{{ $course->description }}">
 <div id="course_editor" style="display:none;"></div>
 
+<!-- Enroll Chat -->
+<button id="btn_enroll_start" class="open-button">
+    <span class="material-icons icon-32pt">chat</span>
+</button>
+
+<div class="chat-popup" id="dv_enroll_chat">
+    <form method="POST" action="{{ route('admin.student.enrollChat') }}" class="form-container">@csrf
+        <div class="media align-items-center mt-8pt mb-16pt">
+            <div class="avatar avatar-sm avatar-online media-left mr-16pt">
+                @if(empty($course->teachers[0]->avatar))
+                <span
+                    class="avatar-title rounded-circle">{{ substr($course->teachers[0]->name, 0, 2) }}</span>
+                @else
+                <img src="{{ asset('/storage/avatars/' . $course->teachers[0]->avatar) }}"
+                    alt="{{ $course->teachers[0]->name }}" class="avatar-img rounded-circle">
+                @endif
+            </div>
+            <div class="media-body">
+                <a class="card-title m-0"
+                    href="{{ route('profile.show', $course->teachers[0]->uuid) }}">{{ $course->teachers[0]->name }}</a>
+                <p class="text-50 lh-1 mb-0">{{ $course->teachers[0]->headline }}</p>
+            </div>
+        </div>
+        
+        <textarea placeholder="Type message.." name="msg" required></textarea>
+        <button type="submit" class="btn btn-primary btn-block">Send</button>
+        <button type="button" id="btn_enroll_end" class="btn btn-accent btn-block">Close</button>
+    </form>
+</div>
+
 @push('after-scripts')
 <!-- Quill -->
 <script src="{{ asset('assets/js/quill.min.js') }}"></script>
 <script src="{{ asset('assets/js/quill.js') }}"></script>
+
+<script>
+
+$('#btn_enroll_start').on('click', function() {
+    $('#dv_enroll_chat').toggle('medium');
+});
+
+$('#btn_enroll_end').on('click', function() {
+    $('#dv_enroll_chat').toggle('medium');
+});
+
+</script>
 
 <script>
 $(function() {

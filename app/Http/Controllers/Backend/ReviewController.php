@@ -27,7 +27,7 @@ class ReviewController extends Controller
     public function index()
     {
         $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $reviews = Review::where('reviewable_type', Course::class)->whereIn('reviewable_id', $course_ids)->get();
+        $reviews = Review::where('reviewable_type', Course::class)->whereIn('reviewable_id', $course_ids)->paginate(10);
         return view('backend.review.index', compact('reviews'));
     }
 
@@ -106,10 +106,7 @@ class ReviewController extends Controller
 
             $i++;
             $temp = [];
-            $temp['index'] = '<div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                    </div>';
+            $temp['index'] = '';
             $temp['no'] = $i;
 
             if(!empty($review->user->avatar)) {

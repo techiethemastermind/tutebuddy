@@ -364,10 +364,7 @@ class LessonController extends Controller
         foreach($schedules as $schedule) {
 
             $temp = [];
-            $temp['index'] = '<div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                    </div>';
+            $temp['index'] = '';
 
             $new_date = new \DateTime;
             $dayofweek = strtolower(Schedule::WEEK_DAYS[Carbon::parse($schedule->date . ' ' . $schedule->start_time)->dayOfWeek]);

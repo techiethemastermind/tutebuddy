@@ -69,15 +69,7 @@
                 <table id="tbl_lessons" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='15'>
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                        data-target="#schedule_list" data-domfactory-upgraded="toggle-check-all">
-                                    <label class="custom-control-label">
-                                        <span class="text-hide">Toggle all</span>
-                                    </label>
-                                </div>
-                            </th>
+                            <th style="width: 18px;" class="pr-0"></th>
 
                             <th>
                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a>

@@ -49,12 +49,7 @@
                 <table class="table mb-0 thead-border-top-0">
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all" data-target="#clients" id="customCheckAll_clients">
-                                    <label class="custom-control-label" for="customCheckAll_clients"><span class="text-hide">Toggle all</span></label>
-                                </div>
-                            </th>
+                            <th style="width: 18px;" class="pr-0"></th>
                             <th style="width: 40px;">
                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-no">No</a>
                             </th>
@@ -90,12 +85,7 @@
                             }
                         ?>
                         <tr>
-                            <td class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-check-selected-row" id="customCheck1_clients_1">
-                                    <label class="custom-control-label" for="customCheck1_clients_1"><span class="text-hide">Check</span></label>
-                                </div>
-                            </td>
+                            <td class="pr-0"></td>
                             <td class="js-lists-values-no">{{ $loop->iteration }}</td>
                             <td style="white-space: nowrap;" class="js-lists-values-role">{{ $role->name }}</td>
                             <td style="text-transform: capitalize;" class="js-lists-values-type">{{ $role->type }}</td>
@@ -122,7 +112,29 @@
             </div>
 
             <div class="card-footer p-8pt">
-                {!! $roles->render() !!}
+                @if($roles->hasPages())
+                {{ $roles->links('layouts.parts.page') }}
+                @else
+                <ul class="pagination justify-content-start pagination-xsm m-0">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true" class="material-icons">chevron_left</span>
+                            <span>Prev</span>
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Page 1">
+                            <span>1</span>
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span>Next</span>
+                            <span aria-hidden="true" class="material-icons">chevron_right</span>
+                        </a>
+                    </li>
+                </ul>
+                @endif
             </div>
         </div>
     </div>

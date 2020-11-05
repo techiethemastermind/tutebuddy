@@ -77,16 +77,7 @@
                 <table id="tbl_a_results" class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                        data-target="#assignment" data-domfactory-upgraded="toggle-check-all">
-                                    <label class="custom-control-label">
-                                        <span class="text-hide">Toggle all</span>
-                                    </label>
-                                </div>
-                            </th>
-
+                            <th style="width: 18px;" class="pr-0"></th>
                             <th>Subject</th>
                             <th>Student</th>
                             <th>Attachment</th>

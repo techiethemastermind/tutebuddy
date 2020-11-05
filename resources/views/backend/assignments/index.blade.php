@@ -109,14 +109,7 @@
                 <table id="tbl_assignments" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='10'>
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                        data-target="#toggle" id="checkall">
-                                    <label class="custom-control-label" for="checkall"><span
-                                            class="text-hide">Toggle all</span></label>
-                                </div>
-                            </th>
+                            <th style="width: 18px;" class="pr-0"></th>
                             <th style="width: 40px;"> SN. </th>
                             <th> Title </th>
                             <th> Course </th>

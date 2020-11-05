@@ -101,12 +101,7 @@
                 <table id="tbl_quizs" class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all" data-target="#clients" id="customCheckAll_clients">
-                                    <label class="custom-control-label" for="customCheckAll_clients"><span class="text-hide">Toggle all</span></label>
-                                </div>
-                            </th>
+                            <th style="width: 18px;" class="pr-0"></th>
                             <th style="width: 40px;">No.</th>
                             <th>Title</th>
                             <th>Course</th>

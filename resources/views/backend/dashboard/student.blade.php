@@ -46,19 +46,8 @@
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#schedule_list" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
-                                <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a>
-                                </th>
+                                <th style="width: 18px;" class="pr-0"></th>
+                                <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a></th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
                                 <th>Course title</th>
@@ -71,15 +60,7 @@
 
                             @foreach($schedules as $schedule)
                                 <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row"
-                                                data-domfactory-upgraded="check-selected-row">
-                                            <label class="custom-control-label"><span
-                                                    class="text-hide">Check</span></label>
-                                        </div>
-                                    </td>
-
+                                    <td></td>
                                     <td>
                                         <?php
                                             $new_date = new DateTime;
@@ -167,15 +148,7 @@
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#course_list" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
+                                <th style="width: 18px;" class="pr-0"></th>
 
                                 <th>Title</th>
                                 <th>Instructor</th>
@@ -188,12 +161,7 @@
                         <tbody class="list" id="course_list">
                             @foreach($purchased_courses as $course)
                             <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                                    </div>
-                                </td>
+                                <td></td>
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-sm mr-8pt">
@@ -270,15 +238,7 @@
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#instructor_list" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
+                                <th style="width: 18px;" class="pr-0"></th>
 
                                 <th>Name</th>
                                 <th>Email</th>
@@ -288,12 +248,7 @@
                         <tbody class="list" id="instructor_list">
                             @foreach($teachers as $teacher)
                             <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                                    </div>
-                                </td>
+                                <td></td>
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-sm mr-8pt">
@@ -340,16 +295,7 @@
                     <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
-                                <th style="width: 18px;" class="pr-0">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                            data-target="#assignment" data-domfactory-upgraded="toggle-check-all">
-                                        <label class="custom-control-label">
-                                            <span class="text-hide">Toggle all</span>
-                                        </label>
-                                    </div>
-                                </th>
-
+                                <th style="width: 18px;" class="pr-0"></th>
                                 <th>Subject</th>
                                 <th>Due Date</th>
                                 <th>Total Mark</th>
@@ -360,12 +306,7 @@
                         <tbody class="list" id="assignment">
                             @foreach($assignments as $assignment)
                             <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row" data-domfactory-upgraded="check-selected-row">
-                                        <label class="custom-control-label"><span class="text-hide">Check</span></label>
-                                    </div>
-                                </td>
+                                <td></td>
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-sm mr-8pt">

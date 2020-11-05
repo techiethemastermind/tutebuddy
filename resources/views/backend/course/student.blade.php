@@ -74,15 +74,7 @@
                 <table id="tbl_courses" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='10'>
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                        data-target="#projects" id="customCheckAll"
-                                        data-domfactory-upgraded="toggle-check-all">
-                                    <label class="custom-control-label" for="customCheckAll"><span
-                                            class="text-hide">Toggle all</span></label>
-                                </div>
-                            </th>
+                            <th style="width: 18px;" class="pr-0"></th>
 
                             <th style="width: 40px;">
                                 <a href="javascript:void(0)" class="sort"

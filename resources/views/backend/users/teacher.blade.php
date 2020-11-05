@@ -45,16 +45,7 @@
                 <table id="tbl_students" class="table mb-0 thead-border-top-0 table-nowrap border-bottom-2">
                     <thead>
                         <tr>
-                            <th style="width: 18px;" class="pr-0">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input js-toggle-check-all"
-                                        data-target="#schedule_list" data-domfactory-upgraded="toggle-check-all">
-                                    <label class="custom-control-label">
-                                        <span class="text-hide">Toggle all</span>
-                                    </label>
-                                </div>
-                            </th>
-
+                            <th style="width: 18px;" class="pr-0"></th>
                             <th>Name</th>
                             <th>Course</th>
                             <th>Start date</th>
