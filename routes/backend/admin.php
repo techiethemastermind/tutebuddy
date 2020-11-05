@@ -53,9 +53,6 @@ Route::get('ajax/course/remove-favorite/{course_id}', 'CourseController@removeFa
 Route::get('my/courses', 'CourseController@studentCourses')->name('student.courses');
 Route::get('ajax/my-courses/{type}', 'CourseController@getStudentCoursesByAjax')->name('student.getMyCoursesByAjax');
 
-// Pre-enroll Chat
-Route::post('ajax/enroll', 'CourseController@getStudentEnrollChat')->name('student.enrollChat');
-
 //===== Bundles Routes =====//
 Route::resource('bundles', 'BundlesController');
 Route::get('bundles/restore/{id}', 'BundlesController@restore')->name('bundle.restore');
@@ -152,6 +149,13 @@ Route::get('messages/last', 'MessagesController@lastMessages')->name('messages.l
 
 Route::post('messages/reply', 'MessagesController@reply')->name('messages.reply');
 Route::post('messages/unread', 'MessagesController@getUnreadMessages')->name('messages.unread');
+
+Route::get('messages/get/enroll-thread', 'MessagesController@getEnrollThread')->name('messages.getEnrollThread');
+Route::post('messages/enroll-send', 'MessagesController@sendEnrollChat')->name('messages.sendEnrollChat');
+
+// Pre enroll
+Route::get('pre-enrolled', 'MessagesController@getPreEnrolledStudents')->name('messages.preEnrolledStudents');
+Route::get('ajax/pre-enrolled', 'MessagesController@getPreEnrolledStudentsData')->name('ajax.getPreEnrolledStudentsData');
 
 // Pages
 Route::resource('pages', 'PagesController');

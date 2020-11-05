@@ -57,7 +57,7 @@ class MessagesController extends Controller
             ->where('message_threads.id', '=', $request->thread_id)
             ->first();
 
-        // Replay to Thread
+        // Reply to Thread
         if(!empty($thread)) {
 
             // Message
@@ -246,5 +246,198 @@ class MessagesController extends Controller
             }
         }
         return $count;
+    }
+
+    // Enroll
+    public function getEnrollThread(Request $request)
+    {
+        $userId = auth()->user()->id;
+        $partner = User::find($request->user_id);
+
+        if($request->type == 'student') {
+            $thread = Thread::where('type', 'enroll')
+                ->where('from', $userId)
+                ->where('to', $partner->id)
+                ->where('subject', 'enroll_' . $request->course_id)
+                ->first();
+        }
+
+        if($request->type == 'teacher') {
+            $thread = Thread::where('type', 'enroll')
+                ->where('from', $partner->id)
+                ->where('to', $userId)
+                ->where('subject', 'enroll_' . $request->course_id)
+                ->first();
+        }
+
+        if(!empty($thread)) {
+
+            $view = view('frontend.course.enroll-chat.msg', ['partner' => $partner, 'thread' => $thread])->render();
+            return response()->json([
+                'success' => true,
+                'thread_id' => $thread->id,
+                'html' => $view
+            ]);
+        } else {
+            return response()->json([
+                'success' => false
+            ]);
+        }
+    }
+
+    public function sendEnrollChat(Request $request)
+    {
+        $userId = auth()->user()->id;
+
+        if(empty($request->thread_id)) {
+
+            $subject = 'enroll' . '_' . $request->course_id;
+
+            $thread = Thread::create([
+                'subject' => $subject,
+                'type' => 'enroll',
+                'from' => $userId,
+                'to' => $request->user_id
+            ]);
+    
+            // Message
+            $message = Message::create([
+                'thread_id' => $thread->id,
+                'user_id' => $userId,
+                'body' => $request->message,
+            ]);
+    
+            // Sender
+            Participant::create([
+                'thread_id' => $thread->id,
+                'user_id' => $userId,
+                'last_read' => new Carbon,
+            ]);
+    
+            // Participant
+            $thread->addParticipant($request->user_id);
+
+            $view = view('frontend.course.enroll-chat.ele-right', ['message' => $message])->render();
+    
+            return response()->json([
+                'success' => true,
+                'action' => 'send',
+                'thread_id' => $thread->id,
+                'html' => $view
+            ]);
+
+        } else {
+
+            $thread = auth()->user()->threads()
+                ->where('message_threads.id', '=', $request->thread_id)
+                ->first();
+
+            // Message
+            $message = Message::create([
+                'thread_id' => $thread->id,
+                'user_id' => $userId,
+                'body' => $request->message,
+            ]);
+
+            // Sender
+            Participant::create([
+                'thread_id' => $thread->id,
+                'user_id' => $userId,
+                'last_read' => new Carbon,
+            ]);
+
+            $view = view('frontend.course.enroll-chat.ele-right', ['message' => $message])->render();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'reply',
+                'html' => $view
+            ]);
+        }
+    }
+
+    // Get Pre Enrolled Students in Instructor Side
+    public function getPreEnrolledStudents()
+    {
+        return view('backend.messages.pre-enroll');
+    }
+
+    public function getPreEnrolledStudentsData()
+    {
+        $threads = Thread::where('to', auth()->user()->id)->get();
+        $data = [];
+        foreach($threads as $thread)
+        {
+            $temp = [];
+            $temp['index'] = '';
+            $student = User::find($thread->from);
+
+            if(!empty($student->avatar)) {
+                $avatar = '<img src="'. asset('/storage/avatars/' . $student->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';
+            } else {
+                $avatar = '<span class="avatar-title rounded-circle">'. substr($student->name, 0, 2) .'</span>';
+            }
+
+            $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    '. $avatar .'
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex d-flex flex-column">
+                                            <p class="mb-0"><strong class="js-lists-values-name">'. $student->name .'</strong></p>
+                                            <small class="js-lists-values-email text-50">'. $student->email .'</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+
+            $subject = $thread->subject;
+            $course_id = substr($subject, strpos($subject, "_") + 1);
+            $course = Course::find($course_id);
+
+            $temp['course'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        <span class="avatar-title rounded bg-primary text-white">
+                                            '. substr($course->title, 0, 2) .'
+                                        </span>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <small class="js-lists-values-project">
+                                                <strong>'. $course->title .'</strong>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>';
+
+            $participant = $thread->getParticipantFromUser(auth()->user()->id);
+
+            $messages = $thread->messages()->get();
+            $thread->markAsRead(auth()->user()->id);
+
+            $last_message = '';
+            $message_time = '';
+
+            foreach($messages as $message) {
+                if(!$message->updated_at->gt($participant->last_read->toDateTimeString())) {
+                    $last_message = $message->body;
+                    $message_time = $message->created_at;
+                }
+            }
+
+            $temp['last'] = str_limit($last_message, 30);
+            $temp['time'] = Carbon::parse(timezone()->convertFromTimezone($message_time, auth()->user()->timezone))->diffForHumans();
+            $temp['action'] = '<button class="btn btn-md btn-accent start-chat" data-course="'. $course->id .'" data-user="'. $student->id .'">
+                                    Chat
+                            </button>';
+
+            array_push($data, $temp);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
     }
 }

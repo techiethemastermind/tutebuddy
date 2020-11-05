@@ -4,16 +4,8 @@
 
 @push('after-styles')
 
-<!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('assets/css/select2.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet">
-
 <!-- jQuery Datatable CSS -->
 <link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
-
-<style>
-
-</style>
 @endpush
 
 <!-- Header Layout Content -->

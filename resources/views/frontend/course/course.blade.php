@@ -64,10 +64,6 @@
 [dir=ltr] .rating:not(:hover) label input:checked~.rating__item {
     color: #ffc926;
 }
-</style>
-
-
-<style>
 
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {
@@ -110,7 +106,7 @@
   border: none;
   background: #f1f1f1;
   resize: none;
-  min-height: 150px;
+  min-height: 100px;
 }
 
 /* When the textarea gets focus, do something */
@@ -123,6 +119,11 @@
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 }
+
+#messages_content ul {
+    background: #f1f1f1;
+}
+
 </style>
 
 @endpush
@@ -833,13 +834,15 @@
 <input type="hidden" id="course_description" value="{{ $course->description }}">
 <div id="course_editor" style="display:none;"></div>
 
+@if(auth()->check())
+
 <!-- Enroll Chat -->
 <button id="btn_enroll_start" class="open-button">
     <span class="material-icons icon-32pt">chat</span>
 </button>
 
 <div class="chat-popup" id="dv_enroll_chat">
-    <form method="POST" action="{{ route('admin.student.enrollChat') }}" class="form-container">@csrf
+    <form method="POST" action="{{ route('admin.messages.sendEnrollChat') }}" class="form-container">@csrf
         <div class="media align-items-center mt-8pt mb-16pt">
             <div class="avatar avatar-sm avatar-online media-left mr-16pt">
                 @if(empty($course->teachers[0]->avatar))
@@ -856,31 +859,26 @@
                 <p class="text-50 lh-1 mb-0">{{ $course->teachers[0]->headline }}</p>
             </div>
         </div>
-        
-        <textarea placeholder="Type message.." name="msg" required></textarea>
+        <div id="messages_content"></div>
+        <textarea placeholder="Type message.." name="message" required></textarea>
+        <input type="hidden" name="user_id" value="{{ $course->teachers[0]->id }}">
+        <input type="hidden" name="course_id" value="{{ $course->id }}">
+        <input type="hidden" name="thread_id" value="">
         <button type="submit" class="btn btn-primary btn-block">Send</button>
         <button type="button" id="btn_enroll_end" class="btn btn-accent btn-block">Close</button>
     </form>
 </div>
 
+@endif
+
 @push('after-scripts')
+
 <!-- Quill -->
 <script src="{{ asset('assets/js/quill.min.js') }}"></script>
 <script src="{{ asset('assets/js/quill.js') }}"></script>
 
 <script>
 
-$('#btn_enroll_start').on('click', function() {
-    $('#dv_enroll_chat').toggle('medium');
-});
-
-$('#btn_enroll_end').on('click', function() {
-    $('#dv_enroll_chat').toggle('medium');
-});
-
-</script>
-
-<script>
 $(function() {
 
     var json_description = JSON.parse($('#course_description').val());
@@ -992,6 +990,51 @@ $(function() {
                 $('#btn_add_favorite').removeClass('is-loading is-loading-sm');
             }
         });
+    });
+
+    var chat_status = false;
+
+    // Pre Enroll Chat
+    $('#btn_enroll_start').on('click', function() {
+        $.ajax({
+            method: 'GET',
+            url: '{{ route("admin.messages.getEnrollThread") }}',
+            data: {
+                course_id: '{{ $course->id }}',
+                user_id: '{{ $course->teachers[0]->id }}',
+                type: 'student'
+            },
+            success: function(res) {
+                if(res.success) {
+                    chat_status = true;
+                    $('#dv_enroll_chat').find('input[name="thread_id"]').val(res.thread_id);
+                    $('#messages_content').html('');
+                    $(res.html).hide().appendTo('#messages_content').toggle(500);
+                }
+            }
+        });
+        $('#dv_enroll_chat').toggle('medium');
+    });
+
+    $('#dv_enroll_chat form').on('submit', function(e) {
+        e.preventDefault();
+
+        $(this).ajaxSubmit({
+            success: function(res) {
+                if(res.success) {
+                    $('#messages_content').append()
+                    if(res.action == 'send') {
+                        $('#messages_content').append($('<ul class="d-flex flex-column list-unstyled p-2"></ul>'));
+                    }
+                    $(res.html).hide().appendTo('#messages_content ul').toggle(500);
+                    $('textarea[name="message"]').val('');
+                }
+            }
+        });
+    });
+
+    $('#btn_enroll_end').on('click', function() {
+        $('#dv_enroll_chat').toggle('medium');
     });
 });
 </script>

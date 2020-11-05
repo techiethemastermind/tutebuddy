@@ -76,6 +76,12 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/pre-enrolled*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.messages.preEnrolledStudents') }}">
+                                <span class="sidebar-menu-text">Pre-enrolled Students</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
                 @endif
