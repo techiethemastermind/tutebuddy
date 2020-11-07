@@ -13,7 +13,6 @@ class Bundle extends Model
 {
     use SoftDeletes;
 
-
     protected $fillable = [
         'category_id',
         'title',

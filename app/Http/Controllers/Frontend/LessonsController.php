@@ -58,6 +58,28 @@ class LessonsController extends Controller
     }
 
     /**
+     * Get progress
+     */
+    public function courseProgress(Request $request)
+    {
+        if (\Auth::check()) {
+            $lesson = Lesson::find($request->model_id);
+            if ($lesson != null) {
+                if ($lesson->chapterStudents()->where('user_id', \Auth::id())->get()->count() == 0) {
+                    $lesson->chapterStudents()->create([
+                        'model_type' => $request->model_type,
+                        'model_id' => $request->model_id,
+                        'user_id' => auth()->user()->id,
+                        'course_id' => $lesson->course->id
+                    ]);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Live Lesson
      */
     public function liveSession($slug, $id)
@@ -134,29 +156,7 @@ class LessonsController extends Controller
             $checksum = sha1($join_room_str);
             $join_room = $url . $room_str . '&checksum=' . $checksum;
 
-            return Redirect::to($join_room);
+            return view('frontend.live', compact('join_room'));
         }
-    }
-
-    /**
-     * Get progress
-     */
-    public function courseProgress(Request $request)
-    {
-        if (\Auth::check()) {
-            $lesson = Lesson::find($request->model_id);
-            if ($lesson != null) {
-                if ($lesson->chapterStudents()->where('user_id', \Auth::id())->get()->count() == 0) {
-                    $lesson->chapterStudents()->create([
-                        'model_type' => $request->model_type,
-                        'model_id' => $request->model_id,
-                        'user_id' => auth()->user()->id,
-                        'course_id' => $lesson->course->id
-                    ]);
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }

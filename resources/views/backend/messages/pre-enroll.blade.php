@@ -170,27 +170,13 @@ $(function() {
         }
     );
 
+    var timer;
+
     // Pre Enroll Chat
     $('#tbl_results').on('click', 'button.start-chat', function() {
         var course_id = $(this).attr('data-course');
         var user_id = $(this).attr('data-user');
-        $.ajax({
-            method: 'GET',
-            url: '{{ route("admin.messages.getEnrollThread") }}',
-            data: {
-                course_id: course_id,
-                user_id: user_id,
-                type: 'teacher'
-            },
-            success: function(res) {
-                if(res.success) {
-                    chat_status = true;
-                    $('#dv_enroll_chat').find('input[name="thread_id"]').val(res.thread_id);
-                    $('#messages_content').html('');
-                    $(res.html).hide().appendTo('#messages_content').toggle(500);
-                }
-            }
-        });
+        timer = setInterval(loadMessage, 2000);
         $('#dv_enroll_chat').toggle('medium');
     });
 
@@ -212,8 +198,30 @@ $(function() {
     });
 
     $('#btn_enroll_end').on('click', function() {
+        clearInterval(timer);
         $('#dv_enroll_chat').toggle('medium');
     });
+
+    function loadMessage(course_id, user_id) {
+
+        $.ajax({
+            method: 'GET',
+            url: '{{ route("admin.messages.getEnrollThread") }}',
+            data: {
+                course_id: course_id,
+                user_id: user_id,
+                type: 'teacher'
+            },
+            success: function(res) {
+                if(res.success) {
+                    chat_status = true;
+                    $('#dv_enroll_chat').find('input[name="thread_id"]').val(res.thread_id);
+                    $('#messages_content').html(res.html);
+                    // $(res.html).hide().appendTo('#messages_content').toggle(500);
+                }
+            }
+        });
+    };
 
 });
 

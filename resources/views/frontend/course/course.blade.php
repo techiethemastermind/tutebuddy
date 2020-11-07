@@ -616,10 +616,15 @@
                             $ratings_1 = $course->reviews()->where('rating', '=', 1)->get()->count();
                             $percent_1 = number_format(($ratings_1 / $total_ratings) * 100, 1);
                         } else {
+                            $ratings_5 = 0;
                             $percent_5 = 0;
+                            $ratings_4 = 0;
                             $percent_4 = 0;
+                            $ratings_3 = 0;
                             $percent_3 = 0;
+                            $ratings_2 = 0;
                             $percent_2 = 0;
+                            $ratings_1 = 0;
                             $percent_1 = 0;
                         }
                         
@@ -992,27 +997,11 @@ $(function() {
         });
     });
 
-    var chat_status = false;
+    var timer;
 
     // Pre Enroll Chat
     $('#btn_enroll_start').on('click', function() {
-        $.ajax({
-            method: 'GET',
-            url: '{{ route("admin.messages.getEnrollThread") }}',
-            data: {
-                course_id: '{{ $course->id }}',
-                user_id: '{{ $course->teachers[0]->id }}',
-                type: 'student'
-            },
-            success: function(res) {
-                if(res.success) {
-                    chat_status = true;
-                    $('#dv_enroll_chat').find('input[name="thread_id"]').val(res.thread_id);
-                    $('#messages_content').html('');
-                    $(res.html).hide().appendTo('#messages_content').toggle(500);
-                }
-            }
-        });
+        timer = setInterval(loadMessage, 2000);
         $('#dv_enroll_chat').toggle('medium');
     });
 
@@ -1034,8 +1023,28 @@ $(function() {
     });
 
     $('#btn_enroll_end').on('click', function() {
+        clearInterval(timer);
         $('#dv_enroll_chat').toggle('medium');
     });
+
+    function loadMessage() {
+        $.ajax({
+            method: 'GET',
+            url: '{{ route("admin.messages.getEnrollThread") }}',
+            data: {
+                course_id: '{{ $course->id }}',
+                user_id: '{{ $course->teachers[0]->id }}',
+                type: 'student'
+            },
+            success: function(res) {
+                if(res.success) {
+                    $('#dv_enroll_chat').find('input[name="thread_id"]').val(res.thread_id);
+                    $('#messages_content').html(res.html);
+                    // $(res.html).hide().appendTo('#messages_content').toggle(500);
+                }
+            }
+        });
+    }
 });
 </script>
 @endpush
