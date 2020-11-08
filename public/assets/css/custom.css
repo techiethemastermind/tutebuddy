@@ -14,7 +14,7 @@
     position: inherit;
 }
 .mdk-header-layout__content.page-content {
-    min-height: calc(100vh - 90px);
+    min-height: calc(100vh - 118px);
 }
 [dir=ltr] .sidebar-brand-icon {
     width: 8.125rem;
