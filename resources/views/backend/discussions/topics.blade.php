@@ -106,7 +106,7 @@
 
                 @else
                     <div class="list-group-item p-3">
-                        <span class="card-title">No reviews.</span>
+                        <span class="card-title">No Discussions.</span>
                     </div>
                 @endif
 
