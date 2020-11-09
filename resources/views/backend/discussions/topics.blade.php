@@ -105,7 +105,7 @@
                     @endforeach
 
                 @else
-                    <div class="card card-body">
+                    <div class="list-group-item p-3">
                         <span class="card-title">No reviews.</span>
                     </div>
                 @endif
