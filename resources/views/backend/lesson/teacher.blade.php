@@ -130,7 +130,7 @@
                     { data: 'action' }
                 ],
                 oLanguage: {
-                    sEmptyTable: "You have no Lessons"
+                    sEmptyTable: "You have no live lessons"
                 }
             }
         );

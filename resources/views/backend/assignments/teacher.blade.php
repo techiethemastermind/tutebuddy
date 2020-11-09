@@ -131,7 +131,7 @@
                     { data: 'action' }
                 ],
                 oLanguage: {
-                    sEmptyTable: "You have no Assignments"
+                    sEmptyTable: "You have no assignment submitted"
                 }
             }
         );

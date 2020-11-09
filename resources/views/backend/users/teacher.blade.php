@@ -81,7 +81,10 @@
                     { data: 'start_date' },
                     { data: 'end_date' },
                     { data: 'status' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no enrolled students"
+                }
             }
         );
     });

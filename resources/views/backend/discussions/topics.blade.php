@@ -46,6 +46,8 @@
 
                 <div class="list-group list-group-flush">
 
+                @if(count($discussions) > 0)
+
                     @foreach($discussions as $discussion)
 
                     <div class="list-group-item p-3">
@@ -101,6 +103,12 @@
                     </div>
 
                     @endforeach
+
+                @else
+                    <div class="card card-body">
+                        <span class="card-title">No reviews.</span>
+                    </div>
+                @endif
 
                 </div>
 

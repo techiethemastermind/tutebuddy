@@ -131,7 +131,7 @@
                     { data: 'action' }
                 ],
                 oLanguage: {
-                    sEmptyTable: "You have no Tests"
+                    sEmptyTable: "You have no test submitted"
                 }
             }
         );
