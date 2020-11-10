@@ -31,6 +31,18 @@ class Course extends Model
                     });
                 });
             }
+
+            if (auth()->user()->hasRole('Student')) {
+                static::addGlobalScope('filter', function (Builder $builder) {
+                    $builder->where('published', 1);
+                });
+            }
+        }
+
+        if(request()->route()->uri() == '/') {
+            static::addGlobalScope('filter', function (Builder $builder) {
+                $builder->where('published', 1);
+            });
         }
 
         static::deleting(function ($course) { // before delete() method call this

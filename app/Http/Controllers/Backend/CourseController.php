@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use App\Models\Course;
 use App\Models\Category;
 use App\Models\Lesson;
+use App\Models\Step;
 use App\Models\Media;
 use App\Models\Level;
 
@@ -39,8 +40,9 @@ class CourseController extends Controller
 
         $count = [
             'all' => Course::all()->count(),
+            'draft' => Course::where('published', 0)->count(),
+            'pending' => Course::where('published', 2)->count(),
             'published' => Course::where('published', 1)->count(),
-            'pending' => Course::where('published', 0)->count(),
             'deleted' => Course::onlyTrashed()->count()
         ];
 
@@ -62,8 +64,9 @@ class CourseController extends Controller
 
         $count = [
             'all' => Course::all()->count(),
+            'draft' => Course::where('published', 0)->count(),
+            'pending' => Course::where('published', 2)->count(),
             'published' => Course::where('published', 1)->count(),
-            'pending' => Course::where('published', 0)->count(),
             'deleted' => Course::onlyTrashed()->count()
         ];
 
@@ -71,11 +74,14 @@ class CourseController extends Controller
             case 'all':
                 $courses = Course::all();
             break;
-            case 'published':
-                $courses = Course::where('published', 1)->get();
+            case 'draft':
+                $courses = Course::where('published', 0)->get();
             break;
             case 'pending':
-                $courses = Course::where('published', 0)->get();
+                $courses = Course::where('published', 2)->get();
+            break;
+            case 'published':
+                $courses = Course::where('published', 1)->get();
             break;
             case 'deleted':
                 $courses = Course::onlyTrashed()->get();
@@ -148,6 +154,10 @@ class CourseController extends Controller
             'style' => rand(0, 10)
         ];
 
+        if(isset($data['action']) && $data['action'] == 'pending') {
+            $course_data['published'] = 2;  // Pending status - Sent to publish request
+        }
+
         // Course image
         if(!empty($data['course_image'])) {
             $image = $request->file('course_image');
@@ -200,7 +210,7 @@ class CourseController extends Controller
                 $rlt = Course::find($course_id)->update($course_data);
 
                 // Update Media
-                $media = Course::where('model_type', 'App\Models\Course')
+                $media = Media::where('model_type', 'App\Models\Course')
                     ->where('model_id', $course_id)->first();
 
                 if(!empty($media_data)) {
@@ -208,7 +218,7 @@ class CourseController extends Controller
                         $media_data['model_id'] = $course_id;
                         $media = Media::create($media_data);
                     } else {
-                        $media::update($media_data);
+                        $media->update($media_data);
                     }
                 }
                 
@@ -217,23 +227,16 @@ class CourseController extends Controller
             }
         }
 
-        if($request->send_type == 'submit') {
-            return redirect()->route('admin.courses.edit', $course_id);
-        }
-
-        if($request->send_type == 'ajax') {
-
-            if(empty($message)) {
-                return response()->json([
-                    'success' => true,
-                    'course_id' => $course_id
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => $message
-                ]);
-            }
+        if(empty($message)) {
+            return response()->json([
+                'success' => true,
+                'course_id' => $course_id
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => $message
+            ]);
         }
     }
 
@@ -296,6 +299,14 @@ class CourseController extends Controller
             'min' => $data['min'],
             'max' => $data['max']
         ];
+
+        if(isset($data['action']) && $data['action'] == 'pending') {
+            $course_data['published'] = 2;  // Pending status - Sent to publish request
+        }
+
+        if(isset($data['action']) && $data['action'] == 'draft') {
+            $course_data['published'] = 0;  // Pending status - Sent to publish request
+        }
 
         // Course image
         if(!empty($data['course_image'])) {
@@ -447,7 +458,14 @@ class CourseController extends Controller
     {
         try {
 
+            // Delete from course_user table;
+            DB::table('course_user')->where('course_id', $id)->delete();
             Course::withTrashed()->where('id', $id)->forceDelete();
+
+            // Delete lessons
+            $lesson_ids = Lesson::where('course_id', $id)->pluck('id');
+            Step::whereIn('lesson_id', $lesson_ids)->delete();
+            Lesson::where('course_id', $id)->forceDelete();
 
             return response()->json([
                 'success' => true,
@@ -542,7 +560,7 @@ class CourseController extends Controller
 
             if($course->trashed()) {
                 $restore_route = route('admin.courses.restore', $course->id);
-                $forever_delete_route = route('admin.courses.foreverDelete', $course->slug);
+                $forever_delete_route = route('admin.courses.foreverDelete', $course->id);
 
                 $btn_restore = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
                 data-original-title="Restore to Review"><i class="material-icons">arrow_back</i></a>';

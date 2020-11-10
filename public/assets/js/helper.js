@@ -179,7 +179,9 @@ $(document).on('submit', 'form', function(e) {
             $(ele).addClass('is-invalid');
             var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
             err_msg.insertAfter($(ele));
-            $(ele).focus();
+            if(idx == 0) {
+                $(ele).focus();
+            }
             invalid_found = true;
         }
     });

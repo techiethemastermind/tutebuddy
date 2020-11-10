@@ -55,12 +55,6 @@ class BundlesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'title' => 'required',
-            'courses' => 'required',
-            'private_price' => 'numeric|min:1',
-            'group_price' => 'numeric|min:1'
-        ]);
 
         $data = $request->all();
 
@@ -77,6 +71,14 @@ class BundlesController extends Controller
         }
 
         $data['tags'] = json_encode($data['tags']);
+
+        if(isset($data['action']) && $data['action'] == 'publish') {
+            $data['published'] = 1;
+        }
+
+        if(isset($data['action']) && $data['action'] == 'draft') {
+            $data['published'] = 0;
+        }
 
         $bundle = Bundle::create($data);
 
@@ -115,7 +117,10 @@ class BundlesController extends Controller
         $courses = array_filter((array)$data['courses']);
         $bundle->courses()->sync($courses);
 
-        return redirect()->route('admin.bundles.edit', $bundle->id);
+        return response()->json([
+            'success' => true,
+            'bundle_id' => $bundle->id
+        ]);
     }
 
     public function edit($id)
@@ -163,7 +168,15 @@ class BundlesController extends Controller
 
             $bundle_image_url = $this->saveImage($image, 'upload', true);
             $data['bundle_image'] = $bundle_image_url;
-        }        
+        }
+
+        if(isset($data['action']) && $data['action'] == 'publish') {
+            $data['published'] = 1;
+        }
+
+        if(isset($data['action']) && $data['action'] == 'draft') {
+            $data['published'] = 0;
+        }
 
         try {
             $bundle->update($data);
@@ -379,11 +392,7 @@ class BundlesController extends Controller
                     data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
             }
 
-            if(auth()->user()->hasRole('Administrator')) {
-                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
-            } else {
-                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
-            }
+            $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
 
             array_push($data, $temp);
         }

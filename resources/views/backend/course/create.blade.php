@@ -78,10 +78,7 @@
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="@lang('labels.backend.courses.fields.title')" value="" required>
-                        @error('title')
-                        <div class="invalid-feedback">Title is required field.</div>
-                        @enderror
+                            placeholder="@lang('labels.backend.courses.fields.title')" value="" tute-no-empty>
                     </div>
 
                     <label class="form-label">@lang('labels.backend.courses.fields.description')</label>
@@ -111,8 +108,8 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" id="btn_save_course" class="btn btn-accent">Save Draft</button>
-                            <button type="submit" id="btn_publish_course" class="btn btn-primary">Publish Course</button>
+                            <button type="button" id="btn_save_course" class="btn btn-accent">Save Draft</button>
+                            <button type="button" id="btn_publish_course" class="btn btn-primary">Publish Course</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <div class="list-group-item d-flex">
@@ -195,7 +192,7 @@
                                     <div class="col-md-6 pr-1">
                                         <label class="form-label">Min Students:</label>
                                         <input type="number" name="min" class="form-control" min="1" value=""
-                                            placeholder="5" required>
+                                            placeholder="5" tute-no-empty>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <label class="form-label">Max Students:</label>
@@ -212,7 +209,7 @@
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">Price($)</span></span>
                                     <input type="text" name="group_price" class="form-control" placeholder="5.00"
-                                        value="" required>
+                                        value="" tute-no-empty>
                                 </div>
                                 <small class="form-text text-muted">Price for Group course.</small>
                             </div>
@@ -231,7 +228,7 @@
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="private_price" class="form-control" value="" placeholder="24.00" required>
+                                    <input type="text" name="private_price" class="form-control" value="" placeholder="24.00">
                                 </div>
                                 <small class="form-text text-muted">Price for Private course.</small>
                             </div>
@@ -355,10 +352,7 @@
                                 <label class="form-label">Title:</label>
                                 <input type="text" name="lesson_title"
                                     class="form-control form-control-lg @error('lesson_title') is-invalid @enderror"
-                                    placeholder="@lang('labels.backend.courses.fields.title')" value="" required>
-                                @error('lesson_title')
-                                <div class="invalid-feedback">Title is required field.</div>
-                                @enderror
+                                    placeholder="@lang('labels.backend.courses.fields.title')" value="" tute-no-empty>
                             </div>
 
                             <div class="form-group">
@@ -492,10 +486,22 @@ $(document).ready(function() {
     var $lesson_contents = $('#lesson_contents');
     var lesson_id = '';
 
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],  
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code', 'image'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+    ];
+
     // Init Quill Editor for Course description
     var course_quill = new Quill('#course_editor', {
         theme: 'snow',
-        placeholder: 'Course description'
+        placeholder: 'Course description',
+        modules: {
+            toolbar: toolbarOptions
+        }
     });
 
     // Multiselect for Tags
@@ -578,27 +584,12 @@ $(document).ready(function() {
                 },
                 beforeSubmit: function(formData, formObject, formOptions) {
 
-                    var title = formObject.find('input[name="title"]');
-                    if (title.val() == '') { // If title is empty then display Error msg
-                        title.addClass('is-invalid');
-                        var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
-                        err_msg.insertAfter(title);
-                        title.focus();
-                        return false;
-                    }
-
                     // Append quill data
                     formData.push({
                         name: 'course_description',
                         type: 'text',
-                        value: JSON.stringify(course_quill.getContents().ops)
+                        value: course_quill.root.innerHTML
                     });
-                    formData.push({
-                        name: 'send_type',
-                        type: 'text',
-                        value: 'ajax'
-                    });
-
                 },
                 success: function(res) {
                     if(res.success) {
@@ -690,8 +681,7 @@ $(document).ready(function() {
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="form-label">Content:</label>
-                                                        <div style="min-height: 200px;" id="lesson_editor__` + lesson_step + `" class="mb-0"></div>
-                                                        <textarea name="lesson_description__` + lesson_step + `" style="display:none;">`+ item.text +`</textarea>
+                                                        <div style="min-height: 200px;" id="lesson_editor__` + lesson_step + `" class="mb-0">`+ item.text +`</div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="form-label">Duration (minutes):</label>
@@ -773,11 +763,11 @@ $(document).ready(function() {
                             var step = id.slice(id.indexOf('__'));
                             var quill_editor = new Quill('#' + id, {
                                 theme: 'snow',
-                                placeholder: 'Lesson description'
+                                placeholder: 'Lesson description',
+                                modules: {
+                                    toolbar: toolbarOptions
+                                }
                             });
-                            var lesson_description = lesson_contents.find('input[name="lesson_description'+ step +'"]').val();
-                            var json_lesson_description = JSON.parse(lesson_description);
-                            quill_editor.setContents(json_lesson_description);
                         });
                     }
 
@@ -789,31 +779,14 @@ $(document).ready(function() {
         });
     });
 
-    // When add title, Hide Error msg
-    $('#frm_course').on('keyup', 'input[name="title"]', function() {
-        $(this).removeClass('is-invalid');
-        $('#frm_lesson').find('div.invalid-feedback').remove();
+    $('#btn_save_course').on('click', function(e) {
+        e.preventDefault();
+        store_course('draft');
     });
 
-    // Event when click save course button id="btn_save_course"
-    $('#frm_course').submit(function(e) {
-        var title = $(this).find('input[name="title"]');
-        if (title.val() == '') { // If title is empty then display Error msg
-            title.addClass('is-invalid');
-            var err_msg = $('<div class="invalid-feedback">Title is required field.</div>');
-            err_msg.insertAfter(title);
-            title.focus();
-            return false;
-        }
-
-        var course_description = JSON.stringify(course_quill.getContents().ops);
-        var input_description = $("<input>").attr("type", "hidden")
-               .attr("name", "course_description").val(course_description);
-        $(this).append(input_description);
-        var input_type = $("<input>").attr("type", "hidden")
-               .attr("name", "send_type").val('submit');
-        $(this).append(input_type);
-        course.send_type = 'submit';
+    $('#btn_publish_course').on('click', function(e) {
+        e.preventDefault();
+        store_course('pending');
     });
 
     // Add steps
@@ -912,7 +885,10 @@ $(document).ready(function() {
                 $lesson_contents.append($(ele_text));
                 var lesson_quill = new Quill('#lesson_editor__' + lesson_step, {
                     theme: 'snow',
-                    placeholder: 'Lesson description'
+                    placeholder: 'Lesson description',
+                    modules: {
+                        toolbar: toolbarOptions
+                    }
                 });
                 break;
             case 'video':
@@ -985,7 +961,7 @@ $(document).ready(function() {
                     formData.push({
                         name: 'lesson_id',
                         type: 'int',
-                        value: status.lesson_id
+                        value: lesson_id
                     });
                 }
             },
@@ -1048,6 +1024,57 @@ $(document).ready(function() {
             $('input[name="live_lesson"]').val('0');
         }
     });
+
+    function store_course(action) {
+        $('#frm_course').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+
+                var course_description = course_quill.root.innerHTML;
+
+                // Append Quill Description
+                formData.push({
+                    name: 'course_description',
+                    type: 'text',
+                    value: course_description
+                });
+
+                formData.push({
+                    name: 'action',
+                    type: 'string',
+                    value: action
+                });
+
+                formData.push({
+                    name: 'course_id',
+                    type: 'string',
+                    value: course_id
+                });
+            },
+            success: function(res) {
+                if(res.success) {
+                    swal({
+                        title: "Successfully Stored",
+                        text: "It will redirected to Editor",
+                        type: 'success',
+                        showCancelButton: true,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirm',
+                        cancelButtonText: 'Cancel',
+                        dangerMode: false,
+
+                    }, function(val) {
+                        if (val) {
+                            var url = '/dashboard/courses/' + res.course_id + '/edit';
+                            window.location.href = url;
+                        }
+                    });
+                }
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    }
 
     function init_lesson_modal() {
         lesson_step = 0;

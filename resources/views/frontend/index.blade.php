@@ -77,6 +77,7 @@
         </div>
     </div>
 
+    @if(count($bundles) > 2)
     <div class="page-section border-bottom-2">
         <div class="container page__container">
             <div class="page-separator">
@@ -169,7 +170,9 @@
             </div>
         </div>
     </div>
+    @endif
 
+    @if(count($featuredCourses) > 3)
     <div class="page-section border-bottom-2">
         <div class="container page__container">
             <div class="page-separator">
@@ -301,6 +304,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <div class="page-section border-bottom-2">
         <div class="container page__container">
@@ -430,6 +434,7 @@
         </div>
     </div>
 
+    @if(count($reviews) > 1)
     <div class="page-section">
         <div class="container page__container">
             <div class="page-headline text-center">
@@ -482,6 +487,7 @@
             </div>
         </div>
     </div>
+    @endif
 </div>
 <!-- // END Header Layout Content -->
 

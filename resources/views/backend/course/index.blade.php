@@ -62,12 +62,12 @@
                     </div>
 
                     <div class="col-auto border-left border-right">
-                        <a href="{{ route('admin.getCoursesByAjax', 'published') }}" data-toggle="tab" role="tab"
+                        <a href="{{ route('admin.getCoursesByAjax', 'draft') }}" data-toggle="tab" role="tab"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
-                            <span class="h2 mb-0 mr-3 count-published">{{ $count['published'] }}</span>
+                            <span class="h2 mb-0 mr-3 count-draft">{{ $count['draft'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">Published</strong>
-                                <small class="card-subtitle text-50">In progressing</small>
+                                <strong class="card-title">Draft</strong>
+                                <small class="card-subtitle text-50">Drafted Courses</small>
                             </span>
                         </a>
                     </div>
@@ -79,6 +79,17 @@
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">Pending</strong>
                                 <small class="card-subtitle text-50">Pending to Review</small>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-auto border-left border-right">
+                        <a href="{{ route('admin.getCoursesByAjax', 'published') }}" data-toggle="tab" role="tab"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h2 mb-0 mr-3 count-published">{{ $count['published'] }}</span>
+                            <span class="flex d-flex flex-column">
+                                <strong class="card-title">Published</strong>
+                                <small class="card-subtitle text-50">Accepted Courses</small>
                             </span>
                         </a>
                     </div>

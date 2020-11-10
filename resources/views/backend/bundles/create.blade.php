@@ -63,12 +63,8 @@
 
                     <label class="form-label">@lang('labels.backend.bundles.fields.title')</label>
                     <div class="form-group mb-24pt">
-                        <input type="text" name="title"
-                            class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="@lang('labels.backend.courses.fields.title')" value="">
-                        @error('title')
-                        <div class="invalid-feedback">Title is required field.</div>
-                        @enderror
+                        <input type="text" name="title" class="form-control form-control-lg"
+                            placeholder="@lang('labels.backend.courses.fields.title')" value="" tute-no-empty>
                     </div>
 
                     <label class="form-label">@lang('labels.backend.bundles.fields.description')</label>
@@ -81,7 +77,7 @@
                     <label class="form-label">Courses</label>
                     <div class="form-group">
                         <select id="select_courses" name="courses[]" multiple="multiple"
-                            class="form-control form-label @error('courses') is-invalid @enderror">
+                            class="form-control form-label" tute-no-empty>
                             @foreach($courses as $course)
                             <option value="{{ $course->id }}" data-timezone="{{ $course->timezone }}"
                                 data-start="{{ $course->start_date }}" data-end="{{ $course->end_date }}"
@@ -116,8 +112,8 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" id="btn_save_bundle" class="btn btn-accent">Save Draft</button>
-                            <button type="submit" id="btn_publish_bundle" class="btn btn-primary">Publish</button>
+                            <button type="button" id="btn_save_bundle" class="btn btn-accent">Save Draft</button>
+                            <button type="button" id="btn_publish_bundle" class="btn btn-primary">Publish</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <div class="list-group-item d-flex">
@@ -177,30 +173,6 @@
 
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
-                                    <input id="chk_private" type="checkbox" checked="" class="custom-control-input">
-                                    <label for="chk_private" class="custom-control-label form-label">Private Course</label>
-                                </div>
-                            </div>
-
-                            <!-- Set Price -->
-                            <div class="form-group" for="chk_private">
-                                <div class="input-group form-inline">
-                                    <span class="input-group-prepend"><span
-                                            class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="private_price" class="form-control @error('private_price') is-invalid @enderror"
-                                            value="" placeholder="24.00">
-                                    @error('private_price')
-                                    <div class="invalid-feedback">Price error</div>
-                                    @enderror
-                                </div>
-                                <small class="form-text text-muted">Price for Private course.</small>
-                                
-                            </div>
-
-                            <div class="page-separator"></div>
-
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
                                     <input id="chk_group" type="checkbox" checked="" class="custom-control-input">
                                     <label for="chk_group" class="custom-control-label form-label">Group Course</label>
                                 </div>
@@ -228,13 +200,30 @@
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="group_price" class="form-control @error('group_price') is-invalid @enderror"
-                                        placeholder="5.00" value="">
-                                    @error('group_price')
-                                    <div class="invalid-feedback">Price error</div>
-                                    @enderror
+                                    <input type="number" name="group_price" class="form-control" placeholder="5.00" value="" tute-no-empty>
                                 </div>
                                 <small class="form-text text-muted">Price for Group course.</small>
+                            </div>
+
+                            <div class="page-separator"></div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="chk_private" type="checkbox" checked="" class="custom-control-input">
+                                    <label for="chk_private" class="custom-control-label form-label">Private Course</label>
+                                </div>
+                            </div>
+
+                            <!-- Set Price -->
+                            <div class="form-group" for="chk_private">
+                                <div class="input-group form-inline">
+                                    <span class="input-group-prepend"><span
+                                            class="input-group-text form-label">Price($)</span></span>
+                                    <input type="number" name="private_price" class="form-control @error('private_price') is-invalid @enderror"
+                                            value="" placeholder="24.00">
+                                </div>
+                                <small class="form-text text-muted">Price for Private course.</small>
+                                
                             </div>
                         </div>
                     </div>
@@ -304,11 +293,56 @@ $(function() {
     // Multiselect for Tags
     $('#select_tags').select2({ tags: true });
 
-    // When add title, Hide Error msg
-    $('#frm_bundle').on('keyup', 'input[name="title"], input[name="private_price"], #select_courses', function() {
-        $(this).removeClass('is-invalid');
-        $(this).closest('.form-group').find('div.invalid-feedback').remove();
+    $('#btn_save_bundle').on('click', function() {
+        save_bundle('draft');
     });
+
+    $('#btn_publish_bundle').on('click', function() {
+        save_bundle('publish');
+    });
+
+    function save_bundle(action){
+
+        if(!checkValidForm($('#frm_bundle'))){
+            return false;
+        }
+
+        $('#frm_bundle').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+
+                formData.push({
+                    name: 'action',
+                    type: 'string',
+                    value: action
+                });
+            },
+            success: function(res) {
+                console.log(res);
+                if(res.success) {
+                    swal({
+                        title: "Successfully Stored",
+                        text: "It will redirected to Editor",
+                        type: 'success',
+                        showCancelButton: true,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirm',
+                        cancelButtonText: 'Cancel',
+                        dangerMode: false,
+
+                    }, function(val) {
+                        if (val) {
+                            var url = '/dashboard/bundles/' + res.bundle_id + '/edit';
+                            window.location.href = url;
+                        }
+                    });
+                }
+            },
+            error: function(err) {
+                var errMsg = getErrorMessage(err);
+                swal('Error!', errMsg, 'error');
+            }
+        })
+    }
 });
 </script>
 

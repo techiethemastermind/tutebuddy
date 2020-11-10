@@ -90,10 +90,7 @@
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="@lang('labels.backend.courses.fields.title')" value="{{ $course->title }}">
-                        @error('title')
-                        <div class="invalid-feedback">Title is required field.</div>
-                        @enderror
+                            placeholder="@lang('labels.backend.courses.fields.title')" value="{{ $course->title }}" tute-no-empty>
                     </div>
 
                     <label class="form-label">@lang('labels.backend.courses.fields.description')</label>
@@ -107,7 +104,7 @@
                         <label class="form-label">About Course</label>
 
                         <!-- quill editor -->
-                        <div style="min-height: 150px;" id="course_editor" class="mb-0"></div>
+                        <div style="min-height: 150px;" id="course_editor" class="mb-0">{!! $course->description !!}</div>
                         <small class="form-text text-muted">describe about this course.</small>
 
                         <textarea id="description" style="display:none;">{{ $course->description }}</textarea>
@@ -173,16 +170,31 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header text-center">
-                            <button id="btn_save_course" class="btn btn-accent">Save changes</button>
+                            <button type="button" id="btn_save_course" class="btn btn-accent">Save Draft</button>
+                            <button type="button" id="btn_publish_course" class="btn btn-primary">Publish</button>
                             <a href="{{ route('courses.show', $course->slug) }}" target="_blank"
-                                class="btn btn-primary">Preview Course</a>
+                                class="btn btn-info">Preview</a>
                         </div>
 
                         <div class="list-group list-group-flush">
+                            @if($course->published == 2)
                             <div class="list-group-item d-flex">
                                 <a class="flex" href="javascript:void(0)"><strong>Pending To Review</strong></a>
                                 <i class="material-icons text-muted">check</i>
                             </div>
+                            @endif
+                            @if($course->published == 0)
+                            <div class="list-group-item d-flex">
+                                <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
+                                <i class="material-icons text-muted">check</i>
+                            </div>
+                            @endif
+                            @if($course->published == 1)
+                            <div class="list-group-item d-flex">
+                                <a class="flex" href="javascript:void(0)"><strong>Published</strong></a>
+                                <i class="material-icons text-muted">check</i>
+                            </div>
+                            @endif
                         </div>
 
                     </div>
@@ -250,28 +262,7 @@
                     </div>
 
                     <div class="card">
-                        <div class="card-body">
-
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input id="chk_private" type="checkbox" checked="" class="custom-control-input">
-                                    <label for="chk_private" class="custom-control-label form-label">Private
-                                        Course</label>
-                                </div>
-                            </div>
-
-                            <!-- Set Price -->
-                            <div class="form-group" for="chk_private">
-                                <div class="input-group form-inline">
-                                    <span class="input-group-prepend"><span
-                                            class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="private_price" class="form-control"
-                                        value="{{ $course->private_price }}">
-                                </div>
-                                <small class="form-text text-muted">Price for Private course.</small>
-                            </div>
-
-                            <div class="page-separator"></div>
+                        <div class="card-body options">
 
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
@@ -306,6 +297,27 @@
                                         value="{{ $course->group_price }}">
                                 </div>
                                 <small class="form-text text-muted">Price for Group course.</small>
+                            </div>
+
+                            <div class="page-separator"></div>
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="chk_private" type="checkbox" @if(!empty($course->private_price)) checked="" @endif class="custom-control-input">
+                                    <label for="chk_private" class="custom-control-label form-label">Private
+                                        Course</label>
+                                </div>
+                            </div>
+
+                            <!-- Set Price -->
+                            <div class="form-group @if(empty($course->private_price)) d-none @endif" for="chk_private">
+                                <div class="input-group form-inline">
+                                    <span class="input-group-prepend"><span
+                                            class="input-group-text form-label">Price($)</span></span>
+                                    <input type="text" name="private_price" class="form-control"
+                                        value="{{ $course->private_price }}">
+                                </div>
+                                <small class="form-text text-muted">Price for Private course.</small>
                             </div>
                         </div>
                     </div>
@@ -434,9 +446,6 @@
                         @endif
                     </div>
                 </div>
-
-                <!-- Hidden informations for Course Form -->
-                <textarea name="course_description" style="display:none;"></textarea>
             </div>
             {!! Form::close() !!}
         </div>
@@ -632,14 +641,23 @@ $(function() {
         lesson_current: ''
     };
 
+    var toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],  
+        ['bold', 'italic', 'underline'],
+        ['link', 'blockquote', 'code', 'image'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+    ];
+
     // Init Quill Editor for Course description
     course_quill = new Quill('#course_editor', {
         theme: 'snow',
-        placeholder: 'Course description'
+        placeholder: 'Course description',
+        modules: {
+            toolbar: toolbarOptions
+        }
     });
-
-    var json_course_description = JSON.parse($('#description').val());
-    course_quill.setContents(json_course_description);
 
     // Single Select for category
     $('select[name="category"]').select2();
@@ -676,15 +694,15 @@ $(function() {
         });
     });
 
-    // Course Type
-    $('#chk_private').on('change', function(e) {
-        var style = $(this).prop('checked') ? 'block' : 'none';
-        $('div[for="chk_private"]').css('display', style);
-    });
-
-    $('#chk_group').on('change', function(e) {
-        var style = $(this).prop('checked') ? 'block' : 'none';
-        $('div[for="chk_group"]').css('display', style);
+    // Prices
+    $('.options').on('change', 'input[type="checkbox"]', function(e) {
+        if($(this).prop('checked')) {
+            $('.options').find('div[for="' + $(this).attr('id') + '"]').removeClass('d-none');
+            $('.options').find('input').attr('required', 'required');
+        } else {
+            $('.options').find('div[for="' + $(this).attr('id') + '"]').addClass('d-none');
+            $('.options').find('input').removeAttr('required');
+        }
     });
 
     // Repeat course
@@ -695,15 +713,35 @@ $(function() {
         $('div[for="chk_repeat"]').css('display', style);
     });
 
-    // Event when click save course button id="btn_save_course"
-    $('#frm_course').submit(function(e) {
-
+    $('#btn_save_course').on('click', function(e) {
         e.preventDefault();
+        save_course('draft');
+    });
 
-        var course_description = JSON.stringify(course_quill.getContents().ops);
-        $('#frm_course').find('textarea[name="course_description"]').val(course_description);
+    $('#btn_publish_course').on('click', function(e) {
+        e.preventDefault();
+        save_course('pending');
+    });
 
-        $(this).ajaxSubmit({
+    // Event when click save course button id="btn_save_course"
+    function save_course(action) {
+        $('#frm_course').ajaxSubmit({
+            beforeSubmit: function(formData, formObject, formOptions) {
+                var content = course_quill.root.innerHTML;
+
+                // Append Course ID
+                formData.push({
+                    name: 'course_description',
+                    type: 'text',
+                    value: content
+                });
+
+                formData.push({
+                    name: 'action',
+                    type: 'string',
+                    value: action
+                });
+            },
             success: function(res) {
 
                 if (res.success) {
@@ -717,7 +755,7 @@ $(function() {
                 swal("Error!", errMsg, "error");
             }
         });
-    });
+    }
 
     // Add New lesson
     $('#btn_add_lesson').on('click', function(e) {
@@ -764,31 +802,28 @@ $(function() {
         e.preventDefault();
 
         $('#frm_lesson').ajaxSubmit({
-            beforeSerialize: function($form, options) {
+            beforeSubmit: function(formData, formObject, formOptions) {
 
-                var editors = $form.find('div[id*="lesson_editor__"]');
+                var editors = formObject.find('div[id*="lesson_editor__"]');
                 $.each(editors, function(idx, item) {
                     var id = $(item).attr('id');
                     var step = id.slice(id.indexOf('__'));
-                    var quill_editor = new Quill('#' + id);
-                    var lesson_description = JSON.stringify(quill_editor.getContents().ops);
-                    $form.find('textarea[name="lesson_description'+ step +'"]').val(lesson_description);
+
+                    var lesson_editor = new Quill('#' + id);
+
+                    formData.push({
+                        name: 'lesson_description' + step,
+                        type: 'text',
+                        value: lesson_editor.root.innerHTML
+                    });
                 });
-            },
-            beforeSubmit: function(formData, formObject, formOptions) {
-                var title = formObject.find('input[name="lesson_title"]');
-                if (title.val() == '') {
-                    title.addClass('is-invalid');
-                    var err_msg = $(
-                        '<div class="invalid-feedback">Title is required field.</div>');
-                    err_msg.insertAfter(title);
-                    return false;
-                }
+
                 formData.push({
                     name: 'action',
                     type: 'text',
                     value: status.lesson_modal
                 });
+
                 if(status.lesson_modal == 'edit') {
                     formData.push({
                         name: 'lesson_id',
@@ -912,13 +947,14 @@ $(function() {
                     if (res.schedule) {
                         $('#frm_lesson').find('select[name="lesson_schedule"]').val(res.schedule.id).change();
                     }
-
-                    if (res.lesson.image != '')
+                    
+                    if (res.lesson.image != undefined && res.lesson.image != '') {
                         $('#display_lesson_image').attr('src',
                             'http://localhost:8000/storage/uploads/' + res.lesson.image);
-                    else
+                    } else {
                         $('#display_lesson_image').attr('src',
                             "{{asset('/assets/img/no-image.jpg')}}");
+                    }
 
                     if (res.lesson.video != null) {
                         $('#frm_lesson').find('input[name="lesson_intro_video"]').val(res.lesson.video).change();
@@ -957,6 +993,7 @@ $(function() {
                                             </div>`;
 
                             if(item.type == 'text') {
+                                console.log(item);
                                 var ele = `<div class="form-group step" section-type="text" data-step-id="`+ item.id +`">
                                             `+ ele_sep +`
                                             <div class="card">
@@ -974,8 +1011,7 @@ $(function() {
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="form-label">Content:</label>
-                                                        <div style="min-height: 200px;" id="lesson_editor__` + lesson_step + `" class="mb-0"></div>
-                                                        <textarea name="lesson_description__` + lesson_step + `" style="display: none;">` + item.text + `</textarea>
+                                                        <div style="min-height: 200px;" id="lesson_editor__` + lesson_step + `" class="mb-0">`+ item.text +`</div>
                                                         <input type="hidden" name="lesson_description_id__` + lesson_step + `" value="`+ item.id +`">
                                                     </div>
                                                     <div class="form-group">
@@ -1084,12 +1120,11 @@ $(function() {
                             var step = id.slice(id.indexOf('__'));
                             var quill_editor = new Quill('#' + id, {
                                 theme: 'snow',
-                                placeholder: 'Lesson description'
+                                placeholder: 'Lesson description',
+                                modules: {
+                                    toolbar: toolbarOptions
+                                }
                             });
-                            
-                            var lesson_description = lesson_contents.find('textarea[name="lesson_description'+ step +'"]').val();
-                            var json_lesson_description = JSON.parse(lesson_description);
-                            quill_editor.setContents(json_lesson_description);
                         });
 
                         var selects = lesson_contents.find('select[name*="test__"]');
@@ -1257,7 +1292,10 @@ $(function() {
                 // Init Quill Editor for Lesson Full description
                 var lesson_quill = new Quill('#lesson_editor__' + status.lesson_step, {
                     theme: 'snow',
-                    placeholder: 'Lesson description'
+                    placeholder: 'Lesson description',
+                    modules: {
+                        toolbar: toolbarOptions
+                    }
                 });
                 break;
             case 'video':

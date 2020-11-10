@@ -196,12 +196,6 @@ $(function() {
         loadLessons($(this).val());
     });
 
-    // When add title, Hide Error msg
-    $('#frm_assignments').on('keyup', 'input[name="title"], input[name="lesson"]', function() {
-        $(this).removeClass('is-invalid');
-        $(this).closest('.form-group').find('div.invalid-feedback').remove();
-    });
-
     $('#frm_assignments').on('submit', function(e) {
         e.preventDefault();
 
