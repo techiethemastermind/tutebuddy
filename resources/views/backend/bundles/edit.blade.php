@@ -333,12 +333,6 @@ $(function() {
         save_bundle('publish');
     });
 
-    // When add title, Hide Error msg
-    $('#frm_bundle').on('keyup', 'input[name="title"], input[name="private_price"], #select_courses', function() {
-        $(this).removeClass('is-invalid');
-        $(this).closest('.form-group').find('div.invalid-feedback').remove();
-    });
-
     function save_bundle(action) {
 
         if(!checkValidForm($('#frm_bundle'))){

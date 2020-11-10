@@ -79,11 +79,7 @@
                         <select id="select_courses" name="courses[]" multiple="multiple"
                             class="form-control form-label" tute-no-empty>
                             @foreach($courses as $course)
-                            <option value="{{ $course->id }}" data-timezone="{{ $course->timezone }}"
-                                data-start="{{ $course->start_date }}" data-end="{{ $course->end_date }}"
-                                data-repeat-value="{{ $course->repeat_value }}"
-                                data-repeat-type="{{ $course->repeat_type }}"> {{ $course->title }}
-                            </option>
+                            <option value="{{ $course->id }}">{{ $course->title }}</option>
                             @endforeach
                         </select>
                         @error('courses')

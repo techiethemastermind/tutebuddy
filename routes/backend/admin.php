@@ -60,6 +60,7 @@ Route::get('ajax/bundles/list/{type}', 'BundlesController@getList')->name('getBu
 Route::get('ajax/bundles/publish/{id}', 'BundlesController@publish')->name('bundle.publish');
 Route::get('ajax/bundle/add-favorite/{course_id}', 'BundlesController@addFavorite')->name('bundle.addFavorite');
 Route::get('my/paths', 'BundlesController@studentBundles')->name('student.bundles');
+Route::get('ajax/bundle/delete/forever/{id}', 'BundlesController@foreverDelete')->name('bundle.foreverDelete');
 
 //===== Assignment Routes =====//
 Route::resource('assignments', 'AssignmentsController');

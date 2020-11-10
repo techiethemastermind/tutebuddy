@@ -31,7 +31,7 @@
 </style>
 
 @endpush
-
+<?php $live_available = false; ?>
 <!-- Header Layout Content -->
 <div class="mdk-header-layout__content page-content ">
 
@@ -517,12 +517,16 @@
                                         <select name="lesson_schedule" class="form-control">
                                             <option value="">Select available time</option>
                                             @foreach($schedules as $schedule)
+                                            <?php if($schedule['available'] == true) {
+                                                $live_available = true;
+                                            } ?>
                                             <option value="{{ $schedule['id'] }}" @if($schedule['available'] !='true' )
                                                 disabled="disabled" @endif>{{ $schedule['content'] }}</option>
                                             @endforeach
                                         </select>
                                         <small class="text-muted">you can select available time slots</small>
                                     </div>
+                                    @if($live_available)
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox">
                                             <input id="chk_liveLesson" type="checkbox" name="chk_live_lesson" value="0"
@@ -531,6 +535,7 @@
                                                 Session</label>
                                         </div>
                                     </div>
+                                    @endif
                                     <div class="form-group" for="dv_liveLesson" style="display: none;">
                                         <span class="text-muted"></span>
                                         <input type="hidden" class="form-control" name="live_lesson" value="0">

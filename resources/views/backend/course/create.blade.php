@@ -923,26 +923,20 @@ $(document).ready(function() {
         e.preventDefault();
 
         $('#frm_lesson').ajaxSubmit({
-            beforeSerialize: function($form, options) {
-
-                var editors = $form.find('div[id*="lesson_editor__"]');
+            beforeSubmit: function(formData, formObject, formOptions) {
+                var editors = formObject.find('div[id*="lesson_editor__"]');
                 $.each(editors, function(idx, item) {
                     var id = $(item).attr('id');
                     var step = id.slice(id.indexOf('__'));
-                    var quill_editor = new Quill('#' + id);
-                    var lesson_description = JSON.stringify(quill_editor.getContents().ops);
-                    $form.find('textarea[name="lesson_description'+ step +'"]').val(lesson_description);
+
+                    var lesson_editor = new Quill('#' + id);
+
+                    formData.push({
+                        name: 'lesson_description' + step,
+                        type: 'text',
+                        value: lesson_editor.root.innerHTML
+                    });
                 });
-            },
-            beforeSubmit: function(formData, formObject, formOptions) {
-                var title = formObject.find('input[name="lesson_title"]');
-                if (title.val() == '') {
-                    title.addClass('is-invalid');
-                    var err_msg = $(
-                        '<div class="invalid-feedback">Title is required field.</div>');
-                    err_msg.insertAfter(title);
-                    return false;
-                }
 
                 // Append Course ID
                 formData.push({

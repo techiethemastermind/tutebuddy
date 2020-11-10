@@ -389,10 +389,16 @@ class BundlesController extends Controller
             if($bundle->trashed()) {
                 $restore_route = route('admin.bundle.restore', $bundle->id);
                 $btn_delete = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
-                    data-original-title="Recover"><i class="material-icons">restore_from_trash</i></a>';
-            }
+                    data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
 
-            $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                $forever_delete_route = route('admin.bundle.foreverDelete', $bundle->id);
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="restore" data-toggle="tooltip"
+                    data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
+
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete . '&nbsp' . $perment_delete;
+            } else {
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+            }
 
             array_push($data, $temp);
         }
@@ -407,5 +413,27 @@ class BundlesController extends Controller
         $bundles = Bundle::whereIn('id', $bundle_ids)->paginate(15);
 
         return view('backend.bundles.student', compact('bundles'));
+    }
+
+    /**
+     * Delete Forever
+     */
+    public function foreverDelete($id)
+    {
+        try {
+
+            Bundle::withTrashed()->where('id', $id)->forceDelete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 }
