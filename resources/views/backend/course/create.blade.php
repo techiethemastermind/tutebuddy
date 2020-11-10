@@ -208,7 +208,7 @@
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="group_price" class="form-control" placeholder="5.00"
+                                    <input type="number" name="group_price" class="form-control" placeholder="5.00"
                                         value="" tute-no-empty>
                                 </div>
                                 <small class="form-text text-muted">Price for Group course.</small>
@@ -228,7 +228,7 @@
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="private_price" class="form-control" value="" placeholder="24.00">
+                                    <input type="number" name="private_price" class="form-control" value="" placeholder="24.00">
                                 </div>
                                 <small class="form-text text-muted">Price for Private course.</small>
                             </div>

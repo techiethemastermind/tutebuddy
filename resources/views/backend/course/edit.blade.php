@@ -172,8 +172,7 @@
                         <div class="card-header text-center">
                             <button type="button" id="btn_save_course" class="btn btn-accent">Save Draft</button>
                             <button type="button" id="btn_publish_course" class="btn btn-primary">Publish</button>
-                            <a href="{{ route('courses.show', $course->slug) }}" target="_blank"
-                                class="btn btn-info">Preview</a>
+                            <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-info">Preview</a>
                         </div>
 
                         <div class="list-group list-group-flush">
@@ -293,7 +292,7 @@
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="group_price" class="form-control"
+                                    <input type="number" name="group_price" class="form-control"
                                         value="{{ $course->group_price }}">
                                 </div>
                                 <small class="form-text text-muted">Price for Group course.</small>
@@ -314,7 +313,7 @@
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">Price($)</span></span>
-                                    <input type="text" name="private_price" class="form-control"
+                                    <input type="number" name="private_price" class="form-control"
                                         value="{{ $course->private_price }}">
                                 </div>
                                 <small class="form-text text-muted">Price for Private course.</small>

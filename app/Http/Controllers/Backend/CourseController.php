@@ -437,7 +437,7 @@ class CourseController extends Controller
     {
         $course = Course::find($id);
         if($course->published == 1) {
-            $course->published = 0;
+            $course->published = 2;
         } else {
             $course->published = 1;
         }
@@ -528,10 +528,15 @@ class CourseController extends Controller
                                     <small class="js-lists-values-status text-50 mb-4pt">Published</small>
                                     <span class="indicator-line rounded bg-primary"></span>
                                 </div>';
-            } else {
+            } else if($course->published == 0) {
                 $temp['status'] = '<div class="d-flex flex-column">
                                     <small class="js-lists-values-status text-50 mb-4pt">Unpublished</small>
                                     <span class="indicator-line rounded bg-warning"></span>
+                                </div>';
+            } else {
+                $temp['status'] = '<div class="d-flex flex-column">
+                                    <small class="js-lists-values-status text-50 mb-4pt">Pending</small>
+                                    <span class="indicator-line rounded bg-info"></span>
                                 </div>';
             }
 
@@ -544,12 +549,14 @@ class CourseController extends Controller
             $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
             $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
 
-            if($course->published == 0) {
+            if($course->published == 2) {
                 $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
                     data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
-            } else {
+            } else if($course->published == 1) {
                 $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
                     data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
+            } else {
+                $btn_publish = '';
             }
 
             if(auth()->user()->hasRole('Administrator')) {

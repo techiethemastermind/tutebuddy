@@ -12,7 +12,7 @@
 <!-- Header Layout Content -->
 <div class="mdk-header-layout__content page-content ">
 
-<div class="navbar navbar-list navbar-light border-bottom navbar-expand-sm" style="white-space: nowrap;">
+    <div class="navbar navbar-list navbar-light border-bottom navbar-expand-sm" style="white-space: nowrap;">
         <div class="container page__container">
             <nav class="nav navbar-nav">
                 <div class="nav-item navbar-list__item">

@@ -129,6 +129,37 @@
 @endpush
 
 <div class="mdk-header-layout__content page-content">
+    @if(auth()->user()->hasRole('Instructor') || auth()->user()->hasRole('Administrator'))
+    <div class="navbar navbar-list navbar-light border-bottom navbar-expand-sm" style="white-space: nowrap;">
+        <div class="container page__container">
+            <nav class="nav navbar-nav">
+                <div class="nav-item navbar-list__item">
+                    <a href="{{ route('admin.courses.index') }}" class="nav-link h-auto">
+                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                    </a>
+                </div>
+            </nav>
+            
+            <nav class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
+                @if(auth()->user()->hasRole('Administrator'))
+                <div class="">
+                    @if($course->published == 2)
+                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-primary">Publish</a>
+                    @endif
+
+                    @if($course->published == 1)
+                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-info">Unpublish</a>
+                    @endif
+                </div>
+                @endif
+
+                @if(auth()->user()->hasRole('Instructor'))
+                <a href="{{ route('admin.courses.edit', $course->id) }}" class="btn btn-accent">Edit</a>
+                @endif
+            </nav>
+        </div>
+    </div>
+    @endif
 
     <div class="mdk-box bg-primary mdk-box--bg-gradient-primary2 js-mdk-box mb-0" data-effects="blend-background">
         <div class="mdk-box__content">
@@ -343,7 +374,7 @@
                         <div class="page-separator">
                             <div class="page-separator__text">About this course</div>
                         </div>
-                        <div class="course-description"></div>
+                        <div class="course-description">{!! $course->description !!}</div>
                     </div>
 
                     <div class="mb-lg-64pt">
@@ -410,7 +441,7 @@
                     <div class="page-separator">
                         <div class="page-separator__text">About this course</div>
                     </div>
-                    <div class="course-description"></div>
+                    <div class="course-description">{!! $course->description !!}</div>
                 </div>
                 <div class="col-md-5">
                     <div class="page-separator">
@@ -886,11 +917,11 @@
 
 $(function() {
 
-    var json_description = JSON.parse($('#course_description').val());
-    var course_quill = new Quill('#course_editor');
-    course_quill.setContents(json_description);
-    var description_html = course_quill.root.innerHTML;
-    $('div.course-description').html(description_html);
+    // var json_description = JSON.parse($('#course_description').val());
+    // var course_quill = new Quill('#course_editor');
+    // course_quill.setContents(json_description);
+    // var description_html = course_quill.root.innerHTML;
+    // $('div.course-description').html(description_html);
 
     $('input[name="stars"]').on('click', function() {
         $('#rating').val($(this).val());
@@ -1025,6 +1056,34 @@ $(function() {
     $('#btn_enroll_end').on('click', function() {
         clearInterval(timer);
         $('#dv_enroll_chat').toggle('medium');
+    });
+
+    $('#btn_publish').on('click', function(e) {
+
+        e.preventDefault();
+        var button = $(this);
+
+        var url = $(this).attr('href');
+
+        $.ajax({
+            method: 'get',
+            url: url,
+            success: function(res) {
+                console.log(res);
+                if(res.success) {
+                    if(res.published == 1) {
+                        swal("Success!", 'Published successfully', "success");
+                        button.text('Unpublish');
+                        button.removeClass('btn-primary').addClass('btn-info');
+                    } else {
+                        swal("Success!", 'Unpublished successfully', "success");
+                        button.text('Publish');
+                        button.removeClass('btn-info').addClass('btn-primary');
+                    }
+                    
+                }
+            }
+        });
     });
 
     function loadMessage() {
