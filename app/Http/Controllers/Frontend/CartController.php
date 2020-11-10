@@ -84,6 +84,12 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
+        $this->validate($request, [
+            'course_id' => 'required',
+            'amount' => 'required|numeric',
+            'type' => 'required'
+        ]);
+
         $product = "";
         $teachers = "";
         $type = "";
