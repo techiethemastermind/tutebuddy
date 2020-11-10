@@ -154,7 +154,10 @@ $(function() {
                 { data: 'category'},
                 { data: 'progress'},
                 { data: 'action' }
-            ]
+            ],
+            oLanguage: {
+                sEmptyTable: "You have no enrolled Courses"
+            }
         }
     );
 

@@ -77,7 +77,10 @@
                     { data: 'name' },
                     { data: 'email'},
                     { data: 'action' }
-                ]
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no Instructors"
+                }
             }
         );
     });
