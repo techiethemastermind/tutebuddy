@@ -50,12 +50,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('test-result/{lesson_slug}/{test_id}', 'StudentController@TestResult')->name('student.test.result');
 
     // Cart and Checkout
-    Route::post('cart/checkout', 'CartController@checkout')->name('cart.checkout');
-    Route::post('cart/add', 'CartController@addToCart')->name('cart.addToCart');
-
+    
     Route::get('cart', 'CartController@index')->name('cart.index');
+    Route::get('cart/checkout', 'CartController@checkout')->name('cart.checkout');
     Route::get('cart/remove', 'CartController@remove')->name('cart.remove');
     Route::get('cart/clear', 'CartController@clear')->name('cart.clear');
+    Route::post('cart/payment', 'CartController@razorpay')->name('cart.razorpay');
+
+    Route::post('cart/checkout', 'CartController@process')->name('cart.process');
+    Route::post('cart/add', 'CartController@addToCart')->name('cart.addToCart');
 
 });
 

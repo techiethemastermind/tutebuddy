@@ -109,9 +109,7 @@
                             <th> Actions </th>
                         </tr>
                     </thead>
-                    <tbody class="list" id="toggle">
-
-                    </tbody>
+                    <tbody class="list" id="toggle"></tbody>
                 </table>
             </div>
         </div>

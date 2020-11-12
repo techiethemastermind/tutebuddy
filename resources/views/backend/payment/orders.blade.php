@@ -56,21 +56,21 @@
                             <th> Total </th>
                             <th> Status </th>
                             <th> Action </th>
-                            <th style="width: 24px;"></th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle">
+                        @foreach($orders as $order)
                         <tr>
                             <td class="pr-0"></td>
 
                             <td>
-                                <strong>10002331</strong>
+                                <strong>{{ $order->order_id }}</strong>
                             </td>
 
                             <td>
                                 <div class="d-flex flex-column">
-                                    <small class="js-lists-values-date"><strong>19/02/2019</strong></small>
-                                    <small class="text-50">18 days</small>
+                                <small class="js-lists-values-date"><strong>{{ \Carbon\Carbon::parse($order->created_at)->format('M/d/Y') }}</strong></small>
+                                    <small class="text-50">{{ \Carbon\Carbon::parse($order->created_at)->diffForHumans() }}</small>
                                 </div>
                             </td>
 
@@ -78,14 +78,14 @@
                                 <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                     <div class="avatar avatar-sm mr-8pt">
 
-                                        <span class="avatar-title rounded-circle">BN</span>
+                                        <span class="avatar-title rounded-circle">{{ substr($order->user->name, 0, 2) }}</span>
 
                                     </div>
                                     <div class="media-body">
 
                                         <div class="d-flex flex-column">
-                                            <p class="mb-0"><strong class="js-lists-values-name">Billy Nunez</strong></p>
-                                            <small class="js-lists-values-email text-50">annabell.kris@yahoo.com</small>
+                                            <p class="mb-0"><strong class="js-lists-values-name">{{ $order->user->name }}</strong></p>
+                                            <small class="js-lists-values-email text-50">{{ $order->user->email }}</small>
                                         </div>
 
                                     </div>
@@ -94,28 +94,57 @@
 
                             <td>
                                 <div class="d-flex flex-column">
-                                    <small class="js-lists-values-budget"><strong>$1,200</strong></small>
-                                    <small class="text-50">Invoice Sent</small>
+                                    <small class="js-lists-values-budget"><strong>{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</strong></small>
+                                    <small class="text-50">Completed</small>
                                 </div>
                             </td>
 
                             <td>
                                 <div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">Pending</small>
-                                    <span class="indicator-line rounded bg-warning"></span>
+                                    <small class="js-lists-values-status text-50 mb-4pt">Progressing</small>
+                                    <span class="indicator-line rounded bg-primary"></span>
                                 </div>
                             </td>
 
                             <td>
-                                <button class="btn btn-accent btn-sm">Detail</button>
-                            </td>
-
-                            <td class="text-right">
-                                <a href="" class="text-50"><i class="material-icons">more_vert</i></a>
+                                <a href="{{ route('admin.orders.detail', $order->id) }}" class="btn btn-accent btn-sm">Detail</a>
                             </td>
                         </tr>
+                        @endforeach
+
+                        @if(count($orders) < 1)
+                        <tr>
+                            <td colspan="7" class="text-center">No Orders</td>
+                        </tr>
+                        @endif
                     </tbody>
                 </table>
+
+                <div class="card-footer p-8pt">
+                    @if($orders->hasPages())
+                    {{ $orders->links('layouts.parts.page') }}
+                    @else
+                    <ul class="pagination justify-content-start pagination-xsm m-0">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true" class="material-icons">chevron_left</span>
+                                <span>Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Page 1">
+                                <span>1</span>
+                            </a>
+                        </li>
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span>Next</span>
+                                <span aria-hidden="true" class="material-icons">chevron_right</span>
+                            </a>
+                        </li>
+                    </ul>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

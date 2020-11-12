@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
+
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Course;
+use App\User;
 
 class PaymentController extends Controller
 {
@@ -23,7 +28,8 @@ class PaymentController extends Controller
      */
     public function getTransactions()
     {
-        return view('backend.payment.transactions');
+        $transactions = Order::where('user_id', auth()->user()->id)->paginate(15);
+        return view('backend.payment.transactions', compact('transactions'));
     }
 
     /**
@@ -31,7 +37,20 @@ class PaymentController extends Controller
      */
     public function getOrders()
     {
-        return view('backend.payment.orders');
+        $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $purchased_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('course_id');
+        $order_ids = OrderItem::whereIn('item_id', $purchased_ids)->pluck('order_id');
+        $orders = Order::whereIn('id', $order_ids)->paginate(15);
+        return view('backend.payment.orders', compact('orders'));
+    }
+
+    /**
+     * Order Detail
+     */
+    public function orderDetail($id)
+    {
+        $order = Order::find($id);
+        return view('backend.payment.order-detail', compact('order'));
     }
 
 }

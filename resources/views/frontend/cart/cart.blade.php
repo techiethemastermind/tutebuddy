@@ -7,7 +7,7 @@
 
     <div class="page-section bg-primary mb-32pt">
         <div class="container page__container">
-            <h2 class="text-center text-white"><span>@lang('labels.frontend.cart.checkout')</span></h2>
+            <h2 class="text-center text-white"><span>@lang('labels.frontend.cart.cart')</span></h2>
         </div>
     </div>
 
@@ -109,114 +109,14 @@
                 </table>
             </div>
         </div>
+    </div>
 
-        <div class="row mb-32pt">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header align-items-center">
-                        <div class="h5 mb-0 mr-3 form-label">Order Details</div>
-                    </div>
-                    <div class="card-body mb-0">
-                        <div class="d-flex mb-16pt">
-                            <div class="flex form-label">
-                                Price: ( {{ Cart::getContent()->count()}}
-                                    {{(Cart::getContent()->count() > 1) ? ' '.trans('labels.frontend.cart.items') : ' '.trans('labels.frontend.cart.item')}})
-                            </div>
-                            <div class="flex form-label">
-                                <strong>{{ number_format($total, 2) . ' ' . config('app.currency') }}</strong>
-                            </div>
-                        </div>
-                        
-                        <div class="d-flex">
-                            <div class="flex form-label mb-0">
-                                Total:
-                            </div>
-                            <div class="flex form-label mb-0">
-                                {{ number_format(Cart::session(auth()->user()->id)->getTotal(), 2) . ' ' . config('app.currency')}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <div class="container page__container page-section">
         <div class="form-group text-right">
-            <button id="rzp-button1" class="btn btn-primary">Pay Now</button>
+            <a href="{{ route('cart.checkout') }}" class="btn btn-primary">Process Checkout</a>
         </div>
     </div>
 
 </div>
-
-@push('after-scripts')
-
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
-    var options = {
-        "key": "{{ env('RAZOR_KEY') }}",
-        "name": "Tutebuddy Payment",
-        "description": "Tutebuddy Payment Transaction",
-        "image": "{{ asset('images/footer-bar-logo.png') }}",
-        "order_id": "{{ $orderId }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-        "prefill": {
-            "name": "{{ auth()->user()->name }}",
-            "email": "{{ auth()->user()->email }}",
-            "contact": "{{ auth()->user()->phone_number }}"
-        },
-        "notes": {
-            "address": "{{ auth()->user()->address }}"
-        },
-        "theme": {
-            "color": "#3399cc"
-        },
-        "handler": function (response) {
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                method: "POST",
-                url: "{{ route('cart.razorpay') }}",
-                data: {
-                    payment_id: response.razorpay_payment_id,
-                    razor_order_id: response.razorpay_order_id,
-                    signature: response.razorpay_signature,
-                    order_id: '{{ $orderId }}',
-                    amount: '{{ $total }}'
-                },
-                success: function(res) {
-                    if(res.success) {
-                        
-                        swal({
-                            title: "Payment successed",
-                            text: "You will redirected to Dashboard",
-                            type: 'success',
-                            showCancelButton: true,
-                            showConfirmButton: true,
-                            confirmButtonText: 'Confirm',
-                            cancelButtonText: 'Cancel',
-                            dangerMode: false,
-
-                        }, function(val) {
-                            if (val) {
-                                var redirect_url = "{{ route('admin.dashboard') }}"
-                                window.location.href = redirect_url;
-                            }
-                        });
-                    } else {
-                        swal('Error!', res.message, 'error');
-                    }
-                }
-            });
-        }
-    };
-
-    var rzp1 = new Razorpay(options);
-    document.getElementById('rzp-button1').onclick = function(e){
-        rzp1.open();
-        e.preventDefault();
-    }
-</script>
-
-@endpush
 
 @endsection

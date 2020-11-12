@@ -161,14 +161,6 @@
                             </a>
                         </li>
                         @endcan
-
-                        <!-- @can('question_access')
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/question*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.questions.index') }}">
-                                <span class="sidebar-menu-text">-- Questions</span>
-                            </a>
-                        </li>
-                        @endcan -->
                     </ul>
                 </li>
 
@@ -377,6 +369,16 @@
                         <span class="sidebar-menu-text">My Account</span>
                     </a>
                 </li>
+
+                @if(auth()->user()->hasRole('Student'))
+                <!-- My Payment History -->
+                <li class="sidebar-menu-item {{ Request::is('dashboard/transactions*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('admin.transactions') }}">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">monetization_on</span>
+                        <span class="sidebar-menu-text">My Payments</span>
+                    </a>
+                </li>
+                @endif
             </ul>
 
             @if(auth()->user()->hasRole('Administrator'))

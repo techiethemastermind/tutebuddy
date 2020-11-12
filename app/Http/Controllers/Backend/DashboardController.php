@@ -63,16 +63,16 @@ class DashboardController extends Controller
             case 'teacher':
                 $courses = Course::all();
                 // $course_ids = $courses->pluck('id');
-                $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->limit(5)->pluck('course_id');
-                $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->limit(5)->pluck('id');
-                $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
+                $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+                $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
+                $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->orderBy('updated_at', 'desc')->limit(5)->get();
 
                 $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
                 $students = User::whereIn('id', $student_ids)->limit(5)->get();
                 $assignments = Assignment::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->limit(5)->get();
                 $assignment_ids = Assignment::where('user_id', auth()->user()->id)->pluck('id');
                 $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->limit(5)->get();
-                $bundles = Bundle::where('user_id', auth()->user()->id)->limit(5)->get();
+                $bundles = Bundle::where('user_id', auth()->user()->id)->orderBy('updated_at', 'desc')->limit(3)->get();
                 $test_ids = Test::whereIn('course_id', $course_ids)->limit(5)->pluck('id');
                 $testResults = TestResult::whereIn('test_id', $test_ids)->limit(5)->get();
                 $quiz_ids = Quiz::whereIn('course_id', $course_ids)->limit(5)->pluck('id');
@@ -101,9 +101,9 @@ class DashboardController extends Controller
                 $teachers_id = DB::table('course_user')->whereIn('course_id', $course_ids)->pluck('user_id');
                 $bundle_ids = DB::table('bundle_student')->where('user_id', auth()->user()->id)->pluck('bundle_id');
 
-                $purchased_courses = Course::whereIn('id', $course_ids)->limit(5)->get();
-                $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->limit(5)->pluck('id');
-                $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
+                $purchased_courses = Course::whereIn('id', $course_ids)->get();
+                $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
+                $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->orderBy('updated_at', 'desc')->limit(5)->get();
 
                 $bundles = Bundle::whereIn('id', $bundle_ids)->limit(3)->get();
                 $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->limit(5)->get();

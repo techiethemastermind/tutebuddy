@@ -188,6 +188,7 @@ Route::get('transactions', 'PaymentController@getTransactions')->name('transacti
 
 //==== Orders Route ==== //
 Route::get('orders', 'PaymentController@getOrders')->name('orders');
+Route::get('orders/detail/{id}', 'PaymentController@orderDetail')->name('orders.detail');
 
 //==== Contacts Route ====//
 Route::resource('contacts', 'ContactsController');

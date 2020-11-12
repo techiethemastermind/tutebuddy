@@ -30,132 +30,76 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">Outstanding Payments</div>
-        </div>
-
-        <div class="alert alert-soft-warning mb-lg-32pt">
-            <div class="d-flex flex-wrap align-items-center">
-                <div class="mr-8pt">
-                    <i class="material-icons">access_time</i>
-                </div>
-                <div class="flex" style="min-width: 180px">
-                    <small class="text-100">
-                        Please pay your amount due of
-                        <strong>$9.00</strong> for invoice <a href=""
-                            class="text-underline">10002331</a>
-                    </small>
-                </div>
-                <a href="" class="btn btn-sm btn-link">Pay Now</a>
-            </div>
-        </div>
-
-        <div class="page-separator">
             <div class="page-separator__text">Payment History</div>
         </div>
 
         <div class="card table-responsive">
-            <table class="table table-flush table-nowrap">
+            <table id="tbl_transactions" class="table table-flush table-nowrap">
                 <thead>
                     <tr>
-                        <th>Invoice no.</th>
+                        <th style="width: 18px;" class="pr-0"></th>
+                        <th>No.</th>
+                        <th>Order Id.</th>
                         <th>Date</th>
                         <th class="text-center">Amount</th>
-                        <th></th>
+                        <th class="text-right"></th>
                     </tr>
                 </thead>
                 <tbody>
-
-
+                    @foreach($transactions as $transaction)
                     <tr>
-                        <td><a href="" class="text-underline">10002331</a>
+                        <td></td>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>
+                            <a href="" class="text-underline">{{ $transaction->order_id }}</a>
                         </td>
-                        <td>26 Sep 2018</td>
-                        <td class="text-center">$9</td>
+                        <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('h:i A, M d Y') }}</td>
+                        <td class="text-center">{{ $transaction->amount . ' (' . (getCurrency(config('app.currency'))['symbol']) . ')' }}</td>
                         <td class="text-right">
                             <div class="d-inline-flex align-items-center">
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                        class="icon--right material-icons">file_download</i></a>
+                                <a href="" class="btn btn-sm btn-outline-secondary mr-16pt">View Detail
+                                    <i class="icon--right material-icons">keyboard_arrow_right</i></a>
                             </div>
                         </td>
                     </tr>
+                    @endforeach
 
+                    @if(count($transactions) < 1)
                     <tr>
-                        <td><a href="" class="text-underline">10003815</a>
-                        </td>
-                        <td>29 Apr 2018</td>
-                        <td class="text-center">$9</td>
-                        <td class="text-right">
-                            <div class="d-inline-flex align-items-center">
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                        class="icon--right material-icons">file_download</i></a>
-                            </div>
-                        </td>
+                        <td colspan="6" class="text-center">No Transactions</td>
                     </tr>
-
-                    <tr>
-                        <td><a href="" class="text-underline">10007382</a>
-                        </td>
-                        <td>31 Mar 2018</td>
-                        <td class="text-center">$9</td>
-                        <td class="text-right">
-                            <div class="d-inline-flex align-items-center">
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                        class="icon--right material-icons">file_download</i></a>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><a href="" class="text-underline">10004876</a>
-                        </td>
-                        <td>30 May 2018</td>
-                        <td class="text-center">$9</td>
-                        <td class="text-right">
-                            <div class="d-inline-flex align-items-center">
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                        class="icon--right material-icons">file_download</i></a>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td><a href="" class="text-underline">10009392</a>
-                        </td>
-                        <td>30 Apr 2018</td>
-                        <td class="text-center">$9</td>
-                        <td class="text-right">
-                            <div class="d-inline-flex align-items-center">
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary mr-16pt">View invoice <i
-                                        class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                <a href=""
-                                    class="btn btn-sm btn-outline-secondary">Download <i
-                                        class="icon--right material-icons">file_download</i></a>
-                            </div>
-                        </td>
-                    </tr>
-
+                    @endif
 
                 </tbody>
             </table>
+            
+            <div class="card-footer p-8pt">
+                @if($transactions->hasPages())
+                {{ $transactions->links('layouts.parts.page') }}
+                @else
+                <ul class="pagination justify-content-start pagination-xsm m-0">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true" class="material-icons">chevron_left</span>
+                            <span>Prev</span>
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Page 1">
+                            <span>1</span>
+                        </a>
+                    </li>
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span>Next</span>
+                            <span aria-hidden="true" class="material-icons">chevron_right</span>
+                        </a>
+                    </li>
+                </ul>
+                @endif
+            </div>
         </div>
-
     </div>
+</div>
 
 @endsection

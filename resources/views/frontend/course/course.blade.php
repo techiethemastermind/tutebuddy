@@ -583,17 +583,15 @@
                                     </div>
                                 </div>
 
-                                <form action="{{ route('cart.checkout') }}" method="POST" id="frm_checkout">@csrf
+                                <form action="{{ route('cart.process') }}" method="POST" id="frm_checkout">@csrf
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                    <input type="hidden" name="amount" value="{{ $course->group_price }}">
-                                    <input type="hidden" name="type" value="group">
+                                    <input type="hidden" name="price_type" value="group">
                                     <button class="btn btn-primary btn-block mb-8pt">Buy Now</button>
                                 </form>
 
                                 <form action="{{ route('cart.addToCart') }}" method="POST" id="frm_cart">@csrf
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
-                                    <input type="hidden" name="amount" value="{{ $course->group_price }}">
-                                    <input type="hidden" name="type" value="group">
+                                    <input type="hidden" name="price_type" value="group">
                                     <button type="submit" class="btn btn-accent btn-block mb-8pt">
                                         Add To Cart</button>
                                 </form>

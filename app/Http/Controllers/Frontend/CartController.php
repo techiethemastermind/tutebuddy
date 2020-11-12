@@ -7,136 +7,137 @@ use Illuminate\Http\Request;
 use Cart;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
+use Razorpay\Api\Api;
 
 use App\Models\Course;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Tax;
 use App\Models\Bundle;
 
 class CartController extends Controller
 {
     private $currency;
+    private $api;
 
     public function __construct()
     {
         $this->currency = getCurrency(config('app.currency'));
+        $this->api = new Api(env('RAZOR_KEY'), env('RAZOR_SECRET'));
     }
 
     public function index(Request $request)
     {
-        $ids = Cart::session(auth()->user()->id)->getContent()->keys();
-        $course_ids = [];
-        $bundle_ids = [];
+        return view('frontend.cart.cart');
+    }
+
+    public function checkout(Request $request)
+    {
         $total = 0;
         foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
-            if ($item->attributes->type == 'bundle') {
-                $bundle_ids[] = $item->id;
-            } else {
-                $course_ids[] = $item->id;
-            }
             $total += $item->price;
         }
-        $courses = new Collection(Course::find($course_ids));
-        $bundles = Bundle::find($bundle_ids);
-        $courses = $bundles->merge($courses);
 
-        $courses = Course::find($course_ids);
         //Apply Tax
         $taxData = $this->applyTax('total');
+        $orderId = $this->getRazorOrderId($total);
 
-        return view('frontend.cart.checkout', compact('courses','total','taxData'));
+        return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId'));
     }
 
     public function addToCart(Request $request)
     {
         $product = "";
         $teachers = "";
-        $type = "";
+        $product_type = "";
+
         if ($request->has('course_id')) {
             $product = Course::findOrFail($request->get('course_id'));
             $teachers = $product->teachers->pluck('id', 'name');
-            $type = 'course';
+            $product_type = 'course';
 
         } elseif ($request->has('bundle_id')) {
             $product = Bundle::findOrFail($request->get('bundle_id'));
             $teachers = $product->user->name;
-            $type = 'bundle';
+            $product_type = 'bundle';
         }
 
         $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
+
         if (!in_array($product->id, $cart_items)) {
+
+            if($request->price_type == 'group') {
+                $price = $product->group_price;
+            } elseif ($request->price_type == 'private') {
+                $price = $product->private_price;
+            }
+
             Cart::session(auth()->user()->id)
-                ->add($product->id, $product->title, $request->amount, 1,
+                ->add($product->id, $product->title, $price, 1,
                     [
                         'user_id' => auth()->user()->id,
                         'description' => $product->short_description,
                         'image' => $product->course_image,
-                        'type' => $type,
-                        'style' => $request->type,
+                        'product_type' => $product_type,
+                        'price_type' => $request->price_type,
                         'teachers' => $teachers
                     ]);
         }
-
 
         Session::flash('success', trans('labels.frontend.cart.product_added'));
         return back();
     }
 
-    public function checkout(Request $request)
+    public function process(Request $request)
     {
-        $this->validate($request, [
-            'course_id' => 'required',
-            'amount' => 'required|numeric',
-            'type' => 'required'
-        ]);
+        $product = '';
+        $teachers = '';
+        $product_type = '';
 
-        $product = "";
-        $teachers = "";
-        $type = "";
-        $bundle_ids = [];
-        $course_ids = [];
         if ($request->has('course_id')) {
             $product = Course::findOrFail($request->get('course_id'));
             $teachers = $product->teachers->pluck('id', 'name');
-            $type = 'course';
+            $product_type = 'course';
 
         } elseif ($request->has('bundle_id')) {
             $product = Bundle::findOrFail($request->get('bundle_id'));
             $teachers = $product->user->name;
-            $type = 'bundle';
+            $product_type = 'bundle';
         }
 
         $cart_items = Cart::session(auth()->user()->id)->getContent()->keys()->toArray();
+
         if (!in_array($product->id, $cart_items)) {
 
+            if($request->price_type == 'group') {
+                $price = $product->group_price;
+            } elseif ($request->price_type == 'private') {
+                $price = $product->private_price;
+            }
+
             Cart::session(auth()->user()->id)
-                ->add($product->id, $product->title, $product->price, 1,
+                ->add($product->id, $product->title, $price, 1,
                     [
                         'user_id' => auth()->user()->id,
                         'description' => $product->description,
                         'image' => $product->course_image,
-                        'type' => $type,
+                        'product_type' => $product_type,
+                        'price_type' => $request->price_type,
                         'teachers' => $teachers
                     ]);
         }
-        foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
-            if ($item->attributes->type == 'bundle') {
-                $bundle_ids[] = $item->id;
-            } else {
-                $course_ids[] = $item->id;
-            }
-        }
-        $courses = new Collection(Course::find($course_ids));
-        $bundles = Bundle::find($bundle_ids);
-        $courses = $bundles->merge($courses);
 
-        $total = $courses->sum('price');
+        $total = 0;
+        foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+            $total += $item->price;
+        }
 
         //Apply Tax
         $taxData = $this->applyTax('total');
+        $orderId = $this->getRazorOrderId($total);
 
-
-        return view($this->path . '.cart.checkout', compact('courses','total','taxData'));
+        return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId'));
     }
 
     public function clear(Request $request)
@@ -148,8 +149,6 @@ class CartController extends Controller
     public function remove(Request $request)
     {
         Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
-
-
         if(Cart::session(auth()->user()->id)->getContent()->count() < 2){
             Cart::session(auth()->user()->id)->clearCartConditions();
             Cart::session(auth()->user()->id)->removeConditionsByType('tax');
@@ -182,5 +181,89 @@ class CartController extends Controller
             Cart::session(auth()->user()->id)->condition($condition);
             return $taxData;
         }
+    }
+
+    public function razorpay(Request $request)
+    {
+        if(isset($request->payment_id)) {
+
+            // Verify Payment
+            $generated_signature = hash_hmac('sha256', $request->order_id . '|' . $request->payment_id , env('RAZOR_SECRET'));
+
+            if ($generated_signature == $request->signature) {
+
+                // Create an Order for Transaction
+                $new_order = Order::create([
+                    'user_id' => auth()->user()->id,
+                    'payment_id' => $request->payment_id,
+                    'order_id' => $request->order_id,
+                    'signature' => $request->signature,
+                    'amount' => $request->amount
+                ]);
+
+                // Add data to course_student table and Make Order Items
+                foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+                    if ($item->attributes->product_type == 'bundle') {
+
+                        $new_orderItem = OrderItem::create([
+                            'order_id' => $new_order->id,
+                            'item_type' => 'App\Models\Bundle',
+                            'item_id' => $item->id,
+                            'amount' => $item->price,
+                        ]);
+
+                        DB::table('bundle_student')->insert([
+                            'bundle_id' => $item->id,
+                            'user_id' => auth()->user()->id
+                        ]);
+                    } else {
+
+                        $new_orderItem = OrderItem::create([
+                            'order_id' => $new_order->id,
+                            'item_type' => 'App\Models\Bundle',
+                            'item_id' => $item->id,
+                            'amount' => $item->price,
+                        ]);
+
+                        DB::table('course_student')->insert([
+                            'course_id' => $item->id,
+                            'user_id' => auth()->user()->id,
+                            'type' => $item->attributes->price_type
+                        ]);
+                    }
+                }
+
+                // Remove Cart
+                Cart::clear();
+
+                return response()->json([
+                    'success' => true,
+                    'razorpay_id' => $new_order->id
+                ]);
+
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Payment Failed'
+                ]);
+            }
+            
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment Failed'
+            ]);
+        }
+    }
+
+    private function getRazorOrderId($amount)
+    {
+        $receipt = 'order_' . str_random(8);
+        $order  = $this->api->order->create([
+            'receipt'         => $receipt,
+            'amount'          => $amount * 100,
+            'currency'        => $this->currency['short_code'],
+        ]);
+        return $order['id'];
     }
 }
