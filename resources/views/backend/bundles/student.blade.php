@@ -35,6 +35,8 @@
             <div class="page-separator__text">My Paths</div>
         </div>
 
+        @if(count($bundles) > 0)
+
         <div class="row card-group-row mb-lg-8pt">
 
             @foreach($bundles as $bundle)
@@ -128,6 +130,13 @@
             </ul>
             @endif
         </div>
+        @else
+
+        <div class="card card-body">
+            <div class="card-title">No Paths</div>
+        </div>
+
+        @endif
     </div>
 </div>
 

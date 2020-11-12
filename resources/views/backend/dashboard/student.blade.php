@@ -32,6 +32,7 @@
     </div>
 
     <div class="container page__container">
+        @if(count($purchased_courses) > 1)
         <div class="page-section">
 
             <!-- My Lessons Section -->
@@ -492,6 +493,71 @@
             @endif
 
         </div>
+        @endif
+
+        @if(count($purchased_courses) < 1)
+        <div class="page-section card card-body mt-64pt">
+            <div class="row align-items-center">
+                <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                    <div class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                        <span class="h3 text-white m-0">1</span>
+                    </div>
+                    <div class="flex">
+                        <div class="card-title mb-4pt">Select Course</div>
+                        <p class="card-subtitle text-black-70">Wide selection of subjects you can learn from expert
+                            tutors.</p>
+                    </div>
+                </div>
+                <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                    <div class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                        <span class="h3 text-white m-0">2</span>
+                    </div>
+                    <div class="flex">
+                        <div class="card-title mb-4pt">Find an Expert</div>
+                        <p class="card-subtitle text-black-70">Select from the most experienced &amp; requted Instructors.
+                        </p>
+                    </div>
+                </div>
+                <div class="d-flex col-md align-items-center">
+                    <div class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                        <span class="h3 text-white m-0">3</span>
+                    </div>
+                    <div class="flex">
+                        <div class="card-title mb-4pt">Start Learning</div>
+                        <p class="card-subtitle text-black-70">Get personal instruction on your chosen course.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="page-section">
+
+            <div class="row card-group-row">
+                @foreach($parentCategories as $category)
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="card card-body p-2">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded mr-12pt">
+                                <div class="avatar avatar-sm mr-3">
+                                    <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}">
+                                        <img src="{{ asset('/storage/uploads/' . $category->thumb) }}" alt="avatar"
+                                            class="avatar-img rounded">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="card-title mr-3">{{ $category->name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+        @endif
     </div>
 </div>
 <!-- // END Header Layout Content -->

@@ -63,6 +63,7 @@
     </div>
 
     <div class="container page__container">
+        @if(count($courses) > 0)
         <div class="page-section">
 
             <!-- Live Lessons -->
@@ -591,6 +592,45 @@
             @endif
 
         </div>
+        @else
+        <div class="page-section card card-body mt-64pt">
+            <div class="row align-items-center">
+                <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                    <div class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                        <span class="h3 text-white m-0">1</span>
+                    </div>
+                    <div class="flex">
+                        <div class="card-title mb-4pt">Create Courses</div>
+                        <p class="card-subtitle text-black-70">Create your courses to teach</p>
+                    </div>
+                </div>
+                <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
+                    <div class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                        <span class="h3 text-white m-0">2</span>
+                    </div>
+                    <div class="flex">
+                        <div class="card-title mb-4pt">Create Lessons</div>
+                        <p class="card-subtitle text-black-70">Create lessons under courses.</p>
+                    </div>
+                </div>
+                <div class="d-flex col-md align-items-center">
+                    <div class="rounded-circle bg-primary w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
+                        <span class="h3 text-white m-0">3</span>
+                    </div>
+                    <div class="flex">
+                        <div class="card-title mb-4pt">Start Teaching</div>
+                        <p class="card-subtitle text-black-70">Create shedules to teach with live session.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-section">
+            <div class="form-group text-center">
+                <a href="{{ route('admin.courses.create') }}" class="btn btn-primary btn-block">Create your first course</a>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 <!-- // END Header Layout Content -->

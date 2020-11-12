@@ -69,7 +69,7 @@
 
                             <td>
                                 <div class="d-flex flex-column">
-                                <small class="js-lists-values-date"><strong>{{ \Carbon\Carbon::parse($order->created_at)->format('M/d/Y') }}</strong></small>
+                                <small class="js-lists-values-date"><strong>{{ \Carbon\Carbon::parse($order->created_at)->format('M d Y') }}</strong></small>
                                     <small class="text-50">{{ \Carbon\Carbon::parse($order->created_at)->diffForHumans() }}</small>
                                 </div>
                             </td>

@@ -29,6 +29,12 @@ class Test extends Model
                     $builder->where('user_id', '=', Auth::user()->id);
                 });
             }
+
+            if (auth()->user()->hasRole('Student')) {
+                static::addGlobalScope('filter', function (Builder $builder) {
+                    $builder->where('published', 1);
+                });
+            }
         }
     }
 

@@ -20,6 +20,7 @@ use App\Models\TestResultAnswers;
 use App\Models\Discussion;
 use App\Models\Quiz;
 use App\Models\QuizResults;
+use App\Models\Category;
 
 class DashboardController extends Controller
 {
@@ -81,6 +82,7 @@ class DashboardController extends Controller
 
                 return view('backend.dashboard.teacher', 
                     compact(
+                        'courses',
                         'schedules',
                         'students',
                         'assignments', 
@@ -110,6 +112,10 @@ class DashboardController extends Controller
                 $teachers = User::whereIn('id', $teachers_id)->limit(5)->get();
                 $testResults = TestResult::where('user_id', auth()->user()->id)->limit(4)->get();
                 $discussions = Discussion::limit(5)->get();
+
+                // Parent Categories
+                $parentCategories = Category::where('parent', 0)->get();
+
                 return view('backend.dashboard.student',
                     compact(
                         'purchased_courses',
@@ -118,7 +124,8 @@ class DashboardController extends Controller
                         'assignments',
                         'teachers',
                         'testResults',
-                        'discussions'
+                        'discussions',
+                        'parentCategories'
                     )
                 );
 

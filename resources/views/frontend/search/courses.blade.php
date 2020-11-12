@@ -99,12 +99,17 @@
                                                 <div class="flex">
                                                     <a href="{{ route('courses.show', $course->slug) }}" class="card-title">{{ $course->title }}</a>
                                                 </div>
+                                                @if(!empty($course->group_price))
                                                 <span class="card-title text-accent mr-16pt">
-                                                    {{ config('app.currency') . $course->group_price }} <small class="text-50">(Group)</small>
+                                                    {{ getCurrency(config('app.currency'))['symbol'] . $course->group_price }} <small class="text-50">(Group)</small>
                                                 </span>
+                                                @endif
+
+                                                @if(!empty($course->private_price))
                                                 <span class="card-title text-primary mr-16pt">
-                                                    {{ config('app.currency') . $course->private_price }} <small class="text-50">(Private)</small>
+                                                    {{ getCurrency(config('app.currency'))['symbol'] . $course->private_price }} <small class="text-50">(Private)</small>
                                                 </span>
+                                                @endif
                                                 
                                                 @if(auth()->check())
                                                 <a href="{{ route('admin.course.removeFavorite', $course->id) }}" name="remove_favorite" data-toggle="tooltip" data-title="Remove Favorite" data-placement="top" 

@@ -566,20 +566,27 @@
 
                                 <div class="form-group mb-32pt">
                                     <div class="custom-controls-stacked">
+
+                                        @if(!empty($course->private_price))
                                         <div class="custom-control custom-radio mb-16pt">
+                                            <input id="enroll_private" name="enroll_type" type="radio" enroll-type="private"
+                                                data-amount="{{ $course->private_price }}" class="custom-control-input" checked="">
+                                            <label for="enroll_private" class="card-title custom-control-label">
+                                                Private: {{ getCurrency(config('app.currency'))['symbol'] . $course->private_price }}
+                                            </label>
+                                        </div>
+                                        @endif
+
+                                        @if(!empty($course->group_price))
+                                        <div class="custom-control custom-radio">
                                             <input id="enroll_group" name="enroll_type" type="radio" enroll-type="group"
                                                 data-amount="{{ $course->group_price }}" class="custom-control-input" checked="">
                                             <label for="enroll_group" class="card-title custom-control-label">
-                                                Group: {{ $course->group_price . config('app.currency') }}
+                                                Group: {{ getCurrency(config('app.currency'))['symbol'] . $course->group_price }}
                                             </label>
                                         </div>
-                                        <div class="custom-control custom-radio">
-                                            <input id="enroll_private" name="enroll_type" type="radio" enroll-type="private"
-                                                data-amount="{{ $course->private_price }}" class="custom-control-input">
-                                            <label for="enroll_private" class="card-title custom-control-label">
-                                                Individual: {{ $course->private_price . config('app.currency') }}
-                                            </label>
-                                        </div>
+                                        @endif
+
                                     </div>
                                 </div>
 
@@ -950,10 +957,8 @@ $(function() {
     });
 
     $('input[name="enroll_type"]').on('change', function() {
-        $('#frm_checkout').find('input[name="amount"]').val($(this).attr('data-amount'));
-        $('#frm_checkout').find('input[name="type"]').val($(this).attr('enroll-type'));
-        $('#frm_cart').find('input[name="amount"]').val($(this).attr('data-amount'));
-        $('#frm_cart').find('input[name="type"]').val($(this).attr('enroll-type'));
+        $('#frm_checkout').find('input[name="price_type"]').val($(this).attr('enroll-type'));
+        $('#frm_cart').find('input[name="price_type"]').val($(this).attr('enroll-type'));
     });
 
     // Ajax Header for Ajax Call

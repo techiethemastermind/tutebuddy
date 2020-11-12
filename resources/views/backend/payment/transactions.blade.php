@@ -53,7 +53,7 @@
                         <td>
                             <a href="" class="text-underline">{{ $transaction->order_id }}</a>
                         </td>
-                        <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('h:i A, M d Y') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('M d Y h:i A') }}</td>
                         <td class="text-center">{{ $transaction->amount . ' (' . (getCurrency(config('app.currency'))['symbol']) . ')' }}</td>
                         <td class="text-right">
                             <div class="d-inline-flex align-items-center">

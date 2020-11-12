@@ -49,7 +49,6 @@
     </div>
 
     <!-- Categories -->
-
     <div class="page-section border-bottom-2">
         <div class="container page__container">
 
