@@ -30,6 +30,7 @@
         </div>
     </div>
 
+    @if(count($courses) > 0)
     <div class="page-section border-bottom-2">
         <div class="container page__container">
 
@@ -61,6 +62,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <div class="container page__container">
         @if(count($courses) > 0)
