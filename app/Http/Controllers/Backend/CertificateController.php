@@ -124,7 +124,7 @@ class CertificateController extends Controller
             $certificate->cert_number = $cert_number;
             $certificate->save();
 
-            $pdf = \PDF::loadView('certificate.index', compact('data'))->setPaper('', 'landscape');
+            $pdf = \PDF::loadView('downloads.certificate', compact('data'))->setPaper('', 'landscape');
 
             $pdf->save(public_path('storage/certificates/' . $certificate_name));
 
@@ -144,7 +144,6 @@ class CertificateController extends Controller
             return Response::download($file);
         }
         return back()->withFlashDanger('No Certificate found');
-
     }
 
 

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Razorpay\Api\Api;
 
+use Mail;
+use App\Mail\SendMail;
+
 use App\Models\Course;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -34,13 +37,9 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $total = 0;
-        foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
-            $total += $item->price;
-        }
-
         //Apply Tax
         $taxData = $this->applyTax('total');
+        $total = Cart::session(auth()->user()->id)->getTotal();
         $orderId = $this->getRazorOrderId($total);
 
         return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId'));
@@ -128,13 +127,9 @@ class CartController extends Controller
                     ]);
         }
 
-        $total = 0;
-        foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
-            $total += $item->price;
-        }
-
         //Apply Tax
         $taxData = $this->applyTax('total');
+        $total = Cart::session(auth()->user()->id)->getTotal();
         $orderId = $this->getRazorOrderId($total);
 
         return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId'));
@@ -236,6 +231,8 @@ class CartController extends Controller
                     }
                 }
 
+                $this->sendOrderEmail($new_order->id);
+
                 // Remove Cart
                 Cart::clear();
 
@@ -268,5 +265,43 @@ class CartController extends Controller
             'currency'        => $this->currency['short_code'],
         ]);
         return $order['id'];
+    }
+
+    private function sendOrderEmail($order_id)
+    {
+        $order = Order::find($order_id);
+        $data = [
+            'customer_name' => $order->user->name,
+            'order_id' => $order->order_id,
+            'payment_id' => $order->payment_id,
+            'order_items_table' => ''
+        ];
+
+        $html = '<table>
+                    <thead>
+                        <tr>
+                            <th class="course">Course</th>
+                            <th>PRICE</th>
+                            <th>GST</th>
+                            <th>TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+
+        foreach($order->items as $item) {
+            $gst = $item->amount * 0.18;
+            $total = $item->amount + $gst;
+            $html .= '<tr>
+                        <td class="course">'. $item->course->title .'</td>
+                        <td class="unit">'. getCurrency(config('app.currency'))['symbol'] . $item->amount .'</td>
+                        <td>'. getCurrency(config('app.currency'))['symbol'] . $gst .'</td>
+                        <td class="total">'. getCurrency(config('app.currency'))['symbol'] . $total .'</td>
+                    </tr>';
+        }
+
+        $html .= '</tbody></table>';
+        $data['order_items_table'] = $html;
+
+        Mail::to($order->user->email)->send(new SendMail($data));
     }
 }

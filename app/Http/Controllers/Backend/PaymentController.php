@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -60,6 +61,21 @@ class PaymentController extends Controller
     {
         $order = Order::find($id);
         return view('backend.payment.order-detail', compact('order'));
+    }
+
+    /**
+     * download Invoice
+     */
+    public function downloadInvoice($id)
+    {
+        $order = Order::find($id);
+        $pdf = \PDF::loadView('downloads.invoice', compact('order'));
+
+        $invoice_name = 'Invoice_' . $order->order_id . '.pdf';
+        $pdf->save(public_path('storage/invoices/' . $invoice_name))->setPaper('', 'portrait');
+
+        $file = public_path('storage/invoices/' . $invoice_name);
+        return Response::download($file);
     }
 
 }

@@ -76,6 +76,14 @@ class SendMail extends Mailable
                 }
             break;
 
+            case 'order':
+                $html = $template->content;
+                $html = str_replace('{customer_name}', $data['customer_name'], $html);
+                $html = str_replace('{order_id}', $data['order_id'], $html);
+                $html = str_replace('{payment_id}', $data['payment_id'], $html);
+                $html = str_replace('{order_items_table}', $data['order_items_table'], $html);
+            break;
+
             default:
                 $html = '<h1>No template selected</h1>';
         }

@@ -66,6 +66,7 @@
                             <div class="d-inline-flex align-items-center">
                                 <a href="{{ route('admin.transactions.detail', $transaction->id) }}" class="btn btn-sm btn-outline-secondary mr-16pt">View Detail
                                     <i class="icon--right material-icons">keyboard_arrow_right</i></a>
+                                <a href="{{ route('admin.transactions.invoice', $transaction->id) }}" class="btn btn-sm btn-outline-secondary">Invoice <i class="icon--right material-icons">file_download</i></a>
                             </div>
                         </td>
                     </tr>

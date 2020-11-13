@@ -186,6 +186,7 @@ Route::post('test-result/answer', 'TestController@result_answer')->name('tests.r
 //==== Transactions Route ==== //
 Route::get('transactions', 'PaymentController@getTransactions')->name('transactions');
 Route::get('transactions/detail/{id}', 'PaymentController@transactionsDetail')->name('transactions.detail');
+Route::get('transactions/invoice/{id}', 'PaymentController@downloadInvoice')->name('transactions.invoice');
 
 //==== Orders Route ==== //
 Route::get('orders', 'PaymentController@getOrders')->name('orders');
