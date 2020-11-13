@@ -94,17 +94,16 @@ class ScheduleController extends Controller
 
         $schedule = Schedule::find($request->id);
         $schedule->lesson_id = $request->lesson_id;
-        
-        // $request_start = timezone()->convertFromLocal(Carbon::parse($request->start)->format('Y-m-d H:i:s'));
-        // $request_end = timezone()->convertFromLocal(Carbon::parse($request->end)->format('Y-m-d H:i:s'));
-        // $schedule->start_time = $request_start->format('H:i:s');
-        // $schedule->end_time = $request_end->format('H:i:s');
-
         $schedule->start_time = Carbon::parse($request->start)->format('H:i:s');
         $schedule->end_time = Carbon::parse($request->end)->format('H:i:s');
 
         try {
             $schedule->save();
+
+            // Check lesson to live lesson
+            $lesson = Lesson::find($request->lesson_id);
+            $lesson->lesson_type = 1;
+            $lesson->save();
 
             return response()->json([
                 'success' => true,
