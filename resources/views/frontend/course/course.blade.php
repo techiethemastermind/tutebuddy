@@ -129,7 +129,7 @@
 @endpush
 
 <div class="mdk-header-layout__content page-content">
-    @if(auth()->user()->hasRole('Instructor') || auth()->user()->hasRole('Administrator'))
+    @if(auth()->check() && (auth()->user()->hasRole('Instructor') || auth()->user()->hasRole('Administrator')))
     <div class="navbar navbar-list navbar-light border-bottom navbar-expand-sm" style="white-space: nowrap;">
         <div class="container page__container">
             <nav class="nav navbar-nav">
@@ -225,6 +225,10 @@
                         <li class="nav-item navbar-list__item">
                             <i class="material-icons text-muted icon--left">schedule</i>
                             {{ $course->duration() }}
+                        </li>
+                        <li class="nav-item navbar-list__item">
+                            <i class="material-icons text-muted icon--left">timeline</i>
+                            {{ $course->start_date }} - {{ $course->end_date }}
                         </li>
                         <li class="nav-item navbar-list__item">
                             <i class="material-icons text-muted icon--left">assessment</i>
