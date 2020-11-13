@@ -123,16 +123,29 @@
                                     {{(Cart::getContent()->count() > 1) ? ' '.trans('labels.frontend.cart.items') : ' '.trans('labels.frontend.cart.item')}})
                             </div>
                             <div class="flex form-label">
-                                <strong>{{ number_format($total, 2) . ' ' . config('app.currency') }}</strong>
+                                <strong>{{ getCurrency(config('app.currency'))['symbol'] . ' ' . number_format($total, 2) }}</strong>
                             </div>
                         </div>
+
+                        @if($taxData != null)
+                            @foreach($taxData as $tax)
+                            <div class="d-flex mb-16pt">
+                                <div class="flex form-label mb-0">
+                                    {{ $tax['name']}}:
+                                </div>
+                                <div class="flex form-label mb-0">
+                                    {{ getCurrency(config('app.currency'))['symbol'] . ' ' . number_format($tax['amount'],2)}}
+                                </div>
+                            </div>
+                            @endforeach
+                        @endif
                         
                         <div class="d-flex">
                             <div class="flex form-label mb-0">
                                 Total:
                             </div>
                             <div class="flex form-label mb-0">
-                                {{ number_format(Cart::session(auth()->user()->id)->getTotal(), 2) . ' ' . config('app.currency')}}
+                                {{ getCurrency(config('app.currency'))['symbol'] . ' ' . number_format(Cart::session(auth()->user()->id)->getTotal(), 2) }}
                             </div>
                         </div>
                     </div>
