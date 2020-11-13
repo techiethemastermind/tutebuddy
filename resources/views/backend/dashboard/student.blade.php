@@ -32,7 +32,7 @@
     </div>
 
     <div class="container page__container">
-        @if(count($purchased_courses) > 1)
+        @if(count($purchased_courses) > 0)
         <div class="page-section">
 
             <!-- My Lessons Section -->

@@ -33,6 +33,15 @@ class PaymentController extends Controller
     }
 
     /**
+     * Transaction Detail
+     */
+    public function transactionsDetail($id)
+    {
+        $order = Order::find($id);
+        return view('backend.payment.transaction-detail', compact('order'));
+    }
+
+    /**
      * Get Orders
      */
     public function getOrders()

@@ -21,6 +21,9 @@ use App\Models\Discussion;
 use App\Models\Quiz;
 use App\Models\QuizResults;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Models\Transaction;
 
 class DashboardController extends Controller
 {
@@ -63,7 +66,6 @@ class DashboardController extends Controller
 
             case 'teacher':
                 $courses = Course::all();
-                // $course_ids = $courses->pluck('id');
                 $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
                 $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
                 $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->orderBy('updated_at', 'desc')->limit(5)->get();
@@ -80,6 +82,10 @@ class DashboardController extends Controller
                 $quizResults = QuizResults::whereIn('quiz_id', $quiz_ids)->limit(5)->get();
                 $discussions = Discussion::limit(5)->get();
 
+                $earned_this_month = $this->getEarned('month');
+                $balance = $this->getEarned('balance');
+                $total = $this->getEarned('total');
+
                 return view('backend.dashboard.teacher', 
                     compact(
                         'courses',
@@ -90,7 +96,10 @@ class DashboardController extends Controller
                         'bundles',
                         'testResults',
                         'quizResults',
-                        'discussions'
+                        'discussions',
+                        'earned_this_month',
+                        'balance',
+                        'total'
                     )
                 );
             break;
@@ -134,5 +143,61 @@ class DashboardController extends Controller
             default:
                 return view('backend.dashboard.index');
         }
+    }
+
+    /**
+     * Get earned
+     */
+    private function getEarned($type)
+    {
+        $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $purchased_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('course_id');
+        $earned = 0;
+
+        switch($type) {
+            case 'month':
+
+                $start = new Carbon('first day of this month');
+                $now = Carbon::now();
+                $end = new Carbon('last day of this month');
+
+                // Get courses end_date is in this month
+                $course_ids_this_month = Course::whereBetween('end_date', [$start->format('Y-m-d')." 00:00:00", $now->format('Y-m-d')." 23:59:59"])
+                    ->whereIn('id', $purchased_ids)
+                    ->pluck('id');
+
+                $earned = OrderItem::whereIn('item_id', $course_ids_this_month)
+                        ->whereBetween('created_at', [$start->format('Y-m-d')." 00:00:00", $now->format('Y-m-d')." 23:59:59"])
+                        ->sum('amount');
+
+                return $earned;
+            break;
+
+            case 'balance':
+                $now = Carbon::now();
+                // Get courses end_date to today
+                $course_ids_since_now = Course::where('end_date', '<', $now->format('Y-m-d')." 23:59:59")
+                    ->whereIn('id', $purchased_ids)
+                    ->pluck('id');
+
+                $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('amount');
+                $withdraws = Transaction::where('user_id', auth()->user()->id)->where('type', 0)->sum('amount');
+                $balance = $total - $withdraws;
+                return $balance;
+            break;
+
+            case 'total':
+                $now = Carbon::now();
+                // Get courses end_date to today
+                $course_ids_since_now = Course::where('end_date', '<', $now->format('Y-m-d')." 23:59:59")
+                    ->whereIn('id', $purchased_ids)
+                    ->pluck('id');
+
+                $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('amount');
+                return $total;
+            break;
+        }
+
+        
     }
 }

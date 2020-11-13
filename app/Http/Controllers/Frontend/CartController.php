@@ -192,13 +192,16 @@ class CartController extends Controller
 
             if ($generated_signature == $request->signature) {
 
+                $payment = $this->api->payment->fetch($request->payment_id);
+
                 // Create an Order for Transaction
                 $new_order = Order::create([
                     'user_id' => auth()->user()->id,
                     'payment_id' => $request->payment_id,
                     'order_id' => $request->order_id,
                     'signature' => $request->signature,
-                    'amount' => $request->amount
+                    'amount' => $request->amount,
+                    'status' => $payment['status']
                 ]);
 
                 // Add data to course_student table and Make Order Items

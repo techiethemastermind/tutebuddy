@@ -41,7 +41,8 @@
                         <th>No.</th>
                         <th>Order Id.</th>
                         <th>Date</th>
-                        <th class="text-center">Amount</th>
+                        <th class="">Amount</th>
+                        <th>Status</th>
                         <th class="text-right"></th>
                     </tr>
                 </thead>
@@ -51,13 +52,19 @@
                         <td></td>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            <a href="" class="text-underline">{{ $transaction->order_id }}</a>
+                            <a href="{{ route('admin.transactions.detail', $transaction->id) }}" class="text-underline">{{ $transaction->order_id }}</a>
                         </td>
                         <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('M d Y h:i A') }}</td>
-                        <td class="text-center">{{ $transaction->amount . ' (' . (getCurrency(config('app.currency'))['symbol']) . ')' }}</td>
+                        <td class="">{{ getCurrency(config('app.currency'))['symbol'] . $transaction->amount }}</td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <small class="js-lists-values-status text-50 mb-4pt text-capitalize">{{ $transaction->status }}</small>
+                                <span class="indicator-line rounded bg-primary"></span>
+                            </div>
+                        </td>
                         <td class="text-right">
                             <div class="d-inline-flex align-items-center">
-                                <a href="" class="btn btn-sm btn-outline-secondary mr-16pt">View Detail
+                                <a href="{{ route('admin.transactions.detail', $transaction->id) }}" class="btn btn-sm btn-outline-secondary mr-16pt">View Detail
                                     <i class="icon--right material-icons">keyboard_arrow_right</i></a>
                             </div>
                         </td>

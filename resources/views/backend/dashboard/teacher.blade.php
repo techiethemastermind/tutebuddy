@@ -38,7 +38,7 @@
                 <div class="col-lg-4">
                     <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
                         <div class="card-body">
-                            <h4 class="h2 mb-0">$1,569.00</h4>
+                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . $earned_this_month }}</h4>
                             <div>Earnings this month</div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                 <div class="col-lg-4">
                     <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                         <div class="card-body">
-                            <h4 class="h2 mb-0">$3,917.80</h4>
+                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . $balance }}</h4>
                             <div>Account Balance</div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                 <div class="col-lg-4">
                     <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
                         <div class="card-body">
-                            <h4 class="h2 mb-0">$10,211.50</h4>
+                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . $total }}</h4>
                             <div>Total Sales</div>
                         </div>
                     </div>
@@ -594,7 +594,9 @@
             @endif
 
         </div>
-        @else
+        @endif
+
+        @if(count($courses) < 1)
         <div class="page-section card card-body mt-64pt">
             <div class="row align-items-center">
                 <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
