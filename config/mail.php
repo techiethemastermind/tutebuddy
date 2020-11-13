@@ -132,6 +132,17 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+    // Disable stream SSL
+    'stream' => [
+        'ssl' => [
+           'allow_self_signed' => true,
+           'verify_peer' => false,
+           'verify_peer_name' => false,
+        ],
+     ],
+
+    // Email templete types
+
     'email_types' => [
         'register_verify' => 'Verify Email (Register)',
         'contact' => 'Contact Us Email',
