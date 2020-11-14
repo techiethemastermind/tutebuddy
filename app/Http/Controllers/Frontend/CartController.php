@@ -37,7 +37,10 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
-        $total = Cart::session(auth()->user()->id)->getTotal();
+        $total = 0;
+        foreach(Cart::session(auth()->user()->id)->getContent() as $item) {
+            $total += $item->price;
+        }
 
         //Apply Tax
         $taxData = $this->applyTax('total');
@@ -128,7 +131,10 @@ class CartController extends Controller
                     ]);
         }
 
-        $total = Cart::session(auth()->user()->id)->getTotal();
+        $total = 0;
+        foreach(Cart::session(auth()->user()->id)->getContent() as $item) {
+            $total += $item->price;
+        }
 
         //Apply Tax
         $taxData = $this->applyTax('total');

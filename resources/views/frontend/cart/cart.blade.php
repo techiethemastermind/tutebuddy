@@ -26,9 +26,9 @@
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
                             <th style="width: 40px;">No.</th>
-                            <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Course
-                                    Name</a></th>
-                            <th>Price ({{ config('app.currency') }})</th>
+                            <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">
+                                Course Name</a></th>
+                            <th>Price ({{ getCurrency(config('app.currency'))['symbol'] }})</th>
                             <th>Course Type</th>
                             <th>Action</th>
                         </tr>
@@ -37,16 +37,16 @@
                         @if(Cart::session(auth()->user()->id)->getContent()->count() > 0)
                             @foreach(Cart::session(auth()->user()->id)->getContent() as $cart)
                             <?php
-                                
-                                    if ($cart->attributes->product_type == 'course') {
-                                        $item = App\Models\Course::find($cart->id);
-                                    }
 
-                                    if ($cart->attributes->product_type == 'bundle') {
-                                        $item = App\Models\Bundle::find($cart->id);
-                                    }
+                                if ($cart->attributes->product_type == 'course') {
+                                    $item = App\Models\Course::find($cart->id);
+                                }
 
-                                ?>
+                                if ($cart->attributes->product_type == 'bundle') {
+                                    $item = App\Models\Bundle::find($cart->id);
+                                }
+
+                            ?>
                             <tr>
                                 <td class="pr-0"></td>
                                 <td>{{ $loop->iteration }}</td>
@@ -86,7 +86,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <h5 class="">{{ number_format($cart->price, 2) }}</h5>
+                                    <h5 class="">{{ getCurrency(config('app.currency'))['symbol'] . ' ' . number_format($cart->price, 2) }}</h5>
                                 </td>
                                 <td>
                                     <span class="badge badge-pill badge-accent p-2"> {{ $cart->attributes->product_type }} </span>
