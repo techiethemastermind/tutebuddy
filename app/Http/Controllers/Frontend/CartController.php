@@ -37,9 +37,10 @@ class CartController extends Controller
 
     public function checkout(Request $request)
     {
+        $total = Cart::session(auth()->user()->id)->getTotal();
+
         //Apply Tax
         $taxData = $this->applyTax('total');
-        $total = Cart::session(auth()->user()->id)->getTotal();
         $orderId = $this->getRazorOrderId($total);
 
         return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId'));
@@ -127,9 +128,10 @@ class CartController extends Controller
                     ]);
         }
 
+        $total = Cart::session(auth()->user()->id)->getTotal();
+
         //Apply Tax
         $taxData = $this->applyTax('total');
-        $total = Cart::session(auth()->user()->id)->getTotal();
         $orderId = $this->getRazorOrderId($total);
 
         return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId'));
