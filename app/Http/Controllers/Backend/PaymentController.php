@@ -72,6 +72,11 @@ class PaymentController extends Controller
         $pdf = \PDF::loadView('downloads.invoice', compact('order'));
 
         $invoice_name = 'Invoice_' . $order->order_id . '.pdf';
+
+        if (!file_exists(public_path('storage/invoices'))) {
+            mkdir(public_path('storage/invoices'), 0777);
+        }
+
         $pdf->save(public_path('storage/invoices/' . $invoice_name))->setPaper('', 'portrait');
 
         $file = public_path('storage/invoices/' . $invoice_name);
