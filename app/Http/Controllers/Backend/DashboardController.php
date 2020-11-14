@@ -67,6 +67,7 @@ class DashboardController extends Controller
             case 'teacher':
                 $courses = Course::all();
                 $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+                $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
                 $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
                 $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->orderBy('updated_at', 'desc')->limit(5)->get();
 
@@ -108,6 +109,7 @@ class DashboardController extends Controller
 
                 // Get purchased Course IDs
                 $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+                $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
                 $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
                 $teachers_id = DB::table('course_user')->whereIn('course_id', $course_ids)->pluck('user_id');
                 $bundle_ids = DB::table('bundle_student')->where('user_id', auth()->user()->id)->pluck('bundle_id');

@@ -228,7 +228,7 @@
                         </li>
                         <li class="nav-item navbar-list__item">
                             <i class="material-icons text-muted icon--left">timeline</i>
-                            {{ $course->start_date }} - {{ $course->end_date }}
+                            {{ \Carbon\Carbon::parse($course->start_date)->format('M d, Y') }} ~ {{ \Carbon\Carbon::parse($course->end_date)->format('M d, Y') }}
                         </li>
                         <li class="nav-item navbar-list__item">
                             <i class="material-icons text-muted icon--left">assessment</i>

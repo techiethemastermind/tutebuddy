@@ -38,7 +38,7 @@
                 <div class="col-lg-4">
                     <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
                         <div class="card-body">
-                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . $earned_this_month }}</h4>
+                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($earned_this_month, 2) }}</h4>
                             <div>Earnings this month</div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                 <div class="col-lg-4">
                     <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                         <div class="card-body">
-                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . $balance }}</h4>
+                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
                             <div>Account Balance</div>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                 <div class="col-lg-4">
                     <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
                         <div class="card-body">
-                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . $total }}</h4>
+                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total, 2) }}</h4>
                             <div>Total Sales</div>
                         </div>
                     </div>

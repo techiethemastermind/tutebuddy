@@ -374,6 +374,7 @@ class TestController extends Controller
     {
         // Get purchased Course IDs
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
         $test_result_ids = DB::table('test_results')->where('user_id', auth()->user()->id)->pluck('test_id');
 
@@ -391,6 +392,7 @@ class TestController extends Controller
     public function getStudentTestsByAjax($type)
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
         $test_result_ids = DB::table('test_results')->where('user_id', auth()->user()->id)->pluck('test_id');
 

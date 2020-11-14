@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\DB;
@@ -587,8 +588,8 @@ class CourseController extends Controller
     public function studentCourses()
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $count_all = Course::whereIn('id', $course_ids)->count();
-        $count_achieved = Course::whereIn('id', $course_ids)->onlyTrashed()->count();
+        $count_all = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->count();
+        $count_achieved = Course::whereIn('id', $course_ids)->where('end_date', '<', Carbon::now()->format('Y-m-d'))->count();
         $count = [
             'all' => $count_all,
             'deleted' => $count_achieved
@@ -603,11 +604,11 @@ class CourseController extends Controller
 
         switch($type) {
             case 'all':
-                $courses = Course::whereIn('id', $course_ids)->get();
+                $courses = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->get();
             break;
 
             case 'deleted':
-                $courses = Course::whereIn('id', $course_ids)->onlyTrashed()->get();
+                $courses = Course::whereIn('id', $course_ids)->where('end_date', '<', Carbon::now()->format('Y-m-d'))->get();
             break;
         }
 
@@ -615,7 +616,7 @@ class CourseController extends Controller
 
         $count = [
             'all' => Course::whereIn('id', $course_ids)->count(),
-            'deleted' => Course::whereIn('id', $course_ids)->onlyTrashed()->count()
+            'deleted' => Course::whereIn('id', $course_ids)->where('end_date', '<', Carbon::now()->format('Y-m-d'))->count()
         ];
 
         return response()->json([

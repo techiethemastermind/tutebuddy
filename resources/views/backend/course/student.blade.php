@@ -60,7 +60,7 @@
                             <span class="h2 mb-0 mr-3 count-deleted">{{ $count['deleted'] }}</span>
                             <span class="flex d-flex flex-column">
                                 <strong class="card-title">Achieved</strong>
-                                <small class="card-subtitle text-50">Achieved My Courses</small>
+                                <small class="card-subtitle text-50">Outdated Courses</small>
                             </span>
                         </a>
                     </div>

@@ -133,13 +133,13 @@ return [
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
     // Disable stream SSL
-    'stream' => [
-        'ssl' => [
-           'allow_self_signed' => true,
-           'verify_peer' => false,
-           'verify_peer_name' => false,
-        ],
-     ],
+    // 'stream' => [
+    //     'ssl' => [
+    //        'allow_self_signed' => true,
+    //        'verify_peer' => false,
+    //        'verify_peer_name' => false,
+    //     ],
+    // ],
 
     // Email templete types
 

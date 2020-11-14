@@ -349,6 +349,7 @@ class AssignmentsController extends Controller
     {
         // Get purchased Course IDs
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
         $assignment_ids = AssignmentResult::where('user_id', auth()->user()->id)->pluck('assignment_id');
 
@@ -364,6 +365,7 @@ class AssignmentsController extends Controller
     {
         // Get purchased Course IDs
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
         $assignment_ids = AssignmentResult::where('user_id', auth()->user()->id)->pluck('assignment_id');
 
