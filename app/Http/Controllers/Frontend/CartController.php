@@ -44,9 +44,10 @@ class CartController extends Controller
 
         //Apply Tax
         $taxData = $this->applyTax('total');
-        $orderId = $this->getRazorOrderId($total);
+        $cartTotal = Cart::session(auth()->user()->id)->getTotal();
+        $orderId = $this->getRazorOrderId($cartTotal);
 
-        return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId'));
+        return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId', 'cartTotal'));
     }
 
     public function addToCart(Request $request)
@@ -138,9 +139,10 @@ class CartController extends Controller
 
         //Apply Tax
         $taxData = $this->applyTax('total');
-        $orderId = $this->getRazorOrderId($total);
+        $cartTotal = Cart::session(auth()->user()->id)->getTotal();
+        $orderId = $this->getRazorOrderId($cartTotal);
 
-        return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId'));
+        return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId', 'cartTotal'));
     }
 
     public function clear(Request $request)
@@ -186,6 +188,19 @@ class CartController extends Controller
         }
     }
 
+    private function getTax($total)
+    {
+        $tax_amount = 0;
+        $taxes = Tax::where('status', '=', 1)->get();
+        if ($taxes != null) {
+            foreach ($taxes as $tax) {
+                $tax_amount += $total * $tax->rate / 100;
+            }
+        }
+
+        return $tax_amount;
+    }
+
     public function razorpay(Request $request)
     {
         if(isset($request->payment_id)) {
@@ -203,20 +218,38 @@ class CartController extends Controller
                     'payment_id' => $request->payment_id,
                     'order_id' => $request->order_id,
                     'signature' => $request->signature,
+                    'price' => $request->price,
+                    'tax' => $request->tax,
                     'amount' => $request->amount,
                     'status' => $payment['status']
                 ]);
 
+                DB::table('transactions')->insert([
+                    'user_id' => auth()->user()->id,
+                    'transaction_id' => 'trans-' . str_random(8),
+                    'amount' => $request->amount,
+                    'type' => 'pay',
+                    'order_id' => $new_order->id,
+                    'status' => 1
+                ]);
+
                 // Add data to course_student table and Make Order Items
                 foreach (Cart::session(auth()->user()->id)->getContent() as $item) {
+
+                    $tax = $this->getTax($item->price);
+
+                    $new_orderItem = OrderItem::create([
+                        'order_id' => $new_order->id,
+                        'item_id' => $item->id,
+                        'price' => $item->price,
+                        'tax' => $tax,
+                        'amount' => $tax + $item->price
+                    ]);
+
                     if ($item->attributes->product_type == 'bundle') {
 
-                        $new_orderItem = OrderItem::create([
-                            'order_id' => $new_order->id,
-                            'item_type' => 'App\Models\Bundle',
-                            'item_id' => $item->id,
-                            'amount' => $item->price,
-                        ]);
+                        $new_orderItem->item_type = 'App\Models\Bundle';
+                        $new_orderItem->save();
 
                         DB::table('bundle_student')->insert([
                             'bundle_id' => $item->id,
@@ -224,12 +257,8 @@ class CartController extends Controller
                         ]);
                     } else {
 
-                        $new_orderItem = OrderItem::create([
-                            'order_id' => $new_order->id,
-                            'item_type' => 'App\Models\Bundle',
-                            'item_id' => $item->id,
-                            'amount' => $item->price,
-                        ]);
+                        $new_orderItem->item_type = 'App\Models\Course';
+                        $new_orderItem->save();
 
                         DB::table('course_student')->insert([
                             'course_id' => $item->id,
@@ -239,7 +268,7 @@ class CartController extends Controller
                     }
                 }
 
-                $this->sendOrderEmail($new_order->id);
+                // $this->sendOrderEmail($new_order->id);
 
                 // Remove Cart
                 Cart::clear();

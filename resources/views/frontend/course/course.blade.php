@@ -153,7 +153,7 @@
                 </div>
                 @endif
 
-                @if(auth()->user()->hasRole('Instructor'))
+                @if(auth()->user()->hasRole('Instructor') && $is_mine)
                 <a href="{{ route('admin.courses.edit', $course->id) }}" class="btn btn-accent">Edit</a>
                 @endif
             </nav>
@@ -168,7 +168,7 @@
                     <h1 class="text-white">{{ $course->title }}</h1>
                     <p class="lead text-white-50 measure-hero-lead mb-24pt">{{ $course->short_description }}</p>
 
-                    @if(auth()->check() && !$is_mine)
+                    @if(auth()->check() && auth()->user()->hasRole('Student'))
                     @if($course->favorited())
                     <button data-route="{{ route('admin.course.addFavorite', $course->id) }}" disabled class="btn btn-white mr-12pt"><i
                             class="material-icons icon--left">favorite_border</i> Added to Favorite</button>
@@ -565,7 +565,7 @@
 
                             </div>
 
-                            @if(auth()->check())
+                            @if(auth()->check() && auth()->user()->hasRole('Student'))
                             <div class="pl-5 pr-5">
 
                                 <div class="form-group mb-32pt">
@@ -609,13 +609,6 @@
 
                             </div>
                             @endif
-                            
-                            <!-- <button class="btn btn-primary mb-8pt btn-enroll" enroll-type="group"
-                                course-id="{{ $course->id }}">Group -
-                                {{ config('app.currency') . $course->group_price }}</button>
-                            <button class="btn btn-accent mb-8pt btn-enroll" enroll-type="private"
-                                course-id="{{ $course->id }}">Private -
-                                {{ config('app.currency') . $course->private_price }}</button> -->
 
                         </div>
                     </div>

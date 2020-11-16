@@ -122,15 +122,17 @@
                         </div>
 
                         @if($taxData != null)
+                            @php $total_tax = 0; @endphp
                             @foreach($taxData as $tax)
                             <div class="d-flex mb-16pt">
                                 <div class="flex form-label mb-0">
                                     {{ $tax['name']}}:
                                 </div>
                                 <div class="flex form-label mb-0">
-                                    {{ getCurrency(config('app.currency'))['symbol'] . ' ' . number_format($tax['amount'],2)}}
+                                    {{ getCurrency(config('app.currency'))['symbol'] . ' ' . number_format($tax['amount'], 2)}}
                                 </div>
                             </div>
+                            @php $total_tax += $tax['amount']; @endphp
                             @endforeach
                         @endif
                         
@@ -188,7 +190,9 @@
                     razor_order_id: response.razorpay_order_id,
                     signature: response.razorpay_signature,
                     order_id: '{{ $orderId }}',
-                    amount: '{{ $total }}'
+                    price: '{{ $total }}',
+                    tax: '{{ $total_tax }}',
+                    amount: '{{ $cartTotal }}'
                 },
                 success: function(res) {
                     if(res.success) {

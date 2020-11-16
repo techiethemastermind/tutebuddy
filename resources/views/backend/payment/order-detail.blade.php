@@ -63,7 +63,7 @@
                         <div class="form-row align-items-center">
                             <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Amount: </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
-                                <strong>{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</strong>
+                                <strong>{{ getCurrency(config('app.currency'))['symbol'] . $order->price }}</strong>
                             </div>
                         </div>
                     </div>
@@ -140,6 +140,13 @@
 
                     <tbody>
                         @foreach($order->items as $item)
+                        <?php
+                            $completed = false;
+                            if(\Carbon\Carbon::parse($item->course->end_date)->diffInDays(\Carbon\Carbon::now()) > 7 &&
+                            $item->course->end_date < \Carbon\Carbon::now()->format('Y-m-d')) {
+                                $completed = true;
+                            }
+                        ?>
                         <tr>
                             <td></td>
                             <td>
@@ -164,14 +171,14 @@
                             <td>
                                 <div class="d-flex flex-column">
                                     <small class="js-lists-values-budget">
-                                        <strong>{{ getCurrency(config('app.currency'))['symbol'] . $item->amount }}</strong>
+                                        <strong>{{ getCurrency(config('app.currency'))['symbol'] . $item->price }}</strong>
                                     </small>
                                     <small class="text-50">Completed</small>
                                 </div>
                             </td>
                             <td><strong>{{ \Carbon\Carbon::parse($item->course->end_date)->format('M d Y') }}</strong></td>
                             <td>
-                                @if(\Carbon\Carbon::parse($item->course->end_date)->diffInDays(\Carbon\Carbon::now()) < -7)
+                                @if($completed)
                                 <div class="d-flex flex-column">
                                     <small class="js-lists-values-status text-50 mb-4pt">Completed</small>
                                     <span class="indicator-line rounded bg-primary"></span>
@@ -184,7 +191,7 @@
                                 @endif
                             </td>
                             <td>
-                                @if(\Carbon\Carbon::parse($item->course->end_date)->diffInDays(\Carbon\Carbon::now()) > -7)
+                                @if(!$completed)
                                 <a href="" class="btn btn-sm btn-accent">Refund</a>
                                 @endif
                             </td>

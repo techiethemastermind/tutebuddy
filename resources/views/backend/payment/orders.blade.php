@@ -54,7 +54,6 @@
                             </th>
                             <th> Customer </th>
                             <th> Total </th>
-                            <th> Status </th>
                             <th> Action </th>
                         </tr>
                     </thead>
@@ -94,15 +93,7 @@
 
                             <td>
                                 <div class="d-flex flex-column">
-                                    <small class="js-lists-values-budget"><strong>{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</strong></small>
-                                    <small class="text-50">Completed</small>
-                                </div>
-                            </td>
-
-                            <td>
-                                <div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">Progressing</small>
-                                    <span class="indicator-line rounded bg-primary"></span>
+                                    <small class="js-lists-values-budget"><strong>{{ getCurrency(config('app.currency'))['symbol'] . $order->price }}</strong></small>
                                 </div>
                             </td>
 

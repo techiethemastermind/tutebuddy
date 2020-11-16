@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Course;
 use App\User;
+use App\Models\Tax;
 
 class PaymentController extends Controller
 {
