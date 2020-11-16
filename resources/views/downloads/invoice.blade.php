@@ -175,16 +175,12 @@
         </thead>
         <tbody>
             @foreach($order->items as $item)
-            <?php
-                $gst = $item->amount * 0.18;
-                $total = $item->amount + $gst;
-            ?>
             <tr>
                 <td class="service">{{ $item->course->title }}</td>
                 <td class="desc">{{ $item->course->short_description }}</td>
-                <td class="unit">{{ getCurrency(config('app.currency'))['symbol'] . $item->amount }}</td>
-                <td>{{ getCurrency(config('app.currency'))['symbol'] . $gst }}</td>
-                <td class="total">{{ getCurrency(config('app.currency'))['symbol'] . $total }}</td>
+                <td class="unit">{{ getCurrency(config('app.currency'))['symbol'] . $item->price }}</td>
+                <td>{{ getCurrency(config('app.currency'))['symbol'] . $item->tax }}</td>
+                <td class="total">{{ getCurrency(config('app.currency'))['symbol'] . $item->amount }}</td>
             </tr>
             @endforeach
         </tbody>
