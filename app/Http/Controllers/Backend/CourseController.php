@@ -541,6 +541,13 @@ class CourseController extends Controller
                                 </div>';
             }
 
+            if($course->end_date < Carbon::now()->format('Y-m-d')) {
+                $temp['status'] = '<div class="d-flex flex-column">
+                                    <small class="js-lists-values-status text-50 mb-4pt">Out date</small>
+                                    <span class="indicator-line rounded bg-danger"></span>
+                                </div>';
+            }
+
             $show_route = route('courses.show', $course->slug);
             $edit_route = route('admin.courses.edit', $course->id);
             $delete_route = route('admin.courses.destroy', $course->id);

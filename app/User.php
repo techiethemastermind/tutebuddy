@@ -91,12 +91,6 @@ class User extends Authenticatable
         return null;
     }
 
-    public function studentCourse()
-    {
-        $course_student = DB::table('course_student')->where('user_id', $this->id)->first();
-        return Models\Course::find($course_student->course_id);
-    }
-
     public function reviews()
     {
         return $this->morphMany(Models\Review::class, 'reviewable');

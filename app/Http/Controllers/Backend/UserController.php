@@ -282,18 +282,28 @@ class UserController extends Controller
     public function getEnrolledStudentsByAjax()
     {
         $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
-        $students = User::whereIn('id', $student_ids)->get();
+        $course_students = DB::table('course_student')->whereIn('course_id', $course_ids)->get();
+
+        $students = collect();
+        foreach($course_students as $item) {
+            $c_item = Course::find($item->course_id);
+            $u_item = User::find($item->user_id);
+            $data = [
+                'course' => $c_item,
+                'user' => $u_item
+            ];
+            $students->push($data);
+        }
 
         $data = [];
         foreach($students as $student) {
             $temp = [];
             $temp['index'] = '';
             
-            if(!empty($student->avatar)) {
-                $avatar = '<img src="'. asset('/storage/avatars/' . $student->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';
+            if(!empty($student['user']->avatar)) {
+                $avatar = '<img src="'. asset('/storage/avatars/' . $student['user']->avatar) .'" alt="Avatar" class="avatar-img rounded-circle">';
             } else {
-                $avatar = '<span class="avatar-title rounded-circle">'. substr($student->name, 0, 2) .'</span>';
+                $avatar = '<span class="avatar-title rounded-circle">'. substr($student['user']->name, 0, 2) .'</span>';
             }
 
             $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
@@ -303,8 +313,8 @@ class UserController extends Controller
                                 <div class="media-body">
                                     <div class="d-flex align-items-center">
                                         <div class="flex d-flex flex-column">
-                                            <p class="mb-0"><strong class="js-lists-values-name">'. $student->name .'</strong></p>
-                                            <small class="js-lists-values-email text-50">'. $student->email .'</small>
+                                            <p class="mb-0"><strong class="js-lists-values-name">'. $student['user']->name .'</strong></p>
+                                            <small class="js-lists-values-email text-50">'. $student['user']->email .'</small>
                                         </div>
                                         <div class="d-flex align-items-center ml-24pt">
                                             <i class="material-icons text-20 icon-16pt">comment</i>
@@ -313,17 +323,17 @@ class UserController extends Controller
                                     </div>
                                 </div>
                             </div>';
-            $temp['course'] = '<strong>'. $student->studentCourse()->title .'</strong>';
-            $temp['start_date'] = '<strong>'. $student->studentCourse()->start_date .'</strong>';
-            $temp['end_date'] = '<strong>'. $student->studentCourse()->end_date .'</strong>';
+            $temp['course'] = '<strong>'. $student['course']->title .'</strong>';
+            $temp['start_date'] = '<strong>'. $student['course']->start_date .'</strong>';
+            $temp['end_date'] = '<strong>'. $student['course']->end_date .'</strong>';
 
-            if($student->studentCourse()->progress() > 99) {
+            if($student['course']->progress() > 99) {
                 $status = '<span class="indicator-line rounded bg-success"></span>';
             } else {
                 $status = '<span class="indicator-line rounded bg-primary"></span>';
             }
             $temp['status'] = '<div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">'. $student->studentCourse()->progress() .'%</small>
+                                    <small class="js-lists-values-status text-50 mb-4pt">'. $student['course']->progress() .'%</small>
                                     '. $status .'
                                 </div>';
 

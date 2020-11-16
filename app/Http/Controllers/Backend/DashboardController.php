@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 use App\User;
 use App\Models\Course;
@@ -71,8 +72,18 @@ class DashboardController extends Controller
                 $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
                 $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->orderBy('updated_at', 'desc')->limit(5)->get();
 
-                $student_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('user_id');
-                $students = User::whereIn('id', $student_ids)->limit(5)->get();
+                $course_students = DB::table('course_student')->whereIn('course_id', $course_ids)->get();
+                $students = collect();
+                foreach($course_students as $item) {
+                    $c_item = Course::find($item->course_id);
+                    $u_item = User::find($item->user_id);
+                    $data = [
+                        'course' => $c_item,
+                        'user' => $u_item
+                    ];
+                    $students->push($data);
+                }
+
                 $assignments = Assignment::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->limit(5)->get();
                 $assignment_ids = Assignment::where('user_id', auth()->user()->id)->pluck('id');
                 $assignment_results = AssignmentResult::whereIn('assignment_id', $assignment_ids)->limit(5)->get();

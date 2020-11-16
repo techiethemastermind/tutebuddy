@@ -198,17 +198,17 @@
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                         <div class="avatar avatar-sm mr-8pt">
-                                            @if(!empty($student->avatar))
-                                            <img src="{{ asset('/storage/avatars/' . $student->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
+                                            @if(!empty($student['user']->avatar))
+                                            <img src="{{ asset('/storage/avatars/' . $student['user']->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
                                             @else
-                                            <span class="avatar-title rounded-circle">{{ substr($student->name, 0, 2) }}</span>
+                                            <span class="avatar-title rounded-circle">{{ substr($student['user']->name, 0, 2) }}</span>
                                             @endif
                                         </div>
                                         <div class="media-body">
                                             <div class="d-flex align-items-center">
                                                 <div class="flex d-flex flex-column">
-                                                    <p class="mb-0"><strong class="js-lists-values-name">{{ $student->name }}</strong></p>
-                                                    <small class="js-lists-values-email text-50">{{ $student->email }}</small>
+                                                    <p class="mb-0"><strong class="js-lists-values-name">{{ $student['user']->name }}</strong></p>
+                                                    <small class="js-lists-values-email text-50">{{ $student['user']->email }}</small>
                                                 </div>
                                                 <div class="d-flex align-items-center ml-24pt">
                                                     <i class="material-icons text-20 icon-16pt">comment</i>
@@ -220,18 +220,18 @@
                                 </td>
 
                                 <td>
-                                    <strong>{{ $student->studentCourse()->title }}</strong>
+                                    <strong>{{ $student['course']->title }}</strong>
                                 </td>
                                 <td>
-                                    <strong>{{ $student->studentCourse()->start_date }}</strong>
+                                    <strong>{{ $student['course']->start_date }}</strong>
                                 </td>
                                 <td>
-                                    <strong>{{ $student->studentCourse()->end_date }}</strong>
+                                    <strong>{{ $student['course']->end_date }}</strong>
                                 </td>
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <small class="js-lists-values-status text-50 mb-4pt">{{ $student->studentCourse()->progress() }}%</small>
-                                        @if($student->studentCourse()->progress() > 99)
+                                        <small class="js-lists-values-status text-50 mb-4pt">{{ $student['course']->progress() }}%</small>
+                                        @if($student['course']->progress() > 99)
                                         <span class="indicator-line rounded bg-success"></span>
                                         @else
                                         <span class="indicator-line rounded bg-primary"></span>
