@@ -285,9 +285,17 @@
                                                     <p class="flex text-black-50 lh-1 mb-0"><small>Beginner</small></p>
                                                 </div>
                                             </div>
+                                            @if(auth()->check() && auth()->user()->hasRole('Student'))
                                             <div class="col text-right">
                                                 <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">Enroll Now</a>
                                             </div>
+                                            @endif
+
+                                            @if(!auth()->check())
+                                            <div class="col text-right">
+                                                <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">Enroll Now</a>
+                                            </div>
+                                            @endif
                                         </div>
 
                                     </div>

@@ -24,7 +24,7 @@ class Course extends Model
     {
         parent::boot();
         if (auth()->check()) {
-            if (auth()->user()->hasRole('Instructor') && request()->route()->uri() != '/') {
+            if (auth()->user()->hasRole('Instructor') && request()->is('dashboard/*')) {
                 static::addGlobalScope('filter', function (Builder $builder) {
                     $builder->whereHas('teachers', function ($q) {
                         $q->where('course_user.user_id', '=', auth()->user()->id);
