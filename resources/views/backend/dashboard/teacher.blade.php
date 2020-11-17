@@ -61,6 +61,76 @@
                 </div>
             </div>
         </div>
+
+        <div class="container page__container mt-32pt">
+            <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+                <div class="card-header">
+                    <p class="page-separator__text bg-white mb-0"><strong>Pending Orders</strong></p>
+                    <a href="{{ route('admin.orders') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                </div>
+                <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
+                    data-lists-sort-desc="true">
+                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                    <thead>
+                        <tr>
+                            <th style="width: 18px;" class="pr-0"></th>
+                            <th>Order ID</th>
+                            <td>Order Date</td>
+                            <th>Course</th>
+                            <th>Customer</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($pending_orders  as $item)
+                        <tr>
+                            <td></td>
+                            <td><a href="{{ route('admin.orders.detail', $item->order->id) }}">{{ $item->order->order_id }}</a></td>
+                            <td>{{ \Carbon\Carbon::parse($item->created_at)->format('M, d, Y') }}</td>
+                            <td>
+                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        <span class="avatar-title rounded bg-primary text-white">
+                                            {{ substr($item->course->title, 0, 2) }}
+                                        </span>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <small class="js-lists-values-project">
+                                                <strong>{{ $item->course->title }}</strong></small>
+                                            <small
+                                                class="js-lists-values-location text-50">{{ $item->course->teachers[0]->name }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        @if(!empty($item->order->user->avatar))
+                                        <img src="{{ asset('/storage/avatars/' . $item->order->user->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
+                                        @else
+                                        <span class="avatar-title rounded-circle">{{ substr($item->order->user->name, 0, 2) }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex d-flex flex-column">
+                                                <p class="mb-0"><strong class="js-lists-values-name">{{ $item->order->user->name }}</strong></p>
+                                                <small class="js-lists-values-email text-50">{{ $item->order->user->email }}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ getCurrency(config('app.currency'))['symbol'] . ' ' . $item->price }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
     </div>
     @endif
 

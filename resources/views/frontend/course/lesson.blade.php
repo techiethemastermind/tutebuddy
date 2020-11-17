@@ -59,7 +59,7 @@
                     </div>
                 </div>
             </nav>
-            <ul class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
+            <!-- <ul class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
                 <li class="nav-item active ml-sm-16pt">
                     <a href="" class="nav-link">Video</a>
                 </li>
@@ -72,7 +72,7 @@
                 <li class="nav-item">
                     <a href="" class="nav-link">Discussions</a>
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </div>
 
@@ -89,6 +89,13 @@
                     @endif
                 </a>
                 @endforeach
+
+                <!-- @foreach($lesson->tests as $test)
+                <a data-toggle="tooltip" data-placement="bottom" data-title="{{ $test->title }}" class=""
+                    href="{{ route('student.test.show', [$lesson->slug, $test->id]) }}">
+                    <span class="material-icons">{{ config('stepicons')['test'] }}</span>
+                </a>
+                @endforeach -->
             </nav>
             
             @if($step->type == 'video')
@@ -129,7 +136,7 @@
 
             @elseif($step->type == 'text')
 
-            <div class="card card-body" id="step_content"></div>
+            <div class="card card-body" id="step_content">{!! $step->text !!}</div>
 
             @endif
 
@@ -144,9 +151,15 @@
                 Next <i class="material-icons icon--right">chevron_right</i>
             </a>
             @else
+            @if($lesson->isCompleted())
+            <button disabled="disabled" class="btn btn-white">
+                Completed <i class="material-icons icon--right">done</i>
+            </button>
+            @else
             <a href="{{ route('lesson.complete', $lesson->id) }}" class="btn btn-outline-white">
                 Finish <i class="material-icons icon--right">pause</i>
             </a>
+            @endif
             @endif
 
             @if(!$step->isCompleted())
@@ -187,7 +200,7 @@
                 </li>
                 <li class="nav-item navbar-list__item">
                     <i class="material-icons text-muted icon--left">schedule</i>
-                    2h 46m
+                    {{ $step->duration }} min
                 </li>
                 <li class="nav-item navbar-list__item">
                     <i class="material-icons text-muted icon--left">assessment</i>
@@ -458,7 +471,7 @@
 
                     </div>
 
-                    <a href="{{ route('admin.discussions.topics') }}" class="btn btn-outline-secondary">See all discussions for this lesson</a>
+                    <a href="{{ route('admin.discussions.topics') }}" class="btn btn-outline-secondary mt-32pt">See all discussions for this lesson</a>
                 </div>
             </div>
         </div>
@@ -485,14 +498,6 @@
 $(function() {
     
     var stepType = '{{ $step->type }}';
-
-    if(stepType == 'text') {
-        var stepText = JSON.parse($('#step_text').val());
-        var quill = new Quill('#editor');
-        quill.setContents(stepText);
-        var content_html = quill.root.innerHTML;
-        $('#step_content').html(content_html);
-    }
 
     $('#btn_complete').on('click', function() {
         sendGet('/ajax/step/{{ $step->id }}/complete/1');

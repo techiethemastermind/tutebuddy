@@ -23,6 +23,12 @@
 .accordion .btn-actions {
     margin: 0 10px;
 }
+[dir=ltr] .step-menu {
+    box-shadow: 0 0 2px 0px black;
+}
+[dir=ltr] .step-menu:before, [dir=ltr] .step-menu:after {
+    opacity: 0 !important;
+}
 </style>
 
 @endpush
@@ -371,9 +377,6 @@
                                         <div class="dropdown-menu" style="width: 100%;">
                                             <a class="dropdown-item" href="javascript:void(0)" section-type="video">Video Section</a>
                                             <a class="dropdown-item" href="javascript:void(0)" section-type="text">Full Text Section</a>
-                                            <a class="dropdown-item" href="javascript:void(0)" section-type="quiz">Quiz Section</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="javascript:void(0)" section-type="test">Test for this lesson</a>
                                         </div>
                                     </div>
                                 </div>

@@ -98,8 +98,18 @@ class DashboardController extends Controller
                 $balance = $this->getEarned('balance');
                 $total = $this->getEarned('total');
 
+                $pending_orders = collect();
+                $order_items = OrderItem::where('item_id', $course_ids)->orderBy('created_at', 'desc')->get();
+                foreach($order_items as $item) {
+                    if(Carbon::parse($item->course->end_date)->diffInDays(Carbon::now()) < 7 ||
+                            $item->course->end_date > Carbon::now()->format('Y-m-d')) {
+                                $pending_orders->push($item);
+                    }
+                }
+
                 return view('backend.dashboard.teacher', 
                     compact(
+                        'pending_orders',
                         'courses',
                         'schedules',
                         'students',
@@ -181,7 +191,7 @@ class DashboardController extends Controller
 
                 $earned = OrderItem::whereIn('item_id', $course_ids_this_month)
                         ->whereBetween('created_at', [$start->format('Y-m-d')." 00:00:00", $now->format('Y-m-d')." 23:59:59"])
-                        ->sum('amount');
+                        ->sum('price');
 
                 return $earned;
             break;
@@ -193,8 +203,8 @@ class DashboardController extends Controller
                     ->whereIn('id', $purchased_ids)
                     ->pluck('id');
 
-                $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('amount');
-                $withdraws = Transaction::where('user_id', auth()->user()->id)->where('type', 0)->sum('amount');
+                $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('price');
+                $withdraws = Transaction::where('user_id', auth()->user()->id)->where('type', 'withdraw')->sum('amount');
                 $balance = $total - $withdraws;
                 return $balance;
             break;
@@ -206,7 +216,7 @@ class DashboardController extends Controller
                     ->whereIn('id', $purchased_ids)
                     ->pluck('id');
 
-                $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('amount');
+                $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('price');
                 return $total;
             break;
         }

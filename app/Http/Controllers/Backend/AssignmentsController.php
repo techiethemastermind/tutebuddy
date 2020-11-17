@@ -108,6 +108,8 @@ class AssignmentsController extends Controller
 
             $attachment_url = $this->saveFile($attachment);
             $data['attachment'] = $attachment_url;
+        } else {
+            unset($data['attachment']);
         }
 
         try {

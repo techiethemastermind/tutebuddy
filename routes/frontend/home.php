@@ -50,7 +50,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('test-result/{lesson_slug}/{test_id}', 'StudentController@TestResult')->name('student.test.result');
 
     // Cart and Checkout
-    
     Route::get('cart', 'CartController@index')->name('cart.index');
     Route::get('cart/checkout', 'CartController@checkout')->name('cart.checkout');
     Route::get('cart/remove', 'CartController@remove')->name('cart.remove');

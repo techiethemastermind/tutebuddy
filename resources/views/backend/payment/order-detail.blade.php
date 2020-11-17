@@ -61,14 +61,6 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Amount: </label>
-                            <div role="group" aria-labelledby="label-type" class="col-md-8">
-                                <strong>{{ getCurrency(config('app.currency'))['symbol'] . $order->price }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="form-row align-items-center">
                             <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Payment Status: </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong class="text-capitalize">{{ $order->status }}</strong>
@@ -140,6 +132,7 @@
 
                     <tbody>
                         @foreach($order->items as $item)
+                        @if(!empty($item->course))
                         <?php
                             $completed = false;
                             if(\Carbon\Carbon::parse($item->course->end_date)->diffInDays(\Carbon\Carbon::now()) > 7 &&
@@ -196,6 +189,7 @@
                                 @endif
                             </td>
                         </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>

@@ -37,24 +37,7 @@ class LessonsController extends Controller
         $next = Step::where('lesson_id', $lesson->id)->where('step', $order + 1)->first();
         $discussions = $course->discussions->take(5);
 
-        if($step->type == 'test') {
-
-            $test = $step->getTest;
-            $completed = $test->isCompleted();
-
-            if($completed) {
-                $test_result = TestResults::where('test_id', $test->id)->where('user_id', auth()->user()->id)->first();
-                $test_answers = TestResultAnswers::where('test_result_id', $test_result->id)->get();
-                $questions = $test->questions;
-                return view('frontend.course.test_result', compact('lesson', 'test', 'test_result', 'step', 'test_answers', 'questions', 'next'));
-            } else {
-                $testStep = 0;
-                return view('frontend.course.test', compact('lesson', 'step', 'test', 'testStep'));
-            }
-            
-        } else {
-            return view('frontend.course.lesson', compact('lesson', 'step', 'prev', 'next', 'discussions'));
-        }
+        return view('frontend.course.lesson', compact('lesson', 'step', 'prev', 'next', 'discussions'));
     }
 
     /**
@@ -77,6 +60,73 @@ class LessonsController extends Controller
             }
         }
         return false;
+    }
+
+    public function completeStep($id, $type)
+    {
+        $step = Step::find($id);
+        $course = $step->lesson->course;
+        $update_data = [
+            'model_type' => Step::class,
+            'model_id' => $id,
+            'user_id' => auth()->user()->id,
+            'course_id' => $course->id
+        ];
+
+        if($type == 1) {
+            try {
+                ChapterStudent::updateOrCreate($update_data, $update_data);
+    
+                return response()->json([
+                    'success' => 'true',
+                    'action' => 'complete'
+                ]);
+            } catch (Exception $e) {
+    
+                return response()->json([
+                    'success' => 'false',
+                    'msg' => $e->getMessage()
+                ]);
+            }
+        } elseif ($type == 0) {
+
+            try {
+                ChapterStudent::where('model_type', $update_data['model_type'])
+                    ->where('model_id', $update_data['model_id'])
+                    ->where('user_id', $update_data['user_id'])
+                    ->delete();
+    
+                return response()->json([
+                    'success' => 'true',
+                    'action' => 'uncomplete'
+                ]);
+            } catch (Exception $e) {
+    
+                return response()->json([
+                    'success' => 'false',
+                    'msg' => $e->getMessage()
+                ]);
+            }
+        }
+    }
+
+    public function completeLesson($id)
+    {
+        $lesson = Lesson::find($id);
+        $update_data = [
+            'model_type' => Lesson::class,
+            'model_id' => $id,
+            'user_id' => auth()->user()->id,
+            'course_id' => $lesson->course->id
+        ];
+
+        try {
+            ChapterStudent::updateOrCreate($update_data, $update_data);
+            return redirect()->route('courses.show', $lesson->course->slug);
+        } catch (Exception $e) {
+
+            return back()->withErrors([$e->getMessage()]);
+        }
     }
 
     /**
