@@ -121,8 +121,9 @@
                             </div>
                         </div>
 
+                        @php $total_tax = 0; @endphp
+
                         @if($taxData != null)
-                            @php $total_tax = 0; @endphp
                             @foreach($taxData as $tax)
                             <div class="d-flex mb-16pt">
                                 <div class="flex form-label mb-0">

@@ -220,7 +220,6 @@ class DashboardController extends Controller
                 return $total;
             break;
         }
-
         
     }
 }

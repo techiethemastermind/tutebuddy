@@ -380,10 +380,51 @@
                             </div>
 
                             <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-left">Account Fee (%):</label>
+                                    <input type="number" class="form-control col-lg-8" id="account__fee" name="account__fee" value="{{ config('account.fee') }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="flex form-inline" style="max-width: 100%">
+                                    <label class="form-label col-lg-3" for="services__razorpay__active">RazorPay: </label>
+                                    <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
+                                        <input type="checkbox" @if(config('services.razorpay.active')==1) checked="" @endif id="services__razorpay__active"
+                                            name="services__razorpay__active" class="custom-control-input" value="{{ config('services.razorpay.active') }}">
+                                        <label class="custom-control-label" for="services__razorpay__active">Yes</label>
+                                    </div>
+                                    <label class="form-label mb-0" for="services__razorpay__active">Yes
+                                        <small class="text-muted">&nbsp; (Enables payments in site with Debit / Credit
+                                            Cards)</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="wrap @if(config('services.razorpay.active')==0) d-none @endif"
+                                for="services__razorpay__active">
+                                <div class="form-group offset-3">
+                                    <div class="controls form-inline ">
+                                        <label for="" class="form-label col-lg-2 content-left">API Key: </label>
+                                        <input class="form-control col-lg-8" type="text" name="services__razorpay__key"
+                                            id="services__razorpay__key" value="{{ config('services.razorpay.key') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group offset-3">
+                                    <div class="controls form-inline ">
+                                        <label for="" class="form-label col-lg-2 content-left">API Secret: </label>
+                                        <input class="form-control col-lg-8" type="text" name="services__razorpay__secret"
+                                            id="services__razorpay__secret" value="{{ config('services.razorpay.secret') }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <div class="flex form-inline" style="max-width: 100%">
                                     <label class="form-label col-lg-3" for="services__stripe__active">Stripe: </label>
                                     <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
-                                        <input type="checkbox" checked="" id="services__stripe__active"
+                                        <input type="checkbox" @if(config('services.stripe.active')==1) checked="" @endif id="services__stripe__active"
                                             name="services__stripe__active" class="custom-control-input" value="{{ config('services.stripe.active') }}">
                                         <label class="custom-control-label" for="services__stripe__active">Yes</label>
                                     </div>
@@ -401,7 +442,7 @@
                                     <div class="controls form-inline ">
                                         <label for="" class="form-label col-lg-2 content-left">API Key: </label>
                                         <input class="form-control col-lg-8" type="text" name="services__stripe__key"
-                                            id="services__stripe__key" value="test">
+                                            id="services__stripe__key" value="{{ config('services.stripe.key') }}">
                                     </div>
                                 </div>
 
@@ -409,7 +450,7 @@
                                     <div class="controls form-inline ">
                                         <label for="" class="form-label col-lg-2 content-left">API Secret: </label>
                                         <input class="form-control col-lg-8" type="text" name="services__stripe__secret"
-                                            id="services__stripe__secret" value="test">
+                                            id="services__stripe__secret" value="{{ config('services.stripe.secret') }}">
                                     </div>
                                 </div>
                             </div>
@@ -418,7 +459,7 @@
                                 <div class="flex form-inline" style="max-width: 100%">
                                     <label class="form-label col-lg-3" for="paypal__active">PayPal: </label>
                                     <div class="custom-control custom-checkbox-toggle custom-control-inline mr-1">
-                                        <input type="checkbox" checked="" id="paypal__active" name="paypal__active"
+                                        <input type="checkbox" @if(config('paypal.active')==1) checked="" @endif id="paypal__active" name="paypal__active"
                                             class="custom-control-input" value="{{ config('paypal.active') }}">
                                         <label class="custom-control-label" for="paypal__active">Yes</label>
                                     </div>

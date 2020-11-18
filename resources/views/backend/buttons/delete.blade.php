@@ -1,8 +1,10 @@
 <button type="button"
     class="btn btn-danger btn-sm"
     data-action="delete"
+    @if(isset($tooltip) && $tooltip)
     data-toggle="tooltip"
     data-title="delete"
+    @endif
     onclick="doSubmit_action_delete(this)"
 >
 

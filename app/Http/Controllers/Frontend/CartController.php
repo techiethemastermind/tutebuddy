@@ -27,7 +27,7 @@ class CartController extends Controller
     public function __construct()
     {
         $this->currency = getCurrency(config('app.currency'));
-        $this->api = new Api(env('RAZOR_KEY'), env('RAZOR_SECRET'));
+        $this->api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
     }
 
     public function index(Request $request)
@@ -171,16 +171,20 @@ class CartController extends Controller
         Cart::session(auth()->user()->id)->removeConditionsByType('tax');
         if ($taxes != null) {
             $taxData = [];
+            $condition_val = 0;
             foreach ($taxes as $tax){
                 $total = Cart::session(auth()->user()->id)->getTotal();
-                $taxData[] = ['name'=> '+'.$tax->rate.'% '.$tax->name,'amount'=> $total*$tax->rate/100 ];
+                if($tax->condition == 'country' && in_array(auth()->user()->country, json_decode($tax->value))) {
+                    $taxData[] = ['name'=> '+'.$tax->rate.'% '.$tax->name,'amount'=> $total*$tax->rate/100 ];
+                    $condition_val += $tax->rate;
+                }
             }
 
             $condition = new \Darryldecode\Cart\CartCondition(array(
                 'name' => 'Tax',
                 'type' => 'tax',
                 'target' => 'total', // this condition will be applied to cart's subtotal when getSubTotal() is called.
-                'value' => $taxes->sum('rate') .'%',
+                'value' => $condition_val .'%',
                 'order' => 2
             ));
             Cart::session(auth()->user()->id)->condition($condition);
@@ -206,7 +210,7 @@ class CartController extends Controller
         if(isset($request->payment_id)) {
 
             // Verify Payment
-            $generated_signature = hash_hmac('sha256', $request->order_id . '|' . $request->payment_id , env('RAZOR_SECRET'));
+            $generated_signature = hash_hmac('sha256', $request->order_id . '|' . $request->payment_id , config('services.razorpay.secret'));
 
             if ($generated_signature == $request->signature) {
 

@@ -37,6 +37,60 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
+            <div class="page-separator__text">Account Balance</div>
+        </div>
+
+        <div class="row mb-32pt">
+            <div class="col-lg-4">
+                <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
+                    <div class="card-body">
+                        <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($earned_this_month, 2) }}</h4>
+                        <div>Earnings this month</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
+                    <div class="card-body">
+                        <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
+                        <div>Account Balance</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
+                    <div class="card-body">
+                        <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total, 2) }}</h4>
+                        <div>Total Sales</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-left-3 border-left-accent mb-32pt">
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-3">
+                        <label for="">Account Balance</label>
+                        <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="">Account Fee (20%)</label>
+                        <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance * 0.2, 2) }}</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="">Available to Withdraw</label>
+                        <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance - ($balance * 0.2), 2) }}</h4>
+                    </div>
+                    <div class="col-md-3">
+                        <label for=""></label>
+                        <p><button id="btn_withdraw" class="btn btn-md btn-primary">Withdraw</button></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-separator">
             <div class="page-separator__text">My Sales</div>
         </div>
 
@@ -141,13 +195,50 @@
     </div>
 </div>
 
+<!-- Schedule Modal for Lesson select -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Withdraw Money</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group mb-0">
+                    <div class="p-3">
+                        <div class="form-group">
+                            <label for="">Available to Withdraw</label>
+                            <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance - ($balance * 0.2), 2) }}</h4>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Amount to Withdraw</label>
+                            <input type="number" class="form-control" placeholder="100">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button id="btn_confirm" class="btn btn-outline-primary btn-update">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('after-scripts')
 
 <script src="{{ asset('assets/plugin/datatables.min.js') }}"></script>
 
 <script>
     $(function() {
-        // Code here
+        $('#btn_withdraw').on('click', function(e) {
+            $('#withdrawModal').modal('toggle');
+        });
     });
 </script>
 

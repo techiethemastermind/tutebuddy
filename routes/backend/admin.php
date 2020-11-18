@@ -202,3 +202,7 @@ Route::get('results/detail/{id}', 'ResultsController@getResultDetail')->name('re
 
 //=== My Badges ===//
 Route::get('badges', 'ResultsController@badges')->name('results.student.badges');
+
+//=== Tax route ===//
+Route::resource('tax', 'TaxController');
+Route::get('tax/publish/{id}', 'TaxController@publish')->name('tax.publish');

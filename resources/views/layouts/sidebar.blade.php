@@ -461,6 +461,12 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/tax*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.tax.index') }}">
+                                <span class="sidebar-menu-text">Payment Taxes</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-menu-item {{ Request::is('dashboard/lang*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="">
                                 <span class="sidebar-menu-text">Language</span>
