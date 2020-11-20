@@ -34,8 +34,10 @@
 
             <div class="row" role="tablist">
                 <div class="col-auto mr-3">
-                    @if($order->refunded())
+                    @if(!empty($order->refund) && $order->refund->status == 0)
                     <button id="btn_refund" class="btn btn-accent" disabled>Refund Requested</button>
+                    @elseif(!empty($order->refund) && $order->refund->status == 1)
+                    <button class="btn btn-accent" disabled>Refunded</button>
                     @else
                     <button id="btn_refund" class="btn btn-accent">Refund Request</button>
                     @endif

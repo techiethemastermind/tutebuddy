@@ -30,9 +30,8 @@ class Order extends Model
         return $this->belongsTo(Coupon::class);
     }
 
-    public function refunded()
+    public function refund()
     {
-        $r = Refund::where('order_id', $this->id)->first();
-        return !empty($r) ? true : false;
+        return $this->hasOne(Refund::class);
     }
 }

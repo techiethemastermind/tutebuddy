@@ -58,8 +58,16 @@
                         <td class="">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</td>
                         <td>
                             <div class="d-flex flex-column">
-                                <small class="js-lists-values-status text-50 mb-4pt text-capitalize">{{ $order->status }}</small>
-                                <span class="indicator-line rounded bg-primary"></span>
+                                @if(!empty($order->refund) && $order->refund->status == 0)
+                                    <small class="js-lists-values-status text-50 mb-4pt text-capitalize">Refund Requested</small>
+                                    <span class="indicator-line rounded bg-warning"></span>
+                                @elseif(!empty($order->refund) && $order->refund->status == 1)
+                                    <small class="js-lists-values-status text-50 mb-4pt text-capitalize">Refunded</small>
+                                    <span class="indicator-line rounded bg-accent"></span>
+                                @else
+                                    <small class="js-lists-values-status text-50 mb-4pt text-capitalize">{{ $order->status }}</small>
+                                    <span class="indicator-line rounded bg-primary"></span>
+                                @endif
                             </div>
                         </td>
                         <td class="text-right">
