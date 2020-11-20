@@ -193,6 +193,12 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/refund*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.refunds') }}">
+                                <span class="sidebar-menu-text">Refunds</span>
+                            </a>
+                        </li>
+
                         @if(auth()->user()->hasRole('Administrator'))
                         <li class="sidebar-menu-item {{ Request::is('dashboard/contact*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.contacts.index') }}">
@@ -372,8 +378,8 @@
 
                 @if(auth()->user()->hasRole('Student'))
                 <!-- My Payment History -->
-                <li class="sidebar-menu-item {{ Request::is('dashboard/transactions*') ? 'active' : '' }}">
-                    <a class="sidebar-menu-button" href="{{ route('admin.transactions') }}">
+                <li class="sidebar-menu-item {{ Request::is('dashboard/order*') ? 'active' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('admin.orders') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">monetization_on</span>
                         <span class="sidebar-menu-text">My Payments</span>
                     </a>

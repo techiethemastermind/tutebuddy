@@ -11,13 +11,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Transactions</h2>
+                    <h2 class="mb-0">Orders</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            Transactions
+                            Orders
                         </li>
 
                     </ol>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="card table-responsive">
-            <table id="tbl_transactions" class="table table-flush table-nowrap">
+            <table id="tbl_orders" class="table table-flush table-nowrap">
                 <thead>
                     <tr>
                         <th style="width: 18px;" class="pr-0"></th>
@@ -47,34 +47,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($transactions as $transaction)
+                    @foreach($orders as $order)
                     <tr>
                         <td></td>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            <a href="{{ route('admin.transactions.detail', $transaction->id) }}" class="text-underline">{{ $transaction->order_id }}</a>
+                            <a href="{{ route('admin.orders.detail', $order->id) }}" class="text-underline">{{ $order->order_id }}</a>
                         </td>
-                        <td>{{ \Carbon\Carbon::parse($transaction->created_at)->format('M d Y h:i A') }}</td>
-                        <td class="">{{ getCurrency(config('app.currency'))['symbol'] . $transaction->amount }}</td>
+                        <td>{{ \Carbon\Carbon::parse($order->created_at)->format('M d Y h:i A') }}</td>
+                        <td class="">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</td>
                         <td>
                             <div class="d-flex flex-column">
-                                <small class="js-lists-values-status text-50 mb-4pt text-capitalize">{{ $transaction->status }}</small>
+                                <small class="js-lists-values-status text-50 mb-4pt text-capitalize">{{ $order->status }}</small>
                                 <span class="indicator-line rounded bg-primary"></span>
                             </div>
                         </td>
                         <td class="text-right">
                             <div class="d-inline-flex align-items-center">
-                                <a href="{{ route('admin.transactions.detail', $transaction->id) }}" class="btn btn-sm btn-outline-secondary mr-16pt">View Detail
-                                    <i class="icon--right material-icons">keyboard_arrow_right</i></a>
-                                <a href="{{ route('admin.transactions.invoice', $transaction->id) }}" class="btn btn-sm btn-outline-secondary">Invoice <i class="icon--right material-icons">file_download</i></a>
+                                <a href="{{ route('admin.orders.detail', $order->id) }}" class="btn btn-sm btn-outline-secondary mr-16pt">
+                                    View Detail<i class="icon--right material-icons">keyboard_arrow_right</i></a>
+                                <a href="{{ route('admin.orders.invoice', $order->id) }}" class="btn btn-sm btn-outline-secondary">
+                                    Invoice<i class="icon--right material-icons">file_download</i></a>
                             </div>
                         </td>
                     </tr>
                     @endforeach
 
-                    @if(count($transactions) < 1)
+                    @if(count($orders) < 1)
                     <tr>
-                        <td colspan="6" class="text-center">No Transactions</td>
+                        <td colspan="6" class="text-center">No orders</td>
                     </tr>
                     @endif
 
@@ -82,8 +83,8 @@
             </table>
             
             <div class="card-footer p-8pt">
-                @if($transactions->hasPages())
-                {{ $transactions->links('layouts.parts.page') }}
+                @if($orders->hasPages())
+                {{ $orders->links('layouts.parts.page') }}
                 @else
                 <ul class="pagination justify-content-start pagination-xsm m-0">
                     <li class="page-item disabled">

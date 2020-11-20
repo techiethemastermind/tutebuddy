@@ -186,11 +186,18 @@ Route::post('test-result/answer', 'TestController@result_answer')->name('tests.r
 //==== Transactions Route ==== //
 Route::get('transactions', 'PaymentController@getTransactions')->name('transactions');
 Route::get('transactions/detail/{id}', 'PaymentController@transactionsDetail')->name('transactions.detail');
-Route::get('transactions/invoice/{id}', 'PaymentController@downloadInvoice')->name('transactions.invoice');
+
 
 //==== Orders Route ==== //
 Route::get('orders', 'PaymentController@getOrders')->name('orders');
 Route::get('orders/detail/{id}', 'PaymentController@orderDetail')->name('orders.detail');
+Route::get('orders/invoice/{id}', 'PaymentController@downloadInvoice')->name('orders.invoice');
+Route::get('orders/refund/{id}', 'PaymentController@refundRequest')->name('orders.refundrequest');
+
+//==== Refunds ====//
+Route::get('refunds', 'PaymentController@getRefunds')->name('refunds');
+Route::get('refunds/detail/{id}', 'PaymentController@refundDetail')->name('refund.detail');
+Route::get('refunds/process/{id}', 'PaymentController@processRefund')->name('refund.process');
 
 //==== Contacts Route ====//
 Route::resource('contacts', 'ContactsController');
