@@ -95,7 +95,7 @@
                             <td class="pr-0"></td>
 
                             <td>
-                                <strong>{{ $order->order_id }}</strong>
+                                <strong>{{ $order->uuid }}</strong>
                             </td>
 
                             <td>

@@ -209,6 +209,8 @@ class CartController extends Controller
     {
         if(isset($request->payment_id)) {
 
+            $uuid = $this->getUUID();
+
             // Verify Payment
             $generated_signature = hash_hmac('sha256', $request->order_id . '|' . $request->payment_id , config('services.razorpay.secret'));
 
@@ -219,6 +221,7 @@ class CartController extends Controller
                 // Create an Order for Transaction
                 $new_order = Order::create([
                     'user_id' => auth()->user()->id,
+                    'uuid' => $uuid,
                     'payment_id' => $request->payment_id,
                     'order_id' => $request->order_id,
                     'signature' => $request->signature,
@@ -306,6 +309,22 @@ class CartController extends Controller
             'currency'        => $this->currency['short_code'],
         ]);
         return $order['id'];
+    }
+
+    private function getUUID() {
+        $number = mt_rand(10000000, 99999999); // better than rand()
+    
+        // call the same function if the barcode exists already
+        if ($this->uuidExist($number)) {
+            return $this->getUUID();
+        }
+    
+        // otherwise, it's valid and can be used
+        return $number;
+    }
+    
+    private function uuidExist($number) {
+        return empty(Order::where('uuid', $number)->first()) ? false : true;
     }
 
     private function sendOrderEmail($order_id)

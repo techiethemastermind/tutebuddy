@@ -58,15 +58,7 @@
                         <div class="form-row align-items-center">
                             <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Order Id: </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
-                                <strong>{{ $order->order_id }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Payment Id: </label>
-                            <div role="group" aria-labelledby="label-type" class="col-md-8">
-                                <strong>{{ $order->payment_id }}</strong>
+                                <strong>{{ $order->uuid }}</strong>
                             </div>
                         </div>
                     </div>
@@ -131,7 +123,7 @@
                                     <small class="text-50">{{ $item->course->category->name }}</small>
                                 </div>
                             </div>
-                            <a href="javascript(void:0)">{{ getCurrency(config('app.currency'))['symbol'] . $item->amount }}</a>
+                            <a href="javascript(void:0)">{{ getCurrency(config('app.currency'))['symbol'] . $item->price }}</a>
                         </div>
                     </div>
                     @endforeach

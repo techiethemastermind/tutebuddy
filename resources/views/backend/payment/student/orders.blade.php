@@ -52,7 +52,7 @@
                         <td></td>
                         <td>{{ $loop->iteration }}</td>
                         <td>
-                            <a href="{{ route('admin.orders.detail', $order->id) }}" class="text-underline">{{ $order->order_id }}</a>
+                            <a href="{{ route('admin.orders.detail', $order->id) }}" class="text-underline">{{ $order->uuid }}</a>
                         </td>
                         <td>{{ \Carbon\Carbon::parse($order->created_at)->format('M d Y h:i A') }}</td>
                         <td class="">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</td>

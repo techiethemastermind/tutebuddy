@@ -39,15 +39,7 @@
                         <div class="form-row align-items-center">
                             <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Order Id: </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
-                                <strong>{{ $order->order_id }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Payment Id: </label>
-                            <div role="group" aria-labelledby="label-type" class="col-md-8">
-                                <strong>{{ $order->payment_id }}</strong>
+                                <strong>{{ $order->uuid }}</strong>
                             </div>
                         </div>
                     </div>
@@ -56,6 +48,14 @@
                             <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Payment Date: </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ \Carbon\Carbon::parse($order->created_at)->format('M d Y h:i A') }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item">
+                        <div class="form-row align-items-center">
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Order Amount: </label>
+                            <div role="group" aria-labelledby="label-type" class="col-md-8">
+                                <strong class="text-capitalize">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</strong>
                             </div>
                         </div>
                     </div>
