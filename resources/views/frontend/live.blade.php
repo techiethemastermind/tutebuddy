@@ -25,6 +25,10 @@
             margin-left: -250px;
             margin-top: -70px;
         }
+        .card {
+            position: absolute;
+            top: 50%;
+        }
     </style>
 </head>
 
@@ -32,6 +36,11 @@
     <input type="hidden" class="form-control" id="live_url" value="{{ $join_room }}">
     <img src="{{ asset('images/logo.png') }}" alt="Online Learning Platform" class="logo" />
 
+    @if(auth()->user()->hasRole('Student') && !$is_room_run)
+    <div class="card card-body">
+        <label class="card-title">Please wait until create meeting room by Instructor...</label>
+    </div>
+    @endif
     <!-- Setting Modal for Live Lesson -->
     <div class="modal" id="settingModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="modal">
@@ -210,7 +219,7 @@
 
                 <div class="modal-footer">
                     <div class="form-group">
-                        <button class="btn btn-outline-primary btn-add-new">Start</button>
+                        <button id="btn_start" class="btn btn-outline-primary btn-add-new">Start</button>
                     </div>
                 </div>
             </div>
@@ -227,13 +236,21 @@
 
 <script>
     $(function() {
-        $('#settingModal').toggle();
+        if("{{ auth()->user()->hasRole('Instructor') }}" == '1') {
+            $('#settingModal').toggle();
+        }
+
+        if("{{ auth()->user()->hasRole('Student') }}" == '1' && '{{ $is_room_run }}' == '1') {
+            redirect();
+        }
+
+        $('#btn_start').on('click', function() {
+            redirect();
+        });
     });
     function redirect() {
         var url = document.getElementById('live_url').value.replace(/\\\//g, "/");
-        var result = url.substring(1, url.length - 1);
-        console.log(result);
-        location.href = result;
+        location.href = url;
     }
 </script>
 

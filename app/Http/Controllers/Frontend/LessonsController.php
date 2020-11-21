@@ -142,6 +142,8 @@ class LessonsController extends Controller
         $moderatorPW = 'mp';
         $meeting_name = preg_replace('/\s+/', '+', $course->title . ' - ' . $lesson->title . ' ' . $schedule->start_time . ' to ' . $schedule->end_time);
         $duration = strtotime($schedule->end_time) - strtotime($schedule->start_time);
+
+        $is_room_run = false;
         
         if(auth()->user()->hasRole('Instructor') || auth()->user()->hasRole('Administrator')) {
 
@@ -170,6 +172,8 @@ class LessonsController extends Controller
                 $meetingId = $array['meetingID'];
                 $lesson->meeting_id = $meetingId;
                 $lesson->save();
+
+                $is_room_run = true;
             }
 
             // Load with Manager
@@ -180,33 +184,57 @@ class LessonsController extends Controller
             $join_room_str = 'join' . $room_str . config('liveapp.key');
             
             $checksum = sha1($join_room_str);
-            $join_room = json_encode($url . $room_str . '&checksum=' . $checksum);
+            $join_room = $url . $room_str . '&checksum=' . $checksum;
 
-            return view('frontend.live', compact('join_room'));
+            return view('frontend.live', compact('join_room', 'is_room_run'));
         }
 
         if(auth()->user()->hasRole('Student')) {
 
-            // Set lesson completed
-            $update_data = [
-                'model_type' => Lesson::class,
-                'model_id' => $lesson->id,
-                'user_id' => auth()->user()->id,
-                'course_id' => $lesson->course->id
-            ];
+            $join_room = '';
 
-            ChapterStudent::updateOrCreate($update_data, $update_data);
+            // Check live meeting is Runing
+            if(!empty($lesson->meeting_id)) {
+                $url = config('liveapp.url') . 'bigbluebutton/api/isMeetingRunning?meetingID='. $lesson->meeting_id .'&checksum=';
+                $checksum = sha1('isMeetingRunningmeetingID=' . $lesson->meeting_id . config('liveapp.key'));
+                $endpoint = $url . $checksum;
 
-            $url = config('liveapp.url') . 'bigbluebutton/api/join?';
-            $room_str = 'fullName=' . preg_replace('/\s+/', '+', auth()->user()->name) 
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $endpoint);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+                $output = curl_exec($ch);
+                curl_close($ch);
+
+                $json = json_encode(simplexml_load_string($output));
+                $array = json_decode($json, true);
+
+                if($array['returncode'] == 'SUCCESS' && $array['running'] == 'true') {
+                    $is_room_run = true;
+                }
+            }
+
+            if($is_room_run) {
+                $url = config('liveapp.url') . 'bigbluebutton/api/join?';
+                $room_str = 'fullName=' . preg_replace('/\s+/', '+', auth()->user()->name) 
                             . '&meetingID=' . $lesson->meeting_id . '&password=' . $attendeePW;
+                $join_room_str = 'join' . $room_str . config('liveapp.key');
+                
+                $checksum = sha1($join_room_str);
+                $join_room = $url . $room_str . '&checksum=' . $checksum;
 
-            $join_room_str = 'join' . $room_str . config('liveapp.key');
+                // Set lesson completed
+                $update_data = [
+                    'model_type' => Lesson::class,
+                    'model_id' => $lesson->id,
+                    'user_id' => auth()->user()->id,
+                    'course_id' => $lesson->course->id
+                ];
+
+                ChapterStudent::updateOrCreate($update_data, $update_data);
+            }
             
-            $checksum = sha1($join_room_str);
-            $join_room = $url . $room_str . '&checksum=' . $checksum;
-
-            return view('frontend.live', compact('join_room'));
+            return view('frontend.live', compact('join_room', 'is_room_run'));
         }
     }
 }
