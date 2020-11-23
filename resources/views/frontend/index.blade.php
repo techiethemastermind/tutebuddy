@@ -29,7 +29,7 @@
                     </div>
                     <div class="flex">
                         <div class="card-title mb-4pt">Find an Expert</div>
-                        <p class="card-subtitle text-black-70">Select from the most experienced & requted Instructors.
+                        <p class="card-subtitle text-black-70">Select from the most experienced & reputed Instructors.
                         </p>
                     </div>
                 </div>

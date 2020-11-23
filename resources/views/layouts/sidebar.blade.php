@@ -407,6 +407,12 @@
                                 <span class="sidebar-menu-text">All Pages</span>
                             </a>
                         </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/faq*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.faqs.index') }}">
+                                <span class="sidebar-menu-text">Faqs</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

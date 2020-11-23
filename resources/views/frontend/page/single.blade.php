@@ -4,9 +4,6 @@
 
 @push('after-styles')
 
-<!-- Quill Theme -->
-<link type="text/css" href="{{ asset('assets/css/quill.css') }}" rel="stylesheet">
-
 <style>
 
     [dir=ltr] p.ql-indent-1 {
@@ -39,20 +36,8 @@
 
             <div class="row">
                 <div class="col-lg-9">
-                    @if(!empty($page->image))
-                    <div class="d-flex flex-column flex-md-row align-items-md-center mb-32pt">
-                        <div class="mb-16pt mb-md-0 mr-md-16pt">
-                            <div class="rounded p-relative o-hidden overlay overlay--primary">
-                                <img class="img-fluid rounded" src="{{ asset('/storage/uploads/' . $page->image) }}" alt="image">
-                                <div class="overlay__content"></div>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-
                     <div class="content mb-64pt">
-                        <!-- quill editor -->
-                        <div id="page-wrap" class="mb-0 page-wrap card card-body"></div>
+                        <div id="page-wrap" class="mb-0 page-wrap card card-body">{!! $page_content !!}</div>
                     </div>
                 </div>
 
@@ -107,24 +92,12 @@
     <div>
 
 </div>
-<textarea id="page_content" class="d-none w-100">{{ $page_content }}</textarea>
-<div id="page_editor" class="d-none"></div>
 
 @push('after-scripts')
-
-<!-- Quill -->
-<script src="{{ asset('assets/js/quill.min.js') }}"></script>
-<script src="{{ asset('assets/js/quill.js') }}"></script>
 
 <script>
 
 $(function() {
-
-    var json_content = JSON.parse($('#page_content').val().replace(/\n/g, ""));
-    var page_quill = new Quill('#page_editor');
-    page_quill.setContents(json_content);
-    var content_html = page_quill.root.innerHTML;
-    $('#page-wrap').html(content_html.replace(/&lt;/g, "<").replace(/&gt;/g, ">"));
 
     $('#contact').on('submit', function(e) {
         e.preventDefault();

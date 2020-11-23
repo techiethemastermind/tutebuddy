@@ -69,7 +69,7 @@
                     <label class="form-label">Content</label>
                     <div class="form-group mb-48pt">
                         <!-- quill editor -->
-                        <div id="page_editor" class="mb-0" style="min-height: 50vh;"></div>
+                        <div id="page_editor" class="mb-0" style="min-height: 50vh;">{!! $page->content !!}</div>
                         <small class="form-text text-muted">Edit page</small>
                     </div>
 
@@ -128,7 +128,6 @@
     </div>
 
 </div>
-<textarea id="page_content" class="d-none">{{ $page->content }}</textarea>
 
 @push('after-scripts')
 
@@ -158,9 +157,6 @@ $(function() {
         },
     });
 
-    var page_content = JSON.parse($('#page_content').val());
-    editor.setContents(page_content);
-
     $('input[name="title"]').on('focusout', function(e) {
         var slug = convertToSlug($(this).val());
         $('input[name="slug"]').val(slug);
@@ -171,7 +167,7 @@ $(function() {
 
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
-                var content = JSON.stringify(editor.getContents().ops);
+                var content = editor.root.innerHTML;
 
                 // Append Course ID
                 formData.push({

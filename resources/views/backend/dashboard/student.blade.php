@@ -5,10 +5,12 @@
 @push('after-styles')
     <!-- jQuery Datatable CSS -->
     <link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('assets/css/semantic.css') }}" rel="stylesheet">
 @endpush
 
 <!-- Header Layout Content -->
 <div class="mdk-header-layout__content page-content ">
+
     <div class="pt-32pt">
         <div
             class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
@@ -32,6 +34,21 @@
     </div>
 
     <div class="container page__container">
+
+        <!-- Search Section -->
+        <div class="page-section pb-0">
+            <div class="form-group" style="position: relative;">
+                <div class="ui fluid category search instructor font-size-20pt">
+                    <div class="ui icon input w-100">
+                        <input class="prompt pb-16pt" type="text" placeholder="Enter name or Subject"
+                        value="@if(isset($_GET['_q'])){{ $_GET['_q'] }}@endif">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="results"></div>
+                </div>
+            </div>
+        </div>
+
         @if(count($purchased_courses) > 0)
         <div class="page-section">
 
@@ -561,6 +578,8 @@
     </div>
 </div>
 <!-- // END Header Layout Content -->
+
+@include('layouts.parts.search-script');
 
 @push('after-scripts')
 

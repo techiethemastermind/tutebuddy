@@ -163,7 +163,7 @@ $(function() {
 
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
-                var content = JSON.stringify(editor.getContents().ops);
+                var content = editor.root.innerHTML;
 
                 // Append Course ID
                 formData.push({

@@ -164,6 +164,9 @@ Route::get('ajax/pages/list/{type}', 'PagesController@getList')->name('getPagesB
 Route::get('ajax/pages/publish/{id}', 'PagesController@publish')->name('pages.publish');
 Route::get('pages/restore/{id}', 'PagesController@restore')->name('pages.restore');
 
+// Faqs
+Route::resource('faqs', 'FaqsController');
+
 // Email Tempate
 Route::resource('mailedits', 'EmailtemplateController');
 Route::get('ajax/mailedits', 'EmailtemplateController@getListByAjax')->name('table.getTemplatesByAjax');
@@ -186,7 +189,6 @@ Route::post('test-result/answer', 'TestController@result_answer')->name('tests.r
 //==== Transactions Route ==== //
 Route::get('transactions', 'PaymentController@getTransactions')->name('transactions');
 Route::get('transactions/detail/{id}', 'PaymentController@transactionsDetail')->name('transactions.detail');
-
 
 //==== Orders Route ==== //
 Route::get('orders', 'PaymentController@getOrders')->name('orders');

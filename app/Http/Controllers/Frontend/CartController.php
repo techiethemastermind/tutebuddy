@@ -275,7 +275,7 @@ class CartController extends Controller
                     }
                 }
 
-                // $this->sendOrderEmail($new_order->id);
+                $this->sendOrderEmail($new_order->id);
 
                 // Remove Cart
                 Cart::clear();
