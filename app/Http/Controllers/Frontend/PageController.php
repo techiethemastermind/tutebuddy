@@ -90,7 +90,7 @@ class PageController extends Controller
 
         if(strpos($content, '[faqs]')) {
             $faqs = Faq::all();
-            $f_html = '<div class="accordion js-accordion accordion--boxed list-group-flush" id="parent" data-domfactory-upgraded="accordion">';
+            $f_html = '<div class="accordion js-accordion accordion--boxed mb-24pt" id="parent">';
             foreach($faqs as $faq) {
                 $f_html .= '<div class="accordion__item">
                                 <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#faq-'.$faq->id.'" data-parent="#parent">

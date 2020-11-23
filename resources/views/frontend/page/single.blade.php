@@ -13,7 +13,6 @@
 
 @endpush
 
-
 <!-- Header Layout Content -->
 <div class="mdk-header-layout__content page-content ">
 
@@ -89,7 +88,7 @@
             </div>
 
         </div>
-    <div>
+    </div>
 
 </div>
 
