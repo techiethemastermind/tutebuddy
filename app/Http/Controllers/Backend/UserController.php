@@ -11,6 +11,7 @@ use DB;
 use Hash;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Models\Course;
+use App\Models\Bank;
 
 class UserController extends Controller
 {
@@ -187,6 +188,100 @@ class UserController extends Controller
                     'message' => 'Incorrect current password provided'
                 ]);
             }
+        }
+
+        if(isset($input['update_type']) && $input['update_type'] == 'bank') {
+
+            $bank = Bank::where('user_id', auth()->user()->id)->first();
+            $curl_headers = [
+                'Content-Type: application/json',
+                'Authorization: Basic '. base64_encode(config('services.razorpayX.key') . ':' . config('services.razorpay.secret'))
+            ];
+
+            $contact_id = '';
+            $fund_account_id = '';
+
+            if(empty($bank)) {
+
+                // Create Contact
+                $params = [
+                    'name' => auth()->user()->name,
+                    'email' => auth()->user()->email,
+                    'contact' => auth()->user()->phone_number,
+                    'type' => 'employee',
+                    'reference_id' => 'contact_' . str_random(8)
+                ];
+
+                $options = [
+                    CURLOPT_URL => 'https://api.razorpay.com/v1/contacts',
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => json_encode($params),
+                    CURLOPT_HTTPHEADER => $curl_headers,
+                    CURLOPT_RETURNTRANSFER => 1
+                ];
+
+                $ch = curl_init();
+                curl_setopt_array($ch, $options);
+
+                $response = curl_exec($ch);
+                $result = json_decode($response, true);
+                $contact_id = $result['id'];
+                curl_close($ch);
+
+                // Create fund Account
+                $params = [
+                    'contact_id' => $contact_id,
+                    'account_type' => 'bank_account',
+                    'bank_account' => [
+                        'name' => $request->account_holder_name,
+                        'ifsc' => $request->ifsc,
+                        'account_number' => $request->account_number
+                    ]
+                ];
+
+                $options = [
+                    CURLOPT_URL => 'https://api.razorpay.com/v1/fund_accounts',
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => json_encode($params),
+                    CURLOPT_HTTPHEADER => $curl_headers,
+                    CURLOPT_RETURNTRANSFER => 1
+                ];
+
+                $ch = curl_init();
+                curl_setopt_array($ch, $options);
+
+                $response = curl_exec($ch);
+                $result = json_decode($response, true);
+                $fund_account_id = $result['id'];
+                curl_close($ch);
+
+                $bank_data = [
+                    'user_id' => auth()->user()->id,
+                    'account_number' => $request->account_number,
+                    'ifsc' => $request->ifsc,
+                    'account_holder_name' => $request->account_holder_name,
+                    'account_type' => 'employee',
+                    'contact_id' => $contact_id,
+                    'fund_account_id' => $fund_account_id
+                ];
+
+                Bank::updateOrCreate(['user_id' => auth()->user()->id], $bank_data);
+
+            } else {
+                $bank_data = [
+                    'user_id' => auth()->user()->id,
+                    'account_number' => $request->account_number,
+                    'ifsc' => $request->ifsc,
+                    'account_holder_name' => $request->account_holder_name,
+                    'account_type' => 'employee'
+                ];
+
+                Bank::updateOrCreate(['user_id' => auth()->user()->id], $bank_data);
+            }
+
+            return response()->json([
+                'success' => true
+            ]);
         }
         
         $user->update($input);

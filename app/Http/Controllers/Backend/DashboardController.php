@@ -48,15 +48,83 @@ class DashboardController extends Controller
         switch(auth()->user()->roles->pluck('slug')[0]) {
             case 'super_admin':
 
-                $courses_count = Course::all()->count();
                 $teachers_count = User::role('Instructor')->count();
                 $students_count = User::role('Student')->count();
+                $active_courses = Course::where('published', 1)->count();
+                $enrolled_course_ids = DB::table('course_student')->pluck('course_id');
+                $enrolled_courses = Course::whereIn('id', $enrolled_course_ids)->count();
+
+                $total_sales = Order::all()->sum('price');
+
+                // Get courses end_date to today
+                $course_ids_since_now = Course::where('end_date', '<', Carbon::now()->format('Y-m-d')." 23:59:59")
+                    ->pluck('id');
+
+                $total_payments = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('price');
+                $course_approval = Course::where('published', 2)->count();
+                $live_lessons = Lesson::where('lesson_type', 1)->count();
+
+                $pending_courses = Course::where('published', 2)->limit(5)->get();
+                $withdraw_requests = Transaction::where('type', 'withdraw')->where('status', 'pending')->limit(5)->get();
+                $orders = Order::limit(5)->get();
+
+                // Daily signup data
+                $days = Carbon::now()->daysInMonth;
+                $sign_days = [];
+                $sign_instructors = [];
+                $sign_students = [];
+                $start = new Carbon('first day of this month');
+                $end = new Carbon('last day of this month');
+                $today = $start;
+
+                for($i = 0; $i < $days; $i++) {
+                    array_push($sign_days, $i+1);
+                    $s_i_c = User::role('Instructor')
+                        ->whereBetween('created_at', [$today->format('Y-m-d')." 00:00:00", $today->format('Y-m-d')." 23:59:59"])
+                        ->count();
+                    $s_s_c = User::role('Student')
+                        ->whereBetween('created_at', [$today->format('Y-m-d')." 00:00:00", $today->format('Y-m-d')." 23:59:59"])
+                        ->count();
+                    array_push($sign_instructors, $s_i_c);
+                    array_push($sign_students, $s_s_c);
+                    $today = $start->add(1, 'day');
+                }
+
+                $json_sign_days = json_encode($sign_days);
+                $json_sign_instructors = json_encode($sign_instructors);
+                $json_sign_students = json_encode($sign_students);
+
+                $start = new Carbon('first day of this month');
+                $today = $start;
+
+                // Daily Order Data
+                $daily_orders = [];
+                for($i = 0; $i < $days; $i++) {
+                    $d_order_c = (float)Order::whereBetween('created_at', [$today->format('Y-m-d')." 00:00:00", $today->format('Y-m-d')." 23:59:59"])
+                                ->sum('price');
+
+                    array_push($daily_orders, $d_order_c);
+                    $today = $start->add(1, 'day');
+                }
+                $json_daily_orders = json_encode($daily_orders);
 
                 return view('backend.dashboard.super_admin',
                     compact(
-                        'courses_count',
                         'teachers_count',
-                        'students_count'
+                        'students_count',
+                        'active_courses',
+                        'enrolled_courses',
+                        'total_sales',
+                        'total_payments',
+                        'course_approval',
+                        'live_lessons',
+                        'pending_courses',
+                        'withdraw_requests',
+                        'orders',
+                        'json_sign_days',
+                        'json_sign_instructors',
+                        'json_sign_students',
+                        'json_daily_orders'
                     )
                 );
             break;

@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\LanguageController;
+
+// Switch between the included languages
+Route::get('lang/{lang}', [LanguageController::class, 'swap']);
+
 /*
  * Frontend Routes
  */

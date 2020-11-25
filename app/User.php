@@ -91,6 +91,12 @@ class User extends Authenticatable
         return null;
     }
 
+    // Get bank detail
+    public function bank()
+    {
+        return $this->hasOne(Models\Bank::class);
+    }
+
     public function reviews()
     {
         return $this->morphMany(Models\Review::class, 'reviewable');

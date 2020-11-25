@@ -415,75 +415,99 @@ if(!isset($_GET["active"])) {
                     <!-- Tab content for billing information -->
                     <div id="bank" class="tab-pane p-4 fade text-70">
 
-                    <div class="col-lg-10 p-0">
-                        <div class="list-group list-group-form">
-                            <div class="list-group-item d-flex align-items-center">
-                                <div class="flex">Please link your account with <strong>Tutebuddy account</strong></div>
-                            </div>
-                            <div class="list-group-item">
-                                <fieldset aria-labelledby="label-type" class="m-0 form-group">
-                                    <div class="form-row align-items-center">
-                                        <label for="payment_cc" id="label-type" class="col-md-3 col-form-label form-label">Payment type</label>
-                                        <div role="group" aria-labelledby="label-type" class="col-md-9">
-                                            <div role="group" class="btn-group btn-group-toggle" data-toggle="buttons">
-                                                <label class="btn btn-outline-secondary">
-                                                    <input type="radio" id="payment_bank" name="payment_type" value="cc" checked="" aria-checked="true"> Bank Detail
-                                                </label>
-                                                <label class="btn btn-outline-secondary active">
-                                                    <input type="radio" id="payment_account" name="payment_type" value="pp" aria-checked="true"> Linked Account (RazorPay)
-                                                </label>
+                        <div class="col-lg-10 p-0">
+                            <div class="list-group list-group-form">
+                                <div class="list-group-item d-flex align-items-center">
+                                    <div class="flex">Please link your account with <strong>Tutebuddy account</strong></div>
+                                </div>
+
+                                <div class="list-group-item">
+                                    <fieldset aria-labelledby="label-type" class="m-0 form-group">
+                                        <div class="form-row align-items-center">
+                                            <label for="payment_cc" id="label-type" class="col-md-3 col-form-label form-label">Payment type</label>
+                                            <div role="group" aria-labelledby="label-type" class="col-md-9">
+                                                <div role="group" class="btn-group btn-group-toggle" data-toggle="buttons">
+                                                    <label class="btn btn-outline-secondary">
+                                                        <input type="radio" id="payment_bank" name="payment_type" value="cc" checked="" aria-checked="true"> Bank Detail
+                                                    </label>
+                                                    <label class="btn btn-outline-secondary active">
+                                                        <input type="radio" id="payment_account" name="payment_type" value="pp" aria-checked="true"> Linked Account (RazorPay)
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                            
-                            <div class="list-group-item">
-                                <div class="form-group row align-items-center mb-0">
-                                    <label class="col-form-label form-label col-sm-3">Account number</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Bank account number">
-                                    </div>
+                                    </fieldset>
                                 </div>
-                            </div>
+                                {!! Form::model($user->bank, ['method' => 'POST', 'route' => ['admin.myaccount.update', $user->id]]) !!}
 
-                            <div class="list-group-item">
-                                <div class="form-group row align-items-center mb-0">
-                                    <label class="col-form-label form-label col-sm-3">Account Type</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Account Type">
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <label class="col-form-label form-label col-sm-3">Account number *</label>
+                                        <div class="col-sm-9">
+                                            {!! Form::text('account_number', null, 
+                                                array(
+                                                    'placeholder' => 'Bank account number',
+                                                    'class' => 'form-control',
+                                                    'tute-no-empty' => true
+                                                )) !!}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="list-group-item">
-                                <div class="form-group row align-items-center mb-0">
-                                    <label class="col-form-label form-label col-sm-3">IFSC</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="IFSC" style="width:80px">
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <label class="col-form-label form-label col-sm-3">IFSC *</label>
+                                        <div class="col-sm-9">
+                                            {!! Form::text('ifsc', null, 
+                                                array(
+                                                    'placeholder' => 'IFSC',
+                                                    'class' => 'form-control',
+                                                    'tute-no-empty' => true
+                                                )) !!}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="list-group-item">
-                                <div class="form-group row align-items-center mb-0">
-                                    <label class="col-form-label form-label col-sm-3">Beneficiary Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" class="form-control" placeholder="Beneficiary Name">
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <label class="col-form-label form-label col-sm-3">Beneficiary Name *</label>
+                                        <div class="col-sm-9">
+                                            {!! Form::text('account_holder_name', null, 
+                                                array(
+                                                    'placeholder' => 'Beneficiary Name',
+                                                    'class' => 'form-control',
+                                                    'tute-no-empty' => true
+                                                )) !!}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            
-                            <div class="list-group-item">
-                                <div class="form-group row align-items-center mb-0">
-                                    <div class="col-sm-3"></div>
-                                    <div class="col-sm-9">
-                                        <a href="" class="btn btn-primary">Save changes</a>
+
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <label class="col-form-label form-label col-sm-3">Account Type</label>
+                                        <div class="col-sm-9">
+                                            {!! Form::text('account_type', null, 
+                                                array(
+                                                    'placeholder' => 'Account Type',
+                                                    'class' => 'form-control'
+                                                )) !!}
+                                        </div>
                                     </div>
                                 </div>
+                                
+                                <div class="list-group-item">
+                                    <div class="form-group row align-items-center mb-0">
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-9">
+                                            <input type="hidden" name="update_type" value="bank">
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {!! Form::close() !!}
                             </div>
                         </div>
-                    </div>
                     </div>
 
                     <!-- Tab for Child Account -->

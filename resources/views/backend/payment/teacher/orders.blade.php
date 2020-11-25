@@ -199,33 +199,50 @@
 <div class="modal fade" id="withdrawModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Withdraw Money</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+            <form id="frm_withdraw" action="">
+                <div class="modal-header">
+                    <h5 class="modal-title">Withdraw Money</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-            <div class="modal-body">
-                <div class="form-group mb-0">
-                    <div class="p-3">
-                        <div class="form-group">
-                            <label for="">Available to Withdraw</label>
-                            <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance - ($balance * 0.2), 2) }}</h4>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Amount to Withdraw</label>
-                            <input type="number" class="form-control" placeholder="100">
+                <div class="modal-body">
+                    <div class="form-group mb-0">
+                        <div class="p-3">
+                            <div class="form-group text-center mb-32pt">
+                                <label class="form-label">Available to Withdraw</label>
+                                <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance - ($balance * 0.2), 2) }}</h4>
+                            </div>
+                            <div class="form-group">                                
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-left">Amount: </label>
+                                    <input id="amount" type="number" class="form-control" placeholder="100" min="1" tute-no-empty>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="controls form-inline">
+                                    <label for="" class="form-label col-lg-3 text-left">Currency: </label>
+                                    <select class="form-control col-lg-8" id="currency" name="currency">
+                                        @foreach(config('currencies') as $currency)
+                                        <option @if(config('app.currency')==$currency['short_code']) selected @endif
+                                            value="{{$currency['short_code']}}">
+                                            {{$currency['symbol'].' - '.$currency['name']}}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="modal-footer">
-                <div class="form-group">
-                    <button id="btn_confirm" class="btn btn-outline-primary btn-update">Confirm</button>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <button type="button" id="btn_confirm" class="btn btn-outline-primary btn-update">Confirm</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
@@ -236,8 +253,63 @@
 
 <script>
     $(function() {
+        // Ajax Header for Ajax Call
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        });
+
         $('#btn_withdraw').on('click', function(e) {
             $('#withdrawModal').modal('toggle');
+        });
+
+        $('#btn_confirm').on('click', function(e) {
+            e.preventDefault();
+            var form = $('#frm_withdraw');
+
+            checkValidForm(form);
+
+            var available = parseFloat('{{ $balance - ($balance * 0.2) }}');
+            var amount = parseFloat($('#amount').val());
+
+            if(available < amount) {
+                $('#amount').addClass('is-invalid');
+                var err_msg = $('<div class="invalid-feedback">Amount is added incorrectly.</div>');
+                err_msg.insertAfter($('#amount'));
+                $('#amount').focus();
+                return false;
+            }
+
+            // Withraw process
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("admin.withdraw") }}',
+                data: {
+                    amount: $('#amount').val(),
+                    currency: $('#currency').val()
+                },
+                success: function(res) {
+                    if(res.success) {
+                        swal({
+                            title: "Withdraw Money",
+                            text: "Withdraw request sent",
+                            type: 'success',
+                            showCancelButton: true,
+                            showConfirmButton: true,
+                            confirmButtonText: 'Confirm',
+                            cancelButtonText: 'Cancel',
+                            dangerMode: false,
+                        }, function (val) {
+                            if(val) {
+                                window.location.reload;
+                            }
+                        });
+                    } else {
+                        swal('Error!', 'Something went wrong. Please try again', 'error');
+                    }
+                }
+            });
         });
     });
 </script>

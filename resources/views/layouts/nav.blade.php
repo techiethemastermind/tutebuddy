@@ -62,6 +62,43 @@
                 <li class="nav-item">
                     <a href="{{ route('login') }}" class="btn btn-outline-nav">Login To Account</a>
                 </li>
+                @if(count($locales) > 1)
+                <li class="nav-item">
+                    <!-- Multi Language Option -->
+                    <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full">
+                        <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
+                            <i class="material-icons icon-24pt">language</i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" style="width: 150px; min-width:150px;">
+                        @foreach($locales as $lang)
+                            @if($lang != app()->getLocale())
+                            <a href="{{ '/lang/'.$lang }}" class="list-group-item list-group-item-action">
+                                <span class="d-flex">
+                                    <span class="avatar avatar-xs mr-2">
+                                        <img src="{{ asset('images/icon-' . $lang . '.png') }}" alt="people" class="avatar-img rounded-circle">
+                                    </span>
+                                    <span class="flex d-flex flex-column">
+                                        <span class="text-black-70" style="line-height: 26px;"> @lang('menus.language-picker.langs.'.$lang)</span>
+                                    </span>
+                                </span>
+                            </a>
+                            @else
+                            <a href="javascript:void(0)" class="list-group-item list-group-item-action" style="background-color: #efefef;">
+                                <span class="d-flex">
+                                    <span class="avatar avatar-xs mr-2">
+                                        <img src="{{ asset('images/icon-' . $lang . '.png') }}" alt="people" class="avatar-img rounded-circle">
+                                    </span>
+                                    <span class="flex d-flex flex-column">
+                                        <span class="text-black-70" style="line-height: 26px;"> @lang('menus.language-picker.langs.'.$lang)</span>
+                                    </span>
+                                </span>
+                            </a>
+                            @endif
+                        @endforeach
+                        </div>
+                    </div>
+                </li>
+                @endif
             </ul>
 
             <div class="nav-item dropdown ml-auto mr-0 mobile-only">
@@ -74,7 +111,7 @@
                     <a class="dropdown-item" href="{{ route('login') }}">Login</a>
                 </div>
             </div>
-
+            
             @else
 
             <div class="flex"></div>
@@ -82,7 +119,6 @@
             <div class="nav navbar-nav flex-nowrap d-flex mr-16pt">
 
                 <!-- Notifications dropdown -->
-                
                 <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full">
                     <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
                         <i class="material-icons icon-24pt">mail_outline</i>
@@ -128,7 +164,6 @@
                 <!-- // END Notifications dropdown -->
 
                 <!-- Mini card -->
-
                 <div class="nav-item ml-16pt nav-cart">
                     <a href="{{ route('cart.index') }}" class="nav-link btn-flush" type="button">
                         <i class="material-icons">add_shopping_cart</i>
@@ -140,87 +175,45 @@
                     </a>
                 </div>
 
-                <!-- Notifications dropdown -->
-                <!-- <div class="nav-item ml-16pt dropdown dropdown-notifications dropdown-xs-down-full"
-                    data-toggle="tooltip" data-title="Notifications" data-placement="bottom"
-                    data-boundary="window">
-                    <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown"
-                        data-caret="false">
-                        <i class="material-icons">notifications_none</i>
-                        <span class="badge badge-notifications badge-accent">2</span>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div data-perfect-scrollbar class="position-relative">
-                            <div class="dropdown-header"><strong>System notifications</strong></div>
-                            <div class="list-group list-group-flush mb-0">
-
-                                <a href="javascript:void(0);"
-                                    class="list-group-item list-group-item-action unread">
-                                    <span class="d-flex align-items-center mb-1">
-                                        <small class="text-black-50">3 minutes ago</small>
-
-                                        <span class="ml-auto unread-indicator bg-accent"></span>
-
+                @if(count($locales) > 1)
+                <li class="nav-item">
+                    <!-- Multi Language Option -->
+                    <div class="nav-item dropdown dropdown-notifications dropdown-xs-down-full">
+                        <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
+                            <i class="material-icons icon-24pt">language</i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right" style="width: 150px; min-width:150px;">
+                        @foreach($locales as $lang)
+                            @if($lang != app()->getLocale())
+                            <a href="{{ '/lang/'.$lang }}" class="list-group-item list-group-item-action">
+                                <span class="d-flex">
+                                    <span class="avatar avatar-xs mr-2">
+                                        <img src="{{ asset('images/icon-' . $lang . '.png') }}" alt="people" class="avatar-img rounded-circle">
                                     </span>
-                                    <span class="d-flex">
-                                        <span class="avatar avatar-xs mr-2">
-                                            <span class="avatar-title rounded-circle bg-light">
-                                                <i
-                                                    class="material-icons font-size-16pt text-accent">account_circle</i>
-                                            </span>
-                                        </span>
-                                        <span class="flex d-flex flex-column">
-
-                                            <span class="text-black-70">Your profile information has not been
-                                                synced correctly.</span>
-                                        </span>
+                                    <span class="flex d-flex flex-column">
+                                        <span class="text-black-70" style="line-height: 26px;"> @lang('menus.language-picker.langs.'.$lang)</span>
                                     </span>
-                                </a>
-
-                                <a href="javascript:void(0);" class="list-group-item list-group-item-action">
-                                    <span class="d-flex align-items-center mb-1">
-                                        <small class="text-black-50">5 hours ago</small>
-
+                                </span>
+                            </a>
+                            @else
+                            <a href="javascript:void(0)" class="list-group-item list-group-item-action" style="background-color: #efefef;">
+                                <span class="d-flex">
+                                    <span class="avatar avatar-xs mr-2">
+                                        <img src="{{ asset('images/icon-' . $lang . '.png') }}" alt="people" class="avatar-img rounded-circle">
                                     </span>
-                                    <span class="d-flex">
-                                        <span class="avatar avatar-xs mr-2">
-                                            <span class="avatar-title rounded-circle bg-light">
-                                                <i
-                                                    class="material-icons font-size-16pt text-primary">group_add</i>
-                                            </span>
-                                        </span>
-                                        <span class="flex d-flex flex-column">
-                                            <strong class="text-black-100">Adrian. D</strong>
-                                            <span class="text-black-70">Wants to join your private group.</span>
-                                        </span>
+                                    <span class="flex d-flex flex-column">
+                                        <span class="text-black-70" style="line-height: 26px;"> @lang('menus.language-picker.langs.'.$lang)</span>
                                     </span>
-                                </a>
-
-                                <a href="javascript:void(0);" class="list-group-item list-group-item-action">
-                                    <span class="d-flex align-items-center mb-1">
-                                        <small class="text-black-50">1 day ago</small>
-
-                                    </span>
-                                    <span class="d-flex">
-                                        <span class="avatar avatar-xs mr-2">
-                                            <span class="avatar-title rounded-circle bg-light">
-                                                <i
-                                                    class="material-icons font-size-16pt text-warning">storage</i>
-                                            </span>
-                                        </span>
-                                        <span class="flex d-flex flex-column">
-
-                                            <span class="text-black-70">Your deploy was successful.</span>
-                                        </span>
-                                    </span>
-                                </a>
-
-                            </div>
+                                </span>
+                            </a>
+                            @endif
+                        @endforeach
                         </div>
                     </div>
-                </div> -->
-                <!-- // END Notifications dropdown -->
+                </li>
+                @endif
 
+                <!-- Account Menu -->
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link d-flex align-items-center dropdown-toggle"
                         data-toggle="dropdown" data-caret="false">

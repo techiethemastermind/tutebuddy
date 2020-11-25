@@ -405,7 +405,7 @@
                                 for="services__razorpay__active">
                                 <div class="form-group offset-3">
                                     <div class="controls form-inline ">
-                                        <label for="" class="form-label col-lg-2 content-left">API Key: </label>
+                                        <label for="" class="form-label col-lg-3 content-left">API Key: </label>
                                         <input class="form-control col-lg-8" type="text" name="services__razorpay__key"
                                             id="services__razorpay__key" value="{{ config('services.razorpay.key') }}">
                                     </div>
@@ -413,9 +413,25 @@
 
                                 <div class="form-group offset-3">
                                     <div class="controls form-inline ">
-                                        <label for="" class="form-label col-lg-2 content-left">API Secret: </label>
+                                        <label for="" class="form-label col-lg-3 content-left">API Secret: </label>
                                         <input class="form-control col-lg-8" type="text" name="services__razorpay__secret"
                                             id="services__razorpay__secret" value="{{ config('services.razorpay.secret') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group offset-3">
+                                    <div class="controls form-inline ">
+                                        <label for="" class="form-label col-lg-3 content-left">RazorpayX Account Number: </label>
+                                        <input class="form-control col-lg-8" type="text" name="services__razorpayX__number"
+                                            id="services__razorpayX__number" value="{{ config('services.razorpayX.number') }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group offset-3">
+                                    <div class="controls form-inline ">
+                                        <label for="" class="form-label col-lg-3 content-left">RazorpayX API key: </label>
+                                        <input class="form-control col-lg-8" type="text" name="services__razorpayX__key"
+                                            id="services__razorpayX__key" value="{{ config('services.razorpayX.key') }}">
                                     </div>
                                 </div>
                             </div>

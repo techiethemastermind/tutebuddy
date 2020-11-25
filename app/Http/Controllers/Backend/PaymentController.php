@@ -181,6 +181,57 @@ class PaymentController extends Controller
     }
 
     /**
+     * withdraw
+     */
+    public function withdraw(Request $request)
+    {
+        $curl_headers = [
+            'Content-Type: application/json',
+            'Authorization: Basic '. base64_encode(config('services.razorpayX.key') . ':' . config('services.razorpay.secret'))
+        ];
+
+        $params = [
+            'account_number' => config('services.razorpayX.number'),
+            'fund_account_id' => auth()->user()->bank->fund_account_id,
+            'amount' => $request->amount * 100,
+            'currency' => $request->currency,
+            'mode' => 'NEFT',
+            'purpose' => 'payout'
+        ];
+
+        $options = [
+            CURLOPT_URL => 'https://api.razorpay.com/v1/payouts',
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($params),
+            CURLOPT_HTTPHEADER => $curl_headers,
+            CURLOPT_RETURNTRANSFER => 1
+        ];
+
+        $ch = curl_init();
+        curl_setopt_array($ch, $options);
+
+        $response = curl_exec($ch);
+        $result = json_decode($response, true);
+        $payout_id = $result['id'];
+        $status = $result['status'];
+        curl_close($ch);
+
+        $transaction = Transaction::create([
+            'user_id' => auth()->user()->id,
+            'transaction_id' => 'trans-' . str_random(8),
+            'amount' => $request->amount,
+            'type' => 'withdraw',
+            'payout_id' => $payout_id,
+            'status' => $status
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'transaction' => $transaction->id
+        ]);
+    }
+
+    /**
      * Get earned
      */
     private function getEarned($type)

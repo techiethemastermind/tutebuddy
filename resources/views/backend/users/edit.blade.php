@@ -124,7 +124,7 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-24pt">
                                     <label class="form-label">Role</label>
-                                    {!! Form::select('roles[]', $roles,$userRole, array('class' => 'form-control', 'multiple', 'data-toggle'=>'select')) !!}
+                                    {!! Form::select('roles[]', $roles, $userRole, array('class' => 'form-control', 'multiple', 'data-toggle'=>'select')) !!}
                                 </div>
                             </div>
                         </div>
