@@ -218,3 +218,9 @@ Route::get('badges', 'ResultsController@badges')->name('results.student.badges')
 //=== Tax route ===//
 Route::resource('tax', 'TaxController');
 Route::get('tax/publish/{id}', 'TaxController@publish')->name('tax.publish');
+
+//==== Remove Locale FIle ====//
+Route::post('delete-locale', function () {
+    \Barryvdh\TranslationManager\Models\Translation::where('locale', request('locale'))->delete();
+    \Illuminate\Support\Facades\File::deleteDirectory(public_path('../resources/lang/' . request('locale')));
+})->name('delete-locale');
