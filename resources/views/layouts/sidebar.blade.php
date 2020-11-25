@@ -479,9 +479,9 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/lang*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="">
-                                <span class="sidebar-menu-text">Language</span>
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/translation-manager*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ asset('dashboard/translations') }}">
+                                <span class="sidebar-menu-text">@lang('menus.backend.sidebar.translations.title')</span>
                             </a>
                         </li>
 
