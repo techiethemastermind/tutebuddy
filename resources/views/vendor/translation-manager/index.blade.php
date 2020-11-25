@@ -4,6 +4,9 @@
 
 @push('after-styles')
 <link type="text/css" href="{{ asset('assets/css/bootstrap-editable.css') }}" rel="stylesheet">
+
+<!-- jQuery Datatable CSS -->
+<link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
 @endpush
 
 <!-- Header Layout Content -->
@@ -103,7 +106,7 @@
                 <h4>@lang('labels.backend.translations.total'): {{ $numTranslations }} ,
                     @lang('labels.backend.translations.changed'): {{ $numChanged }}</h4>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table id="tbl_translations" class="table">
                         <thead>
                             <tr>
                                 <th width="15%">@lang('labels.backend.translations.key')</th>
@@ -217,6 +220,7 @@
 
 @push('after-scripts')
 <script src="{{ asset('assets/js/bootstrap-editable.min.js') }}"></script>
+<script src="{{ asset('assets/plugin/datatables.min.js') }}"></script>
 <script>
     (function (e, t) {
         if (e.rails !== t) {
@@ -586,7 +590,13 @@
                     }
                 })
             }
-        })
+        });
+
+        var table = $('#tbl_translations').DataTable({
+            lengthChange: false,
+            ordering:  false,
+            info: false,
+        });
     })
 </script>
 @endpush

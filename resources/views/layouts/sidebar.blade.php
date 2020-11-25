@@ -479,7 +479,7 @@
                             </a>
                         </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/translation-manager*') ? 'active' : '' }}">
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/translation*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ asset('dashboard/translations') }}">
                                 <span class="sidebar-menu-text">@lang('menus.backend.sidebar.translations.title')</span>
                             </a>
