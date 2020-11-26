@@ -17,9 +17,8 @@
                         <span class="h3 text-white m-0">1</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Select Course</div>
-                        <p class="card-subtitle text-black-70">Wide selection of subjects you can learn from expert
-                            tutors.</p>
+                        <div class="card-title mb-4pt">@lang('labels.frontend.home.select_course.title')</div>
+                        <p class="card-subtitle text-black-70">@lang('string.frontend.home.select_course.description')</p>
                     </div>
                 </div>
                 <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
@@ -28,9 +27,8 @@
                         <span class="h3 text-white m-0">2</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Find an Expert</div>
-                        <p class="card-subtitle text-black-70">Select from the most experienced & reputed Instructors.
-                        </p>
+                        <div class="card-title mb-4pt">@lang('labels.frontend.home.find_expert.title')</div>
+                        <p class="card-subtitle text-black-70">@lang('string.frontend.home.find_expert.description')</p>
                     </div>
                 </div>
                 <div class="d-flex col-md align-items-center">
@@ -39,9 +37,8 @@
                         <span class="h3 text-white m-0">3</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Start Learning</div>
-                        <p class="card-subtitle text-black-70">Get personal instruction on your chosen course.
-                        </p>
+                        <div class="card-title mb-4pt">@lang('labels.frontend.home.start_learning.title')</div>
+                        <p class="card-subtitle text-black-70">@lang('string.frontend.home.start_learning.description')</p>
                     </div>
                 </div>
             </div>
@@ -66,7 +63,9 @@
                                 </div>
                             </div>
                             <div class="flex">
-                                <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="card-title mr-3">{{ $category->name }}</a>
+                                <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="card-title mr-3">
+                                    {{ $category->name }}
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -80,7 +79,7 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
             <div class="page-separator">
-                <div class="page-separator__text">Learning Paths</div>
+                <div class="page-separator__text">@lang('labels.frontend.home.learning_paths')</div>
             </div>
 
             <div class="row card-group-row">
@@ -175,7 +174,7 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
             <div class="page-separator">
-                <div class="page-separator__text">Featured Courses</div>
+                <div class="page-separator__text">@lang('labels.frontend.home.featured_courses')</div>
             </div>
 
             <div class="row card-group-row">
@@ -320,7 +319,7 @@
                 <div class="col-md-6 col-lg-4">
 
                     <div class="page-separator">
-                        <div class="page-separator__text">For Instructors</div>
+                        <div class="page-separator__text">@lang('labels.frontend.home.for_instructors.title')</div>
                     </div>
 
                     <div class="card card--elevated posts-card-popular overlay card-group-row__card">
@@ -328,10 +327,11 @@
                             style="border-bottom-right-radius: 0; border-bottom-left-radius:0;">
                         <div class="card-body">
                             <div class="text-black-70 mt-16pt">
-                                <p class="text-black-70">Join the most innovative e-learning platform to deliver education and training to year students.</p>
-                                <p class="text-black-70">Create rich learning content or engage your students in live classrooms.</p>
+                                @lang('string.frontend.home.for_instructors.description')
                             </div>
-                            <a href="/page/teach-on-tutebuddy" class="btn btn-primary mt-16pt">Start Teaching</a>
+                            <a href="/page/teach-on-tutebuddy" class="btn btn-primary mt-16pt">
+                                @lang('labels.frontend.home.start_teaching')
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -339,7 +339,7 @@
                 <div class="col-md-6 col-lg-4">
 
                     <div class="page-separator">
-                        <div class="page-separator__text">For Business</div>
+                        <div class="page-separator__text">@lang('labels.frontend.home.for_business.title')</div>
                     </div>
 
                     <div class="card card--elevated posts-card-popular overlay card-group-row__card">
@@ -347,10 +347,11 @@
                             style="border-bottom-right-radius: 0; border-bottom-left-radius:0;">
                         <div class="card-body">
                             <div class="text-black-70 mt-16pt">
-                                <p class="text-black-70">The most powerful platform to deliver self-placed or live training to your employees.</p>
-                                <p class="text-black-70">Keep your employees updated with the latest skills and technologies.</p>
+                                @lang('string.frontend.home.for_business.description')
                             </div>
-                            <a href="/page/solutions-for-business" class="btn btn-primary mt-16pt">Start Training</a>
+                            <a href="/page/solutions-for-business" class="btn btn-primary mt-16pt">
+                                @lang('labels.frontend.home.start_training')
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -358,7 +359,7 @@
                 <div class="col-md-6 col-lg-4">
 
                     <div class="page-separator">
-                        <div class="page-separator__text">For schools & institutions</div>
+                        <div class="page-separator__text">@lang('labels.frontend.home.for_schools.title')</div>
                     </div>
 
                     <div class="card card--elevated posts-card-popular overlay card-group-row__card">
@@ -366,10 +367,11 @@
                             style="border-bottom-right-radius: 0; border-bottom-left-radius:0;">
                         <div class="card-body">
                             <div class="text-black-70 mt-16pt">
-                                <p class="text-black-70">From vocational to formal education, you can depend on experienced instructors for all your learning needs.</p>
-                                <p class="text-black-70">Find an Instructor and start learning through self-placed or live classrooms.</p>
+                                @lang('string.frontend.home.for_schools.description')
                             </div>
-                            <a href="/page/solutions-for-institutions" class="btn btn-primary mt-16pt">Start Learning</a>
+                            <a href="/page/solutions-for-institutions" class="btn btn-primary mt-16pt">
+                                @lang('labels.frontend.home.start_learning.title')
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -381,7 +383,7 @@
         <div class="container page__container">
 
             <div class="page-separator">
-                <div class="page-separator__text">Expert Teachers to Guide you</div>
+                <div class="page-separator__text">@lang('labels.frontend.home.expert_teachers.title')</div>
             </div>
 
             <div class="row">
@@ -391,17 +393,12 @@
 
                 <div class="col-lg-6 font-size-16pt">
                     <div>
-                        <p class="text-black-70">Expert teachers in a variety of subjects will make your learning
-                            process easy and enjoyable. All our teachers are practicing experts or professionals in
-                            their fields and bring their vast experience from the real world to your online learning
-                            process.
-                        </p>
-                        <p class="text-black-70">Looking for a specific instructor? Search them by name or subject
-                            below.</p>
+                        @lang('string.frontend.home.expert_teachers.description')
 
                         <div class="ui search category fluid instructor pt-16pt">
                             <div class="ui icon input w-100">
-                                <input class="prompt" type="text" placeholder="Enter name or Subject" style="font-size: 0.9rem;">
+                                <input class="prompt" type="text" placeholder="@lang('labels.frontend.home.search_teachers_placeholder')" 
+                                    style="font-size: 0.9rem;">
                                 <i class="search icon"></i>
                             </div>
                             <div class="results"></div>
@@ -416,21 +413,18 @@
         <div class="container page__container">
 
             <div class="page-separator">
-                <div class="page-separator__text">Education for all</div>
+                <div class="page-separator__text">@lang('labels.frontend.home.education_for_all')</div>
             </div>
 
             <div class="row">
                 <div class="col-lg-6 font-size-16pt">
                     
                     <div>
-                        <p class="text-black-70">Private Lessons from experienced & verified teachers delivered to your home at convenient times.</p>
-                        <p class="text-black-70">Classroom lessons for large groups and institutions.</p>
-                        <p class="text-black-70">Personalized lessons for those who need extra attention and tailor made lessons.</p>
-                        <p class="text-black-70">Learn at your own pace with your teacher.</p>
+                        @lang('string.frontend.home.education_for_all')
                     </div>
 
                     <div class="form-group">
-                        <a href="{{ route('register') }}?r=s" class="btn btn-accent">Sign up as Studnet</a>
+                        <a href="{{ route('register') }}?r=s" class="btn btn-accent">@lang('labels.frontend.home.signup_as_student')</a>
                     </div>
                 </div>
 
@@ -445,9 +439,8 @@
     <div class="page-section">
         <div class="container page__container">
             <div class="page-headline text-center">
-                <h2>Feedback</h2>
-                <p class="lead measure-lead mx-auto text-black-70">What other students turned professionals have to say
-                    about us after learning with us and reaching their goals.</p>
+                <h2>@lang('labels.frontend.home.feedback.title')</h2>
+                <p class="lead measure-lead mx-auto text-black-70">@lang('string.frontend.home.feedback.description')</p>
             </div>
 
             <div class="position-relative carousel-card col-lg-8 p-0 mx-auto">
