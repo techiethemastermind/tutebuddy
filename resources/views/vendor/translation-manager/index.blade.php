@@ -89,22 +89,49 @@
                 <form role="form" method="POST"
                     action="{{ action('\Barryvdh\TranslationManager\Controller@postAddGroup') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <div class="form-group">
-                        <p>@lang('labels.backend.translations.choose_a_group')</p>
-                        <select name="group" id="group" class="form-control group-select">
-                            @foreach($groups as $key => $value): ?>
-                                <option value="{{ $key }}"
-                                    {{ $key == $group ? ' selected':'' }}>
-                                    {{ $value }}
-                                </option>
-                            @endforeach
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <p>@lang('labels.backend.translations.choose_a_group')</p>
+                                <select name="group" id="group" class="form-control group-select">
+                                    @foreach($groups as $key => $value): ?>
+                                        <option value="{{ $key }}"
+                                            {{ $key == $group ? ' selected':'' }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Enter a new group name and start edit translations in that group</label>
+                                <input type="text" class="form-control" name="new-group" />
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-info" name="add-group" value="Add and edit keys" />
+                            </div>
+                        </div>
                     </div>
+                    
                 </form>
 
                 @if($group)
                 <h4>@lang('labels.backend.translations.total'): {{ $numTranslations }} ,
                     @lang('labels.backend.translations.changed'): {{ $numChanged }}</h4>
+
+                <form action="{{ action('\Barryvdh\TranslationManager\Controller@postAdd', array($group)) }}" method="POST"  role="form">
+                    @csrf
+                    <div class="form-group">
+                        <label>Add new keys to this group</label>
+                        <input class="form-control" rows="3" name="keys" placeholder="Add 1 key per line, without the group prefix">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Add keys" class="btn btn-primary">
+                    </div>
+                </form>
+
                 <div class="table-responsive">
                     <table id="tbl_translations" class="table">
                         <thead>
@@ -144,9 +171,10 @@
                                         @if($deleteEnabled)
                                             <td>
                                                 <a href="{{ action('\Barryvdh\TranslationManager\Controller@postDelete', [$group, $key]) }}"
-                                                    class="delete-key"
-                                                    data-confirm="Are you sure you want to delete the translations for '{{ htmlentities($key, ENT_QUOTES, 'UTF-8', false) }}?"><span
-                                                        class="glyphicon glyphicon-trash"></span></a>
+                                                    class="delete-key btn btn-accent btn-md"
+                                                    data-confirm="Are you sure you want to delete the translations for '{{ htmlentities($key, ENT_QUOTES, 'UTF-8', false) }}?">
+                                                    <i class="material-icons">delete</i>
+                                                </a>
                                             </td>
                                         @endif
                                 </tr>
@@ -157,6 +185,8 @@
                 </div>
 
                 @else
+
+                <hr>
                 <fieldset>
                     <h4>@lang('labels.backend.translations.supported_locales')</h4>
                     <p>

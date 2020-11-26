@@ -54,13 +54,13 @@
 
             <ul class="nav navbar-nav ml-auto mr-0 desktop-only">
                 <li class="nav-item">
-                    <a href="{{ route('register') }}?r=t" class="btn btn-outline-nav" >Join As Teacher</a>
+                    <a href="{{ route('register') }}?r=t" class="btn btn-outline-nav" >@lang('navs.register.teacher')</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('register') }}?r=s" class="btn btn-outline-nav">Join As Student</a>
+                    <a href="{{ route('register') }}?r=s" class="btn btn-outline-nav">@lang('navs.register.student')</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('login') }}" class="btn btn-outline-nav">Login To Account</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-nav">@lang('navs.login')</a>
                 </li>
                 @if(count($locales) > 1)
                 <li class="nav-item">
@@ -69,7 +69,7 @@
                         <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
                             <i class="material-icons icon-24pt">language</i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right" style="width: 150px; min-width:150px;">
+                        <div class="dropdown-menu dropdown-menu-right" style="width: 200px; min-width:200px;">
                         @foreach($locales as $lang)
                             @if($lang != app()->getLocale())
                             <a href="{{ '/lang/'.$lang }}" class="list-group-item list-group-item-action">
@@ -106,9 +106,9 @@
                     data-toggle="dropdown" data-caret="false">Account
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{{ route('register') }}?r=t">Join As Teacher</a>
-                    <a class="dropdown-item" href="{{ route('register') }}?r=s">Join As Student</a>
-                    <a class="dropdown-item" href="{{ route('login') }}">Login</a>
+                    <a class="dropdown-item" href="{{ route('register') }}?r=t">@lang('navs.register.teacher')</a>
+                    <a class="dropdown-item" href="{{ route('register') }}?r=s">@lang('navs.register.student')</a>
+                    <a class="dropdown-item" href="{{ route('login') }}">@lang('navs.login')</a>
                 </div>
             </div>
             
@@ -129,7 +129,7 @@
                     @if(count(auth()->user()->notify_message()) > 0)
                     <div class="dropdown-menu dropdown-menu-right">
                         <div data-perfect-scrollbar class="position-relative">
-                            <div class="dropdown-header"><strong>Messages</strong></div>
+                            <div class="dropdown-header"><strong>@lang('navs.sidebar.messages')</strong></div>
                             <div class="list-group list-group-flush mb-0">
 
                                 @foreach(auth()->user()->notify_message() as $notify)
@@ -182,7 +182,7 @@
                         <button class="nav-link btn-flush dropdown-toggle" type="button" data-toggle="dropdown" data-caret="false">
                             <i class="material-icons icon-24pt">language</i>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right" style="width: 150px; min-width:150px;">
+                        <div class="dropdown-menu dropdown-menu-right" style="width: 200px; min-width:200px;">
                         @foreach($locales as $lang)
                             @if($lang != app()->getLocale())
                             <a href="{{ '/lang/'.$lang }}" class="list-group-item list-group-item-action">
@@ -233,12 +233,12 @@
                         <div class="dropdown-header">
                             <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->roles->pluck('name')[0] }})
                         </div>
-                        <a class="dropdown-item" href="{{ route('admin.myaccount') }}">My Account</a>
-                        <a class="dropdown-item" href="">Help Center</a>
-                        <a class="dropdown-item" href="">Forum</a>
+                        <a class="dropdown-item" href="{{ route('admin.myaccount') }}">@lang('navs.my_account')</a>
+                        <a class="dropdown-item" href="">@lang('navs.help_center')</a>
+                        <a class="dropdown-item" href="">@lang('navs.forum')</a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
+                            @lang('navs.logout')
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
                             style="display: none;">
@@ -253,15 +253,11 @@
         @if(\Request::route()->getName() == 'homepage')
         <div class="hero container page__container text-center text-md-left py-112pt" style="min-height: 540px;">
             <div class="col-lg-10 mx-auto">
-                <h1 class="text-white text-shadow py-16pt text-center">Learn anything online.</h1>
+                <h1 class="text-white text-shadow py-16pt text-center">@lang('labels.frontend.home.search_course_title')</h1>
                 <div class="form-group" style="position: relative;">
-                    <!-- <div class="search-form input-group-lg">
-                        <input type="text" class="form-control" placeholder="What do you want to learn today?" search-type="course">
-                        <button class="btn" type="button" role="button"><i class="material-icons">search</i></button>
-                    </div> -->
                     <div class="ui fluid category search course font-size-20pt">
                         <div class="ui icon input w-100">
-                            <input class="prompt pb-16pt" type="text" placeholder="What do you want to learn today?">
+                            <input class="prompt pb-16pt" type="text" placeholder="@lang('labels.frontend.home.search_course_placeholder')">
                             <i class="search icon"></i>
                         </div>
                         <div class="results"></div>
