@@ -11,6 +11,9 @@ use App\Models\Discussion;
 use App\Models\DiscussionResults;
 use App\Models\Course;
 
+use Mail;
+use App\Mail\SendMail;
+
 class DiscussionController extends Controller
 {
     public function index()
@@ -236,7 +239,18 @@ class DiscussionController extends Controller
                         </div>
                     </div>
                 </div>';
-                
+
+        // Send Reply email
+        $send_data = [
+            'template_type' => 'New_Discussion_Topic_Reply_Received',
+            'mail_data' => [
+                'model_type' => DiscussionResults::class,
+                'model_id' => $result->id
+            ]
+        ];
+
+        Mail::to($result->discussion->user->email)->send(new SendMail($send_data));
+
         return response()->json([
             'success' => true,
             'result' => $html

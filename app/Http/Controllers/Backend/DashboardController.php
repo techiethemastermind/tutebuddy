@@ -167,7 +167,7 @@ class DashboardController extends Controller
                 $total = $this->getEarned('total');
 
                 $pending_orders = collect();
-                $order_items = OrderItem::where('item_id', $course_ids)->orderBy('created_at', 'desc')->get();
+                $order_items = OrderItem::whereIn('item_id', $course_ids)->orderBy('created_at', 'desc')->get();
                 foreach($order_items as $item) {
                     if(Carbon::parse($item->course->end_date)->diffInDays(Carbon::now()) < 7 ||
                             $item->course->end_date > Carbon::now()->format('Y-m-d')) {

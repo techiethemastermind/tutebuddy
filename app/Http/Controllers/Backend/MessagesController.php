@@ -15,6 +15,9 @@ use App\User;
 use App\Models\Course;
 use DB;
 
+use Mail;
+use App\Mail\SendMail;
+
 class MessagesController extends Controller
 {
     public function index(Request $request) {
@@ -75,6 +78,18 @@ class MessagesController extends Controller
             ]);
 
             $view = view('backend.messages.parts.ele-right', ['message' => $message])->render();
+
+            // Send replay message by email
+            $participant = $thread->getParticipantFromUser($userId);
+            $send_data = [
+                'template_type' => 'New_Message_Received',
+                'mail_data' => [
+                    'model_type' => Message::class,
+                    'model_id' => $message->id
+                ]
+            ];
+            $sender_email = User::find($participant->user_id)->email;
+            Mail::to($sender_email)->send(new SendMail($send_data));
 
             return response()->json([
                 'success' => true,
@@ -347,6 +362,18 @@ class MessagesController extends Controller
             ]);
 
             $view = view('frontend.course.enroll-chat.ele-right', ['message' => $message])->render();
+
+            // Send Pre enroll message by email
+            $participant = $thread->getParticipantFromUser($userId);
+            $send_data = [
+                'template_type' => 'Pre_Enroll_Message_From_Instructor',
+                'mail_data' => [
+                    'model_type' => Message::class,
+                    'model_id' => $message->id
+                ]
+            ];
+            $sender_email = User::find($participant->user_id)->email;
+            Mail::to($sender_email)->send(new SendMail($send_data));
 
             return response()->json([
                 'success' => true,

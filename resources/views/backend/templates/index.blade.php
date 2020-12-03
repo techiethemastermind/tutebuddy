@@ -50,7 +50,8 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th>Template Name</th>
+                            <th>Template Type</th>
+                            <th>Subject</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -80,8 +81,9 @@
                 columns: [
                     { data: 'index'},
                     { data: 'name'},
+                    { data: 'subject'},
                     { data: 'status'},
-                    { data: 'action' }
+                    { data: 'action'}
                 ],
                 oLanguage: {
                     sEmptyTable: "You have no Templates"

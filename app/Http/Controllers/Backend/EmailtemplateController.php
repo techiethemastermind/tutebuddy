@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
 use Mail;
 use App\Mail\SendMail;
+use App\Jobs\SendEmail;
+
 use App\Http\Controllers\Traits\FileUploadTrait;
 
 class EmailtemplateController extends Controller
@@ -26,9 +28,12 @@ class EmailtemplateController extends Controller
         foreach($templates as $item) {
             $temp = [];
             $temp['index'] = '';
+
+            $bg_color = ($item->type == 0) ? 'bg-accent' : 'bg-primary';
+
             $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                 <div class="avatar avatar-sm mr-8pt">
-                                    <span class="avatar-title rounded bg-primary text-white">'
+                                    <span class="avatar-title rounded '. $bg_color .' text-white">'
                                         . substr($item->name, 0, 2) .
                                     '</span>
                                 </div>
@@ -36,9 +41,11 @@ class EmailtemplateController extends Controller
                                     <div class="d-flex flex-column">
                                         <small class="js-lists-values-project">
                                             <strong>' . $item->name . '</strong></small>
+                                        <small class="text-muted">'. $item->slug .'</small>
                                     </div>
                                 </div>
                             </div>';
+            $temp['subject'] = '<strong>'. $item->subject .'</strong>';
             
             if($item->published == 1) {
                 $temp['status'] = '<div class="d-flex flex-column">
@@ -51,15 +58,18 @@ class EmailtemplateController extends Controller
                                     <span class="indicator-line rounded bg-warning"></span>
                                 </div>';
             }
-            
-            $edit_route = route('admin.mailedits.edit', $item->id);
-            $delete_route = route('admin.mailedits.destroy', $item->id);
 
-            $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
-            $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
-
-            $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
-
+            if($item->type == 0) {
+                $edit_route = route('admin.mailedits.template_edit', $item->id);
+                $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
+                $temp['action'] = $btn_edit . '&nbsp;';
+            } else {
+                $edit_route = route('admin.mailedits.edit', $item->id);
+                $delete_route = route('admin.mailedits.destroy', $item->id);
+                $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
+                $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
+                $temp['action'] = $btn_edit . '&nbsp;' . $btn_delete;
+            }
             array_push($data, $temp);
         }
 
@@ -69,13 +79,14 @@ class EmailtemplateController extends Controller
         ]);
     }
 
-
     /**
      * Create a new discussion
      */
     public function create()
     {
-        return view('backend.templates.create');
+        $header = EmailTemplate::where('slug', 'header')->first();
+        $footer = EmailTemplate::where('slug', 'footer')->first();
+        return view('backend.templates.create', compact('header', 'footer'));
     }
 
     /**
@@ -83,51 +94,52 @@ class EmailtemplateController extends Controller
      */
     public function store(Request $request)
     {
-        $content = html_entity_decode($request->html_content);
-
         $data = [
-            'name' => $request->name,
-            'content' => $content,
-            'editor' => $request->editor
+            'name' => config('mail.email_events')[$request->name],
+            'slug' => $request->name,
+            'subject' => $request->subject,
+            'content' => $request->content,
+            'html_content' => $request->html_content,
+            'type' => 1
         ];
-
-        // logo image
-        if(!empty($request->logo)) {
-            $image = $request->file('logo');
-            $logo_image_url = $this->saveImage($image, 'upload', true);
-            $data['logo'] = $logo_image_url;
-        }
-        
         $template = EmailTemplate::create($data);
-
         return redirect()->route('admin.mailedits.edit', $template->id);
     }
 
     public function edit($id)
     {
+        $header = EmailTemplate::where('slug', 'header')->first();
+        $footer = EmailTemplate::where('slug', 'footer')->first();
         $template = EmailTemplate::find($id);
-        return view('backend.templates.edit', compact('template'));
+        return view('backend.templates.edit', compact('template', 'header', 'footer'));
+    }
+
+    public function editTemplate($id)
+    {
+        $template = EmailTemplate::find($id);
+        return view('backend.templates.' . $template->slug, compact('template'));
     }
 
     public function update(Request $request, $id)
     {
         $template = EmailTemplate::find($id);
-        $content = html_entity_decode($request->html_content);
 
-        $data = [
-            'name' => $request->name,
-            'content' => $content,
-            'editor' => $request->editor
-        ];
+        $template->subject = $request->subject;
+        $template->html_content = $request->html_content;
+        $template->name = config('mail.email_events')[$request->name];
+        $template->slug = $request->name;
 
-        // logo image
-        if(!empty($request->logo)) {
-            $image = $request->file('logo');
-            $logo_image_url = $this->saveImage($image, 'upload', true);
-            $data['logo'] = $logo_image_url;
+        if($template->slug == 'header') {
+            if(!empty($request->logo)) {
+                $image = $request->file('logo');
+                $logo_image_url = $this->saveImage($image, 'upload', true);
+                $template->content = $logo_image_url;
+            }
+        } else {
+            $template->content = $request->content;
         }
 
-        $template->update($data);
+        $template->save();
 
         return response()->json([
             'success' => true
@@ -137,21 +149,48 @@ class EmailtemplateController extends Controller
 
     public function sendTestEmail(Request $request)
     {
-        $template = EmailTemplate::find($request->id);
         $data = [
-            'test' => true,
-            'email' => $request->email,
-            'template' => $template
+            'template_type' => $request->template_type,
+            'mail_type' => 'test',
+            'mail_data' => [
+                'email' => $request->email
+            ]
         ];
 
+        // for($i = 0; $i < 30; $i++) {
+        //     SendEmail::dispatch($data)->onQueue('emails');
+        // }
+
+        // return response()->json([
+        //     'success' => true
+        // ]);
+
         try {
-            Mail::to($data['email'])->send(new SendMail($data));
+            Mail::to($data['mail_data']['email'])->send(new SendMail($data));
 
             return response()->json([
                 'success' => true
             ]);
 
         } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            EmailTemplate::find($id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()

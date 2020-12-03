@@ -13,6 +13,7 @@ use Cmgmyr\Messenger\Models\Participant;
 use Cmgmyr\Messenger\Models\Thread;
 
 use Illuminate\Support\Facades\DB;
+use Mail;
 
 class User extends Authenticatable
 {
@@ -130,5 +131,23 @@ class User extends Authenticatable
         }
 
         return $partners;
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $link = config('app.url') . 'password/reset/' . $token . '?email=' . urlencode($this->email);
+        $data = [
+            'template_type' => 'Forgot_Password',
+            'mail_data' => [
+                'link' => $link
+            ]
+        ];
+        Mail::to($this->email)->send(new \App\Mail\SendMail($data));
     }
 }

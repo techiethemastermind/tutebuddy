@@ -13,6 +13,11 @@ class DiscussionResults extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function discussion()
+    {
+        return $this->belongsTo(Discussion::class);
+    }
+
     public function parent()
     {
         return $this->belongsTo(DiscussionResults::class, 'post_user_id', 'user_id');

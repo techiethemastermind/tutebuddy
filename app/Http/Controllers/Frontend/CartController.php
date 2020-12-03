@@ -286,6 +286,8 @@ class CartController extends Controller
                 ]);
 
             } else {
+
+
                 return response()->json([
                     'success' => false,
                     'message' => 'Payment Failed'
@@ -331,10 +333,12 @@ class CartController extends Controller
     {
         $order = Order::find($order_id);
         $data = [
-            'customer_name' => $order->user->name,
-            'order_id' => $order->order_id,
-            'payment_id' => $order->payment_id,
-            'order_items_table' => ''
+            'template_type' => 'Enrollment_Payment_Success',
+            'mail_data' => [
+                'model_type' => Order::class,
+                'model_id' => $order->id
+            ],
+            'order_items_table' => '',
         ];
 
         $html = '<table>
@@ -363,5 +367,16 @@ class CartController extends Controller
         $data['order_items_table'] = $html;
 
         Mail::to($order->user->email)->send(new SendMail($data));
+    }
+
+    private function sendOrderFailEmail($reason)
+    {
+        $data = [
+            'template_type' => 'Enrollment_Payment_Failure',
+            'mail_data' => [
+                'reason' => $reason
+            ]
+        ];
+        Mail::to(auth()->user()->email)->send(new SendMail($data));
     }
 }

@@ -12,6 +12,8 @@ use App\Models\Lesson;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Jobs\SendEmail;
+
 class QuizController extends Controller
 {
     /**
@@ -117,7 +119,7 @@ class QuizController extends Controller
 
         if(isset($data['model_id']) && ($data['model_id'] != -1)) {
             try {
-                quiz::find($data['model_id'])->update($quiz_data);
+                Quiz::find($data['model_id'])->update($quiz_data);
     
                 return response()->json([
                     'success' => true,
@@ -132,7 +134,23 @@ class QuizController extends Controller
             }
         } else {
             try {
-                $quiz = quiz::create($quiz_data);
+                $quiz = Quiz::create($quiz_data);
+
+                // Send Email to Students
+                $student_ids = DB::table('course_student')->where('course_id', $quiz->course_id)->pluck('user_id');
+                $student_emails = User::whereIn('id', $student_ids)->pluck('email');
+                $email_data = [
+                    'template_type' => 'New_Quiz_Created',
+                    'mail_data' => [
+                        'model_type' => Quiz::class,
+                        'model_id' => $quiz->id
+                    ]
+                ];
+
+                foreach($student_emails as $email) {
+                    $email_data['mail_data']['email'] = $email;
+                    SendEmail::dispatch($email_data);
+                }
     
                 return response()->json([
                     'success' => true,

@@ -9,7 +9,7 @@ use App\Models\Contact;
 use App\Models\Faq;
 
 use Mail;
-use AppMailSendMail;
+use App\Mail\SendMail;
 
 class PageController extends Controller
 {
@@ -115,13 +115,16 @@ class PageController extends Controller
     {
         $inputs = $request->all();
 
-        $data = [
-            'template_type' => 'contact',
-            'mail_data' => $inputs
-        ];
-
         $mail_to = config('site_contact_email');
         $contact = Contact::create($inputs);
+
+        $data = [
+            'template_type' => 'Contact_Us',
+            'mail_data' => [
+                'model_type' => Contact::class,
+                'model_id' => $contact->id
+            ]
+        ];
 
         try {
             Mail::to($mail_to)->send(new SendMail($data));

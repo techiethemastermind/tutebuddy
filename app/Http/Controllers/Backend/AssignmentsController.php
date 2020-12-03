@@ -15,6 +15,9 @@ use App\Http\Controllers\Traits\FileUploadTrait;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 
+use App\Jobs\SendEmail;
+use App\User;
+
 class AssignmentsController extends Controller
 {
     use FileUploadTrait;
@@ -71,6 +74,22 @@ class AssignmentsController extends Controller
         $assignment->user_id = auth()->user()->id;
 
         $assignment->save();
+
+        // Send Email to Students
+        $student_ids = DB::table('course_student')->where('course_id', $assignment->course_id)->pluck('user_id');
+        $student_emails = User::whereIn('id', $student_ids)->pluck('email');
+        $email_data = [
+            'template_type' => 'New_Assignment_Setup_By_Instructor',
+            'mail_data' => [
+                'model_type' => Assignment::class,
+                'model_id' => $assignment->id
+            ]
+        ];
+
+        foreach($student_emails as $email) {
+            $email_data['mail_data']['email'] = $email;
+            SendEmail::dispatch($email_data);
+        }
 
         return response()->json([
             'success' => true,

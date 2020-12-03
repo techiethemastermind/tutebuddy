@@ -10,10 +10,9 @@ use App\Models\EmailTemplate;
 
 use App\Services\ShortcodeService;
 
-class SendMail extends Mailable
+class QueueMail extends Mailable
 {
     use Queueable, SerializesModels;
-
     protected $data;
     public $subject;
 
@@ -46,17 +45,14 @@ class SendMail extends Mailable
         $template_type = $data['template_type'];
         $template = EmailTemplate::where('slug', $template_type)->first();
         $this->subject = $template->subject;
-
-        $html_content = $shortcodeService->replace($data, $template->html_content);
-        $html = $this->getHeader() . $html_content . $this->getFooter();
-
-        // if(!empty($this->data['mail_type']) && $this->data['mail_type'] == 'test') {
-        //     $html = $this->getHeader() . $template->html_content . $this->getFooter();
-        // } else {
-        //     $html_content = $shortcodeService->replace($data, $template->html_content);
-        //     $html = $this->getHeader() . $html_content . $this->getFooter();
-        // }
-
+        
+        if(!empty($this->data['mail_type']) && $this->data['mail_type'] == 'test') {
+            $html = $this->getHeader() . $template->html_content . $this->getFooter();
+        } else {
+            $html_content = $shortcodeService->replace($data, $template->html_content);
+            $html = $this->getHeader() . $html_content . $this->getFooter();
+        }
+        
         return $html;
     }
 

@@ -132,21 +132,23 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
-    // Disable stream SSL
-    // 'stream' => [
-    //     'ssl' => [
-    //        'allow_self_signed' => true,
-    //        'verify_peer' => false,
-    //        'verify_peer_name' => false,
-    //     ],
-    // ],
-
     // Email templete types
-
-    'email_types' => [
-        'register_verify' => 'Verify Email (Register)',
-        'contact' => 'Contact Us Email',
-        'order' => 'New Order Email'
+    'email_events' => [
+        'Account_Verification' => 'Account Verification (Register)',
+        'Contact_Us' => 'Contact Us Email',
+        'Course_Certificate_Available' => 'Course Certificate Available',
+        'Enrollment_Payment_Invoice' => 'Enrollment Payment Invoice',
+        'Enrollment_Payment_Success' => 'Enrollment Payment Success',
+        'Enrollment_Payment_Failure' => 'Enrollment Payment Failure',
+        'Forgot_Password' => 'Forgot Password (Reset Password)',
+        'New_Assignment_Setup_By_Instructor' => 'New Assignment Created',
+        'New_Discussion_Topic_Reply_Received' => 'New Discussion Topic Reply Received',
+        'New_Message_Received' => 'New Message Received',
+        'New_Quiz_Created' => 'New Quiz Created',
+        'New_Test_Setup_By_Instructor' => 'New Test Created',
+        'Pre_Enroll_Message_From_Instructor' => 'Pre Enroll Message From Instructor',
+        'Schedule_Of_Live_Lesson_Changed' => 'Schedule Of Live Lesson Changed',
+        'Test_Results_Posted_By_Instructor' => 'Test Results Posted By Instructor',
+        'Welcome_Email_After_Verification' => 'Welcome Email After Verification'
     ]
-
 ];

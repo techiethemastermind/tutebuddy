@@ -10,6 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
+use Mail;
+use App\Mail\SendMail;
+
 class CertificateController extends Controller
 {
     /**
@@ -127,6 +130,16 @@ class CertificateController extends Controller
             $pdf = \PDF::loadView('downloads.certificate', compact('data'))->setPaper('', 'landscape');
 
             $pdf->save(public_path('storage/certificates/' . $certificate_name));
+
+            $send_data = [
+                'template_type' => 'Course_Certificate_Available',
+                'mail_data' => [
+                    'model_type' => Certificate::class,
+                    'model_id' => $certificate->id
+                ]
+            ];
+
+            Mail::to(auth()->user()->email)->send(new SendMail($send_data));
 
             return back()->withFlashSuccess(trans('alerts.frontend.course.completed'));
         }

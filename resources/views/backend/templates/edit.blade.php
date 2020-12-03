@@ -48,6 +48,40 @@
     </div>
 
     <div class="page-section border-bottom-2">
+
+        <div class="container page__container mb-32pt">
+            <div class="page-separator">
+                <div class="page-separator__text">Available Plugs</div>
+            </div>
+
+            <div class="accordion js-accordion accordion--boxed list-group-flush" id="parent">
+                <div class="accordion__item">
+                    <a href="#" class="accordion__toggle collapsed" data-toggle="collapse" data-target="#course-toc-1" data-parent="#parent">
+                        <span class="flex">Plugs Overview</span>
+                        <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                    </a>
+                    <div class="accordion__menu collapse" id="course-toc-1">
+                        <div class="accordion__menu-link">
+                            <div class="row w-100">
+                                <div class="col-md-6">
+                                    <code>{user_name}</code> <span class="text-muted ml-8pt">: User Name (First and Last name)</span><br>
+                                    <code>{site_name}</code> <span class="text-muted ml-8pt">: Site Name (Tutebuddy LMS)</span><br>
+                                    <code>{site_url}</code> <span class="text-muted ml-8pt">: Site URL (https://www.tutebuddy.com)</span><br>
+                                    <code>{verify_link}</code> <span class="text-muted ml-8pt">: Account Verify Link</span><br>
+                                    <code>{customer_contact_info}</code> <span class="text-muted ml-8pt">: Contact Information Form </span><br>
+                                </div>
+                                <div class="col-md-6">
+                                    <code>[explore_courses]</code> <span class="text-muted ml-8pt">: Button to explore Courses</span><br>
+                                    <code>[explore_instructors]</code> <span class="text-muted ml-8pt">: Button to explore Instructors</span><br>
+                                    <code>[login]</code> <span class="text-muted ml-8pt">: Login button to my account</span><br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container page__container">
             <div class="row">
                 <div class="col-md-6">
@@ -64,8 +98,8 @@
                                 <label class="form-label">Template Name: </label>
 
                                 <select id="custom-select" name="name" id="name" class="form-control custom-select" required>
-                                @foreach(config('mail.email_types') as $key => $name)
-                                    @if($key == $template->name)
+                                @foreach(config('mail.email_events') as $key => $name)
+                                    @if($key == $template->slug)
                                     <option value="{{ $key }}" selected>{{ $name }}</option>
                                     @else
                                     <option value="{{ $key }}">{{ $name }}</option>
@@ -75,84 +109,18 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Logo: </label>
-                                <div class="custom-file">
-                                    <input type="file" id="logo" name="logo" class="custom-file-input" data-preview="#preview_logo">
-                                    <label for="logo" class="custom-file-label">Choose file</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Title: </label>
-                                <input type="text" name="title" id="title" class="form-control"
-                                    placeholder="Email Title" for="#preview_title">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Sub Title: </label>
-                                <input type="text" name="sub_title" id="sub_title" class="form-control"
-                                    placeholder="Sub Title" for="#preview_sub_title">
-                            </div>
-
-                            <!-- Information Section -->
-                            <div class="form-group">
-                                <div class="form-inline mb-16pt d-flex">
-                                    <div class="flex">
-                                        <label class="form-label">Add Email Information: </label>
-                                    </div>
-                                    <button id="btn_addInfo" class="btn btn-md btn-outline-secondary" type="button">+</button>
-                                </div>
-                                
-                                <div id="info_group" class="form-group border-1 p-3">
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <label class="form-label"><strong>Name: </strong></label>
-                                        </div>
-                                        <div class="col-5">
-                                            <label class="form-label"><strong>Value: </strong></label>
-                                        </div>
-                                        <div class="col-2">
-                                            <label class="form-label"><strong>Action: </strong></label>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="wrap"></div>
-                                    <div class="wrap-footer d-none">
-                                        <hr>
-                                        <div class="text-right">
-                                            <button id="btn_appendInfo" class="btn btn-md btn-outline-secondary" type="button">Append</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Content Title: </label>
-                                <input type="text" name="content_title" id="content_title" class="form-control"
-                                    placeholder="Content Title" for="#preview_content_title">
+                                <label class="form-label">Subject: </label>
+                                <input type="text" name="subject" id="subject" class="form-control" placeholder="Subject" value="{{ $template->subject }}">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Content</label>
                                 <!-- quill editor -->
-                                <div id="editor" class="mb-0" style="min-height: 30vh;"></div>
+                                <div id="content_editor" class="mb-0" style="min-height: 30vh;">
+                                    {!! $template->content !!}
+                                </div>
                                 <small class="form-text text-muted">Edit Content</small>
-                                <textarea id="content_editor" name="editor" class="d-none">{{ $template->editor }}</textarea>
                             </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Footer Text: </label>
-                                <input type="text" name="footer_text" id="footer_text" class="form-control"
-                                    placeholder="Footer Text" for="#preview_footer">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Footer Link: </label>
-                                <input type="text" name="footer_link" id="footer_link" class="form-control"
-                                    placeholder="Footer link" for="#preview_footer">
-                            </div>
-
-                            <textarea name="html_content" id="html_content" class="d-none">{{ $template->content }}</textarea>
 
                             {!! Form::close() !!}
                         </div>
@@ -164,7 +132,114 @@
                         <div class="page-separator__text">Preview</div>
                     </div>
 
-                    <div class="prev_wrap" id="prev_wrap"></div>
+                    <div class="prev_wrap" id="prev_wrap">
+                        <div>
+                            <!-- Main Section -->
+                            <div class="shadow wrapper-container"
+                                style="box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1); background: #ffffff; background-color: #ffffff; Margin: 0px auto; border-radius: 4px; max-width: 604px;"
+                                bgcolor="#ffffff">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                    style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background: #ffffff; background-color: #ffffff; width: 100%; border-radius: 4px;"
+                                    bgcolor="#ffffff" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; direction: ltr; font-size: 0px; padding: 0 0 30px; text-align: center; vertical-align: top;"
+                                                align="center">
+
+                                                {!! $header->html_content !!}
+
+                                                <!-- Separate Section -->
+                                                <div style="Margin:0px auto;max-width:604px;">
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; direction: ltr; font-size: 0px; padding: 0 50px 15px; text-align: left; vertical-align: top;" align="left">
+                                                                    <div class="mj-column-px-25 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;" align="left" width="100%">
+                                                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; vertical-align: top;" width="100%">
+                                                                            <tbody><tr>
+                                                                                <td class="left" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-size: 0px; padding: 10px 25px; padding-top: 0; padding-right: 0; padding-left: 0; word-break: break-word;">
+                                                                                    <p style="display: block; border-top: solid 3px #505050; font-size: 1; margin: 0px auto; width: 25px; float: left;" width="25">
+                                                                                    </p>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody></table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div id="content_html">
+                                                    {!! $template->html_content !!}
+                                                </div>
+                                                
+                                                <!-- Separate Section -->
+                                                <div style="Margin:0px auto;max-width:604px;">
+                                                    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;" width="100%">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; direction: ltr; font-size: 0px; padding: 0 50px 0; text-align: left; vertical-align: top;" align="left">
+                                                                    <div class="mj-column-px-25 outlook-group-fix" style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;" align="left" width="100%">
+                                                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; vertical-align: top;" width="100%">
+                                                                            <tbody><tr>
+                                                                                <td class="left" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-size: 0px; padding: 10px 25px; padding-top: 0; padding-right: 0; padding-left: 0; word-break: break-word;">
+                                                                                    <p style="display: block; border-top: solid 3px #505050; font-size: 1; margin: 0px auto; width: 25px; float: left;" width="25">
+                                                                                    </p>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody></table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                {!! $footer->html_content !!}
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Footer Section -->
+                            <div style="Margin:0px auto;max-width:604px;">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                                    style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;"
+                                    width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; direction: ltr; font-size: 0px; padding: 20px 0; text-align: center; vertical-align: top;"
+                                                align="center">
+                                                <div class="mj-column-per-100 outlook-group-fix"
+                                                    style="font-size:13px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;"
+                                                    align="left" width="100%">
+                                                    <table border="0" cellpadding="0" cellspacing="0"
+                                                        role="presentation"
+                                                        style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; vertical-align: top;"
+                                                        width="100%">
+                                                        <tr>
+                                                            <td align="center"
+                                                                style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-size: 0px; padding: 10px 25px; word-break: break-word;">
+                                                                <div style="font-family:Open sans, arial, sans-serif;font-size:14px;line-height:25px;text-align:center;color:#363A41;"
+                                                                    align="center">
+                                                                    <a id="preview_footer_link" href="{{ config('app.url') }}"
+                                                                        style="text-decoration: underline; color: #656565; font-size: 16px; font-weight: 600;">{{ config('app.url') }}</a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
 
                     <div class="page-separator">
                         <div class="page-separator__text">Email Test</div>
@@ -194,56 +269,40 @@
         $(function () {
 
             // Init Quill Editor
-            var editor = new Quill('#editor', {
+            var content_editor = new Quill('#content_editor', {
                 theme: 'snow',
                 placeholder: 'Email Content'
             });
 
-            // Init page
-
-            var template_editor = JSON.parse($('#content_editor').val());
-            editor.setContents(template_editor);
-
-            var template_content = $($('#html_content').val());
-            $('#prev_wrap').html(template_content);
-
-            // Title
-            $('#title').val($('#preview_title').text());
-            $('#sub_title').val($('#preview_sub_title').text());
-            $('#content_title').val($('#preview_content_title').text());
-
-
-            $('#frm_template').on('focusout', 'input[type="text"]', function(e) {
-                if($(this).val() !== '') {
-                    $($(this).attr('for')).text($(this).val());
-
-                    if($(this).attr('id') == 'footer_link') {
-                        $('#preview_footer').attr('href', $(this).val());
-                    }
-                }
-            });
-
-            $('#editor').on('focusout', function(e) {
-                var content_html = editor.root.innerHTML;
+            $('#content_editor').on('focusout', function(e) {
+                var content_html = content_editor.root.innerHTML;
                 $('#preview_content').html(content_html);
             });
 
             $('#btn_save').on('click', function(e) {
-                var template_html = $('#prev_wrap').html();
-                $('#html_content').val(template_html);
                 $('#frm_template').submit();
             });
-
-            // Logo
-            var logo = '{{ $template->logo }}';
-            if(logo != '') {
-                $('#preview_logo').attr('src', '{{ asset("/storage/uploads") }}' + '/' + logo);
-            }
 
             $('#frm_template').on('submit', function(e) {
                 e.preventDefault();
 
                 $(this).ajaxSubmit({
+                    beforeSubmit: function(formData, formObject, formOptions) {
+                        var editor_content = content_editor.root.innerHTML;
+
+                        // Append
+                        formData.push({
+                            name: 'content',
+                            type: 'text',
+                            value: editor_content
+                        });
+
+                        formData.push({
+                            name: 'html_content',
+                            type: 'text',
+                            value: $('#content_html').html()
+                        });
+                    },
                     success: function(res) {
                         if(res.success) {
                             swal('Success!', 'successfully Updataed', 'success');
@@ -255,75 +314,16 @@
                 });
             });
 
-            var counter = 0;
-
-            $("#btn_addInfo").click(function () {
-
-                var newBlock = $(`<div class="row form-inline mb-8pt">
-                                    <div class="col-5">
-                                        <input type="text" class="form-control" placeholder="Customer Email Address:">
-                                    </div>
-                                    <div class="col-5">
-                                        <input type="text" class="form-control" placeholder="{email}">
-                                    </div>
-                                    <div class="col-2">
-                                        <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
-                                    </div>
-                                </div>`);
-                
-                newBlock.appendTo("#info_group .wrap");
-
-                if($('#info_group .wrap-footer').hasClass('d-none')) {
-                    $('#info_group .wrap-footer').removeClass('d-none');
-                };
-            });
-
-            $('#info_group').on('click', '.wrap .remove', function(e) {
-                $(this).closest('.row').remove();
-
-                if($('#info_group .wrap').find('.remove').length < 1) {
-                    $('#info_group .wrap-footer').addClass('d-none');
-                }
-            });
-
-            $('#btn_appendInfo').on('click', function(e) {
-
-                var info_ele = '';
-
-                $.each($('#info_group .wrap').find('.row'), function(idx, ele) {
-                    console.log(ele);
-                    var name = $(ele).find('input.name').val();
-                    var value = $(ele).find('input.value').val();
-                    var new_tr = `<tr>
-                                <td align="left"
-                                    style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-size: 0px; padding: 10px 25px; word-break: break-word;">
-                                    <div style="font-family:Open sans, arial, sans-serif;font-size:16px;line-height:25px;text-align:left;color:#363A41;"
-                                        align="left">
-                                        <span
-                                            class="label"
-                                            style="font-weight: 700;">`+ name +`</span>
-                                        <span
-                                            style="color:#25B9D7;font-weight:600; text-decoration: underline;">`+ value +`</span>
-                                    </div>
-                                </td>
-                            </tr>`;
-                    info_ele += new_tr;
-                });
-
-                $('#preview_info').html($(info_ele));
-            });
-
             $('#btn_test').on('click', function() {
 
                 $.ajax({
                     method: 'GET',
                     url: '{{ route("admin.ajax.sendTestEmail") }}',
                     data: {
-                        id: '{{ $template->id }}',
+                        template_type: '{{ $template->slug }}',
                         email: $('#test_email').val()
                     },
                     success: function(res) {
-                        console.log(res);
                         if(res.success) {
                             swal('Success!', 'Test Email Sent!', 'success');
                         }

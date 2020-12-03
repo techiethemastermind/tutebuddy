@@ -169,6 +169,7 @@ Route::resource('faqs', 'FaqsController');
 
 // Email Tempate
 Route::resource('mailedits', 'EmailtemplateController');
+Route::get('mailedits/tempalte/{id}/edit', 'EmailtemplateController@editTemplate')->name('mailedits.template_edit');
 Route::get('ajax/mailedits', 'EmailtemplateController@getListByAjax')->name('table.getTemplatesByAjax');
 Route::get('ajax/send-test', 'EmailtemplateController@sendTestEmail')->name('ajax.sendTestEmail');
 
