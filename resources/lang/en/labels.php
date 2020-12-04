@@ -47,6 +47,11 @@ return array (
         'title' => 'Feedback',
       ),
     ),
+    'search' => 
+    array (
+      'browse_course' => 'Browse Course',
+      'find_instructors' => 'Find Instructors',
+    ),
   ),
   'backend' => 
   array (
@@ -81,6 +86,173 @@ return array (
       'publish_all' => 'Publish All',
       'publish_all_warning' => 'Are you sure you want to publish all translations group? This will overwrite existing language files.',
       'enter_new_locale_key' => 'Enter new locale key',
+    ),
+    'dashboard' => 
+    array (
+      'title' => 'Dashboard',
+      'students' => 'Students',
+      'instructors' => 'Instructors',
+      'active_courses' => 'Active Courses',
+      'enrolled_courses' => 'Enrolled Courses',
+      'total_sales' => 'Total Sales',
+      'total_payments' => 'Total Payments',
+      'courses_approval' => 'Courses Approval',
+      'live_lessons' => 'Live Lessons',
+      'courses_pending_approval' => 'Courses Pending Approval',
+      'withdraw_requests' => 'Withdraw Requests',
+      'orders' => 'Orders',
+      'daily_signups' => 'Daily Signups',
+      'daily_orders' => 'Daily Orders',
+      'table' => 
+      array (
+        'no' => 'No',
+        'title' => 'Title',
+        'instructor' => 'Instructor',
+        'category' => 'Category',
+        'action' => 'Action',
+        'transaction_id' => 'Transaction Id',
+        'amount' => 'Amount',
+        'date' => 'Date',
+        'order' => 'Order',
+        'customer' => 'Customer',
+        'total' => 'Total',
+        'order_id' => 'Order Id',
+        'course' => 'Course',
+        'start_time' => 'Start Time',
+        'end_time' => 'End Time',
+        'course_title' => 'Course Title',
+        'lesson_title' => 'Lesson Title',
+        'name' => 'Name',
+        'start_date' => 'Start Date',
+        'end_date' => 'End Date',
+        'status' => 'Status',
+        'subject' => 'Subject',
+        'due_date' => 'Due Date',
+        'total_marks' => 'Total Marks',
+        'student' => 'Student',
+        'attachment' => 'Attachment',
+        'lessons' => 'Lessons',
+        'email' => 'Email',
+      ),
+      'earning_this_month' => 'Earning This Month',
+      'account_balance' => 'Account Balance',
+      'pending_orders' => 'Pending Orders',
+      'upcomming_lessons' => 'Upcoming Lessons',
+      'students_roster' => 'Student Roster (Enrolled Students)',
+      'assignments_for_students' => 'Assignment For Students',
+      'paths' => 'Paths',
+      'discussions' => 'Discussions',
+      'submitted_assignments' => 'Assignments Submitted by Students',
+      'submitted_tests' => 'Test Submitted',
+      'submitted_quizzes' => 'Quiz Submitted',
+      'create_course' => 'Create Course',
+      'create_lesson' => 'Create Lesson',
+      'start_teaching' => 'Start Teaching',
+      'search_teachers_placeholder' => 'Enter name or Subject',
+      'my_live_lessons' => 'My Live Lessons',
+      'my_courses' => 'My Courses',
+      'my_instructors' => 'My Instructors',
+      'my_assignments' => 'My Assignments',
+      'my_paths' => 'My Paths',
+      'my_tests' => 'My Tests',
+      'select_course' => 'Select Course',
+      'find_an_expert' => 'Find an expert',
+      'start_learning' => 'Start Learning',
+    ),
+    'buttons' => 
+    array (
+      'browse_all' => 'Browse All',
+    ),
+    'courses' => 
+    array (
+      'my_courses' => 'My Courses',
+      'title' => 'Courses',
+      'all_my_courses' => 'My All Courses',
+      'outdated' => 'Outdated Courses',
+      'my_favorites' => 
+      array (
+        'title' => 'My Favorites',
+        'no_results' => 'No Favorites',
+      ),
+    ),
+    'table' => 
+    array (
+      'no' => 'NO.',
+      'title' => 'Title',
+      'owner' => 'Owner',
+      'category' => 'Category',
+      'progress_percent' => 'Progress (%)',
+      'actions' => 'Actions',
+      'date' => 'Date',
+      'start_time' => 'Start Time',
+      'end_time' => 'End Time',
+      'course_title' => 'Course Title',
+      'lesson_title' => 'Lesson Title',
+      'name' => 'Name',
+      'email' => 'Email',
+      'due_date' => 'Due Date',
+      'marks' => 'Marks',
+      'type' => 'Type',
+      'duration' => 'Duration',
+      'total_marks' => 'Total Marks',
+      'status' => 'Status',
+    ),
+    'lessons' => 
+    array (
+      'my_live_lessons' => 'My Live Lessons',
+      'all_live_lessons' => 'All Live Lessons',
+      'today_scheduled' => 'Today Scheduled',
+      'today_scheduled_description' => 'Today Scheduled Live Lessons',
+    ),
+    'paths' => 
+    array (
+      'learning_paths' => 
+      array (
+        'title' => 'Learning Paths',
+      ),
+      'my_paths' => 'My Paths',
+      'no_paths' => 'No Paths',
+    ),
+    'my_instructors' => 
+    array (
+      'title' => 'My Instructors',
+    ),
+    'my_assignments' => 
+    array (
+      'title' => 'My Assignments',
+      'all_assignments' => 'All Assignments',
+      'marked_assginments' => 'Marked Assignments',
+    ),
+    'assignments' => 
+    array (
+      'all_assignments' => 'All Assignments',
+    ),
+    'general' => 
+    array (
+      'marked' => 'Marked',
+      'all' => 'All',
+      'achieved' => 'Achieved',
+      'next' => 'Next',
+      'prev' => 'Prev',
+    ),
+    'my_quizzes' => 
+    array (
+      'title' => 'My Quizzes',
+      'all' => 'All Quizzes',
+      'achieved' => 'Achieved Quizzes',
+    ),
+    'my_tests' => 
+    array (
+      'title' => 'My Tests',
+      'all' => 'All Tests',
+    ),
+    'result' => 
+    array (
+      'course_performance' => 
+      array (
+        'title' => 'Course Performance',
+      ),
+      'courses' => 'Courses',
     ),
   ),
   'general' => 

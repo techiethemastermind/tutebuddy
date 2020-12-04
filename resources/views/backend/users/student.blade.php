@@ -19,13 +19,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Instructors</h2>
+                    <h2 class="mb-0">@lang('labels.backend.my_instructors.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Instructors
+                            @lang('labels.backend.my_instructors.title')
                         </li>
 
                     </ol>
@@ -39,16 +39,16 @@
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
             <div class="card-header">
-                <span class="page-separator__text bg-white mb-0"><strong>My Instructors</strong></span>
+                <span class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.my_instructors.title')</strong></span>
             </div>
             <div class="table-responsive" data-toggle="lists">
                 <table id="tbl_instructors" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='15'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Action</th>
+                            <th>@lang('labels.backend.table.name')</th>
+                            <th>@lang('labels.backend.table.email')</th>
+                            <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
                     <tbody class="list"></tbody>

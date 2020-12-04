@@ -310,7 +310,7 @@
                 <li class="sidebar-menu-item {{ Request::is('dashboard/certificate*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('admin.certificates.index') }}">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">new_releases</span>
-                        <span class="sidebar-menu-text">@lang('navs.sidebar.my_certificates')</span>
+                        <span class="sidebar-menu-text">@lang('navs.sidebar.my_certifications')</span>
                     </a>
                 </li>
 

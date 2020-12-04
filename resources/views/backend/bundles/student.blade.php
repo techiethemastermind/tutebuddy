@@ -10,12 +10,12 @@
         <div class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Learning Paths</h2>
+                    <h2 class="mb-0">@lang('labels.backend.paths.learning_paths.title')</h2>
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Learning Paths
+                            @lang('labels.backend.paths.learning_paths.title')
                         </li>
                     </ol>
                 </div>
@@ -23,7 +23,7 @@
 
             <div class="row" role="tablist">
                 <div class="col-auto">
-                    <a href="{{ route('admin.student.courses') }}" class="btn btn-outline-secondary">My Courses</a>
+                    <a href="{{ route('admin.student.courses') }}" class="btn btn-outline-secondary">@lang('labels.backend.courses.my_courses')</a>
                 </div>
             </div>
         </div>
@@ -32,7 +32,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">My Paths</div>
+            <div class="page-separator__text">@lang('labels.backend.paths.my_paths')</div>
         </div>
 
         @if(count($bundles) > 0)
@@ -113,7 +113,7 @@
                 <li class="page-item disabled">
                     <a class="page-link" href="#" aria-label="Previous">
                         <span aria-hidden="true" class="material-icons">chevron_left</span>
-                        <span>Prev</span>
+                        <span>@lang('labels.backend.general.prev')</span>
                     </a>
                 </li>
                 <li class="page-item disabled">
@@ -123,7 +123,7 @@
                 </li>
                 <li class="page-item disabled">
                     <a class="page-link" href="#" aria-label="Next">
-                        <span>Next</span>
+                        <span>@lang('labels.backend.general.next')</span>
                         <span aria-hidden="true" class="material-icons">chevron_right</span>
                     </a>
                 </li>
@@ -133,7 +133,7 @@
         @else
 
         <div class="card card-body">
-            <div class="card-title">No Paths</div>
+            <div class="card-title">@lang('labels.backend.paths.no_paths')</div>
         </div>
 
         @endif

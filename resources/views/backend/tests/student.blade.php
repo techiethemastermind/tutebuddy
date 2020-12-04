@@ -18,13 +18,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Tests</h2>
+                    <h2 class="mb-0">@lang('labels.backend.my_tests.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Tests
+                            @lang('labels.backend.my_tests.title')
                         </li>
 
                     </ol>
@@ -37,7 +37,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">My Tests</div>
+            <div class="page-separator__text">@lang('labels.backend.my_tests.title')</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -50,8 +50,8 @@
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                             <span class="h2 mb-0 mr-3 count-all">{{ $count['all'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">All</strong>
-                                <small class="card-subtitle text-50">All Quizzes</small>
+                                <strong class="card-title">@lang('labels.backend.general.all')</strong>
+                                <small class="card-subtitle text-50">@lang('labels.backend.my_tests.all')</small>
                             </span>
                         </a>
                     </div>
@@ -74,10 +74,10 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th> Title </th>
-                            <th> Duration </th>
-                            <th> Total Marks </th>
-                            <th> Actions </th>
+                            <th> @lang('labels.backend.table.title') </th>
+                            <th> @lang('labels.backend.table.duration') </th>
+                            <th> @lang('labels.backend.table.total_marks') </th>
+                            <th> @lang('labels.backend.table.actions') </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle"></tbody>

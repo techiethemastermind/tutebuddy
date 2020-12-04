@@ -30,13 +30,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Find Instructors</h2>
+                    <h2 class="mb-0">@lang('labels.frontend.search.find_instructors')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Find Instructors
+                            @lang('labels.frontend.search.find_instructors')
                         </li>
                     </ol>
 
@@ -57,7 +57,7 @@
 
                 <div class="ui fluid category search instructor font-size-20pt">
                     <div class="ui icon input w-100">
-                        <input class="prompt pb-16pt" type="text" placeholder="Enter name or Subject"
+                        <input class="prompt pb-16pt" type="text" placeholder="@lang('labels.frontend.home.search_teachers_placeholder')"
                         value="@if(isset($_GET['_q'])){{ $_GET['_q'] }}@endif">
                         <i class="search icon"></i>
                     </div>

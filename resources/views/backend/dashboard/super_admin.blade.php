@@ -11,24 +11,18 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Dashboard</h2>
+                    <h2 class="mb-0">@lang('labels.backend.dashboard.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
 
-                            Dashboard
+                            @lang('labels.backend.dashboard.title')
 
                         </li>
 
                     </ol>
 
-                </div>
-            </div>
-            <div class="row" role="tablist">
-                <div class="col-auto">
-                    <a href="" class="btn btn-outline-secondary">New Report</a>
                 </div>
             </div>
 
@@ -43,7 +37,7 @@
                     <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ $teachers_count }}</h4>
-                            <div><label class="form-label">Instructors</label></div>
+                            <div><label class="form-label">@lang('labels.backend.dashboard.instructors')</label></div>
                         </div>
                     </div>
                 </div>
@@ -51,7 +45,7 @@
                     <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ $students_count }}</h4>
-                            <div><label class="form-label">Students</label></div>
+                            <div><label class="form-label">@lang('labels.backend.dashboard.students')</label></div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +53,7 @@
                     <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ $active_courses }}</h4>
-                            <div><label class="form-label">Active Courses</label></div>
+                            <div><label class="form-label">@lang('labels.backend.dashboard.active_courses')</label></div>
                         </div>
                     </div>
                 </div>
@@ -67,7 +61,7 @@
                     <div class="card border-1 border-left-3 border-left-dark text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ $enrolled_courses }}</h4>
-                            <div><label class="form-label">Enrolled Courses</label></div>
+                            <div><label class="form-label">@lang('labels.backend.dashboard.enrolled_courses')</label></div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +72,7 @@
                     <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total_sales, 2) }}</h4>
-                            <div><label class="form-label">Total Sales</label></div>
+                            <div><label class="form-label">@lang('labels.backend.dashboard.total_sales')</label></div>
                         </div>
                     </div>
                 </div>
@@ -86,7 +80,7 @@
                     <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total_payments, 2) }}</h4>
-                            <div><label class="form-label">Total Payments</label></div>
+                            <div><label class="form-label">@lang('labels.backend.dashboard.total_payments')</label></div>
                         </div>
                     </div>
                 </div>
@@ -94,7 +88,7 @@
                     <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ $course_approval }}</h4>
-                            <div><label class="form-label">Courses Approval</label></div>
+                            <div><label class="form-label">@lang('labels.backend.dashboard.courses_approval')</label></div>
                         </div>
                     </div>
                 </div>
@@ -102,7 +96,7 @@
                     <div class="card border-1 border-left-3 border-left-dark text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ $live_lessons }}</h4>
-                            <div><label class="form-label">Live Lessons</label></div>
+                            <div><label class="form-label">@lang('labels.backend.dashboard.live_lessons')</label></div>
                         </div>
                     </div>
                 </div>
@@ -111,11 +105,13 @@
             @if(count($pending_courses) > 0)
 
             <div class="page-separator">
-                <div class="page-separator__text">Courses Pending Approval</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.courses_pending_approval')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div class="pl-8pt" style="background-color: #f5f7fa;">
-                        <a href="{{ route('admin.courses.index') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                        <a href="{{ route('admin.courses.index') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">
+                            @lang('labels.backend.buttons.browse_all')
+                        </a>
                     </div>
                 </div>
             </div>
@@ -127,15 +123,15 @@
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>No.</th>
+                                <th>@lang('labels.backend.dashboard.table.no')</th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort"
                                         data-sort="js-lists-values-time">Title
                                     </a>
                                 </th>
-                                <th>Instructor</th>
-                                <th>Category</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.table.instructor')</th>
+                                <th>@lang('labels.backend.dashboard.table.category')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
 
@@ -190,11 +186,13 @@
 
             @if(count($withdraw_requests) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">Withdraw Requests</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.withdraw_requests')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div class="pl-8pt" style="background-color: #f5f7fa;">
-                        <a href="{{ route('admin.transactions') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                        <a href="{{ route('admin.transactions') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">
+                            @lang('labels.backend.buttons.browse_all')
+                        </a>
                     </div>
                 </div>
             </div>
@@ -206,15 +204,15 @@
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>No.</th>
+                                <th>@lang('labels.backend.dashboard.table.no')</th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort"
-                                        data-sort="js-lists-values-time">Transaction ID
+                                        data-sort="js-lists-values-time">@lang('labels.backend.dashboard.table.transaction_id')
                                     </a>
                                 </th>
-                                <th>Instructor</th>
-                                <th>Amount</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.table.instructor')</th>
+                                <th>@lang('labels.backend.dashboard.table.amount')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
 
@@ -251,11 +249,13 @@
 
             @if(count($orders) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">Orders</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.orders')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div class="pl-8pt" style="background-color: #f5f7fa;">
-                        <a href="{{ route('admin.orders') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                        <a href="{{ route('admin.orders') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">
+                            @lang('labels.backend.buttons.browse_all')
+                        </a>
                     </div>
                 </div>
             </div>
@@ -267,16 +267,18 @@
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>No.</th>
+                                <th>@lang('labels.backend.dashboard.table.no')</th>
                                 <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-order">Order</a>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-order">
+                                        @lang('labels.backend.dashboard.table.order')
+                                    </a>
                                 </th>
                                 <th>
                                     <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">Date</a>
                                 </th>
-                                <th> Customer </th>
-                                <th> Total </th>
-                                <th> Action </th>
+                                <th> @lang('labels.backend.dashboard.table.customer') </th>
+                                <th> @lang('labels.backend.dashboard.table.total') </th>
+                                <th> @lang('labels.backend.dashboard.table.action') </th>
                             </tr>
                         </thead>
 
@@ -332,7 +334,7 @@
             @endif
 
             <div class="page-separator">
-                <div class="page-separator__text">Daily Signups</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.daily_signups')</div>
             </div>
 
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -342,7 +344,7 @@
             </div>
 
             <div class="page-separator">
-                <div class="page-separator__text">Daily Orders</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.daily_orders')</div>
             </div>
 
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">

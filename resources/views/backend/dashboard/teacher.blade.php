@@ -15,13 +15,12 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Dashboard</h2>
+                    <h2 class="mb-0">@lang('labels.backend.dashboard.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            Dashboard
+                            @lang('labels.backend.dashboard.title')
                         </li>
                     </ol>
 
@@ -39,7 +38,7 @@
                     <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($earned_this_month, 2) }}</h4>
-                            <div>Earnings this month</div>
+                            <div>@lang('labels.backend.dashboard.earning_this_month')</div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +46,7 @@
                     <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
-                            <div>Account Balance</div>
+                            <div>@lang('labels.backend.dashboard.account_balance')</div>
                         </div>
                     </div>
                 </div>
@@ -55,7 +54,7 @@
                     <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
                         <div class="card-body">
                             <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total, 2) }}</h4>
-                            <div>Total Sales</div>
+                            <div>@lang('labels.backend.dashboard.total_sales')</div>
                         </div>
                     </div>
                 </div>
@@ -66,8 +65,10 @@
         <div class="container page__container mt-32pt">
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>Pending Orders</strong></p>
-                    <a href="{{ route('admin.orders') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <p class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.pending_orders')</strong></p>
+                    <a href="{{ route('admin.orders') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">
+                        @lang('labels.backend.buttons.browse_all')
+                    </a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true">
@@ -75,11 +76,11 @@
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>Order ID</th>
-                                <td>Order Date</td>
-                                <th>Course</th>
-                                <th>Customer</th>
-                                <th>Amount</th>
+                                <th>@lang('labels.backend.dashboard.table.order_id')</th>
+                                <th>@lang('labels.backend.dashboard.table.date')</th>
+                                <th>@lang('labels.backend.dashboard.table.course')</th>
+                                <th>@lang('labels.backend.dashboard.table.customer')</th>
+                                <th>@lang('labels.backend.dashboard.table.amount')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -138,7 +139,6 @@
 
     <div class="container page__container">
 
-
         @if(count($courses) > 0)
         <div class="page-section">
 
@@ -146,8 +146,10 @@
             @if(count($schedules) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>Upcomming Lessons</strong></p>
-                    <a href="{{ route('admin.instructor.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <p class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.upcomming_lessons')</strong></p>
+                    <a href="{{ route('admin.instructor.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">
+                        @lang('labels.backend.buttons.browse_all')
+                    </a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true">
@@ -156,20 +158,21 @@
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
                                 <th>
-                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a>
+                                    <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">
+                                        @lang('labels.backend.dashboard.table.date')
+                                    </a>
                                 </th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>Course title</th>
-                                <th>Lesson title</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.table.start_time')</th>
+                                <th>@lang('labels.backend.dashboard.table.end_time')</th>
+                                <th>@lang('labels.backend.dashboard.table.course_title')</th>
+                                <th>@lang('labels.backend.dashboard.table.lesson_title')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
                         <tbody class="list" id="schedule_list">
-                            @foreach($schedules as $schedule)                
+                            @foreach($schedules as $schedule)
                             <tr>
                                 <td></td>
-
                                 <td>
                                     <?php
                                         $new_date = new DateTime;
@@ -240,9 +243,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">Scheduled lessons</small>
-                </div>
             </div>
             @endif
 
@@ -250,19 +250,21 @@
             @if(count($students) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>Students Roster (Enrolled Students)</strong></p>
-                    <a href="{{ route('admin.instructor.students') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <p class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.students_roster')</strong></p>
+                    <a href="{{ route('admin.instructor.students') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">
+                        @lang('labels.backend.buttons.browse_all')
+                    </a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>Name</th>
-                                <th>Course</th>
-                                <th>Start date</th>
-                                <th>End date</th>
-                                <th>Status</th>
+                                <th>@lang('labels.backend.dashboard.table.name')</th>
+                                <th>@lang('labels.backend.dashboard.table.course')</th>
+                                <th>@lang('labels.backend.dashboard.table.start_date')</th>
+                                <th>@lang('labels.backend.dashboard.table.end_date')</th>
+                                <th>@lang('labels.backend.dashboard.table.status')</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -324,18 +326,20 @@
             @if(count($assignments) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>Assignments for Students</strong></p>
-                    <a href="{{ route('admin.assignments.index') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <p class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.assignments_for_students')</strong></p>
+                    <a href="{{ route('admin.assignments.index') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">
+                        @lang('labels.backend.buttons.browse_all')
+                    </a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>Subject</th>
-                                <th>Due Date</th>
-                                <th>Total Mark</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.table.subject')</th>
+                                <th>@lang('labels.backend.dashboard.table.due_date')</th>
+                                <th>@lang('labels.backend.dashboard.table.total_marks')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
 
@@ -370,9 +374,6 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">Assignments</small>
-                </div>
             </div>
             @endif
 
@@ -380,7 +381,7 @@
             @if(count($assignment_results) > 0)
             <div class="card">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>Assignments Submitted by Students</strong></p>
+                    <p class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.submitted_assignments')</strong></p>
                     <a href="{{ route('admin.instructor.submitedAssignments') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
@@ -388,10 +389,10 @@
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>Subject</th>
-                                <th>Student</th>
-                                <th>Attachment</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.subject')</th>
+                                <th>@lang('labels.backend.dashboard.table.student')</th>
+                                <th>@lang('labels.backend.dashboard.table.attachment')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
                         <tbody class="list">
@@ -457,16 +458,13 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">Assignments Submitted by Students</small>
-                </div>
             </div>
             @endif
 
             <!-- Paths -->
             @if(count($bundles) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">Paths</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.paths')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
@@ -514,7 +512,7 @@
             <!-- Test Result -->
             @if(count($testResults) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">Test Submitted</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.submitted_tests')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
@@ -563,7 +561,7 @@
             <!-- Quiz Result -->
             @if(count($quizResults) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">Quiz Submitted</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.submitted_quizzes')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
@@ -613,7 +611,7 @@
             <!-- My Discussions Section -->
             @if(count($discussions) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">Discussions</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.discussions')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
@@ -678,7 +676,7 @@
                         <span class="h3 text-white m-0">1</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Create Courses</div>
+                        <div class="card-title mb-4pt">@lang('labels.backend.dashboard.create_course')</div>
                         <p class="card-subtitle text-black-70">Create your courses to teach</p>
                     </div>
                 </div>
@@ -687,7 +685,7 @@
                         <span class="h3 text-white m-0">2</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Create Lessons</div>
+                        <div class="card-title mb-4pt">@lang('labels.backend.dashboard.create_lesson')</div>
                         <p class="card-subtitle text-black-70">Create lessons under courses.</p>
                     </div>
                 </div>
@@ -696,7 +694,7 @@
                         <span class="h3 text-white m-0">3</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Start Teaching</div>
+                        <div class="card-title mb-4pt">@lang('labels.backend.dashboard.start_teaching')</div>
                         <p class="card-subtitle text-black-70">Create shedules to teach with live session.</p>
                     </div>
                 </div>

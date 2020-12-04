@@ -17,14 +17,11 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Dashboard</h2>
+                    <h2 class="mb-0">@lang('labels.backend.dashboard.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a>
-                        </li>
-
                         <li class="breadcrumb-item active">
-                            Dashboard
+                        @lang('labels.backend.dashboard.title')
                         </li>
                     </ol>
 
@@ -40,7 +37,7 @@
             <div class="form-group" style="position: relative;">
                 <div class="ui fluid category search instructor font-size-20pt">
                     <div class="ui icon input w-100">
-                        <input class="prompt pb-16pt" type="text" placeholder="Enter name or Subject"
+                        <input class="prompt pb-16pt" type="text" placeholder="@lang('labels.backend.dashboard.search_teachers_placeholder')"
                         value="@if(isset($_GET['_q'])){{ $_GET['_q'] }}@endif">
                         <i class="search icon"></i>
                     </div>
@@ -56,8 +53,10 @@
             @if(count($schedules) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>My Live Lessons</strong></p>
-                    <a href="{{ route('admin.student.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <p class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.my_live_lessons')</strong></p>
+                    <a href="{{ route('admin.student.liveSessions') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">
+                        @lang('labels.backend.buttons.browse_all')
+                    </a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-time"
                     data-lists-sort-desc="true">
@@ -66,11 +65,11 @@
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
                                 <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-time">Date</a></th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>Course title</th>
-                                <th>Lesson title</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.table.start_time')</th>
+                                <th>@lang('labels.backend.dashboard.table.end_time')</th>
+                                <th>@lang('labels.backend.dashboard.table.course_title')</th>
+                                <th>@lang('labels.backend.dashboard.table.lesson_title')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
 
@@ -150,7 +149,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Top 5 live sessions</small>
+                    <small class="text-muted">@lang('labels.backend.dashboard.my_live_lessons')</small>
                 </div>
             </div>
             @endif
@@ -159,8 +158,10 @@
             @if(count($purchased_courses) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>My Courses</strong></p>
-                    <a href="{{ route('admin.student.courses') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <p class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.my_courses')</strong></p>
+                    <a href="{{ route('admin.student.courses') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">
+                        @lang('labels.backend.buttons.browse_all')
+                    </a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
@@ -168,12 +169,12 @@
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
 
-                                <th>Title</th>
-                                <th>Instructor</th>
-                                <th>Category</th>
-                                <td>Lessons</td>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.table.title')</th>
+                                <th>@lang('labels.backend.dashboard.table.instructor')</th>
+                                <th>@lang('labels.backend.dashboard.table.category')</th>
+                                <th>@lang('labels.backend.dashboard.table.lessons')</th>
+                                <th>@lang('labels.backend.dashboard.table.status')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
                         <tbody class="list" id="course_list">
@@ -240,7 +241,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Purchase courses by you</small>
+                    <small class="text-muted">@lang('labels.backend.dashboard.my_courses')</small>
                 </div>
             </div>
             @endif
@@ -249,8 +250,10 @@
             @if(count($teachers) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <span class="page-separator__text bg-white mb-0"><strong>My Instructors</strong></span>  
-                    <a href="{{ route('admin.student.instructors') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <span class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.my_instructors')</strong></span>  
+                    <a href="{{ route('admin.student.instructors') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">
+                        @lang('labels.backend.buttons.browse_all')
+                    </a>
                 </div>
                 <div class="table-responsive" data-toggle="lists">
                     <table class="table mb-0 thead-border-top-0 table-nowrap">
@@ -258,9 +261,9 @@
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
 
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.table.name')</th>
+                                <th>@lang('labels.backend.dashboard.table.email')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
                         <tbody class="list" id="instructor_list">
@@ -297,7 +300,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Instructors</small>
+                    <small class="text-muted">@lang('labels.backend.dashboard.my_instructors')</small>
                 </div>
             </div>
             @endif
@@ -306,18 +309,18 @@
             @if(count($assignments) > 0)
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="card-header">
-                    <p class="page-separator__text bg-white mb-0"><strong>My Assignments</strong></p>
-                    <a href="{{ route('admin.student.assignments') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">Browse All</a>
+                    <p class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.dashboard.my_assignments')</strong></p>
+                    <a href="{{ route('admin.student.assignments') }}" class="btn btn-md btn-outline-accent-dodger-blue float-right">@lang('labels.backend.buttons.browse_all')</a>
                 </div>
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-desc="true">
                     <table id="tbl_assignment" class="table mb-0 thead-border-top-0 table-nowrap">
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>Subject</th>
-                                <th>Due Date</th>
-                                <th>Total Mark</th>
-                                <th>Action</th>
+                                <th>@lang('labels.backend.dashboard.table.subject')</th>
+                                <th>@lang('labels.backend.dashboard.table.due_date')</th>
+                                <th>@lang('labels.backend.dashboard.table.total_marks')</th>
+                                <th>@lang('labels.backend.dashboard.table.action')</th>
                             </tr>
                         </thead>
 
@@ -353,7 +356,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <small class="text-muted">Assignments</small>
+                    <small class="text-muted">@lang('labels.backend.dashboard.my_assignments')</small>
                 </div>
             </div>
             @endif
@@ -361,11 +364,13 @@
             <!-- My Paths -->
             @if(count($bundles) > 0)
             <div class="page-separator d-flex">
-                <div class="page-separator__text">My Paths</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.my_paths')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
-                        <a href="{{ route('admin.student.bundles') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                        <a href="{{ route('admin.student.bundles') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">
+                            @lang('labels.backend.buttons.browse_all')
+                        </a>
                     </div>
                 </div>
             </div>
@@ -409,11 +414,13 @@
             <!-- My Tests -->
             @if(count($testResults) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">My Tests</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.my_tests')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
-                        <a href="" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                        <a href="" class="btn btn-md btn-white float-right border-accent-dodger-blue">
+                            @lang('labels.backend.buttons.browse_all')
+                        </a>
                     </div>
                 </div>
             </div>
@@ -455,11 +462,13 @@
             <!-- My Discussions Section -->
             @if(count($discussions) > 0)
             <div class="page-separator">
-                <div class="page-separator__text">Discussions</div>
+                <div class="page-separator__text">@lang('labels.backend.dashboard.discussions')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
-                        <a href="{{ route('admin.discussions.topics') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                        <a href="{{ route('admin.discussions.topics') }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">
+                            @lang('labels.backend.buttons.browse_all')
+                        </a>
                     </div>
                 </div>
             </div>
@@ -520,7 +529,7 @@
                         <span class="h3 text-white m-0">1</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Select Course</div>
+                        <div class="card-title mb-4pt">@lang('labels.backend.dashboard.select_course')</div>
                         <p class="card-subtitle text-black-70">Wide selection of subjects you can learn from expert
                             tutors.</p>
                     </div>
@@ -530,7 +539,7 @@
                         <span class="h3 text-white m-0">2</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Find an Expert</div>
+                        <div class="card-title mb-4pt">@lang('labels.backend.dashboard.find_an_expert')</div>
                         <p class="card-subtitle text-black-70">Select from the most experienced &amp; requted Instructors.
                         </p>
                     </div>
@@ -540,9 +549,8 @@
                         <span class="h3 text-white m-0">3</span>
                     </div>
                     <div class="flex">
-                        <div class="card-title mb-4pt">Start Learning</div>
-                        <p class="card-subtitle text-black-70">Get personal instruction on your chosen course.
-                        </p>
+                        <div class="card-title mb-4pt">@lang('labels.backend.dashboard.start_learning')</div>
+                        <p class="card-subtitle text-black-70">Get personal instruction on your chosen course.</p>
                     </div>
                 </div>
             </div>

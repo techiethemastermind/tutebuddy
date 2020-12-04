@@ -17,13 +17,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Courses</h2>
+                    <h2 class="mb-0">@lang('labels.backend.courses.my_courses')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Courses
+                            @lang('labels.backend.courses.my_courses')
                         </li>
 
                     </ol>
@@ -35,7 +35,7 @@
 
     <div class="container page__container page-section">
         <div class="page-separator">
-            <div class="page-separator__text">Courses</div>
+            <div class="page-separator__text">@lang('labels.backend.courses.title')</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -48,8 +48,8 @@
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                             <span class="h2 mb-0 mr-3 count-all">{{ $count['all'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">All</strong>
-                                <small class="card-subtitle text-50">All My Courses</small>
+                                <strong class="card-title">@lang('labels.backend.general.all')</strong>
+                                <small class="card-subtitle text-50">@lang('labels.backend.courses.all_my_courses')</small>
                             </span>
                         </a>
                     </div>
@@ -59,8 +59,8 @@
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                             <span class="h2 mb-0 mr-3 count-deleted">{{ $count['deleted'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">Achieved</strong>
-                                <small class="card-subtitle text-50">Outdated Courses</small>
+                                <strong class="card-title">@lang('labels.backend.general.achieved')</strong>
+                                <small class="card-subtitle text-50">@lang('labels.backend.courses.outdated')</small>
                             </span>
                         </a>
                     </div>
@@ -78,31 +78,30 @@
 
                             <th style="width: 40px;">
                                 <a href="javascript:void(0)" class="sort"
-                                    data-sort="js-lists-values-no">No.</a>
+                                    data-sort="js-lists-values-no">@lang('labels.backend.table.no')</a>
                             </th>
 
                             <th>
                                 <a href="javascript:void(0)" class="sort"
-                                    data-sort="js-lists-values-title">Title</a>
+                                    data-sort="js-lists-values-title">@lang('labels.backend.table.title')</a>
                             </th>
 
                             <th>
                                 <a href="javascript:void(0)" class="sort"
-                                    data-sort="js-lists-values-title">Owner</a>
+                                    data-sort="js-lists-values-title">@lang('labels.backend.table.owner')</a>
                             </th>
 
                             <th>
                                 <a href="javascript:void(0)" class="sort"
-                                data-sort="js-lists-values-lead">
-                                    Category</a>
+                                data-sort="js-lists-values-lead">@lang('labels.backend.table.category')</a>
                             </th>
 
                             <th>
-                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-status">Progress (%)</a>
+                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-status">@lang('labels.backend.table.progress_percent')</a>
                             </th>
 
                             <th>
-                                <a href="javascript:void(0)" class="sort desc" data-sort="js-lists-values-date">Actions</a>
+                                <a href="javascript:void(0)" class="sort desc" data-sort="js-lists-values-date">@lang('labels.backend.table.actions')</a>
                             </th>
                         </tr>
                     </thead>
