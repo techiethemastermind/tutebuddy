@@ -295,7 +295,6 @@
                         </li>
 
                     </ul>
-
                 </li>
 
                 <!-- Course Performance (Result) -->
