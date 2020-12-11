@@ -9,7 +9,7 @@
             <div class="col-lg-6 p-0 mx-auto">
 
                 <div class="page-separator mb-4">
-                    <div class="page-separator__text">Login To Account</div>
+                    <div class="page-separator__text">@lang('labels.auth.login.title')</div>
                 </div>
 
                 @error('captcha')
@@ -27,10 +27,10 @@
                     @csrf
 
                     <div class="form-group">
-                        <label class="form-label" for="email">{{ __('E-Mail') }}:</label>
+                        <label class="form-label" for="email">@lang('labels.auth.login.email'):</label>
                         <input id="email" name="email" type="text"
                             class="form-control @error('email') is-invalid @enderror"
-                            placeholder="Your email address ...">
+                            placeholder="@lang('labels.auth.login.email_placeholder')">
 
                         @error('email')
                         <span class="invalid-feedback" role="alert">
@@ -40,10 +40,9 @@
 
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="password">{{ __('Password') }}:</label>
+                        <label class="form-label" for="password">@lang('labels.auth.login.password'):</label>
                         <input id="password" type="password" name="password"
-                            class="form-control @error('password') is-invalid @enderror"
-                            placeholder="Your first and last name ...">
+                            class="form-control @error('password') is-invalid @enderror" placeholder="@lang('labels.auth.login.password') ...">
 
                         @error('password')
                         <span class="invalid-feedback" role="alert">
@@ -52,24 +51,24 @@
                         @enderror
 
                         <p class="text-right">
-                            <a href="/password/reset" class="small">Forgot your password?</a>
+                            <a href="/password/reset" class="small">@lang('labels.auth.login.forgot_password')</a>
                         </p>
                     </div>
                     <input type="hidden" name="role" value="{{ Request::is('admin') ? 'admin' : 'user' }}">
-                    <button class="btn btn-primary">Login</button>
+                    <button class="btn btn-primary">@lang('labels.auth.login.login_button')</button>
                     <input type="hidden" name="recaptcha_v3" id="recaptcha_v3">
                 </form>
             </div>
         </div>
     </div>
     <div class="page-separator justify-content-center m-0">
-        <div class="page-separator__text">or sign-in with</div>
+        <div class="page-separator__text">@lang('labels.auth.login.sign_with')</div>
     </div>
     <div class="bg-body pt-32pt pb-32pt pb-md-64pt text-center">
         <div class="container page__container">
-            <a href="" class="btn btn-secondary btn-block-xs">Facebook</a>
-            <a href="" class="btn btn-secondary btn-block-xs">Twitter</a>
-            <a href="" class="btn btn-secondary btn-block-xs">Google+</a>
+            <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.facebook')</a>
+            <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.twitter')</a>
+            <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.google_plus')</a>
         </div>
     </div>
 </div>

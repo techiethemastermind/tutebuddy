@@ -18,13 +18,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Discussions</h2>
+                    <h2 class="mb-0">@lang('labels.backend.discussions.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Discussions
+                            @lang('labels.backend.discussions.title')
                         </li>
 
                     </ol>
@@ -34,7 +34,9 @@
 
             <div class="row" role="tablist">
                 <div class="col-auto">
-                    <a href="{{ route('admin.discussions.create') }}" class="btn btn-outline-secondary">New Topic</a>
+                    <a href="{{ route('admin.discussions.create') }}" class="btn btn-outline-secondary">
+                        @lang('labels.backend.general.new')
+                    </a>
                 </div>
             </div>
         </div>
@@ -42,7 +44,7 @@
 
     <div class="container page__container page-section">
         <div class="page-separator">
-            <div class="page-separator__text">Discussions</div>
+            <div class="page-separator__text">@lang('labels.backend.discussions.title')</div>
         </div>
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
             <div class="table-responsive" data-toggle="lists">
@@ -50,9 +52,9 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th>Title</th>
-                            <th>Topics</th>
-                            <th>Actions</th>
+                            <th>@lang('labels.backend.table.title')</th>
+                            <th>@lang('labels.backend.table.topics')</th>
+                            <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
                     <tbody class="list"></tbody>
@@ -84,7 +86,7 @@
                     { data: 'action' }
                 ],
                 oLanguage: {
-                    sEmptyTable: "You have no Discussions"
+                    sEmptyTable: "@lang('labels.backend.discussions.no_results')"
                 }
             }
         );

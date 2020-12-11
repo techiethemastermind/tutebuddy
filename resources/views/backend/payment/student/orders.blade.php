@@ -11,13 +11,17 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Orders</h2>
+                    <h2 class="mb-0">@lang('labels.backend.payment.orders.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('admin.dashboard') }}">
+                            @lang('labels.backend.dashboard.title')
+                            </a>
+                        </li>
 
                         <li class="breadcrumb-item active">
-                            Orders
+                            @lang('labels.backend.payment.orders.title')
                         </li>
 
                     </ol>
@@ -30,7 +34,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">Payment History</div>
+            <div class="page-separator__text">@lang('labels.backend.payment.orders.payment_history')</div>
         </div>
 
         <div class="card table-responsive">
@@ -38,11 +42,11 @@
                 <thead>
                     <tr>
                         <th style="width: 18px;" class="pr-0"></th>
-                        <th>No.</th>
-                        <th>Order Id.</th>
-                        <th>Date</th>
-                        <th class="">Amount</th>
-                        <th>Status</th>
+                        <th>@lang('labels.backend.table.no')</th>
+                        <th>@lang('labels.backend.payment.table.order_id')</th>
+                        <th>@lang('labels.backend.table.date')</th>
+                        <th class="">@lang('labels.backend.payment.table.amount')</th>
+                        <th>@lang('labels.backend.table.status')</th>
                         <th class="text-right"></th>
                     </tr>
                 </thead>
@@ -98,7 +102,7 @@
                     <li class="page-item disabled">
                         <a class="page-link" href="#" aria-label="Previous">
                             <span aria-hidden="true" class="material-icons">chevron_left</span>
-                            <span>Prev</span>
+                            <span>@lang('labels.backend.general.prev')</span>
                         </a>
                     </li>
                     <li class="page-item disabled">
@@ -108,7 +112,7 @@
                     </li>
                     <li class="page-item disabled">
                         <a class="page-link" href="#" aria-label="Next">
-                            <span>Next</span>
+                            <span>@lang('labels.backend.general.next')</span>
                             <span aria-hidden="true" class="material-icons">chevron_right</span>
                         </a>
                     </li>

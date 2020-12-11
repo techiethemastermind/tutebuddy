@@ -18,14 +18,14 @@
             <div class="row">
                 <div class="col-lg-9">
                     <div class="page-section">
-                        <h4>Ask a question</h4>
+                        <h4>@lang('labels.backend.discussions.ask_question')</h4>
                         <div class="card--connect pb-32pt">
                             <div class="card o-hidden mb-0">
                                 <div class="card-body table--elevated">
                                     <div class="form-group m-0" role="group" aria-labelledby="title">
                                         <div class="form-row align-items-center">
                                             <label id="title" for="title"
-                                                class="col-md-3 col-form-label form-label">Question title</label>
+                                                class="col-md-3 col-form-label form-label">@lang('labels.backend.discussions.question_title')</label>
                                             <div class="col-md-9">
                                                 {!! Form::text('title', null, array('placeholder' => 'Your question ...','class' => 'form-control')) !!}
                                             </div>
@@ -40,7 +40,7 @@
                                 <div role="group" aria-labelledby="label-question" class="m-0 form-group">
                                     <div class="form-row">
                                         <label id="label-question" for="question"
-                                            class="col-md-3 col-form-label form-label">Question details</label>
+                                            class="col-md-3 col-form-label form-label">@lang('labels.backend.discussions.question_details')</label>
                                         <div class="col-md-9">
                                             {!! Form::textarea('question', null, array('placeholder' => 'Describe your question in detail ...', 'class' => 'form-control', 'rows' => '8')) !!}
                                         </div>
@@ -50,7 +50,7 @@
                             <div class="list-group-item">
                                 <div class="form-group m-0" role="group" aria-labelledby="label-topic">
                                     <div class="form-row align-items-center">
-                                        <label class="col-md-3 col-form-label form-label">Course</label>
+                                        <label class="col-md-3 col-form-label form-label">@lang('labels.backend.general.course')</label>
                                         <div class="col-md-9">
                                             <select id="course" name="course" class="form-control custom-select">
                                                 @foreach($courses as $course)
@@ -65,7 +65,7 @@
                             <div class="list-group-item">
                                 <div class="form-group m-0" role="group" aria-labelledby="label-topic">
                                     <div class="form-row align-items-center">
-                                        <label class="col-md-3 col-form-label form-label">Lesson</label>
+                                        <label class="col-md-3 col-form-label form-label">@lang('labels.backend.general.lesson')</label>
                                         <div class="col-md-9">
                                             <select id="lesson" name="lesson" class="form-control custom-select"></select>
                                         </div>
@@ -76,7 +76,7 @@
                             <div class="list-group-item">
                                 <div class="form-group m-0" role="group" aria-labelledby="label-topic">
                                     <div class="form-row align-items-center">
-                                        <label class="col-md-3 col-form-label form-label">Tags:</label>
+                                        <label class="col-md-3 col-form-label form-label">@lang('labels.backend.general.tags'):</label>
                                         <div class="col-md-9">
                                             <select id="topics" name="topics[]" multiple="multiple" class="form-control custom-select">
                                                 <?php
@@ -93,14 +93,15 @@
                             <div class="list-group-item">
                                 <div class="custom-control custom-checkbox custom-control-inline">
                                     <input id="notify" type="checkbox" class="custom-control-input" checked="">
-                                    <label for="notify" class="custom-control-label">Notify me on email when someone
-                                        replies to my question</label>
+                                    <label for="notify" class="custom-control-label">
+                                        @lang('labels.backend.discussions.edit_notify.title')
+                                    </label>
                                 </div>
-                                <small id="description-notify" class="form-text text-muted">If unchecked, you'll still
-                                    recieve notifications on our website.</small>
+                                <small id="description-notify" class="form-text text-muted">
+                                    @lang('labels.backend.discussions.edit_notify.description')</small>
                             </div>
                             <div class="list-group-item">
-                                <button type="submit" class="btn btn-accent">Update Question</button>
+                                <button type="submit" class="btn btn-accent">@lang('labels.backend.discussions.edit_notify.update_question')</button>
                             </div>
                         </div>
 
@@ -110,13 +111,12 @@
                     <div data-perfect-scrollbar data-perfect-scrollbar-wheel-propagation="true">
                         <div class="page-section pt-lg-112pt">
                             <div class="nav page-nav__menu">
-                                <a href="javascript:void(0)" class="nav-link active">Before you post</a>
+                                <a href="javascript:void(0)" class="nav-link active">
+                                    @lang('labels.backend.discussions.edit_notify.pefore_post')
+                                </a>
                             </div>
                             <div class="page-nav__content">
-                                <p class="text-70">There may be other students who have asked the same question before.
-                                </p>
-                                <p class="text-70">You should do a quick search first to make sure your question is
-                                    unique.</p>
+                                @lang('string.backend.discussions.edit_notify.post_notifiy')
                             </div>
                         </div>
                     </div>

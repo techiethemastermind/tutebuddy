@@ -162,6 +162,8 @@ return array (
     'buttons' => 
     array (
       'browse_all' => 'Browse All',
+      'verify' => 'Verify',
+      'confirm' => 'Confirm',
     ),
     'courses' => 
     array (
@@ -174,6 +176,7 @@ return array (
         'title' => 'My Favorites',
         'no_results' => 'No Favorites',
       ),
+      'no_results' => 'No Courses',
     ),
     'table' => 
     array (
@@ -196,6 +199,16 @@ return array (
       'duration' => 'Duration',
       'total_marks' => 'Total Marks',
       'status' => 'Status',
+      'course_name' => 'Course Name',
+      'score' => 'Score',
+      'percentage' => 'Percentage',
+      'grade' => 'Grade',
+      'badge' => 'Badge',
+      'result' => 'Result',
+      'topics' => 'Topics',
+      'course' => 'Course',
+      'last_message' => 'Last Message',
+      'message_time' => 'Message Time',
     ),
     'lessons' => 
     array (
@@ -234,6 +247,15 @@ return array (
       'achieved' => 'Achieved',
       'next' => 'Next',
       'prev' => 'Prev',
+      'course' => 'Course',
+      'student' => 'Student',
+      'new' => 'Add New',
+      'your_reply' => 'Your reply',
+      'lesson' => 'Lesson',
+      'tags' => 'Tags',
+      'newest' => 'Newest',
+      'choose_file' => 'Choose File',
+      'save_changes' => 'Save Changes',
     ),
     'my_quizzes' => 
     array (
@@ -254,9 +276,188 @@ return array (
       ),
       'courses' => 'Courses',
     ),
+    'certificates' => 
+    array (
+      'title' => 'My Certifications',
+      'no_result' => 'You have no Certificates',
+    ),
+    'results' => 
+    array (
+      'badges' => 
+      array (
+        'title' => 'My Badges',
+        'no_results' => 'You have no badges',
+      ),
+      'performance_detail' => 
+      array (
+        'title' => 'Performance Detail',
+      ),
+    ),
+    'discussions' => 
+    array (
+      'title' => 'My Discussions',
+      'no_results' => 'You have no discussions',
+      'ask_question' => 'Ask a question',
+      'question_title' => 'Question Title',
+      'question_details' => 'Question Details',
+      'edit_notify' => 
+      array (
+        'title' => 'Notify me on email when someone replies to my question',
+        'description' => 'If unchecked, you\'ll still receive notifications on our website.',
+        'update_question' => 'Update Question',
+        'pefore_post' => 'Before you post',
+      ),
+      'topics' => 
+      array (
+        'title' => 'All Topics',
+        'my_topics' => 'My Topics',
+        'newest' => 'Newest',
+        'unread' => 'Unanswered',
+        'new' => 'Ask a question',
+        'no_result' => 'No Discussions',
+        'question_title' => 'Question Title',
+        'search_placeholder' => 'Your question ...',
+        'question_details' => 
+        array (
+          'search_placeholder' => 'Describe your question in detail ...',
+          'title' => 'Question Details',
+        ),
+      ),
+    ),
+    'discussion_detail' => 
+    array (
+      'back' => 'Back to Community',
+      'comments' => 'Comments',
+      'add' => 'Add Comment',
+      'post' => 'Post Comment',
+      'top_contributors' => 
+      array (
+        'description' => 'People who started the most discussions.',
+        'title' => 'Top Contributors',
+      ),
+    ),
+    'messages' => 
+    array (
+      'recent_chat' => 'Recent Chat',
+      'search_placeholder' => 'Search Users',
+    ),
+    'pre_enrolled' => 
+    array (
+      'title' => 'Pre Enrolled',
+      'send' => 'Send',
+      'close' => 'Close',
+      'no_result' => 'You have no pre enrolled students',
+    ),
+    'my_account' => 
+    array (
+      'title' => 'My Account',
+      'personal_information' => 'Personal Information',
+      'change_password' => 'Change Password',
+      'banking' => 'Banking',
+      'child_account' => 'Child Account',
+      'your_photo' => 'Your Photo',
+      'profile_name' => 'Profile Name',
+      'headline' => 'Head Line',
+      'about' => 'About You',
+      'contact_information' => 'Contact Information',
+      'email_address' => 'Email Address',
+      'phone_number' => 'Phone Number',
+      'country' => 'Country',
+      'state' => 'State',
+      'city' => 'City',
+      'zip_code' => 'Zip Code',
+      'address' => 'Address',
+      'timezone' => 'Timezone',
+      'profession' => 'Profession',
+      'achievement' => 'Achievement',
+      'experience' => 'Experience',
+      'profession_certification' => 'Professional Qualifications and Certifications',
+      'current_password' => 'Current Password',
+      'current_password_placeholder' => 'Type Current Password ...',
+      'new_password' => 'New Password',
+      'new_password_placeholder' => 'Type New Password ...',
+      'confirm_password' => 'Confirm Password',
+      'confirm_password_placeholder' => 'Type Confirm Password ...',
+      'save_password' => 'Save Password',
+      'payment_type' => 'Payment Type',
+      'bank_detail' => 'Bank Details',
+      'link_account' => 'Link Account (Razorpay)',
+      'account_number' => 'Account Number',
+      'account_number_placeholder' => 'Bank Account Number',
+      'ifsc' => 'IFSC',
+      'ifsc_placeholder' => 'IFSC',
+      'beneficiary_name' => 'Beneficiary Name',
+      'beneficiary_name_placeholder' => 'Beneficiary Name',
+      'account_type' => 'Account Type',
+      'account_type_placeholder' => 'Account Type',
+      'add_child_account' => 
+      array (
+        'title' => 'Add Child account?',
+        'description' => 'If checked then you can add child account',
+      ),
+      'child_name' => 'Child Name',
+      'child_nick_name' => 'Child Nick Name',
+      'password' => 'Password',
+      'parent_phone_number' => 'Parent Phone Number',
+      'send_otp' => 'Send OTP',
+      'enter_otp' => 'Enter OTP',
+      'upload_parent_id' => 'Upload Parent ID',
+      'upload_parent_description' => 'Upload a clear ID in png, jpeg or PDF format',
+      'relationship_to_child' => 'Relationship to child',
+      'create_child_account' => 'Create Child Account',
+    ),
+    'payment' => 
+    array (
+      'orders' => 
+      array (
+        'title' => 'Orders',
+        'payment_history' => 'Payment History',
+      ),
+      'table' => 
+      array (
+        'order_id' => 'Order Id',
+        'amount' => 'Amount',
+      ),
+      'order_detail' => 
+      array (
+        'title' => 'Order Details',
+        'download_invoice' => 'Download Invoice',
+        'refund_requested' => 'Refund Requested',
+        'refund' => 'Refund',
+        'refund_request' => 'Refund Request',
+        'payment_detail' => 'Payment Detail',
+        'order_id' => 'Order ID',
+        'payment_date' => 'Payment Date',
+        'amount' => 'Amount',
+        'tax' => 'Tax',
+        'total' => 'Total',
+        'order_items' => 'Order Items',
+        'refund_money' => 'Refund Money',
+        'reason' => 'Reason',
+      ),
+    ),
   ),
   'general' => 
   array (
     'back' => 'Back',
+  ),
+  'auth' => 
+  array (
+    'login' => 
+    array (
+      'title' => 'Login To Account',
+      'email' => 'E-mail',
+      'email_placeholder' => 'Your email address ...',
+      'password' => 'Password',
+      'forgot_password' => 'Forgot your password?',
+      'login_button' => 'Login',
+      'sign_with' => 'or sign-in with',
+    ),
+  ),
+  'social' => 
+  array (
+    'facebook' => 'Facebook',
+    'twitter' => 'Twitter',
+    'google_plus' => 'Google+',
   ),
 );

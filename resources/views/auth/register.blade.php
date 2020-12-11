@@ -14,7 +14,7 @@
         <div class="page-section container page__container">
 
             <div class="page-separator mb-4">
-                <div class="page-separator__text">Sign Up As {{ $reg_type }}</div>
+                <div class="page-separator__text">@lang('labels.auth.register.title') {{ $reg_type }}</div>
             </div>
 
             <div class="row">
@@ -24,10 +24,10 @@
                     <form method="POST" action="{{ route('register') }}" class="card card-body p-32pt">
                         @csrf
                         <div class="form-group">
-                            <label class="form-label" for="name">Your first and last name*:</label>
+                            <label class="form-label" for="name">@lang('labels.auth.register.first_last_name') *:</label>
                             <input id="name" type="text" name="name"
                                 class="form-control @error('name') is-invalid @enderror"
-                                placeholder="Your first and last name ...">
+                                placeholder="@lang('labels.auth.register.first_last_name_placeholder')">
 
                             @error('name')
                             <span class="invalid-feedback" role="alert">
@@ -37,10 +37,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="email">Your email*:</label>
+                            <label class="form-label" for="email">@lang('labels.auth.register.your_email') *:</label>
                             <input id="email" type="email" name="email"
                                 class="form-control @error('email') is-invalid @enderror"
-                                placeholder="Your email address ...">
+                                placeholder="@lang('labels.auth.register.your_email_placeholder')">
 
                             @error('email')
                             <span class="invalid-feedback" role="alert">
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="timezone">Your Timezone*:</label>
+                            <label class="form-label" for="timezone">@lang('labels.auth.register.your_timezone') *:</label>
                             <select name="timezone" class="form-control  @error('timezone') is-invalid @enderror"></select>
                             @error('timezone')
                             <span class="invalid-feedback" role="alert">
@@ -60,14 +60,14 @@
                         </div>
 
                         <div class="form-group mb-24pt">
-                            <label class="form-label" for="password">Password:</label>
+                            <label class="form-label" for="password">@lang('labels.auth.register.password'):</label>
                             <input id="password" type="password" name="password" class="form-control"
-                                placeholder="Your password ...">
+                                placeholder="@lang('labels.auth.register.password_placeholder')">
                         </div>
                         <div class="form-group mb-24pt">
-                            <label class="form-label" for="password">Confirm Password:</label>
+                            <label class="form-label" for="password">@lang('labels.auth.register.confirm_password'):</label>
                             <input id="password-confirm" type="password" name="password_confirmation" class="form-control"
-                                placeholder="Confirm password ...">
+                                placeholder="@lang('labels.auth.register.confirm_password_placeholder')">
                         </div>
                         <input type="hidden" name="role" value="{{ $reg_type }}">
 
@@ -75,12 +75,12 @@
                             <div class="custom-control custom-checkbox">
                                 <input class="custom-control-input" type="checkbox" value="" id="chk_terms" required="">
                                 <label class="custom-control-label" for="chk_terms">
-                                    I agree to the <a href="/page/terms-and-conditions" class="text-primary">Terms and Conditions</a>
+                                    @lang('string.auth.register.terms_and_conditions')
                                 </label>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Create account</button>
+                        <button type="submit" class="btn btn-primary">@lang('labels.auth.register.create_account')</button>
                         <input type="hidden" name="recaptcha_v3" id="recaptcha_v3">
                     </form>
                 </div>
@@ -132,13 +132,13 @@
             </div>
         </div>
         <div class="page-separator justify-content-center m-0">
-            <div class="page-separator__text">or sign-in with</div>
+            <div class="page-separator__text">@lang('labels.auth.login.sign_with')</div>
         </div>
         <div class="page-section text-center">
             <div class="container page__container">
-                <a href="" class="btn btn-secondary btn-block-xs">Facebook</a>
-                <a href="" class="btn btn-secondary btn-block-xs">Twitter</a>
-                <a href="" class="btn btn-secondary btn-block-xs">Google+</a>
+                <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.facebook')</a>
+                <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.twitter')</a>
+                <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.google_plus')</a>
             </div>
         </div>
     </div>

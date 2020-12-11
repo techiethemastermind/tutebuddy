@@ -47,14 +47,14 @@ if(!isset($_GET["active"])) {
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Account</h2>
+                    <h2 class="mb-0">@lang('labels.backend.my_account.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a>
                         </li>
 
                         <li class="breadcrumb-item active">
-                            Account
+                            @lang('labels.backend.my_account.title')
                         </li>
 
                     </ol>
@@ -76,7 +76,7 @@ if(!isset($_GET["active"])) {
                             <a href="#account" data-toggle="tab" role="tab" aria-selected="true"
                                 class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                                 <span class="flex d-flex flex-column">
-                                    <strong class="card-title">Personal Information</strong>
+                                    <strong class="card-title">@lang('labels.backend.my_account.personal_information')</strong>
                                 </span>
                             </a>
                         </div>
@@ -86,7 +86,7 @@ if(!isset($_GET["active"])) {
                             <a href="#profession" data-toggle="tab" role="tab" aria-selected="false"
                                 class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                                 <span class="flex d-flex flex-column">
-                                    <strong class="card-title">Professional Information</strong>
+                                    <strong class="card-title">@lang('labels.backend.my_account.personal_information')</strong>
                                 </span>
                             </a>
                         </div>
@@ -96,7 +96,7 @@ if(!isset($_GET["active"])) {
                             <a href="#password" data-toggle="tab" role="tab" aria-selected="false"
                                 class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                                 <span class="flex d-flex flex-column">
-                                    <strong class="card-title">Change Password</strong>
+                                    <strong class="card-title">@lang('labels.backend.my_account.change_password')</strong>
                                 </span>
                             </a>
                         </div>
@@ -106,7 +106,7 @@ if(!isset($_GET["active"])) {
                             <a href="#bank" data-toggle="tab" role="tab" aria-selected="false"
                                 class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                                 <span class="flex d-flex flex-column">
-                                    <strong class="card-title">Banking</strong>
+                                    <strong class="card-title">@lang('labels.backend.my_account.banking')</strong>
                                 </span>
                             </a>
                         </div>
@@ -117,7 +117,7 @@ if(!isset($_GET["active"])) {
                                 <a href="#child" data-toggle="tab" role="tab" aria-selected="false"
                                     class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                                     <span class="flex d-flex flex-column">
-                                        <strong class="card-title">Child Account</strong>
+                                        <strong class="card-title">@lang('labels.backend.my_account.child_account')</strong>
                                     </span>
                                 </a>
                             </div>
@@ -136,7 +136,7 @@ if(!isset($_GET["active"])) {
                         <div class="form-group">
                             <div class="media">
                                 <div class="media-left mr-32pt">
-                                    <label class="form-label">Your photo</label>
+                                    <label class="form-label">@lang('labels.backend.my_account.your_photo')</label>
                                     <div class="profile-avatar mb-16pt">
                                         @if($user->avatar)
                                             <img src="{{ asset('/storage/avatars/' . $user->avatar) }}"
@@ -150,69 +150,53 @@ if(!isset($_GET["active"])) {
                                         <div class="custom-file">
                                             <input type="file" name="avatar" class="custom-file-input" id="avatar_file"
                                                 data-preview="#user_avatar">
-                                            <label class="custom-file-label" for="avatar_file">Choose file</label>
+                                            <label class="custom-file-label" for="avatar_file">@lang('labels.backend.general.choose_file')</label>
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="media-body">
                                     <div class="form-group">
-                                        <label class="form-label">Profile name</label>
-                                        {!! Form::text('name', null, array('placeholder' => 'Name','class' =>
+                                        <label class="form-label">@lang('labels.backend.my_account.profile_name')</label>
+                                        {!! Form::text('name', null, array('placeholder' => "@lang('labels.backend.general.name')",'class' =>
                                         'form-control')) !!}
-                                        <small class="form-text text-muted">Your profile name will be used as part of
-                                            your public profile URL address.</small>
+                                        <small class="form-text text-muted">
+                                            @lang('string.backend.my_account.profile_name')
+                                        </small>
                                     </div>
 
                                     @if($user->hasRole('Instructor'))
 
                                     <div class="form-group">
-                                        <label class="form-label">Headline</label>
-                                        {!! Form::text('headline', null, array('placeholder' => 'Headline', 'class' =>
+                                        <label class="form-label">@lang('labels.backend.my_account.headline')</label>
+                                        {!! Form::text('headline', null, array('placeholder' => "@lang('labels.backend.my_account.headline')", 'class' =>
                                         'form-control')) !!}
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-label">About you</label>
-                                        {!! Form::textarea('about', null, array('placeholder' => 'About You...', 'class' =>
+                                        <label class="form-label">@lang('labels.backend.my_account.about')</label>
+                                        {!! Form::textarea('about', null, array('placeholder' => "@lang('labels.backend.my_account.about') ...", 'class' =>
                                         'form-control', 'rows' => 5)) !!}
                                     </div>
 
                                     @endif
 
                                     <div class="page-separator mt-32pt">
-                                        <div class="page-separator__text bg-white">Contact Information</div>
+                                        <div class="page-separator__text bg-white">@lang('labels.backend.my_account.contact_information')</div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="form-label">Email Address</label>
-                                                {!! Form::text('email', null, array('placeholder' => 'Email', 'class' =>
+                                                <label class="form-label">@lang('labels.backend.my_account.email_address')</label>
+                                                {!! Form::text('email', null, array('placeholder' => "@lang('labels.backend.my_account.email_address')", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="form-label">Phone Number</label>
-                                                {!! Form::text('phone_number', null, array('placeholder' => 'Phone Number', 'class' =>
-                                                'form-control')) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Country</label>
-                                                {!! Form::text('country', null, array('placeholder' => 'Country', 'class' =>
-                                                'form-control')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="form-label">State</label>
-                                                {!! Form::text('state', null, array('placeholder' => 'State', 'class' =>
+                                                <label class="form-label">@lang('labels.backend.my_account.phone_number')</label>
+                                                {!! Form::text('phone_number', null, array('placeholder' => "@lang('labels.backend.my_account.phone_number')", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
@@ -221,30 +205,47 @@ if(!isset($_GET["active"])) {
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="form-label">City</label>
-                                                {!! Form::text('city', null, array('placeholder' => 'City', 'class' =>
+                                                <label class="form-label">@lang('labels.backend.my_account.country')</label>
+                                                {!! Form::text('country', null, array('placeholder' => "@lang('labels.backend.my_account.country')", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="form-label">Zip code</label>
-                                                {!! Form::text('zip', null, array('placeholder' => 'Zip Code', 'class' =>
+                                                <label class="form-label">@lang('labels.backend.my_account.state')</label>
+                                                {!! Form::text('state', null, array('placeholder' => "@lang('labels.backend.my_account.state')", 'class' =>
+                                                'form-control')) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">@lang('labels.backend.my_account.city')</label>
+                                                {!! Form::text('city', null, array('placeholder' => "@lang('labels.backend.my_account.city')", 'class' =>
+                                                'form-control')) !!}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">@lang('labels.backend.my_account.zip_code')</label>
+                                                {!! Form::text('zip', null, array('placeholder' => "@lang('labels.backend.my_account.zip_code')", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="form-label">Address</label>
-                                        {!! Form::text('address', null, array('placeholder' => 'Address', 'class' =>
+                                        <label class="form-label">@lang('labels.backend.my_account.address')</label>
+                                        {!! Form::text('address', null, array('placeholder' => "@lang('labels.backend.my_account.address')", 'class' =>
                                         'form-control')) !!}
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label class="form-label">Timezone</label>
+                                                <label class="form-label">@lang('labels.backend.my_account.timezone')</label>
                                                 <select name="timezone" class="form-control"></select>
                                             </div>
                                         </div>
@@ -254,7 +255,7 @@ if(!isset($_GET["active"])) {
                         </div>
 
                         <div class="form-group text-right">
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="submit" class="btn btn-primary">@lang('labels.backend.general.save_changes')</button>
                         </div>
 
                         {!! Form::close() !!}
@@ -270,7 +271,9 @@ if(!isset($_GET["active"])) {
                             <div class="row form-inline mb-16pt">
                                 <div class="col-10">
                                     <div class="page-separator">
-                                        <div class="page-separator__text bg-white">Professional Qualifications and Certifications</div>
+                                        <div class="page-separator__text bg-white">
+                                            @lang('labels.backend.my_account.profession_certification')
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-2">
@@ -284,7 +287,7 @@ if(!isset($_GET["active"])) {
                                 @foreach(json_decode($user->qualifications) as $qualification)
                                 <div class="row form-inline mb-8pt">
                                     <div class="col-10">
-                                        <input type="text" name="qualification[]" class="form-control w-100" placeholder="Professional Qualifications and Certifications"
+                                        <input type="text" name="qualification[]" class="form-control w-100" placeholder="@lang('labels.backend.my_account.profession_certification')"
                                         value="{{ $qualification }}">
                                     </div>
                                     <div class="col-2">
@@ -296,7 +299,7 @@ if(!isset($_GET["active"])) {
                             @else
                                 <div class="row form-inline mb-8pt">
                                     <div class="col-10">
-                                        <input type="text" name="qualification[]" class="form-control w-100" placeholder="Professional Qualifications and Certifications" >
+                                        <input type="text" name="qualification[]" class="form-control w-100" placeholder="@lang('labels.backend.my_account.profession_certification')" >
                                     </div>
                                     <div class="col-2">
                                         <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
@@ -311,7 +314,7 @@ if(!isset($_GET["active"])) {
                             <div class="row form-inline mb-16pt">
                                 <div class="col-10">
                                     <div class="page-separator">
-                                        <div class="page-separator__text bg-white">Achievements</div>
+                                        <div class="page-separator__text bg-white">@lang('labels.backend.my_account.achievement')</div>
                                     </div>
                                 </div>
                                 <div class="col-2">
@@ -325,7 +328,7 @@ if(!isset($_GET["active"])) {
                                 @foreach(json_decode($user->achievements) as $achievement)
                                 <div class="row form-inline mb-8pt">
                                     <div class="col-10">
-                                        <input type="text" name="achievement[]" class="form-control w-100" placeholder="Achievement"
+                                        <input type="text" name="achievement[]" class="form-control w-100" placeholder="@lang('labels.backend.my_account.achievement')"
                                         value="{{ $achievement }}">
                                     </div>
                                     <div class="col-2">
@@ -337,7 +340,7 @@ if(!isset($_GET["active"])) {
                             @else
                                 <div class="row form-inline mb-8pt">
                                     <div class="col-10">
-                                        <input type="text" name="achievement[]" class="form-control w-100" placeholder="Achievement" >
+                                        <input type="text" name="achievement[]" class="form-control w-100" placeholder="@lang('labels.backend.my_account.achievement')" >
                                     </div>
                                     <div class="col-2">
                                         <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
@@ -350,15 +353,15 @@ if(!isset($_GET["active"])) {
 
                         <div class="form-group mt-64pt col-11">
                             <div class="page-separator">
-                                <div class="page-separator__text bg-white">Experience</div>
+                                <div class="page-separator__text bg-white">@lang('labels.backend.my_account.experience')</div>
                             </div>
-                            {!! Form::textarea('experience', null, array('placeholder' => 'Experience...', 'class' =>
+                            {!! Form::textarea('experience', null, array('placeholder' => "@lang('labels.backend.my_account.experience')", 'class' =>
                                 'form-control', 'rows' => 5)) !!}
                         </div>
 
                         <div class="form-group mt-64pt col-11">
                             <div class="page-separator">
-                                <div class="page-separator__text bg-white">Profession</div>
+                                <div class="page-separator__text bg-white">@lang('labels.backend.my_account.profession')</div>
                             </div>
                             <div class="form-group">
                                 <select id="categories" name="categories[]" class="form-control" multiple="multiple">
@@ -379,7 +382,7 @@ if(!isset($_GET["active"])) {
                             </div>
 
                             <div class="form-group text-right">
-                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                <button type="submit" class="btn btn-primary">@lang('labels.backend.general.save_changes')</button>
                             </div>
                         </div>
 
@@ -392,23 +395,25 @@ if(!isset($_GET["active"])) {
                         ['admin.myaccount.update', $user->id]]) !!}
 
                         <div class="form-group mb-48pt">
-                            <label class="form-label" for="current_pwd">Current Password:</label>
-                            <input id="current_pwd" name="current_password" type="password" class="form-control" placeholder="Type current password ..." tute-no-empty>
+                            <label class="form-label" for="current_pwd">@lang('labels.backend.my_account.current_password'):</label>
+                            <input id="current_pwd" name="current_password" type="password" class="form-control" 
+                                placeholder="@lang('labels.backend.my_account.current_password_placeholder')" tute-no-empty>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="new_pwd">New Password:</label>
-                            <input id="new_pwd" name="new_password" type="password" class="form-control" placeholder="Type a new password ..." tute-no-empty>
+                            <label class="form-label" for="new_pwd">@lang('labels.backend.my_account.new_password'):</label>
+                            <input id="new_pwd" name="new_password" type="password" class="form-control" 
+                                placeholder="@lang('labels.backend.my_account.new_password_placeholder')" tute-no-empty>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="cfm_pwd">Confirm Password:</label>
+                            <label class="form-label" for="cfm_pwd">@lang('labels.backend.my_account.confirm_password'):</label>
                             <input id="cfm_pwd" name="confirm_password" type="password" class="form-control" placeholder="Confirm your new password ..." tute-no-empty>
                         </div>
 
                         <input type="hidden" name="update_type" value="password">
 
-                        <button type="submit" class="btn btn-primary mt-48pt">Save password</button>
+                        <button type="submit" class="btn btn-primary mt-48pt">@lang('labels.backend.my_account.save_password')</button>
                         {!! Form::close() !!}
                     </div>
 
@@ -418,35 +423,41 @@ if(!isset($_GET["active"])) {
                         <div class="col-lg-10 p-0">
                             <div class="list-group list-group-form">
                                 <div class="list-group-item d-flex align-items-center">
-                                    <div class="flex">Please link your account with <strong>Tutebuddy account</strong></div>
+                                    <div class="flex">
+                                        @lang('labels.backend.my_account.bank_note')
+                                    </div>
                                 </div>
 
                                 <div class="list-group-item">
                                     <fieldset aria-labelledby="label-type" class="m-0 form-group">
                                         <div class="form-row align-items-center">
-                                            <label for="payment_cc" id="label-type" class="col-md-3 col-form-label form-label">Payment type</label>
+                                            <label for="payment_cc" id="label-type" class="col-md-3 col-form-label form-label">
+                                            @lang('labels.backend.my_account.payment_type')
+                                            </label>
                                             <div role="group" aria-labelledby="label-type" class="col-md-9">
                                                 <div role="group" class="btn-group btn-group-toggle" data-toggle="buttons">
                                                     <label class="btn btn-outline-secondary">
-                                                        <input type="radio" id="payment_bank" name="payment_type" value="cc" checked="" aria-checked="true"> Bank Detail
+                                                        <input type="radio" id="payment_bank" name="payment_type" value="cc" checked="" aria-checked="true">
+                                                        @lang('labels.backend.my_account.bank_detail')
                                                     </label>
                                                     <label class="btn btn-outline-secondary active">
-                                                        <input type="radio" id="payment_account" name="payment_type" value="pp" aria-checked="true"> Linked Account (RazorPay)
+                                                        <input type="radio" id="payment_account" name="payment_type" value="pp" aria-checked="true">
+                                                        @lang('labels.backend.my_account.link_account')
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
                                     </fieldset>
                                 </div>
-                                {!! Form::model($user->bank, ['method' => 'POST', 'route' => ['admin.myaccount.update', $user->id]]) !!}
 
+                                {!! Form::model($user->bank, ['method' => 'POST', 'route' => ['admin.myaccount.update', $user->id]]) !!}
                                 <div class="list-group-item">
                                     <div class="form-group row align-items-center mb-0">
-                                        <label class="col-form-label form-label col-sm-3">Account number *</label>
+                                        <label class="col-form-label form-label col-sm-3">@lang('labels.backend.my_account.account_number') *</label>
                                         <div class="col-sm-9">
                                             {!! Form::text('account_number', null, 
                                                 array(
-                                                    'placeholder' => 'Bank account number',
+                                                    'placeholder' => "@lang('labels.backend.my_account.account_number_placeholder')",
                                                     'class' => 'form-control',
                                                     'tute-no-empty' => true
                                                 )) !!}
@@ -456,11 +467,11 @@ if(!isset($_GET["active"])) {
 
                                 <div class="list-group-item">
                                     <div class="form-group row align-items-center mb-0">
-                                        <label class="col-form-label form-label col-sm-3">IFSC *</label>
+                                        <label class="col-form-label form-label col-sm-3">@lang('labels.backend.my_account.ifsc') *</label>
                                         <div class="col-sm-9">
                                             {!! Form::text('ifsc', null, 
                                                 array(
-                                                    'placeholder' => 'IFSC',
+                                                    'placeholder' => "@lang('labels.backend.my_account.ifsc_placeholder')",
                                                     'class' => 'form-control',
                                                     'tute-no-empty' => true
                                                 )) !!}
@@ -470,11 +481,11 @@ if(!isset($_GET["active"])) {
 
                                 <div class="list-group-item">
                                     <div class="form-group row align-items-center mb-0">
-                                        <label class="col-form-label form-label col-sm-3">Beneficiary Name *</label>
+                                        <label class="col-form-label form-label col-sm-3">@lang('labels.backend.my_account.beneficiary_name') *</label>
                                         <div class="col-sm-9">
                                             {!! Form::text('account_holder_name', null, 
                                                 array(
-                                                    'placeholder' => 'Beneficiary Name',
+                                                    'placeholder' => "@lang('labels.backend.my_account.beneficiary_name')",
                                                     'class' => 'form-control',
                                                     'tute-no-empty' => true
                                                 )) !!}
@@ -484,11 +495,11 @@ if(!isset($_GET["active"])) {
 
                                 <div class="list-group-item">
                                     <div class="form-group row align-items-center mb-0">
-                                        <label class="col-form-label form-label col-sm-3">Account Type</label>
+                                        <label class="col-form-label form-label col-sm-3">@lang('labels.backend.my_account.account_type')</label>
                                         <div class="col-sm-9">
                                             {!! Form::text('account_type', null, 
                                                 array(
-                                                    'placeholder' => 'Account Type',
+                                                    'placeholder' => "@lang('labels.backend.my_account.account_type')",
                                                     'class' => 'form-control'
                                                 )) !!}
                                         </div>
@@ -500,7 +511,7 @@ if(!isset($_GET["active"])) {
                                         <div class="col-sm-3"></div>
                                         <div class="col-sm-9">
                                             <input type="hidden" name="update_type" value="bank">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" class="btn btn-primary">@lang('labels.backend.genearl.save_changes')</button>
                                         </div>
                                     </div>
                                 </div>
@@ -516,8 +527,12 @@ if(!isset($_GET["active"])) {
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="chkChild" @if($child) checked=""
                                     @endif>
-                                <label class="custom-control-label" for="chkChild">Add Child account?</label>
-                                <small class="form-text text-muted">If checked then you can add child account</small>
+                                <label class="custom-control-label" for="chkChild">
+                                    @lang('labels.backend.my_account.add_child_account.title')
+                                </label>
+                                <small class="form-text text-muted">
+                                    @lang('labels.backend.my_account.add_child_account.description')
+                                </small>
                             </div>
                         </div>
 
@@ -529,59 +544,65 @@ if(!isset($_GET["active"])) {
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Child name</label>
+                                <label class="form-label">@lang('labels.backend.my_account.child_name')</label>
                                 <input type="text" name="name" class="form-control"
-                                    value="@if($child) {{ $child->name }} @endif" placeholder="Name">
+                                    value="@if($child) {{ $child->name }} @endif" placeholder="@lang('labels.backend.my_account.child_name')">
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Child Nick Name</label>
+                                <label class="form-label">@lang('labels.backend.my_account.child_nick_name')</label>
                                 <input type="text" name="nick_name" class="form-control"
                                     value="@if($child) {{ $child->nick_name }} @endif" placeholder="Nick Name">
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Password</label>
+                                <label class="form-label">@lang('labels.backend.my_account.password')</label>
                                 <input type="password" name="password" class="form-control" value="">
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Confirm Password</label>
+                                <label class="form-label">@lang('labels.backend.my_account.confirm_password')</label>
                                 <input type="password" name="confirm_password" class="form-control" value="">
                             </div>
 
                             <div class="form-group align-items-end d-flex">
                                 <div class="flex mr-16pt">
-                                    <label class="form-label">Parent Phone number</label>
+                                    <label class="form-label">@lang('labels.backend.my_account.parent_phone_number')</label>
                                     <input type="text" name="phone" class="form-control"
                                         value="{{ $user->phone_number }}">
                                 </div>
                                 <div class="justify-content-end">
-                                    <button type="button" class="btn btn-primary">Send OTP</button>
+                                    <button type="button" class="btn btn-primary">@lang('labels.backend.my_account.send_otp')</button>
                                 </div>
                             </div>
 
                             <div class="form-group align-items-end d-flex">
                                 <div class="flex mr-16pt">
-                                    <label class="form-label">Enter OTP</label>
+                                    <label class="form-label">@lang('labels.backend.my_account.enter_otp')</label>
                                     <input type="text" name="otp" class="form-control" value="">
                                 </div>
                                 <div class="justify-content-end">
-                                    <button type="button" class="btn btn-primary">Verify</button>
+                                    <button type="button" class="btn btn-primary">@lang('labels.backend.buttons.verify')</button>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Upload Parent ID</label>
+                                <label class="form-label">
+                                    @lang('labels.backend.my_account.upload_parent_id')
+                                </label>
                                 <div class="custom-file">
                                     <input type="file" id="file" class="custom-file-input">
-                                    <label for="file" class="custom-file-label">Choose file</label>
+                                    <label for="file" class="custom-file-label">@lang('labels.backend.general.choose_file')</label>
                                 </div>
-                                <small class="form-text text-muted">Upload a clear ID in png, jpeg or PDF format</small>
+                                <small class="form-text text-muted">
+                                    @lang('labels.backend.my_account.upload_parent_description')
+                                </small>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Relationship to child</label>
+                                <label class="form-label">
+                                    @lang('labels.backend.my_account.relationship_to_child')
+                                </label>
                                 <input type="text" name="relation" class="form-control"
                                     value="{{ $user->relationship }}">
                             </div>
@@ -590,7 +611,7 @@ if(!isset($_GET["active"])) {
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="chkChildTerm">
                                     <label class="custom-control-label" for="chkChildTerm">
-                                        I agree to the <a href="/page/terms-and-conditions" class="text-primary">Terms and Conditions</a> on behalf of my ward/child
+                                        @lang('string.backend.my_account.terms_and_condition_note')
                                     </label>
                                 </div>
                             </div>
@@ -599,14 +620,13 @@ if(!isset($_GET["active"])) {
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="chkChildlegal">
                                     <label class="custom-control-label" for="chkChildlegal">
-                                        I am the legal guardian of the child whose account I am creating and have the
-                                        legal right to consent for this account
+                                        @lang('string.backend.my_account.legal_note')
                                     </label>
                                 </div>
                             </div>
 
                             <div class="form-group mt-32pt">
-                                <button type="submit" class="btn btn-primary">CREATE CHILD ACCOUNT</button>
+                                <button type="submit" class="btn btn-primary">@lang('labels.backend.my_account.create_child_account')</button>
                             </div>
                         </form>
                     </div>

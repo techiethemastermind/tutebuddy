@@ -35,32 +35,32 @@
 
     /* Add styles to the form container */
     .form-container {
-    max-width: 300px;
-    padding: 10px;
-    background-color: white;
-    border-radius: 5px;
+        max-width: 300px;
+        padding: 10px;
+        background-color: white;
+        border-radius: 5px;
     }
 
     /* Full-width textarea */
     .form-container textarea {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 15px 0;
-    border: none;
-    background: #f1f1f1;
-    resize: none;
-    min-height: 100px;
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0 15px 0;
+        border: none;
+        background: #f1f1f1;
+        resize: none;
+        min-height: 100px;
     }
 
     /* When the textarea gets focus, do something */
     .form-container textarea:focus {
-    background-color: #ddd;
-    outline: none;
+        background-color: #ddd;
+        outline: none;
     }
 
     /* Add some hover effects to buttons */
     .form-container .btn:hover, .open-button:hover {
-    opacity: 1;
+        opacity: 1;
     }
 
     #messages_content ul {
@@ -79,13 +79,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Pre Enrolled</h2>
+                    <h2 class="mb-0">@lang('labels.backend.pre_enrolled.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Pre Enrolled
+                            @lang('labels.backend.pre_enrolled.title')
                         </li>
                     </ol>
                 </div>
@@ -96,7 +96,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">Pre Enrolled</div>
+            <div class="page-separator__text">@lang('labels.backend.pre_enrolled.title')</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -106,11 +106,11 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th> Name </th>
-                            <th> Course </th>
-                            <th> Last Message </th>
-                            <th> Message Time </th>
-                            <th> Action </th>
+                            <th> @lang('labels.backend.table.name') </th>
+                            <th> @lang('labels.backend.table.course') </th>
+                            <th> @lang('labels.backend.table.last_message')</th>
+                            <th> @lang('labels.backend.table.message_time') </th>
+                            <th> @lang('labels.backend.table.actions') </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle"></tbody>
@@ -128,7 +128,7 @@
                     class="avatar-title rounded-circle">ST</span>
             </div>
             <div class="media-body">
-                <a class="card-title m-0" href="javascript:void(0)">Student</a>
+                <a class="card-title m-0" href="javascript:void(0)">@lang('labels.backend.general.student')</a>
             </div>
         </div>
         <div id="messages_content"></div>
@@ -136,8 +136,8 @@
         <input type="hidden" name="user_id" value="">
         <input type="hidden" name="course_id" value="">
         <input type="hidden" name="thread_id" value="">
-        <button type="submit" class="btn btn-primary btn-block">Send</button>
-        <button type="button" id="btn_enroll_end" class="btn btn-accent btn-block">Close</button>
+        <button type="submit" class="btn btn-primary btn-block">@lang('labels.backend.pre_enrolled.send')</button>
+        <button type="button" id="btn_enroll_end" class="btn btn-accent btn-block">@lang('labels.backend.pre_enrolled.close')</button>
     </form>
 </div>
 
@@ -165,7 +165,7 @@ $(function() {
                 { data: 'action' }
             ],
             oLanguage: {
-                sEmptyTable: "You have no pre enrolled students"
+                sEmptyTable: "@lang('labels.backend.pre_enrolled.no_result')"
             }
         }
     );

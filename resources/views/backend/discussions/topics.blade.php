@@ -9,7 +9,7 @@
         <div class="page-section">
 
             <div class="page-separator">
-                <div class="page-separator__text">Discussions</div>
+                <div class="page-separator__text">@lang('labels.backend.discussions.topics.title')</div>
             </div>
 
             <div class="card">
@@ -24,22 +24,34 @@
                         </div>
                         <div class="col-lg d-flex flex-wrap align-items-center">
                             <div class="ml-lg-auto dropdown">
-                                <a href="#" class="btn btn-link dropdown-toggle text-70" data-toggle="dropdown">All
-                                    Topics</a>
+                                <a href="#" class="btn btn-link dropdown-toggle text-70" data-toggle="dropdown">
+                                    @lang('labels.backend.discussions.topics.title')
+                                </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="{{ route('admin.discussions.topics', ['_t' => 'all']) }}" class="dropdown-item active">All Topics</a>
-                                    <a href="{{ route('admin.discussions.topics', ['_t' => 'my']) }}" class="dropdown-item">My Topics</a>
+                                    <a href="{{ route('admin.discussions.topics', ['_t' => 'all']) }}" class="dropdown-item active">
+                                        @lang('labels.backend.discussions.topics.title')
+                                    </a>
+                                    <a href="{{ route('admin.discussions.topics', ['_t' => 'my']) }}" class="dropdown-item">
+                                        @lang('labels.backend.discussions.topics.my_topics')
+                                    </a>
                                 </div>
                             </div>
                             <div class="dropdown mr-8pt">
-                                <a href="javascript:void(0)" class="btn btn-link dropdown-toggle text-70"
-                                    data-toggle="dropdown">Newest</a>
+                                <a href="javascript:void(0)" class="btn btn-link dropdown-toggle text-70" data-toggle="dropdown">
+                                    @lang('labels.backend.discussions.topics.newest')
+                                </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="{{ route('admin.discussions.topics', ['_t' => 'newst']) }}" class="dropdown-item active">Newest</a>
-                                    <a href="{{ route('admin.discussions.topics', ['_t' => 'unanswered']) }}" class="dropdown-item">Unanswered</a>
+                                    <a href="{{ route('admin.discussions.topics', ['_t' => 'newst']) }}" class="dropdown-item active">
+                                    @lang('labels.backend.discussions.topics.newest')
+                                    </a>
+                                    <a href="{{ route('admin.discussions.topics', ['_t' => 'unanswered']) }}" class="dropdown-item">
+                                    @lang('labels.backend.discussions.topics.unread')
+                                    </a>
                                 </div>
                             </div>
-                            <a href="{{ route('admin.discussions.create') }}" class="btn btn-accent">Ask a question</a>
+                            <a href="{{ route('admin.discussions.create') }}" class="btn btn-accent">
+                                @lang('labels.backend.discussions.topics.new')
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -106,7 +118,7 @@
 
                 @else
                     <div class="list-group-item p-3">
-                        <span class="card-title">No Discussions.</span>
+                        <span class="card-title">No Discussions. @lang('labels.backend.discussions.topics.no_result')</span>
                     </div>
                 @endif
 

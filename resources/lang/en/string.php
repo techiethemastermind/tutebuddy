@@ -52,4 +52,24 @@ return array (
       ),
     ),
   ),
+  'backend' => 
+  array (
+    'discussions' => 
+    array (
+      'edit_notify' => 
+      array (
+        'post_notifiy' => '<p class="text-70">There may be other students who have asked the same question before.
+                                </p>
+                                <p class="text-70">You should do a quick search first to make sure your question is
+                                    unique.</p>',
+      ),
+    ),
+    'my_account' => 
+    array (
+      'profile_name' => 'Your profile name will be used as part of your public profile URL address.',
+      'bank_note' => 'Please link your account with <strong>Tutebuddy account</strong>',
+      'terms_and_condition_note' => 'I agree to the <a href="/page/terms-and-conditions" class="text-primary">Terms and Conditions</a> on behalf of my ward/child',
+      'legal_note' => 'I am the legal guardian of the child whose account I am creating and have the legal right to consent for this account.',
+    ),
+  ),
 );

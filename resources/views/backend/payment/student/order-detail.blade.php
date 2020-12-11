@@ -11,13 +11,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Order Detail</h2>
+                    <h2 class="mb-0">@lang('labels.backend.payment.order_detail.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Order Detail
+                            @lang('labels.backend.payment.order_detail.title')
                         </li>
 
                     </ol>
@@ -28,18 +28,18 @@
             <div class="row" role="tablist">
                 <div class="col-auto mr-3">
                     <a href="{{ route('admin.orders.invoice', $order->id) }}"
-                        class="btn btn-primary">Download Invoice</a>
+                        class="btn btn-primary">@lang('labels.backend.payment.order_detail.download_invoice')</a>
                 </div>
             </div>
 
             <div class="row" role="tablist">
                 <div class="col-auto mr-3">
                     @if(!empty($order->refund) && $order->refund->status == 0)
-                    <button id="btn_refund" class="btn btn-accent" disabled>Refund Requested</button>
+                    <button id="btn_refund" class="btn btn-accent" disabled>@lang('labels.backend.payment.order_detail.refund_requested')</button>
                     @elseif(!empty($order->refund) && $order->refund->status == 1)
-                    <button class="btn btn-accent" disabled>Refunded</button>
+                    <button class="btn btn-accent" disabled>@lang('labels.backend.payment.order_detail.refund')</button>
                     @else
-                    <button id="btn_refund" class="btn btn-accent">Refund Request</button>
+                    <button id="btn_refund" class="btn btn-accent">@lang('labels.backend.payment.order_detail.refund_request')</button>
                     @endif
                 </div>
             </div>
@@ -50,13 +50,14 @@
         <div class="row">
             <div class="col-6">
                 <div class="page-separator">
-                    <div class="page-separator__text">Payment Detail</div>
+                    <div class="page-separator__text">@lang('labels.backend.payment.order_detail.payment_detail')</div>
                 </div>
 
                 <div class="list-group list-group-form">
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Order Id: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.order_id'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ $order->uuid }}</strong>
                             </div>
@@ -64,7 +65,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Payment Date: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.payment_date'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ \Carbon\Carbon::parse($order->created_at)->format('M d Y h:i A') }}</strong>
                             </div>
@@ -72,7 +74,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Amount: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.amount'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ getCurrency(config('app.currency'))['symbol'] . ' ' . $order->price }}</strong>
                             </div>
@@ -80,7 +83,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Tax: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.tax'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ getCurrency(config('app.currency'))['symbol'] . ' ' . $order->tax}}</strong>
                             </div>
@@ -88,7 +92,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Total: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.total'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ getCurrency(config('app.currency'))['symbol'] . ' ' . $order->amount}}</strong>
                             </div>
@@ -99,7 +104,7 @@
             
             <div class="col-6">
                 <div class="page-separator">
-                    <div class="page-separator__text">Order Items</div>
+                    <div class="page-separator__text">@lang('labels.backend.payment.order_detail.order_items')</div>
                 </div>
 
                 <div class="list-group list-group-form">
@@ -141,7 +146,7 @@
     <div class="modal-dialog modal-dialog-centered" role="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Refund Money</h5>
+                <h5 class="modal-title">@lang('labels.backend.payment.order_detail.refund_money')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -151,10 +156,10 @@
                 <div class="form-group mb-0">
                     <div class="p-3">
                         <div class="form-group">
-                            <h4 class="mb-0">Amount: {{ getCurrency(config('app.currency'))['symbol'] . ' ' . $order->amount}}</h4>
+                            <h4 class="mb-0">@lang('labels.backend.payment.order_detail.amount'): {{ getCurrency(config('app.currency'))['symbol'] . ' ' . $order->amount}}</h4>
                         </div>
                         <div class="form-group">
-                            <label for="form-label">Reason:</label>
+                            <label for="form-label">@lang('labels.backend.payment.order_detail.reason'):</label>
                             <textarea id="reason" name="reason" cols="30" rows="10" class="form-control"></textarea>
                         </div>
                     </div>
@@ -163,7 +168,7 @@
 
             <div class="modal-footer">
                 <div class="form-group">
-                    <button id="btn_confirm" class="btn btn-outline-primary btn-update">Confirm</button>
+                    <button id="btn_confirm" class="btn btn-outline-primary btn-update">@lang('labels.backend.buttons.confirm')</button>
                 </div>
             </div>
         </div>

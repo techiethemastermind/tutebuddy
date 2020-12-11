@@ -18,7 +18,7 @@
 
                     <h1 class="h2 measure-lead-max mb-2">{{ $discussion->title }}</h1>
                     <p class="text-muted d-flex align-items-center mb-lg-32pt">
-                        <a href="{{ route('admin.discussions.index') }}" class="mr-3">Back to Community</a>
+                        <a href="{{ route('admin.discussions.index') }}" class="mr-3">@lang('labels.backend.discussion_detail.back')</a>
                         <!-- <a href="{{ route('admin.discussions.edit', $discussion->id) }}" class="text-50" style="text-decoration: underline;">Edit</a> -->
                     </p>
 
@@ -48,7 +48,7 @@
                     </div>
 
                     <div id="comments" class="pt-3 mb-64pt">
-                        <h4>{{ $discussion->results->count() }} Comments</h4>
+                        <h4>{{ $discussion->results->count() }} @lang('labels.backend.discussion_detail.comments')</h4>
 
                         @foreach($discussion->results as $result)
 
@@ -66,7 +66,7 @@
                                 <p class="mt-1 text-70">{!! $result->content !!}</p>
                                 <div class="d-flex align-items-center">
                                     <small class="text-50 mr-2">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($result->updated_at))->diffForHumans() }}</small>
-                                    <button class="btn btn-sm btn-outline-secondary add-comment">Add Comment</button>
+                                    <button class="btn btn-sm btn-outline-secondary add-comment">@lang('labels.backend.discussion_detail.add')</button>
                                 </div>
                                 
                                 <div class="mt-3 card p-3 post-form d-none">
@@ -77,7 +77,7 @@
                                         </div>
                                         <input type="hidden" name="discussion_id" value="{{ $discussion->id }}">
                                         <input type="hidden" name="post_user_id" value="{{ $result->user->id }}">
-                                        <button type="submit" class="btn btn-outline-secondary">Post comment</button>
+                                        <button type="submit" class="btn btn-outline-secondary">@lang('labels.backend.discussion_detail.post')</button>
                                     </form>
                                 </div>
 
@@ -124,12 +124,12 @@
                         <div class="flex">
                             <form id="frm_commet" method="post" action="{{ route('admin.ajax.postComment') }}">@csrf
                                 <div class="form-group">
-                                    <label class="form-label">Your reply</label>
+                                    <label class="form-label">@lang('labels.backend.general.your_reply')</label>
                                     <div id="comment_editor" style="height: 300px;"></div>
                                 </div>
                                 <input type="hidden" name="discussion_id" value="{{ $discussion->id }}">
                                 <input type="hidden" name="post_user_id" value="{{ $discussion->user->id }}">
-                                <button type="submit" class="btn btn-outline-secondary">Post comment</button>
+                                <button type="submit" class="btn btn-outline-secondary">@lang('labels.backend.discussion_detail.post')</button>
                             </form>
                         </div>
                     </div>
@@ -137,9 +137,9 @@
                 <div class="col-md-4">
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Top Contributors</div>
+                        <div class="page-separator__text">@lang('labels.backend.discussion_detail.top_contributors.title')</div>
                     </div>
-                    <p class="text-70 mb-24pt">People who started the most discussions.</p>
+                    <p class="text-70 mb-24pt">@lang('labels.backend.discussion_detail.top_contributors.description')</p>
 
                     <div class="mb-4">
 

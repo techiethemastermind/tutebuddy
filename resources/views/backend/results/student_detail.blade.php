@@ -37,13 +37,13 @@ function get_badge($percent) {
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Performance Detail</h2>
+                    <h2 class="mb-0">@lang('labels.backend.results.performance_detail.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Detail
+                            @lang('labels.backend.results.performance_detail.title')
                         </li>
 
                     </ol>
@@ -53,7 +53,9 @@ function get_badge($percent) {
 
             <div class="row" role="tablist">
                 <div class="col-auto">
-                    <a href="{{ route('admin.results.student') }}" class="btn btn-outline-secondary">Go List</a>
+                    <a href="{{ route('admin.results.student') }}" class="btn btn-outline-secondary">
+                        @lang('labels.backend.general.back')
+                    </a>
                 </div>
             </div>
 
@@ -63,8 +65,8 @@ function get_badge($percent) {
     <div class="container page__container page-section">
 
         <div class="form-group mb-32pt">
-            <p class="font-size-16pt mb-8pt"><strong>Course:</strong> {{ $course->title }}</p>
-            <p class="font-size-16pt"><strong>Student:</strong> {{ auth()->user()->name }}</p>
+            <p class="font-size-16pt mb-8pt"><strong>@lang('labels.backend.general.course'):</strong> {{ $course->title }}</p>
+            <p class="font-size-16pt"><strong>@lang('labels.backend.general.student'):</strong> {{ auth()->user()->name }}</p>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -74,14 +76,14 @@ function get_badge($percent) {
                 <table id="tbl_result" class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
                         <tr>
-                            <th>Type</th>
-                            <th>Title</th>
-                            <th>Date</th>
-                            <th>Score</th>
-                            <th>Percentage</th>
-                            <th>Grade</th>
-                            <th>Badge</th>
-                            <th>Result</th>
+                            <th>@lang('labels.backend.table.type')</th>
+                            <th>@lang('labels.backend.table.title')</th>
+                            <th>@lang('labels.backend.table.date')</th>
+                            <th>@lang('labels.backend.table.score')</th>
+                            <th>@lang('labels.backend.table.percentage')</th>
+                            <th>@lang('labels.backend.table.grade')</th>
+                            <th>@lang('labels.backend.table.badge')</th>
+                            <th>@lang('labels.backend.table.result')</th>
                         </tr>
                     </thead>
 

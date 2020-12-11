@@ -114,7 +114,7 @@
                             <div class="px-3 form-group mb-0">
                                 <div class="input-group input-group-merge input-group-rounded flex-nowrap">
                                     <input type="text" id="filter" class="form-control form-control-prepended"
-                                        placeholder="Search Users">
+                                        placeholder="@lang('labels.backend.messages.search_placeholder')">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <span class="material-icons">filter_list</span>
@@ -128,14 +128,13 @@
 
                             <ul id="filter_result" class="list-group list-group-flush mb-3"></ul>
 
-                            <div class="sidebar-heading">Recent Chats</div>
+                            <div class="sidebar-heading">@lang('labels.backend.messages.recent_chat')</div>
                             <ul id="recent_chats" class="list-group list-group-flush mb-3">
 
                             @if($threads->count() > 0)
                                 @foreach($partners as $contact)
 
                                 @php $contact_user = Auth::user()->where('id', $contact['partner_id'])->first(); @endphp
-
                                 <li class="list-group-item px-3 py-12pt bg-light" data-id="{{ $contact['partner_id'] }}" data-thread="{{ $contact['thread']->id }}">
                                     <a href="javascript:void(0)" class="d-flex align-items-center position-relative">
                                         <span class="avatar avatar-xs avatar-online mr-3 flex-shrink-0">

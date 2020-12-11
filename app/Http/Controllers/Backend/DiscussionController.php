@@ -28,19 +28,21 @@ class DiscussionController extends Controller
         foreach($discussions as $item) {
             $temp = [];
             $temp['index'] = '';
-            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                <div class="avatar avatar-sm mr-8pt">
-                                    <span class="avatar-title rounded bg-primary text-white">'
-                                        . substr($item->title, 0, 2) .
-                                    '</span>
-                                </div>
-                                <div class="media-body">
-                                    <div class="d-flex flex-column">
-                                        <small class="js-lists-values-project">
-                                            <strong>' . $item->title . '</strong></small>
+            $temp['title'] = '<a href=' . route('admin.discussions.show', $item->id) . '>
+                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+                                        <span class="avatar-title rounded bg-primary text-white">'
+                                            . substr($item->title, 0, 2) .
+                                        '</span>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="d-flex flex-column">
+                                            <small class="js-lists-values-project">
+                                                <strong>' . $item->title . '</strong></small>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>';
+                            </a>';
 
             $topics = json_decode($item->topics);
             $temp['topics'] = '';

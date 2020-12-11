@@ -25,13 +25,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Certifications</h2>
+                    <h2 class="mb-0">@lang('labels.backend.certificates.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Certifications
+                            @lang('labels.backend.certificates.title')
                         </li>
 
                     </ol>
@@ -50,10 +50,10 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th> Sr No. </th>
-                            <th> Course Name </th>
-                            <th> Progress </th>
-                            <th> Action </th>
+                            <th> @lang('labels.backend.table.no') </th>
+                            <th> @lang('labels.backend.table.course_name') </th>
+                            <th> @lang('labels.backend.table.progress_percent') </th>
+                            <th> @lang('labels.backend.table.actions') </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle"></tbody>
@@ -88,7 +88,7 @@ $(document).ready(function() {
                 { data: 'action' }
             ],
             oLanguage: {
-                sEmptyTable: "You have no Certificates"
+                sEmptyTable: "@lang('labels.backend.certificates.no_result')"
             }
         }
     );

@@ -57,13 +57,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Badges</h2>
+                    <h2 class="mb-0">@lang('labels.backend.results.badges.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Badges
+                            @lang('labels.backend.results.badges.title')
                         </li>
 
                     </ol>
@@ -126,7 +126,7 @@
 
         @if(count($badges) < 1)
         <div class="card card-body">
-            <h4 class="mb-0">You have no badges</h4>
+            <h4 class="mb-0">@lang('labels.backend.results.badges.no_results')</h4>
         </div>
         @endif
 
