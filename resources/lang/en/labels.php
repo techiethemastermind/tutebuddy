@@ -61,6 +61,7 @@ return array (
       'order_detail' => 'Order Detail',
       'checkout' => 'Checkout',
       'items' => 'Items',
+      'product_added' => 'Product added to cart successfully',
     ),
   ),
   'backend' => 
