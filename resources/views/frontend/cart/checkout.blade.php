@@ -16,7 +16,7 @@
         <div class="mb-lg-32pt">
 
             <div class="page-separator">
-                <div class="page-separator__text">Cart Items:</div>
+                <div class="page-separator__text">@lang('labels.frontend.cart.cart_items'):</div>
             </div>
 
             <div class="card table-responsive" data-toggle="lists"
@@ -25,11 +25,11 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th style="width: 40px;">No.</th>
-                            <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Course
-                                    Name</a></th>
-                            <th>Price ({{ getCurrency(config('app.currency'))['symbol'] }})</th>
-                            <th>Course Type</th>
+                            <th style="width: 40px;">@lang('labels.backend.table.no')</th>
+                            <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">
+                                @lang('labels.backend.table.course_name')</a></th>
+                            <th>@lang('labels.backend.table.price') ({{ getCurrency(config('app.currency'))['symbol'] }})</th>
+                            <th>@lang('labels.backend.table.course_type')</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="items">
@@ -108,12 +108,12 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header align-items-center">
-                        <div class="h5 mb-0 mr-3 form-label">Order Details</div>
+                        <div class="h5 mb-0 mr-3 form-label">@lang('labels.frontend.cart.order_detail')</div>
                     </div>
                     <div class="card-body mb-0">
                         <div class="d-flex mb-16pt">
                             <div class="flex form-label">
-                                Price: ( {{ Cart::getContent()->count()}}
+                                @lang('labels.backend.table.price'): ( {{ Cart::getContent()->count()}}
                                     {{(Cart::getContent()->count() > 1) ? ' '.trans('labels.frontend.cart.items') : ' '.trans('labels.frontend.cart.item')}})
                             </div>
                             <div class="flex form-label">
@@ -139,7 +139,7 @@
                         
                         <div class="d-flex">
                             <div class="flex form-label mb-0">
-                                Total:
+                                @lang('labels.backend.table.price'):
                             </div>
                             <div class="flex form-label mb-0">
                                 {{ getCurrency(config('app.currency'))['symbol'] . ' ' . number_format(Cart::session(auth()->user()->id)->getTotal(), 2) }}
@@ -151,10 +151,9 @@
         </div>
 
         <div class="form-group text-right">
-            <button id="rzp-button1" class="btn btn-primary">Pay Now</button>
+            <button id="rzp-button1" class="btn btn-primary">@lang('labels.frontend.cart.pay_now')</button>
         </div>
     </div>
-
 </div>
 
 @push('after-scripts')

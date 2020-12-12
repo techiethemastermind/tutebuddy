@@ -52,6 +52,16 @@ return array (
       'browse_course' => 'Browse Course',
       'find_instructors' => 'Find Instructors',
     ),
+    'cart' => 
+    array (
+      'cart' => 'Cart',
+      'cart_items' => 'Cart Items',
+      'process_checkout' => 'Process Checkout',
+      'pay_now' => 'Pay Now',
+      'order_detail' => 'Order Detail',
+      'checkout' => 'Checkout',
+      'items' => 'Items',
+    ),
   ),
   'backend' => 
   array (
@@ -209,6 +219,8 @@ return array (
       'course' => 'Course',
       'last_message' => 'Last Message',
       'message_time' => 'Message Time',
+      'price' => 'Price',
+      'course_type' => 'Course Type',
     ),
     'lessons' => 
     array (
@@ -452,6 +464,19 @@ return array (
       'forgot_password' => 'Forgot your password?',
       'login_button' => 'Login',
       'sign_with' => 'or sign-in with',
+    ),
+    'register' => 
+    array (
+      'title' => 'Sign Up As',
+      'first_last_name' => 'Your first and last name',
+      'your_email' => 'Your Email',
+      'first_last_name_placeholder' => 'Your first and last name ...',
+      'your_email_placeholder' => 'Your email address ...',
+      'your_timezone' => 'Your Timezone',
+      'password' => 'Password',
+      'password_placeholder' => 'Your Password ...',
+      'confirm_password' => 'Confirm Password',
+      'confirm_password_placeholder' => 'Confirm password ...',
     ),
   ),
   'social' => 

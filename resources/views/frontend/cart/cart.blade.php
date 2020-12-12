@@ -16,7 +16,7 @@
         <div class="mb-lg-32pt">
 
             <div class="page-separator">
-                <div class="page-separator__text">Cart Items:</div>
+                <div class="page-separator__text">@lang('labels.frontend.cart.cart_items'):</div>
             </div>
 
             <div class="card table-responsive" data-toggle="lists"
@@ -25,12 +25,12 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th style="width: 40px;">No.</th>
+                            <th style="width: 40px;">@lang('labels.backend.table.no')</th>
                             <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">
-                                Course Name</a></th>
-                            <th>Price ({{ getCurrency(config('app.currency'))['symbol'] }})</th>
-                            <th>Course Type</th>
-                            <th>Action</th>
+                                @lang('labels.backend.table.course_name')</a></th>
+                            <th>@lang('labels.backend.table.price') ({{ getCurrency(config('app.currency'))['symbol'] }})</th>
+                            <th>@lang('labels.backend.table.course_type')</th>
+                            <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="items">
@@ -113,7 +113,7 @@
 
     <div class="container page__container page-section">
         <div class="form-group text-right">
-            <a href="{{ route('cart.checkout') }}" class="btn btn-primary">Process Checkout</a>
+            <a href="{{ route('cart.checkout') }}" class="btn btn-primary">@lang('labels.frontend.cart.process_checkout')</a>
         </div>
     </div>
 
