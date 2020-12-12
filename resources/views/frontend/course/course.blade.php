@@ -287,7 +287,7 @@
 
                     <div class="d-flex align-items-center page-num-container" id="sec-{{ $lesson->id }}">
                         <div class="page-num">{{ $loop->iteration }}</div>
-                        <a href="{{ route('lessons.show', [$course->slug, $lesson->slug, 1]) }}">
+                        <a href="{{ route('lessons.show', [$course->slug, $lesson->slug, 0]) }}">
                             <h4>{{ $lesson->title }}
                                 @if($lesson->isCompleted())
                                 <span class="badge badge-dark badge-notifications ml-2 p-1">
