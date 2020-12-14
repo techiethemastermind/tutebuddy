@@ -67,5 +67,6 @@ return array (
       'submitted_tests' => 'प्रस्तुत टेस्ट',
     ),
     'system' => 'प्रणाली',
+    'history' => 'इतिहास पर पहुँचें',
   ),
 );

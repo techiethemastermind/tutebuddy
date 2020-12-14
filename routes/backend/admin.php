@@ -11,6 +11,8 @@ Route::post('account/{id}/update', 'UserController@updateAccount')->name('myacco
 Route::post('child-account', 'UserController@childAccount')->name('myaccount.child');
 Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
 Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
+Route::get('access-history', 'UserController@getHistory')->name('users.access_history');
+Route::get('ajax/access-history', 'UserController@getHistoryByAjax')->name('ajax.getAccessHistoryByAjax');
 
 //===== Roles Routes =====//
 Route::resource('roles','RoleController');

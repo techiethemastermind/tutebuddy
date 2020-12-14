@@ -179,6 +179,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Cohensive\Embed\EmbedServiceProvider::class,
         Cmgmyr\Messenger\MessengerServiceProvider::class,
+        Stevebauman\Location\LocationServiceProvider::class,
     ],
 
     /*
@@ -230,6 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Embed' => Cohensive\Embed\Facades\Embed::class,
+        'Location' => 'Stevebauman\Location\Facades\Location',
 
     ],
 

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Models\AccessHistory;
+use Stevebauman\Location\Facades\Location;
 
 class LoginController extends Controller
 {
@@ -84,6 +86,27 @@ class LoginController extends Controller
                 return back()->withErrors(['captcha' => 'ReCaptcha Error']);
             }
         }
+
+        $user->update([
+            'last_login_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'last_login_ip' => $request->getClientIp()
+        ]);
+
+        $position = Location::get($request->getClientIp());
+        if($position) {
+            $location = $position->cityName . ', ' . $position->countryName;
+        } else {
+            $location = 'Loopback';
+        }
+
+        AccessHistory::create([
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'user_email' => $user->email,
+            'logined_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'logined_ip' => $request->getClientIp(),
+            'logined_location' => $location
+        ]);
 
         return redirect()->intended($this->redirectTo);
     }

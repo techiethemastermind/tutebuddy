@@ -12,6 +12,7 @@ use Hash;
 use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Models\Course;
 use App\Models\Bank;
+use App\Models\AccessHistory;
 
 class UserController extends Controller
 {
@@ -432,6 +433,48 @@ class UserController extends Controller
                                     '. $status .'
                                 </div>';
 
+            array_push($data, $temp);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Get Access History
+     */
+    public function getHistory()
+    {
+        return view('backend.users.access-history');
+    }
+
+    /**
+     * Get History Table Data
+     */
+    public function getHistoryByAjax(Request $request)
+    {
+        $offset = $request->start;
+        $limit = $request->length;
+        $history_obj = AccessHistory::orderBy('logined_at', 'desc')->offset($offset)->limit($limit);
+        $q = $request->search['value'];
+        if(!empty($q)) {
+            $histories = $history_obj->where('user_name', 'like', '%' . $q . '%')
+                ->orWhere('user_email', 'like', '%' . $q . '%')
+                ->orWhere('logined_location', 'like', '%' . $q . '%')
+                ->get();
+        } else {
+            $histories = $history_obj->get();
+        }
+        $data = [];
+        foreach($histories as $history) {
+            $temp['index'] = '';
+            $temp['name'] = $history->user_name;
+            $temp['email'] = $history->user_email;
+            $temp['access_time'] = $history->logined_at;
+            $temp['access_ip'] = $history->logined_ip;
+            $temp['location'] = $history->logined_location;
             array_push($data, $temp);
         }
 

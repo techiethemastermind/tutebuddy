@@ -29,7 +29,7 @@ class User extends Authenticatable
     protected $fillable = [
         'uuid', 'name', 'email', 'password', 'role', 'active', 'verified', 'about', 'verify_token',
         'remember_token', 'headline', 'phone_number', 'country', 'state', 'city', 'address', 'zip', 'timezone', 'profession',
-        'qualifications', 'achievements', 'experience'
+        'qualifications', 'achievements', 'experience', 'last_login_at', 'last_login_ip'
     ];
 
     /**

@@ -421,6 +421,12 @@
                             </a>
                         </li>
                         @endcan
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/access-history*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.users.access_history') }}">
+                                <span class="sidebar-menu-text">@lang('navs.sidebar.history')</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

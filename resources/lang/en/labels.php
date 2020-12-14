@@ -63,6 +63,11 @@ return array (
       'items' => 'Items',
       'product_added' => 'Product added to cart successfully',
     ),
+    'course' => 
+    array (
+      'certified' => 'You\'re Certified for this course',
+      'finish_course' => 'Finish Course',
+    ),
   ),
   'backend' => 
   array (
