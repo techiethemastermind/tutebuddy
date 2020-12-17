@@ -90,9 +90,12 @@
                     <div class="flex" style="max-width: 100%">
                         <div class="card p-relative o-hidden mb-0">
                             <div class="card-header card-header-tabs-basic nav px-0 font-size-16pt" role="tablist">
-                                <a href="#tab1" data-toggle="tab" role="tab" aria-selected="true" class="active">Become An Instructor</a>
-                                <a href="#tab2" data-toggle="tab" role="tab" aria-selected="true" class="">Instructor Rules</a>
-                                <a href="#tab3" data-toggle="tab" role="tab" aria-selected="true" class="">Start With Courses</a>
+                                <a href="#tab1" data-toggle="tab" role="tab" aria-selected="true" class="active"> 
+                                    @lang('labels.auth.register.become_instructor')</a>
+                                <a href="#tab2" data-toggle="tab" role="tab" aria-selected="true" class="">
+                                    @lang('labels.auth.register.instructor_rules')</a>
+                                <a href="#tab3" data-toggle="tab" role="tab" aria-selected="true" class="">
+                                    @lang('labels.auth.register.start_with_course')</a>
                             </div>
                             <div class="card-body tab-content text-70 font-size-16pt">
                                 <div id="tab1" class="tab-pane fade in active show">

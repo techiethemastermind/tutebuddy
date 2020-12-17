@@ -8,11 +8,13 @@
             <div class="col-lg-6 p-0 mx-auto">
 
                 <div class="page-separator mb-4">
-                    <div class="page-separator__text">{{ __('Thank You for Registration') }}</div>
+                    <div class="page-separator__text">
+                        @lang('labels.auth.verify.thankyou')
+                    </div>
                 </div>
 
-                {{ __('Before proceeding, please check your email for a verification link.') }}
-                {{ __('If you did not receive the email') }},
+                @lang('string.auth.verify.note')
+                @lang('string.auth.verify.not_received_email'),
                 <form id="frm_resend" class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                     @csrf
                     <button type="submit" class="btn btn-link p-0 m-0 align-baseline text-primary-dodger-blue">{{ __('click here to request another') }}</button>.
@@ -28,9 +30,9 @@
     </div>
     <div class="bg-body pt-32pt pb-32pt pb-md-64pt text-center">
         <div class="container page__container">
-            <a href="" class="btn btn-secondary btn-block-xs">Facebook</a>
-            <a href="" class="btn btn-secondary btn-block-xs">Twitter</a>
-            <a href="" class="btn btn-secondary btn-block-xs">Google+</a>
+            <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.facebook')</a>
+            <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.twitter')</a>
+            <a href="" class="btn btn-secondary btn-block-xs">@lang('labels.social.google_plus')</a>
         </div>
     </div>
 

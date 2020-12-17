@@ -91,46 +91,50 @@
                     <div class="form-group mb-24pt">
                         <textarea name="short_description" class="form-control" cols="100%" rows="5"
                             placeholder="Short description"></textarea>
-                        <small class="form-text text-muted">Shortly describe this course. It will show under title</small>
+                        <small class="form-text text-muted">
+                        @lang('labels.backend.courses.fields.description_note')</small>
                     </div>
 
                     <div class="form-group mb-32pt">
-                        <label class="form-label">About Course</label>
+                        <label class="form-label">@lang('labels.backend.courses.fields.about_course')</label>
 
                         <!-- quill editor -->
                         <div style="min-height: 150px;" id="course_editor" class="mb-0"></div>
-                        <small class="form-text text-muted">Describe about this course. What you will teach?</small>
+                        <small class="form-text text-muted">
+                        @lang('labels.backend.courses.fields.about_course_note')</small>
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Lessons</div>
+                        <div class="page-separator__text"> @lang('labels.backend.general.lessons') </div>
                     </div>
 
                     <div class="accordion js-accordion accordion--boxed mb-24pt" id="parent"></div>
-                    <button type="button" id="btn_add_lesson" class="btn btn-outline-secondary btn-block mb-24pt mb-sm-0">+ Add Lesson</button>
+                    <button type="button" id="btn_add_lesson" class="btn btn-outline-secondary btn-block mb-24pt mb-sm-0">
+                        + @lang('labels.backend.courses.add_lesson')
+                    </button>
                 </div>
 
                 <!-- Side bar for information -->
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="button" id="btn_save_course" class="btn btn-accent">Save Draft</button>
-                            <button type="button" id="btn_publish_course" class="btn btn-primary">Publish Course</button>
+                            <button type="button" id="btn_save_course" class="btn btn-accent"> @lang('labels.backend.buttons.save_draft') </button>
+                            <button type="button" id="btn_publish_course" class="btn btn-primary">@lang('labels.backend.buttons.publish')</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
+                                <a class="flex" href="javascript:void(0)"><strong>@lang('labels.backend.buttons.save_draft')</strong></a>
                                 <i class="material-icons text-muted draft">clear</i>
                             </div>
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Publish</strong></a>
+                                <a class="flex" href="javascript:void(0)"><strong>@lang('labels.backend.buttons.publish')</strong></a>
                                 <i class="material-icons text-muted publish">clear</i>
                             </div>
                         </div>
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Information</div>
+                        <div class="page-separator__text">@lang('labels.backend.general.information')</div>
                     </div>
 
                     <div class="card">
@@ -138,9 +142,9 @@
 
                             <!-- Set Category -->
                             <div class="form-group">
-                                <label class="form-label">Category</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.category')</label>
                                 <select name="category" class="form-control custom-select" data-toggle="select">
-                                    <option value="">No Category</option>
+                                    <option value="">@lang('labels.backend.sidebar.no_category')</option>
                                     @foreach ($parentCategories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @if ($category->children()->count() > 0 )
@@ -150,36 +154,36 @@
                                     @endif
                                     @endforeach
                                 </select>
-                                <small class="form-text text-muted">Select a category.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.select_category')</small>
                             </div>
 
                             <!-- Set Level -->
                             <div class="form-group">
-                                <label class="form-label">Level</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.level')</label>
                                 <select name="level" class="form-control">
                                     @foreach($levels as $level)
                                     <option value="{{ $level->id }}">{{ $level->name }}</option>
                                     @endforeach
                                 </select>
-                                <small class="form-text text-muted">Select a level.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.select_level')</small>
                             </div>
 
                             <!-- Set Tags -->
                             <div class="form-group mb-0">
-                                <label class="form-label">Tags</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.tags')</label>
                                 <select name="tags[]" id="course_tags" multiple="multiple" class="form-control">
                                     @foreach($tags as $tag)
                                     @php $course_tags = (!empty($course->tags)) ? json_decode($course->tags) : []; @endphp
                                     <option @if(in_array($tag->name, $course_tags)) selected @endif>{{ $tag->name }}</option>
                                     @endforeach
                                 </select>
-                                <small class="form-text text-muted">Select one or more tags.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.select_tags')</small>
                             </div>
                         </div>
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Options</div>
+                        <div class="page-separator__text">@lang('labels.backend.sidebar.options')</div>
                     </div>
 
                     <div class="card">
@@ -188,7 +192,7 @@
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input id="chk_group" type="checkbox" checked="" class="custom-control-input">
-                                    <label for="chk_group" class="custom-control-label form-label">Group Course</label>
+                                    <label for="chk_group" class="custom-control-label form-label">@lang('labels.backend.sidebar.group_course')</label>
                                 </div>
                             </div>
 
@@ -196,28 +200,28 @@
                             <div class="form-group" for="chk_group">
                                 <div class="row">
                                     <div class="col-md-6 pr-1">
-                                        <label class="form-label">Min Students:</label>
+                                        <label class="form-label">@lang('labels.backend.sidebar.min_students'):</label>
                                         <input type="number" name="min" class="form-control" min="1" value=""
                                             placeholder="5" tute-no-empty>
                                     </div>
                                     <div class="col-md-6 pl-1">
-                                        <label class="form-label">Max Students:</label>
+                                        <label class="form-label">@lang('labels.backend.sidebar.max_students'):</label>
                                         <input type="number" name="max" class="form-control" min="1" value=""
                                             placeholder="30">
                                     </div>
                                 </div>
-                                <small class="form-text text-muted">Number of Students for Group</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.group_note')</small>
                             </div>
 
                             <!-- Set Price -->
                             <div class="form-group" for="chk_group">
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
-                                            class="input-group-text form-label">Price($)</span></span>
+                                            class="input-group-text form-label">@lang('labels.backend.sidebar.price')({{ getCurrency(config('app.currency'))['symbol'] }})</span></span>
                                     <input type="number" name="group_price" class="form-control" placeholder="5.00"
                                         value="" tute-no-empty>
                                 </div>
-                                <small class="form-text text-muted">Price for Group course.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.price_note')</small>
                             </div>
 
                             <div class="page-separator"></div>
@@ -225,7 +229,7 @@
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input id="chk_private" type="checkbox" class="custom-control-input">
-                                    <label for="chk_private" class="custom-control-label form-label">Private Course</label>
+                                    <label for="chk_private" class="custom-control-label form-label">@lang('labels.backend.sidebar.private_course')</label>
                                 </div>
                             </div>
 
@@ -233,17 +237,17 @@
                             <div class="form-group d-none" for="chk_private">
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
-                                            class="input-group-text form-label">Price($)</span></span>
+                                            class="input-group-text form-label">@lang('labels.backend.sidebar.price')({{ getCurrency(config('app.currency'))['symbol'] }})</span></span>
                                     <input type="number" name="private_price" class="form-control" value="" placeholder="24.00">
                                 </div>
-                                <small class="form-text text-muted">Price for Private course.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.private_course_note')</small>
                             </div>
 
                         </div>
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Time Setting</div>
+                        <div class="page-separator__text">@lang('labels.backend.sidebar.time_setting')</div>
                     </div>
 
                     <div class="card">
@@ -254,34 +258,34 @@
                                 <div class="row">
                                     <div class="col-md-6 pr-1">
                                         <div class="form-group mb-0">
-                                            <label class="form-label">Start Date:</label>
+                                            <label class="form-label">@lang('labels.backend.sidebar.start_date'):</label>
                                             <input name="start_date" type="hidden" class="form-control flatpickr-input"
                                                 data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <div class="form-group mb-0">
-                                            <label class="form-label">End Date:</label>
+                                            <label class="form-label">@lang('labels.backend.sidebar.end_date'):</label>
                                             <input name="end_date" type="hidden" class="form-control flatpickr-input"
                                                 data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
                                         </div>
                                     </div>
                                 </div>
-                                <small class="form-text text-muted">Course will start and end date</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.date_note')</small>
                             </div>
 
                             <!-- Timezone -->
                             <div class="form-group">
-                                <label class="form-label">Your Timezone</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.timezone')</label>
                                 <select name="timezone" class="form-control" disabled></select>
-                                <small class="form-text text-muted">Select timezone</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.select_timezone')</small>
                             </div>
 
                             <!-- Repeat -->
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input id="chk_repeat" type="checkbox" class="custom-control-input" checked>
-                                    <label for="chk_repeat" class="custom-control-label form-label">Repeat</label>
+                                    <label for="chk_repeat" class="custom-control-label form-label">@lang('labels.backend.sidebar.repeat')</label>
                                     <input type="hidden" name="repeat" value="1">
                                 </div>
                             </div>
@@ -293,8 +297,8 @@
                                     </div>
                                     <div class="col-md-6 pl-1">
                                         <select id="custom-select" name="repeat_type" class="form-control custom-select">
-                                            <option value="week">Weeks</option>
-                                            <option value="month">Months</option>
+                                            <option value="week">@lang('labels.backend.sidebar.week')</option>
+                                            <option value="month">@lang('labels.backend.sidebar.month')</option>
                                         </select>
                                     </div>
                                 </div>
@@ -303,7 +307,7 @@
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Thumbnail</div>
+                        <div class="page-separator__text">@lang('labels.backend.sidebar.thumb')</div>
                     </div>
 
                     <div class="card">
@@ -311,13 +315,13 @@
                         <div class="card-body">
                             <div class="custom-file">
                                 <input type="file" name="course_image" id="course_image" class="custom-file-input">
-                                <label for="course_image" class="custom-file-label">Choose file</label>
+                                <label for="course_image" class="custom-file-label">@lang('labels.backend.general.choose_file')</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Introduction Video</div>
+                        <div class="page-separator__text">@lang('labels.backend.sidebar.intro_video')</div>
                     </div>
 
                     <div class="card">
@@ -325,9 +329,9 @@
                             <iframe class="embed-responsive-item no-video" id="iframe_course_video" src="" allowfullscreen=""></iframe>
                         </div>
                         <div class="card-body">
-                            <label class="form-label">URL</label>
-                            <input type="text" class="form-control" name="course_video" id="course_video_url" value="" placeholder="Enter Video URL">
-                            <small class="form-text text-muted">Enter a valid video URL.</small>
+                            <label class="form-label">@lang('labels.backend.sidebar.url')</label>
+                            <input type="text" class="form-control" name="course_video" id="course_video_url" value="" placeholder="@lang('labels.backend.sidebar.url_placeholder')">
+                            <small class="form-text text-muted">@lang('labels.backend.sidebar.url_note')</small>
                         </div>
                     </div>
                 </div>
@@ -343,7 +347,7 @@
     <div class="modal-dialog modal-xlg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Create Lesson</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">@lang('labels.backend.courses.create_lesson')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -355,14 +359,14 @@
                     <div class="row">
                         <div class="col-12 col-md-8 mb-3">
                             <div class="form-group">
-                                <label class="form-label">Title:</label>
+                                <label class="form-label">@lang('labels.backend.lesson.fields.title'):</label>
                                 <input type="text" name="lesson_title"
                                     class="form-control form-control-lg @error('lesson_title') is-invalid @enderror"
-                                    placeholder="@lang('labels.backend.courses.fields.title')" value="" tute-no-empty>
+                                    placeholder="@lang('labels.backend.lesson.fields.title')" value="" tute-no-empty>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Short Description:</label>
+                                <label class="form-label">@lang('labels.backend.lesson.description'):</label>
                                 <textarea class="form-control" name="lesson_short_description" rows="3"></textarea>
                             </div>
                             
@@ -373,10 +377,10 @@
                                     <div class="btn-group" id="lesson_add_step" style="width: 100%;">
                                         <button type="button" class="btn btn-block btn-outline-secondary dropdown-toggle"
                                             data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">+ Add Step </button>
+                                            aria-expanded="false">+ @lang('labels.backend.lesson.add_step') </button>
                                         <div class="dropdown-menu" style="width: 100%;">
-                                            <a class="dropdown-item" href="javascript:void(0)" section-type="video">Video Section</a>
-                                            <a class="dropdown-item" href="javascript:void(0)" section-type="text">Full Text Section</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" section-type="video">@lang('labels.backend.lesson.video_section')</a>
+                                            <a class="dropdown-item" href="javascript:void(0)" section-type="text">@lang('labels.backend.lesson.text_section')</a>
                                         </div>
                                     </div>
                                 </div>
@@ -409,43 +413,43 @@
                             </div> -->
 
                             <div class="form-group">
-                                <label class="form-label">Thumbnail</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.thumb')</label>
                                 <div class="card">
                                     <img src="{{asset('/assets/img/no-image.jpg')}}" id="display_lesson_image" width="100%" id="img_lesson_image" alt="">
                                     <div class="card-body">
                                         <div class="custom-file">
                                             <input type="file" id="lesson_file_image" name="lesson_file_image" class="custom-file-input">
-                                            <label for="file" class="custom-file-label">Choose file</label>
+                                            <label for="file" class="custom-file-label">@lang('labels.backend.general.choose_file')</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Introduce Video</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.intro_video')</label>
                                 <div class="card">
                                     <div class="embed-responsive embed-responsive-16by9">
                                         <iframe class="embed-responsive-item no-video lesson-video" id="iframe_lesson_intro_video" src="" allowfullscreen=""></iframe>
                                     </div>
                                     <div class="card-body">
-                                        <label class="form-label">URL</label>
+                                        <label class="form-label">@lang('labels.backend.sidebar.url')</label>
                                         <input type="text" class="form-control" id="lesson_intro_video" name="lesson_intro_video" value=""
-                                            placeholder="Enter Video URL">
-                                        <small class="form-text text-muted">Enter a valid video URL.</small>
+                                            placeholder="@lang('labels.backend.sidebar.url_placeholder')">
+                                        <small class="form-text text-muted">@lang('labels.backend.sidebar.url_note')</small>
                                     </div>
                                     
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Download File</label>
+                                <label class="form-label">Download File @lang('labels.backend.sidebar.download_file')</label>
                                 <div class="card">                                    
                                     <div class="card-body">
                                         <div class="custom-file">
                                             <input type="file" id="lesson_file_download" name="lesson_file_download" class="custom-file-input">
-                                            <label for="file" class="custom-file-label">Choose file</label>
+                                            <label for="file" class="custom-file-label">@lang('labels.backend.general.choose_file')</label>
                                         </div>
-                                        <small class="form-text text-muted">Max file size is 5MB.</small>
+                                        <small class="form-text text-muted">@lang('labels.backend.general.choose_file_note')</small>
                                     </div>
                                 </div>
                             </div>
@@ -456,8 +460,8 @@
                 {!! Form::close() !!}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="btn_save_lesson" >Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('labels.backend.buttons.close')</button>
+                <button type="button" class="btn btn-primary" id="btn_save_lesson" >@lang('labels.backend.buttons.save')</button>
             </div>
         </div>
     </div>
@@ -576,8 +580,11 @@ $(document).ready(function() {
 
     // When click add Lesson button course should be saved draft first
     $('#btn_add_lesson').on('click', function(e) {
-
         e.preventDefault();
+
+        if(!checkValidForm($('#frm_course'))){
+            return false;
+        }
 
         if(course_id == '') {
 

@@ -83,7 +83,7 @@
                     { data: 'index'},
                     { data: 'title'},
                     { data: 'topics'},
-                    { data: 'action' }
+                    { data: 'action'}
                 ],
                 oLanguage: {
                     sEmptyTable: "@lang('labels.backend.discussions.no_results')"

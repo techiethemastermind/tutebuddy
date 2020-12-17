@@ -26,7 +26,7 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Edit Assignment</h2>
+                    <h2 class="mb-0">@lang('labels.backend.assignments.edit.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item">
@@ -34,11 +34,11 @@
                         </li>
 
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.assignments.index') }}">Assignments</a>
+                            <a href="{{ route('admin.assignments.index') }}">@lang('labels.backend.assignments.title')</a>
                         </li>
 
                         <li class="breadcrumb-item active">
-                            Edit Assignemnt
+                            @lang('labels.backend.assignments.edit.title')
                         </li>
                     </ol>
                 </div>
@@ -60,17 +60,13 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <label class="form-label">Assignment Title</label>
+                    <label class="form-label">@lang('labels.backend.assignments.edit.assignment_title')</label>
                     <div class="form-group mb-24pt">
-                        <input type="text" name="title"
-                            class="form-control form-control-lg @error('title') is-invalid @enderror"
-                            placeholder="title" value="{{ $assignment->title }}">
-                        @error('title')
-                        <div class="invalid-feedback">Title is required field.</div>
-                        @enderror
+                        <input type="text" name="title" class="form-control form-control-lg"
+                            placeholder="title" value="{{ $assignment->title }}" tute-no-empty>
                     </div>
 
-                    <label class="form-label">Content</label>
+                    <label class="form-label">@lang('labels.backend.assignments.edit.content')</label>
                     <div class="form-group mb-24pt">
                         <!-- quill editor -->
                         <div id="assignment_editor" class="mb-0" style="min-height: 400px;">{!! $assignment->content !!}</div>
@@ -78,7 +74,7 @@
 
                     @if(!empty($assignment->attachment))
                     <div class="form-group mb-24pt">
-                        <label class="form-label">Attached Document:</label>
+                        <label class="form-label">@lang('labels.backend.assignments.edit.attached_document'):</label>
                         <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                             <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
                                 @php $ext = pathinfo($assignment->attachment, PATHINFO_EXTENSION); @endphp
@@ -91,20 +87,21 @@
                             <div class="flex">
                                 <a href="{{ asset('/storage/attachments/' . $assignment->attachment) }}">
                                     <div class="form-label mb-4pt">{{ $assignment->attachment }}</div>
-                                    <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                                    <p class="card-subtitle text-black-70">
+                                        @lang('labels.backend.assignments.edit.attached_document_note')</p>
                                 </a>
                             </div>
                         </div>
                     </div>
                     @endif
 
-                    <label class="form-label">Document:</label>
+                    <label class="form-label">@lang('labels.backend.assignments.edit.document'):</label>
                     <div class="form-group">
                         <div class="custom-file">
                             <input id="q_file" type="file" name="attachment" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
-                            <label for="q_file" class="custom-file-label">Choose ...</label>
+                            <label for="q_file" class="custom-file-label">@lang('labels.backend.assignments.edit.choose_file')</label>
                         </div>
-                        <small class="form-text text-muted">PDF for Doc file (Max 5MB).</small>
+                        <small class="form-text text-muted">@lang('labels.backend.assignments.edit.pdf_note')</small>
                     </div>
                 </div>
 
@@ -112,22 +109,22 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" id="btn_draft" class="btn btn-accent">Save Draft</button>
-                            <button type="submit" id="btn_publish" class="btn btn-primary">Publish</button>
+                            <button type="submit" id="btn_draft" class="btn btn-accent">@lang('labels.backend.buttons.save_draft')</button>
+                            <button type="submit" id="btn_publish" class="btn btn-primary">@lang('labels.backend.buttons.publish')</button>
                             <a href="{{ route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]) }}" 
-                                class="btn btn-info">Preview</a>
+                                class="btn btn-info">@lang('labels.backend.buttons.preview')</a>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             @if($assignment->published == 0)
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
+                                <a class="flex" href="javascript:void(0)"><strong>@lang('labels.backend.buttons.save_draft')</strong></a>
                                 <i class="material-icons text-muted draft">check</i>
                             </div>
                             @endif
 
                             @if($assignment->published == 1)
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Publish</strong></a>
+                                <a class="flex" href="javascript:void(0)"><strong>@lang('labels.backend.buttons.publish')</strong></a>
                                 <i class="material-icons text-muted publish">check</i>
                             </div>
                             @endif
@@ -135,7 +132,7 @@
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Information</div>
+                        <div class="page-separator__text">@lang('labels.backend.assignments.edit.information')</div>
                     </div>
 
                     <div class="card">
@@ -143,37 +140,34 @@
 
                             <!-- Set Course -->
                             <div class="form-group">
-                                <label class="form-label">Course</label>
+                                <label class="form-label">@lang('labels.backend.general.course')</label>
                                 <div class="form-group">
-                                    <select name="course_id" class="form-control @error('course') is-invalid @enderror">
+                                    <select name="course_id" class="form-control" tute-no-empty>
                                         @foreach($courses as $course)
                                         <option value="{{ $course->id }}" @if($course->id == $assignment->lesson->course->id) selected @endif>
                                             {{ $course->title }}
                                         </option>
                                         @endforeach
                                     </select>
-                                    @error('course')
-                                    <div class="invalid-feedback">Course is required.</div>
-                                    @enderror
                                 </div>
-                                <small class="form-text text-muted">Select a course.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.assignments.select_course')</small>
                             </div>
 
                             <!-- Set Lesson -->
                             <div class="form-group">
-                                <label class="form-label">Lessons</label>
+                                <label class="form-label">@lang('labels.backend.general.lessons')</label>
                                 <select name="lesson_id" class="form-control"></select>
                             </div>
 
                             <!-- Set Duration -->
                             <div class="form-group">
-                                <label class="form-label">Due Date</label>
+                                <label class="form-label">@lang('labels.backend.general.due_date')</label>
                                 <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
                             </div>
 
                             <!-- Total Mark -->
                             <div class="form-group">
-                                <label class="form-label">Total Marks</label>
+                                <label class="form-label">@lang('labels.backend.assignments.create.total_marks')</label>
                                 <input type="number" name="total_mark" class="form-control" placeholder="5" value="{{ $assignment->total_mark }}">
                             </div>
                         </div>

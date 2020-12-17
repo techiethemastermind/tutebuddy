@@ -18,13 +18,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Review Assignment Submitted</h2>
+                    <h2 class="mb-0">@lang('labels.backend.assignments.result.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Assignment Submitted
+                            @lang('labels.backend.assignments.result.title')
                         </li>
 
                     </ol>
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="page-separator">
-                    <div class="page-separator__text">Submitted Content</div>
+                    <div class="page-separator__text">@lang('labels.backend.assignments.result.submitted_content')</div>
                 </div>
 
                 <div class="pb-32pt">
@@ -54,7 +54,7 @@
 
                     @if(!empty($result->attachment_url))
                     <div class="form-group mb-24pt card card-body">
-                        <label class="form-label">Attached Document:</label>
+                        <label class="form-label">@lang('labels.backend.assignments.result.attached_document'):</label>
                         <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                             <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
                                 @php $ext = pathinfo($result->attachment_url, PATHINFO_EXTENSION); @endphp
@@ -67,7 +67,8 @@
                             <div class="flex">
                                 <a href="{{ asset('/storage/attachments/' . $result->attachment_url) }}">
                                     <div class="form-label mb-4pt">{{ $result->attachment_url }}</div>
-                                    <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                                    <p class="card-subtitle text-black-70">
+                                    @lang('labels.backend.assignments.result.see_attach_note')</p>
                                 </a>
                             </div>
                         </div>
@@ -78,24 +79,24 @@
 
             <div class="col-lg-4">
                 <div class="page-separator">
-                    <div class="page-separator__text">Information</div>
+                    <div class="page-separator__text">@lang('labels.backend.general.information')</div>
                 </div>
                 <div class="card">
                     <div class="card-body">
                         <form id="frm_a_result" method="POST" action="{{ route('admin.assignments.result_answer') }}" enctype="multipart/form-data">@csrf
                             <div class="form-group">
-                                <label for="" class="form-label">Assignment Mark</label>
+                                <label for="" class="form-label">@lang('labels.backend.assignments.result.assignment_mark')</label>
                                 <input name="mark" class="form-control" value="{{ $result->mark }}">
                             </div>
 
                             <div class="form-group">
-                                <label for="" class="form-label">Summary</label>
+                                <label for="" class="form-label">@lang('labels.backend.assignments.result.summary')</label>
                                 <textarea name="answer" rows="10" class="form-control">{{ $result->answer }}</textarea>
                             </div>
 
                             @if(!empty($result->answer_attach))
                             <div class="form-group mb-24pt card card-body">
-                                <label class="form-label">Attached Document:</label>
+                                <label class="form-label">@lang('labels.backend.assignments.result.attached_document'):</label>
                                 <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                                     <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
                                         @php $ext = pathinfo($result->answer_attach, PATHINFO_EXTENSION); @endphp
@@ -115,17 +116,17 @@
                             @endif
 
                             <div class="form-group">
-                                <label for="" class="form-label">Attachment</label>
+                                <label for="" class="form-label">@lang('labels.backend.assignments.result.attach')</label>
                                 <div class="custom-file">
                                     <input type="file" id="file_doc" name="answer_attach" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
-                                    <label for="file_doc" class="custom-file-label">Choose file</label>
+                                    <label for="file_doc" class="custom-file-label">@lang('labels.backend.general.choose_file')</label>
                                 </div>
                             </div>
 
                             <input type="hidden" name="result_id" value="{{ $result->id }}">
 
                             <div class="form-group">
-                                <button class="btn btn-primary">Submit</button>
+                                <button class="btn btn-primary">@lang('labels.backend.buttons.submit')</button>
                             </div>
                         </form>
                     </div>

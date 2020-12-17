@@ -26,7 +26,7 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Create Assignment</h2>
+                    <h2 class="mb-0">@lang('labels.backend.assignments.create.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item">
@@ -34,11 +34,11 @@
                         </li>
 
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.assignments.index') }}">Assignments</a>
+                            <a href="{{ route('admin.assignments.index') }}">@lang('labels.backend.assignments.title')</a>
                         </li>
 
                         <li class="breadcrumb-item active">
-                            New Assignemnt
+                            @lang('labels.backend.assignments.new')
                         </li>
                     </ol>
                 </div>
@@ -60,29 +60,26 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <label class="form-label">Assignment Title</label>
+                    <label class="form-label">@lang('labels.backend.assignments.create.assignment_title')</label>
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
-                            class="form-control form-control-lg @error('title') is-invalid @enderror"
+                            class="form-control form-control-lg"
                             placeholder="title" value="" tute-no-empty>
-                        @error('title')
-                        <div class="invalid-feedback">Title is required field.</div>
-                        @enderror
                     </div>
 
-                    <label class="form-label">Content</label>
+                    <label class="form-label">@lang('labels.backend.assignments.create.content'):</label>
                     <div class="form-group mb-24pt">
                         <!-- quill editor -->
                         <div id="assignment_editor" class="mb-0" style="min-height: 400px;"></div>
                     </div>
 
-                    <label class="form-label">Document:</label>
+                    <label class="form-label">@lang('labels.backend.assignments.create.document'):</label>
                     <div class="form-group">
                         <div class="custom-file">
                             <input id="attach_file" type="file" name="attachment" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
-                            <label for="attach_file" class="custom-file-label">Choose ...</label>
+                            <label for="attach_file" class="custom-file-label">@lang('labels.backend.general.choose_file')</label>
                         </div>
-                        <small class="form-text text-muted">PDF for Doc file (Max 5MB).</small>
+                        <small class="form-text text-muted">@lang('labels.backend.general.pdf_note_5m')</small>
                     </div>
                 </div>
 
@@ -90,18 +87,18 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" id="btn_publish" class="btn btn-accent">Save changes</button>
+                            <button type="submit" id="btn_publish" class="btn btn-accent">@lang('labels.backend.general.save_changes')</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Publish</strong></a>
+                                <a class="flex" href="javascript:void(0)"><strong>@lang('labels.backend.buttons.publish')</strong></a>
                                 <i class="material-icons text-muted publish">clear</i>
                             </div>
                         </div>
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Information</div>
+                        <div class="page-separator__text">@lang('labels.backend.general.information')</div>
                     </div>
 
                     <div class="card">
@@ -109,9 +106,9 @@
 
                             <!-- Set Course -->
                             <div class="form-group">
-                                <label class="form-label">Course</label>
+                                <label class="form-label">@lang('labels.backend.general.course')</label>
                                 <div class="form-group mb-0">
-                                    <select name="course_id" class="form-control custom-select @error('course') is-invalid @enderror">
+                                    <select name="course_id" class="form-control custom-select @error('course') is-invalid @enderror" tute-no-empty>
                                         @foreach($courses as $course)
                                         <option value="{{ $course->id }}"> {{ $course->title }}
                                         </option>
@@ -121,24 +118,24 @@
                                     <div class="invalid-feedback">Course is required.</div>
                                     @enderror
                                 </div>
-                                <small class="form-text text-muted">Select a course.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.assignments.select_course')</small>
                             </div>
 
                             <!-- Set Lesson -->
                             <div class="form-group">
-                                <label class="form-label">Lessons</label>
+                                <label class="form-label">@lang('labels.backend.general.lessons')</label>
                                 <select name="lesson_id" class="form-control"></select>
                             </div>
 
                             <!-- Set Duration -->
                             <div class="form-group">
-                                <label class="form-label">Due Date</label>
+                                <label class="form-label">@lang('labels.backend.general.due_date')</label>
                                 <input type="hidden" name="due_date" class="form-control flatpickr-input" data-toggle="flatpickr" value="<?php echo date("Y-m-d"); ?>">
                             </div>
 
                             <!-- Total Mark -->
                             <div class="form-group">
-                                <label class="form-label">Total Marks</label>
+                                <label class="form-label">@lang('labels.backend.assignments.create.total_marks')</label>
                                 <input type="number" name="total_mark" class="form-control" placeholder="5" value="5" tute-no-empty>
                             </div>
                         </div>

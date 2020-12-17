@@ -17,13 +17,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Assignments</h2>
+                    <h2 class="mb-0">@lang('labels.backend.assignments.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Assignments
+                            @lang('labels.backend.assignments.title')
                         </li>
 
                     </ol>
@@ -34,7 +34,7 @@
             @can('assignment_create')
             <div class="row" role="tablist">
                 <div class="col-auto">
-                    <a href="{{ route('admin.assignments.create') }}" class="btn btn-outline-secondary">Add New</a>
+                    <a href="{{ route('admin.assignments.create') }}" class="btn btn-outline-secondary">@lang('labels.backend.buttons.add_new')</a>
                 </div>
             </div>
             @endcan
@@ -44,7 +44,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">Assignments</div>
+            <div class="page-separator__text">@lang('labels.backend.assignments.title')</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -56,8 +56,8 @@
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                             <span class="h2 mb-0 mr-3 count-all">{{ $count['all'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">All</strong>
-                                <small class="card-subtitle text-50">All Assignments</small>
+                                <strong class="card-title">@lang('labels.backend.general.all')</strong>
+                                <small class="card-subtitle text-50">@lang('labels.backend.assignments.all_assignments')</small>
                             </span>
                         </a>
                     </div>
@@ -67,8 +67,8 @@
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                             <span class="h2 mb-0 mr-3 count-published">{{ $count['published'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">Published</strong>
-                                <small class="card-subtitle text-50">Published to Students</small>
+                                <strong class="card-title">@lang('labels.backend.general.published')</strong>
+                                <small class="card-subtitle text-50">@lang('labels.backend.assignments.published')</small>
                             </span>
                         </a>
                     </div>
@@ -78,8 +78,8 @@
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                             <span class="h2 mb-0 mr-3 count-pending">{{ $count['pending'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">Pending</strong>
-                                <small class="card-subtitle text-50">Draft Saved</small>
+                                <strong class="card-title">@lang('labels.backend.general.pending')</strong>
+                                <small class="card-subtitle text-50">@lang('labels.backend.general.draft_saved')</small>
                             </span>
                         </a>
                     </div>
@@ -89,8 +89,8 @@
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                             <span class="h2 mb-0 mr-3 count-deleted">{{ $count['deleted'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">Archived</strong>
-                                <small class="card-subtitle text-50">Deleted Assignments</small>
+                                <strong class="card-title">@lang('labels.backend.general.achive')</strong>
+                                <small class="card-subtitle text-50">@lang('labels.backend.assignments.achived')</small>
                             </span>
                         </a>
                     </div>
@@ -102,11 +102,11 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th style="width: 40px;"> SN. </th>
-                            <th> Title </th>
-                            <th> Course </th>
-                            <th> lesson </th>
-                            <th> Actions </th>
+                            <th style="width: 40px;">@lang('labels.backend.table.no')</th>
+                            <th> @lang('labels.backend.table.title') </th>
+                            <th> @lang('labels.backend.table.course') </th>
+                            <th> @lang('labels.backend.table.lesson') </th>
+                            <th> @lang('labels.backend.table.actions') </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle"></tbody>

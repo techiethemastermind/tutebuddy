@@ -511,7 +511,7 @@ if(!isset($_GET["active"])) {
                                         <div class="col-sm-3"></div>
                                         <div class="col-sm-9">
                                             <input type="hidden" name="update_type" value="bank">
-                                            <button type="submit" class="btn btn-primary">@lang('labels.backend.genearl.save_changes')</button>
+                                            <button type="submit" class="btn btn-primary">@lang('labels.backend.general.save_changes')</button>
                                         </div>
                                     </div>
                                 </div>

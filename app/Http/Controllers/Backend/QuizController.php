@@ -139,7 +139,7 @@ class QuizController extends Controller
 
                 // Send Email to Students
                 $student_ids = DB::table('course_student')->where('course_id', $quiz->course_id)->pluck('user_id');
-                $student_emails = User::whereIn('id', $student_ids)->pluck('email');
+                $student_emails = \App\User::whereIn('id', $student_ids)->pluck('email');
                 $email_data = [
                     'template_type' => 'New_Quiz_Created',
                     'mail_data' => [

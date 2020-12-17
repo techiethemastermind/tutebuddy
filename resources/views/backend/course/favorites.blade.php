@@ -67,7 +67,7 @@
                                             @if($course->reviews->count() > 0)
                                             @include('layouts.parts.rating', ['rating' => $course->reviews->avg('rating')])
                                             @else
-                                                <small class="text-50">No rating</small>
+                                                <small class="text-50">@lang('labels.backend.general.no_rating') </small>
                                             @endif
                                         </div>
                                         @if($course->reviews->count() > 0)
@@ -81,10 +81,10 @@
                                             <a href="{{ route('courses.show', $course->slug) }}" class="card-title">{{ $course->title }}</a>
                                         </div>
                                         <span class="card-title text-accent mr-16pt">
-                                            {{ config('app.currency') . $course->group_price }} <small class="text-50">(Group)</small>
+                                            {{ config('app.currency') . $course->group_price }} <small class="text-50">(@lang('labels.backend.general.group'))</small>
                                         </span>
                                         <span class="card-title text-primary mr-16pt">
-                                            {{ config('app.currency') . $course->private_price }} <small class="text-50">(Private)</small>
+                                            {{ config('app.currency') . $course->private_price }} <small class="text-50">(@lang('labels.backend.general.private'))</small>
                                         </span>
                                         
                                         <a href="{{ route('admin.course.removeFavorite', $course->id) }}" name="remove_favorite" data-toggle="tooltip" 
@@ -93,9 +93,9 @@
                                             data-original-title="" title="">favorite</a>
                                     </div>
                                     <div class="d-flex">
-                                        <span class="text-70 text-muted mr-8pt"><strong>Session Time: {{ $course->duration() }},</strong></span>
-                                        <span class="text-70 text-muted mr-8pt"><strong>Sessions: {{ $course->lessons->count() }},</strong></span>
-                                        <span class="text-70 text-muted mr-8pt"><strong>Category: 
+                                        <span class="text-70 text-muted mr-8pt"><strong>@lang('labels.backend.general.session_time'): {{ $course->duration() }},</strong></span>
+                                        <span class="text-70 text-muted mr-8pt"><strong>@lang('labels.backend.general.sessions'): {{ $course->lessons->count() }},</strong></span>
+                                        <span class="text-70 text-muted mr-8pt"><strong>@lang('labels.backend.general.category'): 
                                             @if(!empty($course->category))
                                             {{ $course->category->name }},
                                             @else
@@ -103,7 +103,7 @@
                                             @endif
                                             </strong>
                                         </span>
-                                        <span class="text-70 text-muted mr-8pt"><strong>Level: {{ $course->level->name }}</strong></span>
+                                        <span class="text-70 text-muted mr-8pt"><strong>@lang('labels.backend.general.level'): {{ $course->level->name }}</strong></span>
                                     </div>
                                     <div class="page-separator mb-0">
                                         <div class="page-separator__text bg-transparent">&nbsp;</div>
@@ -131,15 +131,15 @@
                                             </div>
                                         </a>
 
-                                        <div class="flex">
+                                        <!-- <div class="flex">
                                             <span class="text-70 text-muted mr-8pt">Listed Courses: 12</span>
                                             <span class="text-70 text-muted mr-8pt">Total Courses Contucted: 102</span>
-                                        </div>
+                                        </div> -->
                     
                                         @if(!$course->isEnrolled())
-                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary btn-md">Enroll</a>
+                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary btn-md">@lang('labels.backend.buttons.enroll')</a>
                                         @else
-                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-success btn-md">Enrolled</a>
+                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-success btn-md">@lang('labels.backend.buttons.enrolled')</a>
                                         @endif
                                     </div>
                                 </div>

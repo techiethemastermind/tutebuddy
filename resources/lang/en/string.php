@@ -72,4 +72,12 @@ return array (
       'legal_note' => 'I am the legal guardian of the child whose account I am creating and have the legal right to consent for this account.',
     ),
   ),
+  'auth' => 
+  array (
+    'register' => 
+    array (
+      'terms_and_conditions' => 'I agree to the <a href="/page/terms-and-conditions" class="text-primary">Terms and Conditions</a>',
+      'create_account' => 'Create account',
+    ),
+  ),
 );

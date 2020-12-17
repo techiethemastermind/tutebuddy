@@ -180,6 +180,15 @@ return array (
       'browse_all' => 'Browse All',
       'verify' => 'Verify',
       'confirm' => 'Confirm',
+      'publish' => 'Publish',
+      'save_draft' => 'Save Draft',
+      'preview' => 'Preview',
+      'add_new' => 'Add New',
+      'submit' => 'Submit',
+      'close' => 'Close',
+      'save' => 'Save',
+      'enroll' => 'Enroll',
+      'enrolled' => 'Enrolled',
     ),
     'courses' => 
     array (
@@ -193,6 +202,25 @@ return array (
         'no_results' => 'No Favorites',
       ),
       'no_results' => 'No Courses',
+      'create' => 'Create Course',
+      'fields' => 
+      array (
+        'title' => 'Title',
+        'description' => 'Description',
+        'description_note' => 'Shortly describe this course. It will show under title',
+        'about_course' => 'About Course',
+        'about_course_note' => 'Describe about this course. What you will teach?',
+      ),
+      'add_lesson' => 'Add Lesson',
+      'create_lesson' => 'Create Lesson',
+      'edit' => 'Edit Course',
+      'set_schedule' => 'Set Schedule',
+      'add_course' => 'Add Course',
+      'all' => 'All Courses',
+      'draft' => 'Drafted Courses',
+      'pending' => 'Pending to Review',
+      'published' => 'Accepted Courses',
+      'achieved' => 'Deleted Courses',
     ),
     'table' => 
     array (
@@ -227,6 +255,9 @@ return array (
       'message_time' => 'Message Time',
       'price' => 'Price',
       'course_type' => 'Course Type',
+      'subject' => 'Subject',
+      'student' => 'Student',
+      'attachment' => 'Attachment',
     ),
     'lessons' => 
     array (
@@ -243,6 +274,19 @@ return array (
       ),
       'my_paths' => 'My Paths',
       'no_paths' => 'No Paths',
+      'title' => 'Paths',
+      'all' => 'All Paths',
+      'achieved' => 'Deleted Bundles',
+      'create' => 'Create a Path',
+      'information' => 'Path Information',
+      'fields' => 
+      array (
+        'title' => 'Path Title',
+        'description' => 'Path Description',
+      ),
+      'description_note' => 'Shortly describe this course. It will show under title',
+      'edit' => 'Edit Path',
+      'courses' => 'Courses',
     ),
     'my_instructors' => 
     array (
@@ -257,6 +301,51 @@ return array (
     'assignments' => 
     array (
       'all_assignments' => 'All Assignments',
+      'create' => 
+      array (
+        'title' => 'Create Assignment',
+        'assignment_title' => 'Assignment Title',
+        'content' => 'Content',
+        'document' => 'Document',
+        'select_course' => 'Select a Course',
+        'total_marks' => 'Total Marks',
+      ),
+      'title' => 'Assignments',
+      'new' => 'New Assignments',
+      'edit' => 
+      array (
+        'title' => 'Edit Assignment',
+        'assignment_title' => 'Assignment Title',
+        'content' => 'Content',
+        'attached_document' => 'Attached Document',
+        'attached_document_note' => 'Click to See Attached Document.',
+        'document' => 'Document',
+        'choose_file' => 'Choose ...',
+        'pdf_note' => 'PDF for Doc file (Max 5MB).',
+        'information' => 'Information',
+        'course' => 'Course',
+        'select_course' => 'Select a Course',
+      ),
+      'select_course' => 'Select a Course',
+      'published' => 'Published to Students',
+      'achived' => 'Deleted Assignments',
+      'result' => 
+      array (
+        'title' => 'Review Assignment Submitted',
+        'submitted_content' => 'Submitted Content',
+        'attached_document' => 'Attached Document',
+        'see_attach_note' => 'Click to See Attached Document.',
+        'assignment_mark' => 'Assignment Mark',
+        'summary' => 'Summary',
+        'attach' => 'Attachment',
+      ),
+      'teacher' => 
+      array (
+        'title' => 'Assignment Submitted',
+        'marked' => 'Marked',
+        'marked_assignments' => 'Marked Assignments',
+      ),
+      'all' => 'All Assignments',
     ),
     'general' => 
     array (
@@ -274,6 +363,22 @@ return array (
       'newest' => 'Newest',
       'choose_file' => 'Choose File',
       'save_changes' => 'Save Changes',
+      'pdf_note_5m' => 'PDF for Doc file (Max 5MB).',
+      'information' => 'Information',
+      'lessons' => 'Lessons',
+      'due_date' => 'Due Date',
+      'pending' => 'Pending',
+      'draft_saved' => 'Draft Saved',
+      'published' => 'Published',
+      'choose_file_note' => 'Max file size is 5MB.',
+      'no_rating' => 'No Rating',
+      'group' => 'Group',
+      'private' => 'Private',
+      'session_time' => 'Session Time',
+      'sessions' => 'Sessions',
+      'category' => 'Category',
+      'level' => 'Level',
+      'draft' => 'Draft',
     ),
     'my_quizzes' => 
     array (
@@ -454,6 +559,66 @@ return array (
         'reason' => 'Reason',
       ),
     ),
+    'genearl' => 
+    array (
+      'all' => 'All',
+    ),
+    'meta' => 
+    array (
+      'meta_information' => 'Meta Information',
+      'title' => 'Meta Title',
+      'description' => 'Meta Description',
+      'fields' => 
+      array (
+        'description' => 'Meta Description',
+      ),
+      'description_note' => 'Meta description for SEO purpose.',
+    ),
+    'sidebar' => 
+    array (
+      'category' => 'Category',
+      'no_category' => 'No Category',
+      'select_category' => 'Select a Category',
+      'tags' => 'Tags',
+      'select_tags' => 'Select one or more tags.',
+      'options' => 'Options',
+      'group_course' => 'Group Course',
+      'min_students' => 'Min Students',
+      'max_students' => 'Max Students',
+      'group_note' => 'Number of Students for Group',
+      'price' => 'Price',
+      'price_note' => 'Price for Group course.',
+      'private_course' => 'Private Course',
+      'private_course_note' => 'Price for Private course.',
+      'thumb' => 'Thumbnail',
+      'intro_video' => 'Introduction Video',
+      'url' => 'URL',
+      'url_placeholder' => 'Enter Video URL',
+      'url_note' => 'Enter a valid video URL.',
+      'level' => 'Level',
+      'select_level' => 'Select a level',
+      'time_setting' => 'Time Setting',
+      'start_date' => 'Start Date',
+      'end_date' => 'End Date',
+      'date_note' => 'Course will start and end date',
+      'timezone' => 'Your Timezone',
+      'select_timezone' => 'Select Timezone',
+      'repeat' => 'Repeat',
+      'week' => 'Week',
+      'month' => 'Month',
+      'download_file' => 'Download File',
+    ),
+    'lesson' => 
+    array (
+      'fields' => 
+      array (
+        'title' => 'Title',
+      ),
+      'description' => 'Description',
+      'add_step' => 'Add Step',
+      'video_section' => 'Video Section',
+      'text_section' => 'Full Text Section',
+    ),
   ),
   'general' => 
   array (
@@ -483,6 +648,13 @@ return array (
       'password_placeholder' => 'Your Password ...',
       'confirm_password' => 'Confirm Password',
       'confirm_password_placeholder' => 'Confirm password ...',
+      'become_instructor' => 'Become An Instructor',
+      'instructor_rules' => 'Instructor Rules',
+      'start_with_course' => 'Start With Courses',
+    ),
+    'verify' => 
+    array (
+      'thankyou' => 'Thank You for Registration',
     ),
   ),
   'social' => 
