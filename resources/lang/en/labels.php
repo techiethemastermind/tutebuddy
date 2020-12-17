@@ -258,6 +258,7 @@ return array (
       'subject' => 'Subject',
       'student' => 'Student',
       'attachment' => 'Attachment',
+      'lesson' => 'Lesson',
     ),
     'lessons' => 
     array (
@@ -265,6 +266,13 @@ return array (
       'all_live_lessons' => 'All Live Lessons',
       'today_scheduled' => 'Today Scheduled',
       'today_scheduled_description' => 'Today Scheduled Live Lessons',
+      'teacher' => 
+      array (
+        'live_lesson' => 'My Scheduled Lessons',
+        'all' => 'All Scheduled Lessons',
+        'scheduled_title' => 'Today Scheduled',
+        'scheduled_description' => 'Today Scheduled Live Lessons',
+      ),
     ),
     'paths' => 
     array (

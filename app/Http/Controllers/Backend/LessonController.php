@@ -38,7 +38,6 @@ class LessonController extends Controller
      * Show a lesson
      */
     public function show(Request $request, $id) {
-
         $lesson = Lesson::find($id);
         $step = Step::find($request->step);
         $next = Step::where('lesson_id', $id)->where('step', $step->step + 1)->first();
