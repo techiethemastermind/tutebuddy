@@ -18,13 +18,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Reviews</h2>
+                    <h2 class="mb-0">@lang('labels.backend.reviews.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Reviews
+                            @lang('labels.backend.reviews.title')
                         </li>
 
                     </ol>
@@ -61,7 +61,8 @@
 
             <div class="p-12pt">
                 <p class="text-70 font-size-16pt">{{ str_limit($review->content, 200) }}
-                    <a href="{{ route('admin.reviews.show', $review->id) }}" class="ml-16pt font-weight-bold font-italic" style="color: #005ea6;">Read More</a>
+                    <a href="{{ route('admin.reviews.show', $review->id) }}" class="ml-16pt font-weight-bold font-italic" style="color: #005ea6;">
+                    @lang('labels.backend.general.read_more')</a>
                 </p>
                 <div class="d-flex">
 
@@ -71,9 +72,9 @@
 
                     <div class="flex flex-column flex-0">
                         @if($review->course->progress() > 99)
-                        <i class="font-size-16pt text-black-70 pr-12pt mr-12pt border-right-2 font-weight-bold">Completed</i>
+                        <i class="font-size-16pt text-black-70 pr-12pt mr-12pt border-right-2 font-weight-bold">@lang('labels.backend.general.completed')</i>
                         @else
-                        <i class="font-size-16pt text-black-70 pr-12pt mr-12pt border-right-2 font-weight-bold">In Progressing</i>
+                        <i class="font-size-16pt text-black-70 pr-12pt mr-12pt border-right-2 font-weight-bold">@lang('labels.backend.general.in_progressing')</i>
                         @endif
                     </div>
 
@@ -84,7 +85,7 @@
                     </div>
                     
                     <div class="flex flex-column text-right">
-                        <a href="{{ route('admin.reviews.show', $review->id) }}" class="btn btn-primary">Detail</a>
+                        <a href="{{ route('admin.reviews.show', $review->id) }}" class="btn btn-primary">@lang('labels.backend.general.detail')</a>
                     </div>
                 </div>
             </div>
@@ -99,7 +100,7 @@
                 <li class="page-item disabled">
                     <a class="page-link" href="#" aria-label="Previous">
                         <span aria-hidden="true" class="material-icons">chevron_left</span>
-                        <span>Prev</span>
+                        <span>@lang('labels.backend.general.prev')</span>
                     </a>
                 </li>
                 <li class="page-item disabled">
@@ -109,7 +110,7 @@
                 </li>
                 <li class="page-item disabled">
                     <a class="page-link" href="#" aria-label="Next">
-                        <span>Next</span>
+                        <span>@lang('labels.backend.general.next')</span>
                         <span aria-hidden="true" class="material-icons">chevron_right</span>
                     </a>
                 </li>
@@ -120,7 +121,7 @@
     @else
 
         <div class="card card-body">
-            <span class="card-title">No reviews.</span>
+            <span class="card-title">@lang('labels.backend.reviews.no_result')</span>
         </div>
 
     @endif
@@ -160,7 +161,7 @@
                 { data: 'action' }
             ],
             oLanguage: {
-                sEmptyTable: "You have no Reviews"
+                sEmptyTable: "@lang('labels.backend.reviews.table.no_result')"
             }
         });
     });

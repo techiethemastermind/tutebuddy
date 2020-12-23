@@ -10,7 +10,7 @@
             class="container page__container d-flex flex-column flex-md-row align-items-center text-center text-sm-left">
             <div class="flex d-flex flex-column flex-sm-row align-items-center">
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">User Account Preview</h2>
+                    <h2 class="mb-0">@lang('labels.backend.user_detail.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>

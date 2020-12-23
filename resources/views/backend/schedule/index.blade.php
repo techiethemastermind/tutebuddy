@@ -45,14 +45,14 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Schedule</h2>
+                    <h2 class="mb-0">@lang('labels.backend.schedule.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item">
                             <a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a>
                         </li>
                         <li class="breadcrumb-item active">
-                            Schedule
+                            @lang('labels.backend.schedule.title')
                         </li>
                     </ol>
                 </div>
@@ -83,7 +83,7 @@
     <div class="modal-dialog modal-dialog-centered" role="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Create Course Schedule</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">@lang('labels.backend.schedule.create_course_schedule')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -95,14 +95,14 @@
                     <div class="row">
                         <div class="col-md-6 pr-1">
                             <div class="form-group">
-                                <label class="form-label">Start Time:</label>
+                                <label class="form-label">@lang('labels.backend.schedule.start_time'):</label>
                                 <input id="course_start_time" type="time" class="form-control"
                                     placeholder="Pick start time" value="">
                             </div>
                         </div>
                         <div class="col-md-6 pl-1">
                             <div class="form-group">
-                                <label class="form-label">End Time:</label>
+                                <label class="form-label">@lang('labels.backend.schedule.end_time'):</label>
                                 <input id="course_end_time" type="time" class="form-control" placeholder="Pick end time"
                                     value="">
                             </div>
@@ -111,7 +111,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="" class="form-label">Courses</label>
+                    <label for="" class="form-label">@lang('labels.backend.schedule.courses')</label>
                     <select name="course" class="form-control form-label">
                         @foreach($courses as $course)
                         <option value="{{ $course->id }}" data-start="{{ $course->start_date }}"
@@ -124,28 +124,28 @@
                 </div>
 
                 <div class="form-group mb-0">
-                    <label for="" class="form-label">Detail:</label>
+                    <label for="" class="form-label">@lang('labels.backend.schedule.detail'):</label>
                     <div class="card mb-0">
                         <div class="card-body">
                             <div class="form-group form-inline">
-                                <label class="form-label">Timezone: </label>
+                                <label class="form-label">@lang('labels.backend.schedule.timezone'): </label>
                                 <select id="d_timezone" name="timezone" class="form-control"></select>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Start Date:</label>
+                                <label class="form-label">@lang('labels.backend.schedule.start_date'):</label>
                                 <span id="d_start" class="form-label text-muted">2020-07-06</span>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">End Date:</label>
+                                <label class="form-label">@lang('labels.backend.schedule.end_date'):</label>
                                 <span id="d_end" class="form-label text-muted">2020-10-06</span>
                             </div>
 
                             <div class="form-group mb-0">
-                                <label class="form-label">Repeat:</label>
+                                <label class="form-label">@lang('labels.backend.schedule.repeat'):</label>
                                 <span id="d_repeat_value" class="form-label text-muted">2</span>
-                                <span id="d_repeat_type" class="form-label text-muted">Weeks</span>
+                                <span id="d_repeat_type" class="form-label text-muted">@lang('labels.backend.schedule.week')</span>
                             </div>
 
                         </div>
@@ -156,8 +156,8 @@
 
             <div class="modal-footer">
                 <div class="form-group">
-                    <button class="btn btn-outline-primary btn-add-new">Add New</button>
-                    <button class="btn btn-outline-secondary" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-outline-primary btn-add-new">@lang('labels.backend.buttons.add_new')</button>
+                    <button class="btn btn-outline-secondary" data-dismiss="modal" aria-label="Close">@lang('labels.backend.buttons.cancel')</button>
                 </div>
             </div>
         </div>
@@ -169,7 +169,7 @@
     <div class="modal-dialog modal-dialog-centered" role="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Course: <span class="course-title"></span></h5>
+                <h5 class="modal-title">@lang('labels.backend.schedule.course'): <span class="course-title"></span></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -180,14 +180,14 @@
                     <div class="row">
                         <div class="col-md-6 pr-1">
                             <div class="form-group">
-                                <label class="form-label">Start Time:</label>
+                                <label class="form-label"> @lang('labels.backend.schedule.start_time'):</label>
                                 <input id="lesson_start_time" type="time" class="form-control"
                                     placeholder="Pick start time" value="">
                             </div>
                         </div>
                         <div class="col-md-6 pl-1">
                             <div class="form-group">
-                                <label class="form-label">End Time:</label>
+                                <label class="form-label">@lang('labels.backend.schedule.end_time'):</label>
                                 <input id="lesson_end_time" type="time" class="form-control" placeholder="Pick end time"
                                     value="">
                             </div>
@@ -196,21 +196,21 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="" class="form-label">Lessons</label>
+                    <label for="" class="form-label">@lang('labels.backend.schedule.lessons')</label>
                     <select name="lesson" class="form-control form-label"></select>
                 </div>
 
                 <div class="form-group mb-0">
-                    <label for="" class="form-label">Lesson Detail:</label>
+                    <label for="" class="form-label">@lang('labels.backend.schedule.lesson_detail'):</label>
                     <div class="card mb-0">
                         <div class="card-body">
                             <div class="form-group">
-                                <label class="form-label">Title: </label>
+                                <label class="form-label">@lang('labels.backend.schedule.lesson_detail_title'): </label>
                                 <span id="d_lesson_title" class="form-label text-muted"></span>
                             </div>
 
                             <div class="form-group mb-0">
-                                <label class="form-label">Description:</label>
+                                <label class="form-label">@lang('labels.backend.schedule.lesson_detail_description'):</label>
                                 <span id="d_lesson_description" class="form-label text-muted"></span>
                             </div>
                         </div>
@@ -220,9 +220,9 @@
 
             <div class="modal-footer">
                 <div class="form-group">
-                    <button class="btn btn-outline-primary btn-add-new">Assign Lesson</button>
-                    <button class="btn btn-outline-primary btn-lesson-update">Update Lesson</button>
-                    <button class="btn btn-outline-danger btn-delete">Remove Schedule</button>
+                    <button class="btn btn-outline-primary btn-add-new">@lang('labels.backend.schedule.assign_lesson')</button>
+                    <button class="btn btn-outline-primary btn-lesson-update">@lang('labels.backend.schedule.update_lesson')</button>
+                    <button class="btn btn-outline-danger btn-delete">@lang('labels.backend.schedule.remove_schedule')</button>
                 </div>
             </div>
         </div>
@@ -234,7 +234,7 @@
     <div class="modal-dialog modal-dialog-centered" role="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Update Condition: <span class="course-title"></span></h5>
+                <h5 class="modal-title">@lang('labels.backend.schedule.update_condition'): <span class="course-title"></span></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -245,11 +245,11 @@
                     <div class="p-3">
                         <div class="custom-control custom-radio mb-2">
                             <input id="update_this" name="update-cond" type="radio" class="custom-control-input" checked="">
-                            <label for="update_this" class="form-label custom-control-label">Update only this schedule.</label>
+                            <label for="update_this" class="form-label custom-control-label">@lang('labels.backend.schedule.update_this')</label>
                         </div>
                         <div class="custom-control custom-radio">
                             <input id="update_all" name="update-cond" type="radio" class="custom-control-input">
-                            <label for="update_all" class="form-label custom-control-label">Update whole schedule.</label>
+                            <label for="update_all" class="form-label custom-control-label">@lang('labels.backend.schedule.update_all')</label>
                         </div>
                     </div>
                 </div>
@@ -257,7 +257,7 @@
 
             <div class="modal-footer">
                 <div class="form-group">
-                    <button class="btn btn-outline-primary btn-update">Update</button>
+                    <button class="btn btn-outline-primary btn-update">@lang('labels.backend.buttons.update')</button>
                 </div>
             </div>
         </div>
@@ -334,7 +334,7 @@ $(document).ready(function() {
                     </div>`;
             if(info.event._def.extendedProps.lesson !== undefined) {
                 html += `<div class="fc-event-title-container">
-                            <div class="fc-event-desc fc-sticky">Lesson: ` + info.event._def.extendedProps.lesson + `</div>
+                            <div class="fc-event-desc fc-sticky">@lang('labels.backend.general.lesson'): ` + info.event._def.extendedProps.lesson + `</div>
                             <span class="badge badge-notifications badge-accent">Ready</span>
                         </div>`;               
             }
@@ -626,8 +626,6 @@ $(document).ready(function() {
 
         var diff_hours = utc_hours - utc_prev_hours;
         var diff_minutes = utc_minutes - utc_prev_minutes;
-
-        console.log(diff_hours);
 
         var new_hours = hours + diff_hours;
         var new_minutes = mins + diff_minutes;

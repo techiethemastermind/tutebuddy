@@ -506,7 +506,7 @@ $(document).ready(function() {
     // Init Quill Editor for Course description
     var course_quill = new Quill('#course_editor', {
         theme: 'snow',
-        placeholder: 'Course description',
+        placeholder: "@lang('labels.backend.courses.quil.course_description')",
         modules: {
             toolbar: toolbarOptions
         }
@@ -679,26 +679,26 @@ $(document).ready(function() {
                                             `+ ele_sep +`
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <label class="form-label mb-0">Full Text:</label>
+                                                    <label class="form-label mb-0">@lang('labels.backend.courses.step.full_text'):</label>
                                                     <button type="button" class="close">
                                                         <span aria-hidden="true">×</span>
                                                     </button>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
-                                                        <label class="form-label">Title:</label>
+                                                        <label class="form-label">@lang('labels.backend.courses.step.title'):</label>
                                                         <input type="text" class="form-control" name="lesson_description_title__` + lesson_step + `" 
-                                                            value="`+ item.title +`" placeholder="title for step">
+                                                            value="`+ item.title +`" placeholder="@lang('labels.backend.courses.step_title')">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="form-label">Content:</label>
+                                                        <label class="form-label">@lang('labels.backend.courses.step.content'):</label>
                                                         <div style="min-height: 200px;" id="lesson_editor__` + lesson_step + `" class="mb-0">`+ item.text +`</div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="form-label">Duration (minutes):</label>
+                                                        <label class="form-label">@lang('labels.backend.courses.step.duration_mins'):</label>
                                                         <input type="number" class="form-control" name="lesson_description_duration__` + lesson_step + `" 
                                                             value="`+ item.duration +`" placeholder="15">
-                                                        <small class="form-text text-muted">Time duration for this step</small>
+                                                        <small class="form-text text-muted">@lang('labels.backend.courses.step_duration')</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -713,31 +713,31 @@ $(document).ready(function() {
                                             `+ ele_sep +`
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <label class="form-label mb-0">Full Video:</label>
+                                                    <label class="form-label mb-0">@lang('labels.backend.courses.step.full_video'):</label>
                                                     <button type="button" class="close">
                                                         <span aria-hidden="true">×</span>
                                                     </button>
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
-                                                        <label class="form-label">Title:</label>
+                                                        <label class="form-label">@lang('labels.backend.courses.step.title'):</label>
                                                         <input type="text" class="form-control" name="lesson_video_title__` + lesson_step + `" 
-                                                            value="`+ item.title +`" placeholder="title for video step">
+                                                            value="`+ item.title +`" placeholder="@lang('labels.backend.courses.step.video_title')">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="form-label">Video:</label>
+                                                        <label class="form-label">@lang('labels.backend.courses.step.video'):</label>
                                                         <div class="embed-responsive embed-responsive-16by9 mb-2">
                                                             ` + ifrm_video + `
                                                         </div>
-                                                        <label class="form-label">URL</label>
+                                                        <label class="form-label">@lang('labels.backend.courses.step.url')</label>
                                                         <input type="text" class="form-control step-video" name="lesson_video__`+ lesson_step +`" value="" placeholder="Enter Video URL">
-                                                        <small class="form-text text-muted">Enter a valid video URL.</small>
+                                                        <small class="form-text text-muted">@lang('labels.backend.courses.step.url_note')</small>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="form-label">Duration (minutes):</label>
+                                                        <label class="form-label">@lang('labels.backend.courses.step.duration_mins'):</label>
                                                         <input type="number" class="form-control" name="lesson_video_duration__` + lesson_step + `" 
                                                             value="`+ item.duration +`" placeholder="15">
-                                                        <small class="form-text text-muted">Time duration for this step</small>
+                                                        <small class="form-text text-muted">@lang('labels.backend.courses.step_duration')</small>
                                                     </div>
                                                 </div>
                                             </div>
@@ -811,27 +811,27 @@ $(document).ready(function() {
                             `+ ele_sep +`
                             <div class="card">
                                 <div class="card-header">
-                                    <label class="form-label mb-0">Full Text:</label>
+                                    <label class="form-label mb-0">@lang('labels.backend.courses.step.full_text'):</label>
                                     <button type="button" class="close">
                                         <span aria-hidden="true">×</span>
                                     </button>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label class="form-label">Title:</label>
+                                        <label class="form-label">@lang('labels.backend.courses.step.title'):</label>
                                         <input type="text" class="form-control" name="lesson_description_title__` + lesson_step + `" 
-                                            value="" placeholder="title for step">
+                                            value="" placeholder="@lang('labels.backend.courses.step_title')">
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Content:</label>
+                                        <label class="form-label">@lang('labels.backend.courses.step.content'):</label>
                                         <div style="min-height: 200px;" id="lesson_editor__` + lesson_step + `" class="mb-0"></div>
                                         <textarea name="lesson_description__` + lesson_step + `" style="display: none;"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Duration (minutes):</label>
+                                        <label class="form-label">@lang('labels.backend.courses.step.duration_mins'):</label>
                                         <input type="number" class="form-control" name="lesson_description_duration__` + lesson_step + `" 
                                             value="15" placeholder="15">
-                                        <small class="form-text text-muted">Time duration for this step</small>
+                                        <small class="form-text text-muted">@lang('labels.backend.courses.step_duration')</small>
                                     </div>
                                 </div>
                             </div>
@@ -841,19 +841,19 @@ $(document).ready(function() {
                             `+ ele_sep +`
                             <div class="card">
                                 <div class="card-header">
-                                    <label class="form-label mb-0">Full Video:</label>
+                                    <label class="form-label mb-0">@lang('labels.backend.courses.step.full_video'):</label>
                                     <button type="button" class="close">
                                         <span aria-hidden="true">×</span>
                                     </button>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label class="form-label">Title:</label>
+                                        <label class="form-label">@lang('labels.backend.courses.step.title'):</label>
                                         <input type="text" class="form-control" name="lesson_video_title__` + lesson_step + `" 
-                                            value="" placeholder="title for video step">
+                                            value="" placeholder="@lang('labels.backend.courses.step.video_title')">
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Video:</label>
+                                        <label class="form-label">@lang('labels.backend.courses.step.video'):</label>
                                         <div class="embed-responsive embed-responsive-16by9 mb-2">
                                             <iframe class="embed-responsive-item no-video lesson-video" src="" allowfullscreen=""></iframe>
                                         </div>
@@ -862,10 +862,10 @@ $(document).ready(function() {
                                         <small class="form-text text-muted">Enter a valid video URL.</small>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Duration (minutes):</label>
+                                        <label class="form-label">@lang('labels.backend.courses.step.duration_mins'):</label>
                                         <input type="number" class="form-control" name="lesson_video_duration__` + lesson_step + `" 
                                             value="15" placeholder="15">
-                                        <small class="form-text text-muted">Time duration for this step</small>
+                                        <small class="form-text text-muted">@lang('labels.backend.courses.step_duration')</small>
                                     </div>
                                 </div>
                             </div>

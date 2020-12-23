@@ -33,19 +33,19 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Edit quiz</h2>
+                    <h2 class="mb-0">@lang('labels.backend.quiz.edit')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+                            <a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a>
                         </li>
 
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.quizs.index') }}">quizs</a>
+                            <a href="{{ route('admin.quizs.index') }}">@lang('labels.backend.quizzes.title')</a>
                         </li>
 
                         <li class="breadcrumb-item active">
-                            Edit quiz
+                            @lang('labels.backend.quiz.edit')
                         </li>
                     </ol>
                 </div>
@@ -70,11 +70,11 @@
                 <!-- Left Side -->
                 <div class="col-md-8">
                     <div class="page-separator">
-                        <div class="page-separator__text">Edit a quiz</div>
+                        <div class="page-separator__text">@lang('labels.backend.quiz.edit_quiz')</div>
                     </div>
 
                     <!-- Quiz Title -->
-                    <label class="form-label">Title</label>
+                    <label class="form-label">@lang('labels.backend.quiz.title')</label>
                     <div class="form-group mb-24pt">
                         <input type="text" name="title"
                             class="form-control form-control-lg @error('title') is-invalid @enderror"
@@ -85,11 +85,12 @@
                     </div>
 
                     <!-- Quiz Description -->
-                    <label class="form-label">Description</label>
+                    <label class="form-label">@lang('labels.backend.quiz.description')</label>
                     <div class="form-group mb-24pt">
                         <textarea name="short_description" class="form-control" cols="100%" rows="3"
-                            placeholder="Short description">{{ $quiz->description }}</textarea>
-                        <small class="form-text text-muted">Shortly describe this quiz. It will show under title</small>
+                            placeholder="@lang('labels.backend.quiz.description_placeholder')">{{ $quiz->description }}</textarea>
+                        <small class="form-text text-muted">
+                            @lang('labels.backend.quiz.description_note')</small>
                     </div>
 
                     <!-- Questions Area -->
@@ -110,8 +111,12 @@
                                             <h5 class="badge badge-pill font-size-16pt badge-accent">{{ $group->score }}</h4>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-outline-primary ml-16pt btn-edit" data-id="{{ $group->id }}">Edit</button>
-                                    <button type="button" class="btn btn-outline-primary ml-16pt btn-question" data-id="{{ $group->id }}">Add Quesion</button>
+                                    <button type="button" class="btn btn-outline-primary ml-16pt btn-edit" data-id="{{ $group->id }}">
+                                        @lang('labels.backend.buttons.edit')
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary ml-16pt btn-question" data-id="{{ $group->id }}">
+                                        @lang('labels.backend.quiz.add_question')
+                                    </button>
                                 </div>
 
                                 @if($group->questions->count() > 0)
@@ -128,12 +133,12 @@
                                             <div class="text-right">
                                                 <div class="chip chip-outline-secondary">
                                                     @if($question->type == 0)
-                                                        Single Answer
+                                                        @lang('labels.backend.quiz.single_answer')
                                                     @else
-                                                        Multi Answer
+                                                        @lang('labels.backend.quiz.multi_answer')
                                                     @endif
                                                 </div>
-                                                <div class="chip chip-outline-secondary">Score: {{ $question->score }}</div>
+                                                <div class="chip chip-outline-secondary">@lang('labels.backend.quiz.score'): {{ $question->score }}</div>
                                             </div>
 
                                             <div class="options-wrap">
@@ -161,7 +166,7 @@
                                                         @foreach($question->options as $option)
                                                             @if($option->correct == 1)
                                                             <input type="text" class="form-control form-control-flush font-size-16pt text-70 border-bottom-1 inline pl-8pt" 
-                                                            style="width: fit-content; display: inline; border-color: #333;" placeholder="Add Correct Word"
+                                                            style="width: fit-content; display: inline; border-color: #333;" placeholder="@lang('labels.backend.quiz.add_correct_word')"
                                                             value="">
                                                             @else
                                                             <label class="text-70 font-size-16pt">{{ $option->option_text }}</label>
@@ -182,9 +187,11 @@
                                                     $update_route = route('admin.questions.update', $question->id);
                                                     $delete_route = route('admin.questions.delete', $question->id);
                                                 ?>
-                                                <a href="{{ $edit_route }}" data-update="{{ $update_route }}" class="dropdown-item question-edit">Edit Question</a>
+                                                <a href="{{ $edit_route }}" data-update="{{ $update_route }}" class="dropdown-item question-edit">
+                                                    @lang('labels.backend.quiz.edit_question')</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a href="{{ $delete_route }}" class="dropdown-item text-danger question-delete">Delete Question</a>
+                                                <a href="{{ $delete_route }}" class="dropdown-item text-danger question-delete">
+                                                    @lang('labels.backend.quiz.delete_question')</a>
                                             </div>
                                         </div>
                                     </li>
@@ -197,7 +204,8 @@
                         </div>
                         @endif
                     </div>
-                    <button type="button" id="btn_new_section" class="btn btn-block btn-outline-primary">Add Section</button>
+                    <button type="button" id="btn_new_section" class="btn btn-block btn-outline-primary">
+                        @lang('labels.backend.quiz.buttons.add_section')</button>
                 </div>
 
                 <!-- Right Side -->
@@ -205,22 +213,22 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" id="btn_quiz_save" class="btn btn-accent">Save Draft</button>
-                            <button type="submit" id="btn_quiz_publish" class="btn btn-primary">Publish</button>
+                            <button type="submit" id="btn_quiz_save" class="btn btn-accent">@lang('labels.backend.buttons.save_draft')</button>
+                            <button type="submit" id="btn_quiz_publish" class="btn btn-primary">@lang('labels.backend.buttons.publish')</button>
                             <a href="{{ route('student.quiz.show', [$quiz->lesson->slug, $quiz->id]) }}" 
-                                class="btn btn-info">Preview</a>
+                                class="btn btn-info">@lang('labels.backend.buttons.preview')</a>
                         </div>
                         <div class="list-group list-group-flush">
                             @if($quiz->published == 0)
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Save Draft</strong></a>
+                                <a class="flex" href="javascript:void(0)"><strong>@lang('labels.backend.buttons.save_draft')</strong></a>
                                 <i class="material-icons text-muted draft">check</i>
                             </div>
                             @endif
 
                             @if($quiz->published == 1)
                             <div class="list-group-item d-flex">
-                                <a class="flex" href="javascript:void(0)"><strong>Publish</strong></a>
+                                <a class="flex" href="javascript:void(0)"><strong>@lang('labels.backend.buttons.publish')</strong></a>
                                 <i class="material-icons text-muted publish">check</i>
                             </div>
                             @endif
@@ -228,14 +236,14 @@
                     </div>
 
                     <div class="page-separator">
-                        <div class="page-separator__text">Options</div>
+                        <div class="page-separator__text">@lang('labels.backend.sidebar.options')</div>
                     </div>
                     <div class="card">
                         <div class="card-body">
 
                             <!-- Set Course -->
                             <div class="form-group">
-                                <label class="form-label">Course</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.course')</label>
                                 <div class="form-group mb-0">
                                     <select name="course_id" class="form-control custom-select @error('course') is-invalid @enderror">
                                         @foreach($courses as $course)
@@ -248,19 +256,19 @@
                                     <div class="invalid-feedback">Course is required.</div>
                                     @enderror
                                 </div>
-                                <small class="form-text text-muted">Select a course.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.select_course')</small>
                             </div>
 
                             <!-- Set Lesson -->
                             <div class="form-group">
-                                <label class="form-label">Lessons</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.lessons')</label>
                                 <select name="lesson_id" class="form-control"></select>
-                                <small class="form-text text-muted">Select a lesson.</small>
+                                <small class="form-text text-muted">@lang('labels.backend.sidebar.select_lesson')</small>
                             </div>
 
                             <!-- Duration -->
                             <div class="form-group">
-                                <label class="form-label">Duration</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.duration')</label>
                                 <?php
                                     $hours = (int)((int)$quiz->duration / 60);
                                     $mins = (int)$quiz->duration % 60;
@@ -268,42 +276,42 @@
                                 <div class="row">
                                     <div class="col">
                                         <input type="number" name="duration_hours" class="form-control" min="1" placeholder="Hours" value="{{ $hours }}">
-                                        <small class="text-muted text-right">Hours</small>
+                                        <small class="text-muted text-right">@lang('labels.backend.sidebar.hours')</small>
                                     </div>
                                     <div class="col">
                                         <input type="number" name="duration_mins" class="form-control" min="1" placeholder="Mins" value="{{ $mins }}" tute-no-empty>
-                                        <small class="text-muted text-right">Minutes</small>
+                                        <small class="text-muted text-right">@lang('labels.backend.sidebar.mins')</small>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Total Marks -->
                             <div class="form-group">
-                                <label class="form-label">Total Marks</label>
-                                <input type="number" name="score" class="form-control" placeholder="Total Marks" min="1" value="{{ $quiz->score }}">
+                                <label class="form-label">Total Marks @lang('labels.backend.sidebar.quiz.total_marks')</label>
+                                <input type="number" name="score" class="form-control" placeholder="@lang('labels.backend.sidebar.quiz.total_marks_placeholder')" min="1" value="{{ $quiz->score }}">
                             </div>
 
                             <!-- Quiz Process -->
                             <div class="form-group">
-                                <label class="form-label">Take Quiz</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.quiz.take_quiz')</label>
                                 <div class="custom-control custom-checkbox">
                                     <input id="take_quiz" name="take_type" type="checkbox" class="custom-control-input" value="1">
-                                    <label for="take_quiz" class="custom-control-label">Allow Quiz to be paused and resumed</label>
+                                    <label for="take_quiz" class="custom-control-label">@lang('labels.backend.sidebar.quiz.take_quiz_description')</label>
                                 </div>
-                                <small class="text-muted text-right">Checked: Allow, Unchecked: Disallow </small>
+                                <small class="text-muted text-right">@lang('labels.backend.sidebar.quiz.take_quiz_note')</small>
                             </div>
 
                             <!-- Quiz Type -->
                             <div class="form-group">
-                                <label class="form-label">Quiz Type</label>
+                                <label class="form-label">@lang('labels.backend.sidebar.quiz.quiz_type')</label>
                                 <div class="custom-controls-stacked">
                                     <div class="custom-control custom-radio py-2">
                                         <input id="q_type_1" name="type" type="radio" class="custom-control-input" @if($quiz->type == 1) checked="true" @endif value="1">
-                                        <label for="q_type_1" class="custom-control-label">Take at any time</label>
+                                        <label for="q_type_1" class="custom-control-label">@lang('labels.backend.sidebar.quiz.take_any_time')</label>
                                     </div>
                                     <div class="custom-control custom-radio py-2">
                                         <input id="q_type_2" name="type" type="radio" class="custom-control-input" @if($quiz->type == 2) checked="true" @endif value="2">
-                                        <label for="q_type_2" class="custom-control-label">Take at fixed time</label>
+                                        <label for="q_type_2" class="custom-control-label">@lang('labels.backend.sidebar.quiz.take_fix_time')</label>
                                     </div>
                                 </div>
                             </div>
@@ -312,16 +320,16 @@
                                 <hr>
                                 <!-- Quiz Data -->
                                 <div class="form-group">
-                                    <label class="form-label">Quiz Date</label>
+                                    <label class="form-label">@lang('labels.backend.sidebar.quiz.quiz_date')</label>
                                     <input name="start_date" type="text" class="form-control" data-toggle="flatpickr" data-flatpickr-enable-time="true" 
                                     data-flatpickr-alt-format="F j, Y at H:i" data-flatpickr-date-format="Y-m-d H:i" value="{{ $quiz->start_date }}">
                                 </div>
 
                                 <!-- Timezone -->
                                 <div class="form-group">
-                                    <label class="form-label">Timezone</label>
+                                    <label class="form-label">@lang('labels.backend.sidebar.timezone')</label>
                                     <select name="timezone" class="form-control"></select>
-                                    <small class="form-text text-muted">Select timezone</small>
+                                    <small class="form-text text-muted">@lang('labels.backend.sidebar.select_timezone')</small>
                                 </div>
                             </div>
                         </div>
@@ -344,7 +352,7 @@
             {!! Form::open(['method' => 'POST', 'route' => ['admin.questions.addsection'], 'files' => true, 'id' =>'frm_section']) !!}
 
             <div class="modal-header">
-                <h5 class="modal-title">New Section</h5>
+                <h5 class="modal-title">@lang('labels.backend.quiz.modal.new_section')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -353,19 +361,19 @@
             <div class="modal-body">
 
                 <div class="form-group">
-                    <label class="form-label">Title *</label>
-                    <input type="text" name="section_title" class="form-control" placeholder="Section Title" required>
+                    <label class="form-label">@lang('labels.backend.quiz.modal.section_title') *</label>
+                    <input type="text" name="section_title" class="form-control" placeholder="@lang('labels.backend.quiz.modal.section_title_placeholder')" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Section Marks</label>
-                    <input type="number" name="section_marks" class="form-control" placeholder="Marks for Section">
+                    <label class="form-label">@lang('labels.backend.quiz.modal.section_marks')</label>
+                    <input type="number" name="section_marks" class="form-control" placeholder="@lang('labels.backend.quiz.modal.section_marks_placeholder')">
                 </div>
 
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+                <button type="submit" class="btn btn-outline-secondary">@lang('labels.backend.quiz.buttons.save_changes')</button>
             </div>
 
             {!! Form::close() !!}
@@ -381,7 +389,7 @@
             {!! Form::open(['method' => 'POST', 'route' => ['admin.questions.store'], 'files' => true, 'id' =>'frm_question']) !!}
 
             <div class="modal-header">
-                <h5 class="modal-title">New Question</h5>
+                <h5 class="modal-title">@lang('labels.backend.quiz.modal.new_question')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -390,24 +398,24 @@
             <div class="modal-body">
 
                 <div class="form-group">
-                    <label class="form-label">Question Type</label>
+                    <label class="form-label">@lang('labels.backend.quiz.modal.question_type')</label>
                     <select name="type" class="form-control custom-select">
-                        <option value="0">Single Answer</option>
-                        <option value="1">Multiple Answer</option>
-                        <option value="2">Fill in Blanks</option>
+                        <option value="0">@lang('labels.backend.quiz.modal.single_answer')</option>
+                        <option value="1">@lang('labels.backend.quiz.modal.multi_answer')</option>
+                        <option value="2">@lang('labels.backend.quiz.modal.fill_blank')</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Question</label>
-                    <textarea class="form-control" name="question" rows="3" placeholder="Question"></textarea>
+                    <label class="form-label">@lang('labels.backend.quiz.modal.question')</label>
+                    <textarea class="form-control" name="question" rows="3" placeholder="@lang('labels.backend.quiz.modal.question_placeholder')"></textarea>
                 </div>
 
                 <div id="options" class="options form-group">
                     <div class="wrap wrap-signle-answer border-1 p-3">
                         <div class="form-inline mb-16pt d-flex">
                             <div class="flex">
-                                <label class="form-label option-label">Add Options: </label>
+                                <label class="form-label option-label">@lang('labels.backend.quiz.modal.add_options'): </label>
                             </div>
                             <button id="btn_addOptions" class="btn btn-md btn-outline-secondary" type="button">+</button>
                         </div>
@@ -430,13 +438,13 @@
                 </div>
                 
                 <div class="form-group">
-                    <label class="form-label">Completion Points</label>
+                    <label class="form-label">@lang('labels.backend.quiz.modal.completion_points')</label>
                     <input name="score" type="text" class="form-control" value="1">
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+                <button type="submit" class="btn btn-outline-secondary">@lang('labels.backend.general.save_changes')</button>
             </div>
 
             {!! Form::close() !!}
@@ -478,7 +486,7 @@ $(function() {
                     <input id="option_s" name="option_single" type="radio" class="custom-control-input" value="0">
                     <label for="option_s" class="custom-control-label">&nbsp;</label>
                 </div>
-                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Single Option Text">
+                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="@lang('labels.backend.quiz.template.single_text')">
             </div>
             <div class="col-2 text-right">
                 <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
@@ -491,7 +499,7 @@ $(function() {
                     <input id="option_m" name="option_multi[]" type="checkbox" class="custom-control-input" value="0">
                     <label for="option_m" class="custom-control-label">&nbsp;</label>
                 </div>
-                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Multi Option Text">
+                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="@lang('labels.backend.quiz.template.multi_text')">
             </div>
             <div class="col-2 text-right">
                 <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>
@@ -504,7 +512,7 @@ $(function() {
                     <input id="option_f" name="option_fill[]" type="checkbox" class="custom-control-input" value="0">
                     <label for="option_f" class="custom-control-label">&nbsp;</label>
                 </div>
-                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="Text for Blank">
+                <input type="text" name="option_text[]" class="form-control" style="width: 90%" placeholder="@lang('labels.backend.quiz.template.blank_text')">
             </div>
             <div class="col-2 text-right">
                 <button class="btn btn-md btn-outline-secondary remove" type="button">-</button>

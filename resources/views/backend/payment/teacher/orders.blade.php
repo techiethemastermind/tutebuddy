@@ -18,13 +18,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Sales</h2>
+                    <h2 class="mb-0">@lang('labels.backend.payment.sales.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Sales
+                            @lang('labels.backend.payment.sales.title')
                         </li>
 
                     </ol>
@@ -37,7 +37,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">Account Balance</div>
+            <div class="page-separator__text">@lang('labels.backend.payment.sales.account_balance')</div>
         </div>
 
         <div class="row mb-32pt">
@@ -45,7 +45,7 @@
                 <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
                     <div class="card-body">
                         <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($earned_this_month, 2) }}</h4>
-                        <div>Earnings this month</div>
+                        <div>@lang('labels.backend.payment.sales.earning_this_month')</div>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                 <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
                     <div class="card-body">
                         <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
-                        <div>Account Balance</div>
+                        <div>@lang('labels.backend.payment.sales.account_balance')</div>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                 <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
                     <div class="card-body">
                         <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total, 2) }}</h4>
-                        <div>Total Sales</div>
+                        <div>@lang('labels.backend.payment.sales.total_sales')</div>
                     </div>
                 </div>
             </div>
@@ -71,27 +71,27 @@
             <div class="card-body">
                 <div class="row text-center">
                     <div class="col-md-3">
-                        <label for="">Account Balance</label>
+                        <label for="">@lang('labels.backend.payment.sales.account_balance')</label>
                         <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
                     </div>
                     <div class="col-md-3">
-                        <label for="">Account Fee (20%)</label>
+                        <label for="">@lang('labels.backend.payment.sales.account_fee') (20%)</label>
                         <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance * 0.2, 2) }}</h4>
                     </div>
                     <div class="col-md-3">
-                        <label for="">Available to Withdraw</label>
+                        <label for="">@lang('labels.backend.payment.sales.available_to_withdraw')</label>
                         <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance - ($balance * 0.2), 2) }}</h4>
                     </div>
                     <div class="col-md-3">
                         <label for=""></label>
-                        <p><button id="btn_withdraw" class="btn btn-md btn-primary">Withdraw</button></p>
+                        <p><button id="btn_withdraw" class="btn btn-md btn-primary">@lang('labels.backend.payment.withdraw')</button></p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="page-separator">
-            <div class="page-separator__text">My Sales</div>
+            <div class="page-separator__text">@lang('labels.backend.payment.sales.my_sales')</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -101,14 +101,14 @@
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
                             <th>
-                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-order">Order</a>
+                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-order">@lang('labels.backend.payment.table.order')</a>
                             </th>
                             <th>
-                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">Date</a>
+                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">@lang('labels.backend.table.date')</a>
                             </th>
-                            <th> Customer </th>
-                            <th> Total </th>
-                            <th> Action </th>
+                            <th> @lang('labels.backend.payment.table.customer') </th>
+                            <th> @lang('labels.backend.payment.table.total') </th>
+                            <th> @lang('labels.backend.table.actions') </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle">
@@ -201,7 +201,7 @@
         <div class="modal-content">
             <form id="frm_withdraw" action="">
                 <div class="modal-header">
-                    <h5 class="modal-title">Withdraw Money</h5>
+                    <h5 class="modal-title">@lang('labels.backend.payment.sales.withdraw_money')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -211,18 +211,18 @@
                     <div class="form-group mb-0">
                         <div class="p-3">
                             <div class="form-group text-center mb-32pt">
-                                <label class="form-label">Available to Withdraw</label>
+                                <label class="form-label">@lang('labels.backend.payment.sales.available_to_withdraw')</label>
                                 <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance - ($balance * 0.2), 2) }}</h4>
                             </div>
                             <div class="form-group">                                
                                 <div class="controls form-inline">
-                                    <label for="" class="form-label col-lg-3 text-left">Amount: </label>
+                                    <label for="" class="form-label col-lg-3 text-left">@lang('labels.backend.payment.sales.amount'): </label>
                                     <input id="amount" type="number" class="form-control" placeholder="100" min="1" tute-no-empty>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="controls form-inline">
-                                    <label for="" class="form-label col-lg-3 text-left">Currency: </label>
+                                    <label for="" class="form-label col-lg-3 text-left">@lang('labels.backend.payment.sales.currency'): </label>
                                     <select class="form-control col-lg-8" id="currency" name="currency">
                                         @foreach(config('currencies') as $currency)
                                         <option @if(config('app.currency')==$currency['short_code']) selected @endif

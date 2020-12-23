@@ -19,13 +19,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Students</h2>
+                    <h2 class="mb-0">@lang('labels.backend.my_students.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Students
+                            @lang('labels.backend.my_students.title')
                         </li>
 
                     </ol>
@@ -39,18 +39,18 @@
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
             <div class="card-header">
-                <span class="page-separator__text bg-white mb-0"><strong>My Students</strong></span>
+                <span class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.my_students.title')</strong></span>
             </div>
             <div class="table-responsive" data-toggle="lists">
                 <table id="tbl_students" class="table mb-0 thead-border-top-0 table-nowrap border-bottom-2">
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th>Name</th>
-                            <th>Course</th>
-                            <th>Start date</th>
-                            <th>End date</th>
-                            <th>Status</th>
+                            <th>@lang('labels.backend.table.name')</th>
+                            <th>@lang('labels.backend.table.course')</th>
+                            <th>@lang('labels.backend.table.start_date')</th>
+                            <th>@lang('labels.backend.table.end_date')</th>
+                            <th>@lang('labels.backend.table.status')</th>
                         </tr>
                     </thead>
                     <tbody class="list"></tbody>

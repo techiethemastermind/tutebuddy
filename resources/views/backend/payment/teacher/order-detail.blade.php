@@ -11,13 +11,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Order Detail</h2>
+                    <h2 class="mb-0">@lang('labels.backend.payment.order_detail.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            Order Detail
+                            @lang('labels.backend.payment.order_detail.title')
                         </li>
 
                     </ol>
@@ -31,13 +31,14 @@
         <div class="row mb-32pt">
             <div class="col-6">
                 <div class="page-separator">
-                    <div class="page-separator__text">Payment Information</div>
+                    <div class="page-separator__text">@lang('labels.backend.payment.order_detail.payment_detail')</div>
                 </div>
 
                 <div class="list-group list-group-form">
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Order Id: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.order_id'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ $order->uuid }}</strong>
                             </div>
@@ -45,7 +46,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Payment Date: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.payment_date'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ \Carbon\Carbon::parse($order->created_at)->format('M d Y h:i A') }}</strong>
                             </div>
@@ -53,7 +55,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Order Amount: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.amount'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong class="text-capitalize">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</strong>
                             </div>
@@ -61,7 +64,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Payment Status: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.payment.order_detail.payment_status'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong class="text-capitalize">{{ $order->status }}</strong>
                             </div>
@@ -72,13 +76,14 @@
             
             <div class="col-6">
                 <div class="page-separator">
-                    <div class="page-separator__text">Customer</div>
+                    <div class="page-separator__text">@lang('labels.backend.payment.order_detail.customer')</div>
                 </div>
 
                 <div class="list-group list-group-form">
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Name: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.general.name'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ $order->user->name }}</strong>
                             </div>
@@ -86,7 +91,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Email: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.general.email'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ $order->user->email }}</strong>
                             </div>
@@ -94,7 +100,8 @@
                     </div>
                     <div class="list-group-item">
                         <div class="form-row align-items-center">
-                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">Phone Number: </label>
+                            <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
+                            @lang('labels.backend.general.phone_number'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
                                 <strong>{{ $order->user->phone_number }}</strong>
                             </div>
@@ -113,7 +120,7 @@
         </div>
 
         <div class="page-separator">
-            <div class="page-separator__text">Course Details</div>
+            <div class="page-separator__text">@lang('labels.backend.payment.order_detail.course_details')</div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
@@ -122,10 +129,10 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th> Course </th>
-                            <th> Price </th>
-                            <th> End Date </th>
-                            <th> Payment Status </th>
+                            <th> @lang('labels.backend.table.course') </th>
+                            <th> @lang('labels.backend.table.price') </th>
+                            <th> @lang('labels.backend.table.end_date') </th>
+                            <th> @lang('labels.backend.payment.table.payment_status') </th>
                             <th>  </th>
                         </tr>
                     </thead>
@@ -166,26 +173,26 @@
                                     <small class="js-lists-values-budget">
                                         <strong>{{ getCurrency(config('app.currency'))['symbol'] . $item->price }}</strong>
                                     </small>
-                                    <small class="text-50">Completed</small>
+                                    <small class="text-50">@lang('labels.backend.payment.order_detail.completed')</small>
                                 </div>
                             </td>
                             <td><strong>{{ \Carbon\Carbon::parse($item->course->end_date)->format('M d Y') }}</strong></td>
                             <td>
                                 @if($completed)
                                 <div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">Completed</small>
+                                    <small class="js-lists-values-status text-50 mb-4pt">@lang('labels.backend.payment.order_detail.completed')</small>
                                     <span class="indicator-line rounded bg-primary"></span>
                                 </div>
                                 @else
                                 <div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">Progressing</small>
+                                    <small class="js-lists-values-status text-50 mb-4pt">@lang('labels.backend.payment.order_detail.progressing')</small>
                                     <span class="indicator-line rounded bg-info"></span>
                                 </div>
                                 @endif
                             </td>
                             <td>
                                 @if(!$completed)
-                                <a href="" class="btn btn-sm btn-accent">Refund</a>
+                                <a href="" class="btn btn-sm btn-accent">@lang('labels.backend.payment.order_detail.refund')</a>
                                 @endif
                             </td>
                         </tr>

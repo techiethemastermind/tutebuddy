@@ -189,6 +189,9 @@ return array (
       'save' => 'Save',
       'enroll' => 'Enroll',
       'enrolled' => 'Enrolled',
+      'edit' => 'Edit',
+      'cancel' => 'Cancel',
+      'update' => 'Update',
     ),
     'courses' => 
     array (
@@ -221,6 +224,24 @@ return array (
       'pending' => 'Pending to Review',
       'published' => 'Accepted Courses',
       'achieved' => 'Deleted Courses',
+      'quil' => 
+      array (
+        'course_description' => 'Course description',
+      ),
+      'step_title' => 'title for step',
+      'step_duration' => 'Time duration for this step',
+      'step' => 
+      array (
+        'full_text' => 'Full Text',
+        'title' => 'Title',
+        'content' => 'Content',
+        'duration_mins' => 'Duration (minutes)',
+        'full_video' => 'Full Video',
+        'video_title' => 'title for video step',
+        'video' => 'Video',
+        'url' => 'URL',
+        'url_note' => 'Enter a valid video URL.',
+      ),
     ),
     'table' => 
     array (
@@ -259,6 +280,8 @@ return array (
       'student' => 'Student',
       'attachment' => 'Attachment',
       'lesson' => 'Lesson',
+      'end_date' => 'End Date',
+      'start_date' => 'Start Date',
     ),
     'lessons' => 
     array (
@@ -272,6 +295,7 @@ return array (
         'all' => 'All Scheduled Lessons',
         'scheduled_title' => 'Today Scheduled',
         'scheduled_description' => 'Today Scheduled Live Lessons',
+        'no_result' => 'You have no live lessons',
       ),
     ),
     'paths' => 
@@ -387,6 +411,13 @@ return array (
       'category' => 'Category',
       'level' => 'Level',
       'draft' => 'Draft',
+      'phone_number' => 'Phone Number',
+      'email' => 'Email',
+      'name' => 'name',
+      'read_more' => 'Read More',
+      'completed' => 'Completed',
+      'in_progressing' => 'In Progressing',
+      'detail' => 'Detail',
     ),
     'my_quizzes' => 
     array (
@@ -548,6 +579,11 @@ return array (
       array (
         'order_id' => 'Order Id',
         'amount' => 'Amount',
+        'order' => 'Order',
+        'customer' => 'Customer',
+        'total' => 'Total',
+        'transaction_id' => 'Transaction ID',
+        'payment_status' => 'Payment Status',
       ),
       'order_detail' => 
       array (
@@ -565,6 +601,30 @@ return array (
         'order_items' => 'Order Items',
         'refund_money' => 'Refund Money',
         'reason' => 'Reason',
+        'payment_status' => 'Payment Status',
+        'customer' => 'Customer',
+        'course_details' => 'Course Details',
+        'completed' => 'Completed',
+        'progressing' => 'Progressing',
+      ),
+      'sales' => 
+      array (
+        'title' => 'Sales',
+        'account_balance' => 'Account Balance',
+        'earning_this_month' => 'Earnings this month',
+        'total_sales' => 'Total Sales',
+        'account_fee' => 'Account Fee',
+        'available_to_withdraw' => 'Available to Withdraw',
+        'my_sales' => 'My Sales',
+        'withdraw_money' => 'Withdraw Money',
+        'amount' => 'Amount',
+        'currency' => 'Currency',
+      ),
+      'withdraw' => 'Withdraw',
+      'transactions' => 
+      array (
+        'title' => 'My Transactions',
+        'no_results' => 'No Transactions',
       ),
     ),
     'genearl' => 
@@ -615,6 +675,25 @@ return array (
       'week' => 'Week',
       'month' => 'Month',
       'download_file' => 'Download File',
+      'course' => 'Course',
+      'select_course' => 'Select a Course',
+      'lessons' => 'Lessons',
+      'select_lesson' => 'Select a Lesson',
+      'duration' => 'Duration',
+      'hours' => 'Hours',
+      'mins' => 'Mins',
+      'quiz' => 
+      array (
+        'total_marks' => 'Total Marks',
+        'total_marks_placeholder' => 'Total Marks',
+        'take_quiz' => 'Take Quiz',
+        'take_quiz_description' => 'Allow Quiz to be paused and resumed',
+        'take_quiz_note' => 'Checked: Allow, Unchecked: Disallow',
+        'quiz_type' => 'Quiz Type',
+        'take_any_time' => 'Take at any time',
+        'take_fix_time' => 'Take at fixed time',
+        'quiz_date' => 'Quiz Date',
+      ),
     ),
     'lesson' => 
     array (
@@ -626,6 +705,123 @@ return array (
       'add_step' => 'Add Step',
       'video_section' => 'Video Section',
       'text_section' => 'Full Text Section',
+    ),
+    'quiz' => 
+    array (
+      'create' => 'Create a Quiz',
+      'fields' => 
+      array (
+        'title' => 'Title',
+        'title_placeholder' => 'Quiz Title',
+        'description' => 'Description',
+        'description_placeholder' => 'Short Description',
+        'description_note' => 'Shortly describe this quiz. It will show under title',
+      ),
+      'buttons' => 
+      array (
+        'add_section' => 'Add Section',
+        'save_changes' => 'Save Changes',
+      ),
+      'modal' => 
+      array (
+        'new_section' => 'New Section',
+        'section_title' => 'Title',
+        'section_title_placeholder' => 'Section Title',
+        'section_marks' => 'Section Marks',
+        'section_marks_placeholder' => 'Marks for Section',
+        'new_question' => 'New Question',
+        'question_type' => 'Question Type',
+        'single_answer' => 'Single Answer',
+        'multi_answer' => 'Multiple Answer',
+        'fill_blank' => 'Fill in Blanks',
+        'question' => 'Question',
+        'question_placeholder' => 'Question',
+        'add_options' => 'Add Options',
+        'completion_points' => 'Completion Points',
+      ),
+      'template' => 
+      array (
+        'single_text' => 'Single Option Text',
+        'multi_text' => 'Multi Option Text',
+        'blank_text' => 'Text for Blank',
+      ),
+      'edit' => 'Edit quiz',
+      'edit_quiz' => 'Edit a quiz',
+      'title' => 'Title',
+      'description' => 'Description',
+      'description_placeholder' => 'Short Description',
+      'description_note' => 'Shortly describe this quiz. It will show under title',
+      'add_question' => 'Add Question',
+      'single_answer' => 'Single Answer',
+      'multi_answer' => 'Multi Answer',
+      'score' => 'Score',
+      'add_correct_word' => 'Add Correct Word',
+      'edit_question' => 'Edit Question',
+      'delete_question' => 'Delete Question',
+      'questions' => 'Questions',
+    ),
+    'quizzes' => 
+    array (
+      'title' => 'Quizzes',
+      'add_quiz' => 'Add Quiz',
+      'all' => 'All Quizzes',
+      'published' => 'Published to Students',
+      'achieved' => 'Achieved Quizzes',
+      'table' => 
+      array (
+        'questions' => 'Quizzes',
+        'assigned' => 'Assigned',
+      ),
+    ),
+    'reviews' => 
+    array (
+      'title' => 'Reviews',
+      'no_result' => 'No Reviews',
+      'table' => 
+      array (
+        'no_result' => 'You have no Reviews',
+      ),
+    ),
+    'review_detail' => 
+    array (
+      'title' => 'Review Detail',
+      'posted_by' => 'Posted By',
+      'course' => 'Course',
+      'provided_rating' => 'Provided Rating',
+      'review_content' => 'Review Content',
+    ),
+    'schedule' => 
+    array (
+      'title' => 'Schedule',
+      'create_course_schedule' => 'Create Course Schedule',
+      'start_time' => 'Start Time',
+      'end_time' => 'End Time',
+      'courses' => 'Courses',
+      'detail' => 'Detail',
+      'timezone' => 'Timezone',
+      'start_date' => 'Start Date',
+      'end_date' => 'End Date',
+      'repeat' => 'Repeat',
+      'week' => 'Week',
+      'course' => 'Course',
+      'lessons' => 'Lessons',
+      'lesson_detail' => 'Lesson Detail',
+      'lesson_detail_title' => 'Title',
+      'lesson_detail_description' => 'Description',
+      'assign_lesson' => 'Assign Lesson',
+      'update_lesson' => 'Update Lesson',
+      'remove_schedule' => 'Remove Schedule',
+      'update_condition' => 'Update Condition',
+      'update_this' => 'Update only this schedule',
+      'update_all' => 'Update whole schedule',
+    ),
+    'user_detail' => 
+    array (
+      'title' => 'User Account Preview',
+    ),
+    'my_students' => 
+    array (
+      'title' => 'My Students',
     ),
   ),
   'general' => 

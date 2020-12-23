@@ -18,13 +18,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">My Transactions</h2>
+                    <h2 class="mb-0">@lang('labels.backend.payment.transactions.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item active">
-                            My Transactions
+                            @lang('labels.backend.payment.transactions.title')
                         </li>
 
                     </ol>
@@ -47,13 +47,15 @@
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
                             <th>
-                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-order">Transaction ID</a>
+                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-order">
+                                    @lang('labels.backend.payment.table.transaction_id')
+                                </a>
                             </th>
                             <th>
-                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">Date</a>
+                                <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">@lang('labels.backend.table.date')</a>
                             </th>
-                            <th> Amount </th>
-                            <th> Type </th>
+                            <th> @lang('labels.backend.payment.table.amount') </th>
+                            <th> @lang('labels.backend.payment.type') </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle">
@@ -84,7 +86,7 @@
 
                         @if(count($transactions) < 1)
                         <tr>
-                            <td colspan="7" class="text-center">No Transactions</td>
+                            <td colspan="7" class="text-center">@lang('labels.backend.payment.transactions.no_results')</td>
                         </tr>
                         @endif
                     </tbody>
@@ -98,7 +100,7 @@
                         <li class="page-item disabled">
                             <a class="page-link" href="#" aria-label="Previous">
                                 <span aria-hidden="true" class="material-icons">chevron_left</span>
-                                <span>Prev</span>
+                                <span>@lang('labels.backend.general.prev')</span>
                             </a>
                         </li>
                         <li class="page-item disabled">
@@ -108,7 +110,7 @@
                         </li>
                         <li class="page-item disabled">
                             <a class="page-link" href="#" aria-label="Next">
-                                <span>Next</span>
+                                <span>@lang('labels.backend.general.next')</span>
                                 <span aria-hidden="true" class="material-icons">chevron_right</span>
                             </a>
                         </li>

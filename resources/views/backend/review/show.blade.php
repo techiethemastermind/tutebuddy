@@ -11,17 +11,17 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Show Review</h2>
+                    <h2 class="mb-0">@lang('labels.backend.review_detail.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
                         <li class="breadcrumb-item">
-                            <a href="{{ route('admin.reviews.index') }}">Reviews</a>
+                            <a href="{{ route('admin.reviews.index') }}">@lang('labels.backend.reviews.title')</a>
                         </li>
 
                         <li class="breadcrumb-item active">
-                            Show Review
+                            @lang('labels.backend.review_detail.title')
                         </li>
                     </ol>
 
@@ -36,7 +36,7 @@
             
             <div class="form-group mb-32pt">
                 <div class="page-separator">
-                    <div class="page-separator__text">Review Detail</div>
+                    <div class="page-separator__text">@lang('labels.backend.review_detail.title')</div>
                 </div>
 
                 <div class="media align-items-center">
@@ -51,12 +51,12 @@
                     </div>
                     <div class="media-body d-flex">
                         <div class="form-group flex">
-                            <label class="form-label font-size-16pt">Posted By</label>
+                            <label class="form-label font-size-16pt">@lang('labels.backend.review_detail.posted_by')</label>
                             <p class="font-size-16pt font-weight-bold">{{ $review->user->name }}</p>
                         </div>
                             
                         <div class="form-group flex">
-                            <label for="" class="form-label font-size-16pt">Course: </label>
+                            <label for="" class="form-label font-size-16pt">@lang('labels.backend.review_detail.course'): </label>
                             <a href="{{ route('courses.show', $review->course->slug) }}">
                                 <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                     <div class="avatar avatar-sm mr-8pt">
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="form-group flex">
-                            <label for="" class="form-label font-size-16pt">Provided Rating: {{ $review->rating }}</label>
+                            <label for="" class="form-label font-size-16pt">@lang('labels.backend.review_detail.provided_rating'): {{ $review->rating }}</label>
                             <div class="rating rating-24">
                                 @include('layouts.parts.rating', ['rating' => $review->rating])
                             </div>
@@ -87,7 +87,7 @@
             
             <div class="form-group">
                 <div class="page-separator">
-                    <div class="page-separator__text">Review Content</div>
+                    <div class="page-separator__text">@lang('labels.backend.review_detail.review_content')</div>
                 </div>
                 <p class="font-size-16pt text-70">{{ $review->content }}</p>
             </div>
