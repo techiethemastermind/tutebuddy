@@ -109,12 +109,18 @@
                 </table>
             </div>
         </div>
-    </div>
 
-    <div class="container page__container page-section">
+        @if(Cart::session(auth()->user()->id)->getContent()->count() > 0)
         <div class="form-group text-right">
             <a href="{{ route('cart.checkout') }}" class="btn btn-primary">@lang('labels.frontend.cart.process_checkout')</a>
         </div>
+        @else
+        <div class="form-group text-center">
+            <a href="{{ route('courses.search') }}" class="btn btn-primary">@lang('labels.frontend.search.browse_courses')</a>
+            <a href="{{ route('teachers.search') }}" class="btn btn-accent">@lang('labels.frontend.search.browse_teachers')</a>
+        </div>
+        @endif
+
     </div>
 
 </div>

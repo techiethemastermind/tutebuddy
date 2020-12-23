@@ -6,6 +6,7 @@
 
 //===== Users Routes =====//
 Route::resource('users','UserController');
+Route::get('ajax/users/list/{type}', 'UserController@getList')->name('getUsersByAjax');
 Route::get('account', 'UserController@myAccount')->name('myaccount');
 Route::post('account/{id}/update', 'UserController@updateAccount')->name('myaccount.update');
 Route::post('child-account', 'UserController@childAccount')->name('myaccount.child');

@@ -35,9 +35,99 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $data = User::orderBy('id','ASC')->paginate(10);
-        return view('backend.users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 10);
+        $count = [
+            'admins' => User::role('Administrator')->count(),
+            'teachers' => User::role('Instructor')->count(),
+            'students' => User::role('Student')->count()
+        ];
+
+        return view('backend.users.index', compact('count'));
+
+        // $data = User::orderBy('id','ASC')->paginate(10);
+        // return view('backend.users.index',compact('data'))
+        //     ->with('i', ($request->input('page', 1) - 1) * 10);
+    }
+
+    public function getList($type)
+    {
+        switch ($type) {
+            case 'admins':
+                $users = User::role('Administrator')->get();
+            break;
+            case 'teachers':
+                $users = User::role('Instructor')->get();
+            break;
+            case 'students':
+                $users = User::role('Student')->get();
+            break;
+            default:
+                $users = User::role('Student')->get();
+        }
+
+        $count = [
+            'admins' => User::role('Administrator')->count(),
+            'teachers' => User::role('Instructor')->count(),
+            'students' => User::role('Student')->count()
+        ];
+
+        $data = [];
+        foreach($users as $user) {
+            $temp = [];
+            $temp['index'] = '';
+
+            if(!empty($user->avatar)) {
+                $avatar = '<img src="'. asset('/storage/avatars/' . $user->avatar ) .'" alt="Avatar" class="avatar-img rounded-circle">';
+            } else {
+                $avatar = '<span class="avatar-title rounded-circle">'. substr($user->name, 0, 2) . '</span>';
+            }
+
+            $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    '. $avatar .'
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex d-flex flex-column">
+                                            <p class="mb-0"><strong class="js-lists-values-lead">'. $user->name .'</strong></p>
+                                            <small class="js-lists-values-email text-50">'.
+                                                $user->getRoleNames()->first()
+                                            .'</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+
+            $temp['email'] = $user->email;
+
+            if($user->verified) {
+                $temp['status'] = '<label class="badge badge-success">Yes</label>';
+            } else {
+                $temp['status'] = '<label class="badge badge-warning">No</label>';
+            }
+
+            $temp['roles'] = '';
+            if(!empty($user->getRoleNames())) {
+                foreach($user->getRoleNames() as $r) {
+                    $temp['roles'] .= '<label class="badge badge-primary">'. $r .'</label>';
+                }
+            }
+
+            $temp['group'] = $user->roles->pluck('type')[0];
+
+            $btn_show = view('backend.buttons.show', ['show_route' => route('admin.users.show', $user->id)])->render();
+            $btn_edit = view('backend.buttons.edit', ['edit_route' => route('admin.users.edit', $user->id)])->render();
+            $btn_delete = view('backend.buttons.delete', ['delete_route' => route('admin.users.destroy', $user->id)])->render();
+
+            $temp['actions'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+
+            array_push($data, $temp);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
     }
     
     /**
@@ -150,9 +240,21 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        User::find($id)->delete();
-        return redirect()->route('admin.users.index')
-                        ->with('success','User deleted successfully');
+        try {
+
+            User::find($id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function myAccount()

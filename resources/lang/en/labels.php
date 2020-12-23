@@ -51,6 +51,8 @@ return array (
     array (
       'browse_course' => 'Browse Course',
       'find_instructors' => 'Find Instructors',
+      'browse_courses' => 'Browse Courses',
+      'browse_teachers' => 'Browse Teachers',
     ),
     'cart' => 
     array (
@@ -855,6 +857,7 @@ return array (
       'become_instructor' => 'Become An Instructor',
       'instructor_rules' => 'Instructor Rules',
       'start_with_course' => 'Start With Courses',
+      'create_account' => 'Create Account',
     ),
     'verify' => 
     array (

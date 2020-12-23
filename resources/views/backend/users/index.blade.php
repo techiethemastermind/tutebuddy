@@ -2,6 +2,12 @@
 
 @section('content')
 
+@push('after-styles')
+
+<!-- jQuery Datatable CSS -->
+<link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
+@endpush
+
 <!-- Header Layout Content -->
 <div class="mdk-header-layout__content page-content ">
 
@@ -41,15 +47,51 @@
 
     <div class="container page__container page-section">
 
-        <div class="card mb-lg-32pt">
+        <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+
+            <div class="card-header p-0 nav">
+                <div id="tbl_selector" class="row no-gutters" role="tablist">
+                    <div class="col-auto">
+                        <a href="{{ route('admin.getUsersByAjax', 'admins') }}" data-toggle="tab" role="tab" aria-selected="true"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
+                            <span class="h2 mb-0 mr-3 count-admins">{{ $count['admins'] }}</span>
+                            <span class="flex d-flex flex-column">
+                                <strong class="card-title">Administrators</strong>
+                                <small class="card-subtitle text-50">Site administrators</small>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-auto border-left border-right">
+                        <a href="{{ route('admin.getUsersByAjax', 'teachers') }}" data-toggle="tab" role="tab"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h2 mb-0 mr-3 count-teachers">{{ $count['teachers'] }}</span>
+                            <span class="flex d-flex flex-column">
+                                <strong class="card-title">Teachers</strong>
+                                <small class="card-subtitle text-50">Registered Teachers (Instructors)</small>
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="col-auto border-left border-right">
+                        <a href="{{ route('admin.getUsersByAjax', 'students') }}" data-toggle="tab" role="tab"
+                            class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
+                            <span class="h2 mb-0 mr-3 count-students">{{ $count['students'] }}</span>
+                            <span class="flex d-flex flex-column">
+                                <strong class="card-title">Students</strong>
+                                <small class="card-subtitle text-50">Registered Students</small>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
             <div class="table-responsive" data-toggle="lists" data-lists-values='["js-lists-values-name", "js-lists-values-email"]'>
 
-                <table class="table mb-0 thead-border-top-0 table-nowrap">
+                <table id="tbl_users" class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th style="width: 40px;">No.</th>
                             <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a></th>
                             <th>Email</th>
                             <th>Verified</th>
@@ -58,85 +100,8 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="list" id="clients">
-                    @foreach ($data as $key => $user)
-                    <tr>
-                        <td class="pr-0"></td>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>
-                            <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                <div class="avatar avatar-sm mr-8pt">
-                                    @if($user->avatar)
-                                    <img src="{{asset('/storage/avatars/' . $user->avatar )}}" alt="Avatar" class="avatar-img rounded-circle">
-                                    @else
-                                    <span class="avatar-title rounded-circle">{{ substr($user->name, 0, 2) }}</span>
-                                    @endif
-                                </div>
-                                <div class="media-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex d-flex flex-column">
-                                            <p class="mb-0"><strong class="js-lists-values-lead">{{ $user->name }}</strong></p>
-                                            <small class="js-lists-values-email text-50">
-                                            @if(!empty($user->getRoleNames()))
-                                                {{ $user->getRoleNames()->first() }}
-                                            @endif
-                                            </small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                            @if($user->verified)
-                            <label class="badge badge-success">Yes</label>
-                            @else
-                            <label class="badge badge-warning">No</label>
-                            @endif
-                        </td>
-                        <td>
-                        @if(!empty($user->getRoleNames()))
-                            @foreach($user->getRoleNames() as $v)
-                            <label class="badge badge-primary">{{ $v }}</label>
-                            @endforeach
-                        @endif
-                        </td>
-                        <td>{{ $user->roles->pluck('type')[0] }}</td>
-                        <td>
-                            @include('backend.buttons.show', ['show_route' => route('admin.users.show', $user->id)])
-                            @include('backend.buttons.edit', ['edit_route' => route('admin.users.edit', $user->id)])
-                            @include('backend.buttons.delete', ['delete_route' => route('admin.users.destroy', $user->id)])
-                        </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
+                    <tbody class="list"></tbody>
                 </table>
-            </div>
-
-            <div class="card-footer p-8pt">
-                @if($data->hasPages())
-                {{ $data->links('layouts.parts.page') }}
-                @else
-                <ul class="pagination justify-content-start pagination-xsm m-0">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true" class="material-icons">chevron_left</span>
-                            <span>Prev</span>
-                        </a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Page 1">
-                            <span>1</span>
-                        </a>
-                    </li>
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span>Next</span>
-                            <span aria-hidden="true" class="material-icons">chevron_right</span>
-                        </a>
-                    </li>
-                </ul>
-                @endif
             </div>
         </div>
     </div>
@@ -145,12 +110,65 @@
 
 @push('after-scripts')
 
-<!-- List.js -->
-<script src="{{ asset('assets/js/list.min.js') }}"></script>
-<script src="{{ asset('assets/js/list.js') }}"></script>
+<script src="{{ asset('assets/plugin/datatables.min.js') }}"></script>
 
-<!-- Tables -->
-<script src="{{ asset('assets/js/toggle-check-all.js') }}"></script>
-<script src="{{ asset('assets/js/check-selected-row.js') }}"></script>
+<script>
+
+    $(function() {
+        var route = $('#tbl_selector a[aria-selected="true"]').attr('href');
+
+        $('#tbl_selector').on('click', 'a[role="tab"]', function(e) {
+            e.preventDefault();
+            route = $(this).attr('href');
+            table.ajax.url( route ).load();
+        });
+
+        var table = $('#tbl_users').DataTable(
+            {
+                lengthChange: false,
+                searching: false,
+                ordering:  false,
+                info: false,
+                ajax: {
+                    url: route,
+                    complete: function(res) {
+                        $.each(res.responseJSON.count, function(key, count) {
+                            $('#tbl_selector').find('span.count-' + key).text(count);
+                        });
+
+                        $('[data-toggle="tooltip"]').tooltip();
+                    }
+                },
+                columns: [
+                    { data: 'index'},
+                    { data: 'name' },
+                    { data: 'email'},
+                    { data: 'status'},
+                    { data: 'roles' },
+                    { data: 'group' },
+                    { data: 'actions' }
+                ],
+                oLanguage: {
+                    sEmptyTable: "You have no any registered users"
+                }
+            }
+        );
+
+        $(document).on('submit', 'form[name="delete_item"]', function(e) {
+
+            e.preventDefault();
+
+            $(this).ajaxSubmit({
+                success: function(res) {
+                    if(res.success) {
+                        table.ajax.reload();
+                    } else {
+                        swal("Warning!", res.message, "warning");
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 @endpush

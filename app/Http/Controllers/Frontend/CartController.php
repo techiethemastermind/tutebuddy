@@ -42,12 +42,16 @@ class CartController extends Controller
             $total += $item->price;
         }
 
-        //Apply Tax
-        $taxData = $this->applyTax('total');
-        $cartTotal = Cart::session(auth()->user()->id)->getTotal();
-        $orderId = $this->getRazorOrderId($cartTotal);
+        if($total > 0.5) {
+            //Apply Tax
+            $taxData = $this->applyTax('total');
+            $cartTotal = Cart::session(auth()->user()->id)->getTotal();
+            $orderId = $this->getRazorOrderId($cartTotal);
 
-        return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId', 'cartTotal'));
+            return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId', 'cartTotal'));
+        } else {
+            return redirect()->route('cart.index')->with('warning', 'Empty Cart, Please add items to cart');
+        }
     }
 
     public function addToCart(Request $request)
