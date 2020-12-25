@@ -292,6 +292,7 @@
 
                     <div class="d-flex align-items-center page-num-container" id="sec-{{ $lesson->id }}">
                         <div class="page-num">{{ $loop->iteration }}</div>
+                        @if($lesson->steps->count() > 0)
                         <a href="{{ route('lessons.show', [$course->slug, $lesson->slug, $lesson->steps[0]->step]) }}">
                             <h4>{{ $lesson->title }}
                                 @if($lesson->isCompleted())
@@ -301,6 +302,7 @@
                                 @endif
                             </h4>
                         </a>
+                        @endif
                     </div>
 
                     <p class="text-70 mb-24pt">{{ $lesson->short_text }}</p>
