@@ -124,12 +124,12 @@ class EmailtemplateController extends Controller
     {
         $template = EmailTemplate::find($id);
 
-        $template->subject = $request->subject;
         $template->html_content = $request->html_content;
 
         if($request->template_type == 'body') {
             $template->name = config('mail.email_events')[$request->name];
             $template->slug = $request->name;
+            $template->subject = $request->subject;
         }
 
         if($template->slug == 'header') {
