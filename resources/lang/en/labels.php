@@ -69,6 +69,41 @@ return array (
     array (
       'certified' => 'You\'re Certified for this course',
       'finish_course' => 'Finish Course',
+      'steps' => 'Steps',
+      'about_course' => 'About this course',
+      'what_you_learn' => 'What you’ll learn',
+      'about_teacher' => 'About the Teachers',
+      'table_contents' => 'Table of Contents',
+    ),
+    'general' => 
+    array (
+      'back' => 'Back to LIST',
+      'choose_file' => 'Choose File',
+      'min' => 'Min',
+    ),
+    'buttons' => 
+    array (
+      'edit' => 'Edit',
+      'publish' => 'Publish',
+      'unpublish' => 'Unpublish',
+      'submit' => 'Submit',
+      'add_favorite' => 'Added to Favorite',
+      'share' => 'Share',
+      'follow' => 'Follow',
+      'view_profile' => 'View Profile',
+    ),
+    'assignment' => 
+    array (
+      'include_doc' => 'It can be included Document',
+      'title' => 'Assignment',
+      'attached_doc' => 'Attached Document',
+      'attached_doc_click' => 'Click to See Attached Document.',
+      'teacher_summary' => 'Summary From Teacher',
+      'mark' => 'Mark',
+      'answer_doc' => 'Answer Attachments:',
+      'submit_answer' => 'Submit Your Answers',
+      'upload_doc' => 'Upload Document',
+      'answer_placeholder' => 'Answer Content',
     ),
   ),
   'backend' => 
