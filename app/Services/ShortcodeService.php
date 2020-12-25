@@ -95,6 +95,14 @@ class ShortCodeService
                             $data = \App\Models\Test::find($this->data['mail_data']['model_id']);
                             $html = $data->course->title;
                         }
+
+                        if($model == 'App\Models\Order') {
+                            $order = \App\Models\Order::find($this->data['mail_data']['model_id']);
+                            $order_items = $order->items;
+                            foreach($order_items as $item) {
+                                $html .= $item->course->title;
+                            }
+                        }
                     }
                 }
                 return $html;
