@@ -306,6 +306,12 @@
                 beforeSubmit: function(formData, formObject, formOptions) {
 
                     formData.push({
+                        name: 'template_type',
+                        type: 'text',
+                        value: 'header'
+                    });
+
+                    formData.push({
                         name: 'html_content',
                         type: 'text',
                         value: $('#logo_html').html()

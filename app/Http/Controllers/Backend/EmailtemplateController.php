@@ -126,8 +126,11 @@ class EmailtemplateController extends Controller
 
         $template->subject = $request->subject;
         $template->html_content = $request->html_content;
-        $template->name = config('mail.email_events')[$request->name];
-        $template->slug = $request->name;
+
+        if($request->template_type == 'body') {
+            $template->name = config('mail.email_events')[$request->name];
+            $template->slug = $request->name;
+        }
 
         if($template->slug == 'header') {
             if(!empty($request->logo)) {

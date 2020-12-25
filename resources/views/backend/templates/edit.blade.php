@@ -290,6 +290,12 @@
                     beforeSubmit: function(formData, formObject, formOptions) {
                         var editor_content = content_editor.root.innerHTML;
 
+                        formData.push({
+                            name: 'template_type',
+                            type: 'text',
+                            value: 'body'
+                        });
+
                         // Append
                         formData.push({
                             name: 'content',

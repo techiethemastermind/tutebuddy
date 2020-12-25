@@ -318,6 +318,12 @@
                 beforeSubmit: function(formData, formObject, formOptions) {
 
                     formData.push({
+                        name: 'template_type',
+                        type: 'text',
+                        value: 'footer'
+                    });
+
+                    formData.push({
                         name: 'content',
                         type: 'text',
                         value: footer_editor.root.innerHTML
