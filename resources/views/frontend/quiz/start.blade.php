@@ -29,13 +29,13 @@
                 <div class="nav-item navbar-list__item">
                     @if(auth()->user()->hasRole('Student'))
                     <a href="{{ route('admin.student.quizs') }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                        <i class="material-icons icon--left">keyboard_backspace</i> @lang('labels.frontend.general.back')
                     </a>
                     @endif
 
                     @if(auth()->user()->hasRole('Instructor'))
                     <a href="{{ route('admin.quizs.index') }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                        <i class="material-icons icon--left">keyboard_backspace</i> @lang('labels.frontend.general.back')
                     </a>
                     @endif
                 </div>

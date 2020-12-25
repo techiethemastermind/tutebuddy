@@ -210,12 +210,11 @@
 
                     <div class="card">
                         <div class="card-body">
+                        
                             <!-- Set Category -->
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.sidebar.category')</label>
                                 <select name="category" class="form-control custom-select" data-toggle="select">
-                                    <option value="0">@lang('labels.backend.sidebar.no_category')</option>
-
                                     @foreach ($parentCategories as $category)
 
                                     <option value="{{ $category->id }}" @if($course->category_id == $category->id)

@@ -18,13 +18,13 @@
                 <div class="nav-item navbar-list__item">
                     @if(auth()->user()->hasRole('Student'))
                     <a href="{{ route('admin.student.assignments') }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                        <i class="material-icons icon--left">keyboard_backspace</i> @lang('labels.frontend.general.back')
                     </a>
                     @endif
 
                     @if(auth()->user()->hasRole('Instructor'))
                     <a href="{{ route('admin.assignments.index') }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                        <i class="material-icons icon--left">keyboard_backspace</i> @lang('labels.frontend.general.back')
                     </a>
                     @endif
                 </div>
@@ -63,11 +63,14 @@
             <nav class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
                 @if(auth()->user()->hasRole('Instructor'))
                 <div class="">
-                    <a href="{{ route('admin.assignments.edit', $assignment->id) }}" class="btn btn-accent">Edit</a>
+                    <a href="{{ route('admin.assignments.edit', $assignment->id) }}" class="btn btn-accent">
+                        @lang('labels.frontend.buttons.edit') </a>
                     @if($assignment->published == 0)
-                    <a href="{{ route('admin.assignment.publish', $assignment->id) }}" id="btn_publish" class="btn btn-primary">Publish</a>
+                    <a href="{{ route('admin.assignment.publish', $assignment->id) }}" id="btn_publish" class="btn btn-primary">
+                        @lang('labels.frontend.buttons.publish')</a>
                     @else
-                    <a href="{{ route('admin.assignment.publish', $assignment->id) }}" id="btn_publish" class="btn btn-info">Unpublish</a>
+                    <a href="{{ route('admin.assignment.publish', $assignment->id) }}" id="btn_publish" class="btn btn-info">
+                        @lang('labels.frontend.buttons.unpublish')</a>
                     @endif
                 </div>
                 @endif
@@ -97,7 +100,7 @@
             <ul class="nav navbar-nav flex navbar-list__item">
                 <li class="nav-item">
                     <i class="material-icons text-50 mr-8pt">tune</i>
-                    It can be included Document:
+                        @lang('labels.frontend.assignment.include_doc')
                 </li>
             </ul>
         </div>
@@ -105,14 +108,14 @@
 
     <div class="container page__container page-section">
         <div class="page-separator">
-            <div class="page-separator__text">Assignment</div>
+            <div class="page-separator__text">@lang('labels.frontend.assignment.title')</div>
         </div>
 
         <div class="font-size-16pt text-black-100">{!! $assignment->content !!}</div>
 
         @if(!empty($assignment->attachment))
         <div class="form-group mb-24pt card card-body">
-            <label class="form-label">Attached Document:</label>
+            <label class="form-label">@lang('labels.frontend.assignment.attached_doc'):</label>
             <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                 <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
                     @php $ext = pathinfo($assignment->attachment, PATHINFO_EXTENSION); @endphp
@@ -125,7 +128,7 @@
                 <div class="flex">
                     <a href="{{ asset('/storage/attachments/' . $assignment->attachment) }}">
                         <div class="form-label mb-4pt">{{ $assignment->attachment }}</div>
-                        <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                        <p class="card-subtitle text-black-70">@lang('labels.frontend.assignment.attached_doc_click')</p>
                     </a>
                 </div>
             </div>
@@ -137,15 +140,15 @@
 
     <div class="container page__container page-section">
         <div class="page-separator">
-            <div class="page-separator__text">Summry From Teacher</div>
+            <div class="page-separator__text">@lang('labels.frontend.assignment.teacher_summary')</div>
         </div>
 
         <div class="font-size-16pt text-black-100 mb-32pt">{!! $assignment->result->answer !!}</div>
-        <div class="font-size-16pt text-black-100 mb-32pt"><strong>Mark</strong>: {{ $assignment->result->mark }}</div>
+        <div class="font-size-16pt text-black-100 mb-32pt"><strong>@lang('labels.frontend.assignment.mark')</strong>: {{ $assignment->result->mark }}</div>
 
         @if(!empty($assignment->result->answer_attach))
         <div class="form-group mb-24pt card card-body">
-            <label class="form-label">Answer Attachement:</label>
+            <label class="form-label">@lang('labels.frontend.assignment.answer_doc')</label>
             <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                 <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
                     @php $ext = pathinfo($assignment->result->answer_attach, PATHINFO_EXTENSION); @endphp
@@ -158,7 +161,7 @@
                 <div class="flex">
                     <a href="{{ asset('/storage/attachments/' . $assignment->result->answer_attach) }}">
                         <div class="form-label mb-4pt">{{ $assignment->result->answer_attach }}</div>
-                        <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                        <p class="card-subtitle text-black-70">@lang('labels.frontend.assignment.attached_doc_click')</p>
                     </a>
                 </div>
             </div>
@@ -171,7 +174,7 @@
     <div class="container page__container page-section">
 
         <div class="page-separator">
-            <div class="page-separator__text">Submit Your Answers</div>
+            <div class="page-separator__text">@lang('labels.frontend.assignment.submit_answer')</div>
         </div>
 
         <div class="pb-32pt">
@@ -182,7 +185,7 @@
 
                 @if(!empty($assignment->result->attachment_url))
                 <div class="form-group mb-24pt card card-body">
-                    <label class="form-label">Attached Document:</label>
+                    <label class="form-label">@lang('labels.frontend.assignment.attached_doc'):</label>
                     <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                         <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
                             @php $ext = pathinfo($assignment->result->attachment_url, PATHINFO_EXTENSION); @endphp
@@ -195,7 +198,7 @@
                         <div class="flex">
                             <a href="{{ asset('/storage/attachments/' . $assignment->result->attachment_url) }}">
                                 <div class="form-label mb-4pt">{{ $assignment->result->attachment_url }}</div>
-                                <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                                <p class="card-subtitle text-black-70">@lang('labels.frontend.assignment.attached_doc_click')</p>
                             </a>
                         </div>
                     </div>
@@ -203,15 +206,15 @@
                 @endif
 
                 <div class="form-group">
-                    <label class="form-label">Upload Doc</label>
+                    <label class="form-label">@lang('labels.frontend.assignment.upload_doc')</label>
                     <div class="custom-file">
                         <input type="file" id="file_doc" name="doc_file" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
-                        <label for="file_doc" class="custom-file-label">Choose file</label>
+                        <label for="file_doc" class="custom-file-label">Choose file @lang('labels.frontend.general.choose_file')</label>
                     </div>
                 </div>
                 @if(auth()->user()->hasRole('Student'))
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">@lang('labels.frontend.buttons.submit')</button>
                 </div>
                 @endif
                 <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
@@ -243,7 +246,7 @@
         // Set Submitted Assignments if it is exist
         var s_quill = new Quill('#submit_content', {
             theme: 'snow',
-            placeholder: 'Answer Content',
+            placeholder: "@lang('labels.frontend.assignment.answer_placeholder')",
             modules: {
                 toolbar: toolbarOptions
             },
@@ -290,7 +293,6 @@
                             button.text('Publish');
                             button.removeClass('btn-info').addClass('btn-primary');
                         }
-                        
                     }
                 }
             });

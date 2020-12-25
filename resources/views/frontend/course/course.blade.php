@@ -135,7 +135,7 @@
             <nav class="nav navbar-nav">
                 <div class="nav-item navbar-list__item">
                     <a href="{{ route('admin.courses.index') }}" class="nav-link h-auto">
-                        <i class="material-icons icon--left">keyboard_backspace</i> Back to LIST
+                        <i class="material-icons icon--left">keyboard_backspace</i> @lang('labels.frontend.general.back')
                     </a>
                 </div>
             </nav>
@@ -144,17 +144,21 @@
                 @if(auth()->user()->hasRole('Administrator'))
                 <div class="">
                     @if($course->published == 2)
-                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-primary">Publish</a>
+                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-primary">Publish
+                        @lang('labels.frontend.buttons.publish')
+                    </a>
                     @endif
 
                     @if($course->published == 1)
-                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-info">Unpublish</a>
+                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-info">Unpublish
+                        @lang('labels.frontend.buttons.unpublish')
+                    </a>
                     @endif
                 </div>
                 @endif
 
                 @if(auth()->user()->hasRole('Instructor') && $is_mine)
-                <a href="{{ route('admin.courses.edit', $course->id) }}" class="btn btn-accent">Edit</a>
+                <a href="{{ route('admin.courses.edit', $course->id) }}" class="btn btn-accent">@lang('labels.frontend.buttons.edit')</a>
                 @endif
             </nav>
         </div>
@@ -171,19 +175,20 @@
                     @if(auth()->check() && auth()->user()->hasRole('Student'))
                     @if($course->favorited())
                     <button data-route="{{ route('admin.course.addFavorite', $course->id) }}" disabled class="btn btn-white mr-12pt"><i
-                            class="material-icons icon--left">favorite_border</i> Added to Favorite</button>
+                            class="material-icons icon--left">favorite_border</i>
+                        @lang('labels.frontend.buttons.add_favorite')
+                    </button>
                     @else
                     <button data-route="{{ route('admin.course.addFavorite', $course->id) }}" id="btn_add_favorite" class="btn btn-outline-white mr-12pt"><i
-                            class="material-icons icon--left">favorite_border</i> Add Favorite</button>
+                            class="material-icons icon--left">favorite_border</i> @lang('labels.frontend.buttons.add_favorite')</button>
                     @endif
                     <a href="javascript:void(0)" id="btn_add_share" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i>
-                        Share</a>
+                        @lang('labels.frontend.buttons.share')</a>
                     @endif
 
                     @if($course->progress() == 100)
                         @if(!$course->isUserCertified())
-                        <form method="post" action="{{route('admin.certificates.generate')}}"
-                            style="display: inline-block;">
+                        <form method="post" action="{{route('admin.certificates.generate')}}" style="display: inline-block;">
                             @csrf
                             <input type="hidden" value="{{$course->id}}" name="course_id">
                             <button class="btn btn-outline-white" id="finish">
@@ -218,7 +223,7 @@
                                 <div class="media-body">
                                     <a class="card-title m-0"
                                         href="{{ route('profile.show', $course->teachers[0]->uuid) }}">{{ $course->teachers[0]->name }}</a>
-                                    <p class="text-50 lh-1 mb-0">Instructor</p>
+                                    <p class="text-50 lh-1 mb-0">@lang('labels.frontend.course.finish_course')</p>
                                 </div>
                             </div>
                         </li>
@@ -332,7 +337,7 @@
                             <li class="accordion__item @if($loop->iteration == 1) open @endif">
                                 <a class="accordion__toggle" data-toggle="collapse" data-parent="#toc-{{ $lesson->id }}"
                                     href="#toc-content-{{ $lesson->id }}">
-                                    <span class="flex">{{ $lesson->steps->count() }} Steps</span>
+                                    <span class="flex">{{ $lesson->steps->count() }} @lang('labels.frontend.course.steps')</span>
                                     <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
                                 </a>
                                 <div class="accordion__menu">
@@ -350,7 +355,7 @@
                                             </a>
                                             @if($step['duration'])
                                             <span class="text-muted">
-                                                {{ $step['duration'] }} min
+                                                {{ $step['duration'] }} @lang('labels.frontend.general.min')
                                             </span>
                                             @else
                                             <span class="material-icons icon-16pt icon--left text-body text-muted">
@@ -376,14 +381,14 @@
                 <div class="container page__container">
                     <div class="mb-lg-64pt">
                         <div class="page-separator">
-                            <div class="page-separator__text">About this course</div>
+                            <div class="page-separator__text">@lang('labels.frontend.course.about_course')</div>
                         </div>
                         <div class="course-description">{!! $course->description !!}</div>
                     </div>
 
                     <div class="mb-lg-64pt">
                         <div class="page-separator">
-                            <div class="page-separator__text">What you’ll learn</div>
+                            <div class="page-separator__text">@lang('labels.frontend.course.what_you_learn')</div>
                         </div>
                         <ul class="list-unstyled">
                             @foreach($course->lessons as $lesson)
@@ -397,7 +402,7 @@
 
                     <div class="mb-lg-64pt">
                         <div class="page-separator">
-                            <div class="page-separator__text">About the Teachers</div>
+                            <div class="page-separator__text">@lang('labels.frontend.course.about_teacher')</div>
                         </div>
 
                         @foreach($course->teachers as $teacher)
@@ -413,16 +418,16 @@
                             </div>
                             <h4 class="m-0">{{ $teacher->name }}</h4>
                             <p class="lh-1">
-                                <small class="text-muted">Angular, Web Development</small>
+                                <small class="text-muted">{{ $teacher->headline }}t</small>
                             </p>
                             <div class="d-flex flex-column flex-sm-row align-items-center justify-content-start">
                                 @if($is_mine)
-                                <button class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt" disabled>Follow</button>
-                                <button class="btn btn-outline-secondary" disabled>View Profile</button>
+                                <button class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt" disabled> @lang('labels.frontend.buttons.follow')</button>
+                                <button class="btn btn-outline-secondary" disabled>@lang('labels.frontend.buttons.view_profile')</button>
                                 @else
                                 <a href="{{ route('profile.show', $teacher->uuid) }}"
-                                    class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">Follow</a>
-                                <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-outline-secondary">View Profile</a>
+                                    class="btn btn-outline-primary mb-16pt mb-sm-0 mr-sm-16pt">@lang('labels.frontend.buttons.follow')</a>
+                                <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-outline-secondary">@lang('labels.frontend.buttons.view_profile')</a>
                                 @endif
                             </div>
                         </div>
@@ -443,13 +448,13 @@
             <div class="row ">
                 <div class="col-md-7">
                     <div class="page-separator">
-                        <div class="page-separator__text">About this course</div>
+                        <div class="page-separator__text">@lang('labels.frontend.course.about_course')</div>
                     </div>
                     <div class="course-description">{!! $course->description !!}</div>
                 </div>
                 <div class="col-md-5">
                     <div class="page-separator">
-                        <div class="page-separator__text bg-alt">What you’ll learn</div>
+                        <div class="page-separator__text bg-alt">@lang('labels.frontend.course.what_you_learn')</div>
                     </div>
                     <ul class="list-unstyled">
                         @foreach($course->lessons as $lesson)
@@ -468,7 +473,7 @@
         <div class="container page__container">
 
             <div class="page-separator">
-                <div class="page-separator__text">Table of Contents</div>
+                <div class="page-separator__text">@lang('labels.frontend.course.table_contents')</div>
             </div>
 
             <div class="row">
@@ -512,7 +517,7 @@
                                 <a class="accordion__toggle" data-toggle="collapse" data-parent="#toc-{{ $lesson->id }}"
                                     href="#toc-content-{{ $lesson->id }}">
                                     <span class="flex">{{$lesson->position}} - {{ $lesson->title }}
-                                        <small>({{ $lesson->steps->count() }} Steps)</small></span>
+                                        <small>({{ $lesson->steps->count() }} @lang('labels.frontend.course.steps'))</small></span>
                                     <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
                                 </a>
                                 <div class="accordion__menu">

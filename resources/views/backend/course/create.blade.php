@@ -82,8 +82,7 @@
 
                     <label class="form-label">@lang('labels.backend.courses.fields.title')</label>
                     <div class="form-group mb-24pt">
-                        <input type="text" name="title"
-                            class="form-control form-control-lg @error('title') is-invalid @enderror"
+                        <input type="text" name="title" class="form-control form-control-lg"
                             placeholder="@lang('labels.backend.courses.fields.title')" value="" tute-no-empty>
                     </div>
 
@@ -144,7 +143,6 @@
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.sidebar.category')</label>
                                 <select name="category" class="form-control custom-select" data-toggle="select">
-                                    <option value="">@lang('labels.backend.sidebar.no_category')</option>
                                     @foreach ($parentCategories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @if ($category->children()->count() > 0 )
@@ -1031,6 +1029,11 @@ $(document).ready(function() {
     });
 
     function store_course(action) {
+
+        if(!checkValidForm($('#frm_course'))){
+            return false;
+        }
+
         $('#frm_course').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
