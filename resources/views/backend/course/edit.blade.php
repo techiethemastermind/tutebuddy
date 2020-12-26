@@ -725,7 +725,11 @@ $(function() {
 
     $('#btn_publish_course').on('click', function(e) {
         e.preventDefault();
-        save_course('pending');
+        if('{!! auth()->user()->hasRole("Administrator") !!}') {
+            save_course('publish');
+        } else {
+            save_course('pending');
+        }
     });
 
     // Event when click save course button id="btn_save_course"
@@ -1309,6 +1313,12 @@ $(function() {
             case 'test':
                 $('#lesson_contents').append($(ele_test));
                 break;
+        }
+    });
+
+    $('input[type="number"]').on('keypress', function(e) {
+        if(e.which == 45) {
+            return false;
         }
     });
 

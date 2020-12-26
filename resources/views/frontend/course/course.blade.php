@@ -150,7 +150,7 @@
                     @endif
 
                     @if($course->published == 1)
-                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-info">Unpublish
+                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-info">
                         @lang('labels.frontend.buttons.unpublish')
                     </a>
                     @endif

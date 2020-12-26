@@ -89,7 +89,7 @@
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                             <span class="h2 mb-0 mr-3 count-deleted">{{ $count['deleted'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">@lang('labels.backend.general.achive')</strong>
+                                <strong class="card-title">@lang('labels.backend.general.achieved')</strong>
                                 <small class="card-subtitle text-50">@lang('labels.backend.assignments.achived')</small>
                             </span>
                         </a>

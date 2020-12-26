@@ -152,19 +152,30 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
     
-        $user = User::create($input);
+        // Check User email unique
+        $user_exist = User::where('email', $input['email'])->count();
+        if($user_exist > 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The email already used'
+            ]);
+        } else {
+            $user = User::create($input);
 
-        $avatar = $request->has('avatar') ? $request->file('avatar') : false;
-        if($avatar) {
-            $avatar_url = $this->saveImage($avatar, 'avatar');
-            $user->avatar = $avatar_url;
-            $user->save();
-        }
+            $avatar = $request->has('avatar') ? $request->file('avatar') : false;
+            if($avatar) {
+                $avatar_url = $this->saveImage($avatar, 'avatar');
+                $user->avatar = $avatar_url;
+                $user->save();
+            }
+            
+            $user->assignRole($request->input('roles'));
         
-        $user->assignRole($request->input('roles'));
-    
-        return redirect()->route('admin.users.index')
-                        ->with('success','User created successfully');
+            return response()->json([
+                'success' => true,
+                'message' => 'New User created Successfully'
+            ]);
+        }
     }
     
     /**

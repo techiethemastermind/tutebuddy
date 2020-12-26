@@ -309,6 +309,10 @@ class CourseController extends Controller
             $course_data['published'] = 0;  // Pending status - Sent to publish request
         }
 
+        if(isset($data['action']) && $data['action'] == 'publish') {
+            $course_data['published'] = 1;  // Pending status - Sent to publish request
+        }
+
         // Course image
         if(!empty($data['course_image'])) {
             $image = $request->file('course_image');

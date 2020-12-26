@@ -46,7 +46,7 @@
         </div>
         <div class="col-md-7 p-0">
 
-            {!! Form::open(array('route' => 'admin.users.store', 'files' => true, 'method'=>'POST', 'files' => true)) !!}
+            {!! Form::open(array('id' => 'frm_account', 'route' => 'admin.users.store', 'files' => true, 'method'=>'POST', 'files' => true)) !!}
 
             <div class="form-group">
                 <label class="form-label">Your photo</label>
@@ -65,17 +65,17 @@
 
             <div class="form-group">
                 <label class="form-label">Profile name</label>
-                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control', 'tute-no-empty' => true)) !!}
             </div>
 
             <div class="form-group">
                 <label class="form-label">Email Address</label>
-                {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
+                {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control', 'tute-no-empty' => true)) !!}
             </div>
 
             <div class="form-group">
                 <label class="form-label">Password</label>
-                {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
+                {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control', 'tute-no-empty' => true)) !!}
             </div>
 
             <div class="form-group">
@@ -85,7 +85,7 @@
 
             <div class="form-group">
                 <label class="form-label">Role</label>
-                {!! Form::select('roles[]', $roles,[], array('class' => 'form-control', 'multiple', 'data-toggle'=>'select')) !!}
+                {!! Form::select('roles[]', $roles,[], array('class' => 'form-control', 'multiple', 'data-toggle'=>'select', 'tute-no-empty' => true)) !!}
             </div>
 
             <div class="form-group">
@@ -124,6 +124,41 @@
 <script src="{{ asset('assets/js/select2.js') }}"></script>
 
 <script>
+
+    $(function() {
+
+        $('#frm_account').on('submit', function(e) {
+            e.preventDefault();
+
+            if(!checkValidForm($(this))){
+                return false;
+            }
+
+            $(this).ajaxSubmit({
+                success: function(res) {
+                    console.log(res);
+
+                    if(res.success) {
+                        swal({
+                            title: "Success!",
+                            text: res.message,
+                            type: 'success',
+                            showCancelButton: false,
+                            showConfirmButton: true,
+                            confirmButtonText: 'Confirm',
+                            dangerMode: false,
+                        }, function (val) {
+                            if(val) {
+                                window.location.href = "{!! route('admin.users.index') !!}";
+                            }
+                        });
+                    } else {
+                        swal('Error!', res.message, 'error');
+                    }
+                }
+            });
+        });
+    });
     
     $('#avatar_file').on('change', function() {
         var target = $('#user_avatar');

@@ -216,7 +216,7 @@
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">@lang('labels.backend.sidebar.price')({{ getCurrency(config('app.currency'))['symbol'] }})</span></span>
-                                    <input type="number" name="group_price" class="form-control" placeholder="5.00"
+                                    <input type="number" name="group_price" class="form-control" placeholder="5.00" min="0.5"
                                         value="" tute-no-empty>
                                 </div>
                                 <small class="form-text text-muted">@lang('labels.backend.sidebar.price_note')</small>
@@ -236,7 +236,7 @@
                                 <div class="input-group form-inline">
                                     <span class="input-group-prepend"><span
                                             class="input-group-text form-label">@lang('labels.backend.sidebar.price')({{ getCurrency(config('app.currency'))['symbol'] }})</span></span>
-                                    <input type="number" name="private_price" class="form-control" value="" placeholder="24.00">
+                                    <input type="number" name="private_price" class="form-control" value="" placeholder="24.00" min="0.5">
                                 </div>
                                 <small class="form-text text-muted">@lang('labels.backend.sidebar.private_course_note')</small>
                             </div>
@@ -620,7 +620,7 @@ $(document).ready(function() {
     });
 
     // Lesson Edit
-    $('#parent').on('click', 'a.btn-edit', function(e){
+    $('#parent').on('click', 'a.btn-edit', function(e) {
 
         e.preventDefault();
         var url = $(this).attr('href');
@@ -1025,6 +1025,12 @@ $(document).ready(function() {
             $('input[name="live_lesson"]').val('1');
         } else {
             $('input[name="live_lesson"]').val('0');
+        }
+    });
+
+    $('input[type="number"]').on('keypress', function(e) {
+        if(e.which == 45) {
+            return false;
         }
     });
 
