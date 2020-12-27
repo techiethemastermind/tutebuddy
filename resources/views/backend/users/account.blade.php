@@ -158,7 +158,7 @@ if(!isset($_GET["active"])) {
                                 <div class="media-body">
                                     <div class="form-group">
                                         <label class="form-label">@lang('labels.backend.my_account.profile_name')</label>
-                                        {!! Form::text('name', null, array('placeholder' => "@lang('labels.backend.general.name')",'class' =>
+                                        {!! Form::text('name', null, array('placeholder' => "Name",'class' =>
                                         'form-control')) !!}
                                         <small class="form-text text-muted">
                                             @lang('string.backend.my_account.profile_name')
@@ -169,13 +169,13 @@ if(!isset($_GET["active"])) {
 
                                     <div class="form-group">
                                         <label class="form-label">@lang('labels.backend.my_account.headline')</label>
-                                        {!! Form::text('headline', null, array('placeholder' => "@lang('labels.backend.my_account.headline')", 'class' =>
+                                        {!! Form::text('headline', null, array('placeholder' => "Headline", 'class' =>
                                         'form-control')) !!}
                                     </div>
 
                                     <div class="form-group">
                                         <label class="form-label">@lang('labels.backend.my_account.about')</label>
-                                        {!! Form::textarea('about', null, array('placeholder' => "@lang('labels.backend.my_account.about') ...", 'class' =>
+                                        {!! Form::textarea('about', null, array('placeholder' => "About", 'class' =>
                                         'form-control', 'rows' => 5)) !!}
                                     </div>
 
@@ -189,14 +189,14 @@ if(!isset($_GET["active"])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">@lang('labels.backend.my_account.email_address')</label>
-                                                {!! Form::text('email', null, array('placeholder' => "@lang('labels.backend.my_account.email_address')", 'class' =>
+                                                {!! Form::text('email', null, array('placeholder' => "Email Address", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">@lang('labels.backend.my_account.phone_number')</label>
-                                                {!! Form::text('phone_number', null, array('placeholder' => "@lang('labels.backend.my_account.phone_number')", 'class' =>
+                                                {!! Form::text('phone_number', null, array('placeholder' => "Phone Number", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
@@ -206,14 +206,14 @@ if(!isset($_GET["active"])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">@lang('labels.backend.my_account.country')</label>
-                                                {!! Form::text('country', null, array('placeholder' => "@lang('labels.backend.my_account.country')", 'class' =>
+                                                {!! Form::text('country', null, array('placeholder' => "Country", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">@lang('labels.backend.my_account.state')</label>
-                                                {!! Form::text('state', null, array('placeholder' => "@lang('labels.backend.my_account.state')", 'class' =>
+                                                {!! Form::text('state', null, array('placeholder' => "State", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
@@ -223,14 +223,14 @@ if(!isset($_GET["active"])) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">@lang('labels.backend.my_account.city')</label>
-                                                {!! Form::text('city', null, array('placeholder' => "@lang('labels.backend.my_account.city')", 'class' =>
+                                                {!! Form::text('city', null, array('placeholder' => "City", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">@lang('labels.backend.my_account.zip_code')</label>
-                                                {!! Form::text('zip', null, array('placeholder' => "@lang('labels.backend.my_account.zip_code')", 'class' =>
+                                                {!! Form::text('zip', null, array('placeholder' => "Zip Code", 'class' =>
                                                 'form-control')) !!}
                                             </div>
                                         </div>
@@ -238,7 +238,7 @@ if(!isset($_GET["active"])) {
 
                                     <div class="form-group">
                                         <label class="form-label">@lang('labels.backend.my_account.address')</label>
-                                        {!! Form::text('address', null, array('placeholder' => "@lang('labels.backend.my_account.address')", 'class' =>
+                                        {!! Form::text('address', null, array('placeholder' => "", 'class' =>
                                         'form-control')) !!}
                                     </div>
 
