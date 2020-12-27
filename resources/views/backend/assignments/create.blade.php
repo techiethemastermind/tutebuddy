@@ -123,7 +123,7 @@
 
                             <!-- Set Lesson -->
                             <div class="form-group">
-                                <label class="form-label">@lang('labels.backend.general.lessons')</label>
+                                <label class="form-label">@lang('labels.backend.general.lesson')</label>
                                 <select name="lesson_id" class="form-control"></select>
                             </div>
 
@@ -248,6 +248,22 @@ $(function() {
                 if (res.success) {
                     lesson_added = (res.lesson_id != null) ? true : false;
                     $('select[name="lesson_id"]').html(res.options);
+                    if(res.options == '') {
+                        swal({
+                            title: "Warning!",
+                            text: "The course has no any lessons. Please add Lessons! \nClick confirm to add lessons",
+                            type: 'warning',
+                            showCancelButton: true,
+                            showConfirmButton: true,
+                            confirmButtonText: 'Confirm',
+                            cancelButtonText: 'Cancel',
+                            dangerMode: false,
+                        }, function (val) {
+                            if(val) {
+                                window.location.href = '/dashboard/courses/' + course + '/edit';
+                            }
+                        });
+                    }
                 }
             },
             error: function(err) {

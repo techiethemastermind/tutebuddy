@@ -76,18 +76,37 @@ class AssignmentsController extends Controller
         $assignment->save();
 
         // Send Email to Students
+        /* Version 1
         $student_ids = DB::table('course_student')->where('course_id', $assignment->course_id)->pluck('user_id');
         $student_emails = User::whereIn('id', $student_ids)->pluck('email');
         $email_data = [
             'template_type' => 'New_Assignment_Setup_By_Instructor',
             'mail_data' => [
                 'model_type' => Assignment::class,
-                'model_id' => $assignment->id
+                'model_id' => $assignment->id,
             ]
         ];
 
         foreach($student_emails as $email) {
             $email_data['mail_data']['email'] = $email;
+            SendEmail::dispatch($email_data);
+        }
+        */
+
+        // Send Email to Students
+        $student_ids = DB::table('course_student')->where('course_id', $assignment->course_id)->pluck('user_id');
+        $students = User::whereIn('id', $student_ids)->get();
+        $email_data = [
+            'template_type' => 'New_Assignment_Setup_By_Instructor',
+            'mail_data' => [
+                'model_type' => Assignment::class,
+                'model_id' => $assignment->id,
+            ]
+        ];
+
+        foreach($students as $student) {
+            $email_data['mail_data']['email'] = $student->email;
+            $email_data['mail_data']['other']['student_name'] = $student->name;
             SendEmail::dispatch($email_data);
         }
 

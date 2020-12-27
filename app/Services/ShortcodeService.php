@@ -165,6 +165,19 @@ class ShortCodeService
                 return $html;
             break;
 
+            case 'student_name':
+                $html = '';
+                if(!empty($this->data['mail_data'])) {
+                    $model = $this->data['mail_data']['model_type'];
+                    if(!empty($model)) {
+                        if($model == 'App\Models\Assignment') {
+                            $html = $this->data['mail_data']['other']['student_name'];
+                        }
+                    }
+                }
+                return $html;
+            break;
+
             case 'assignment_created_date':
                 $html = '';
                 if(!empty($this->data['mail_data'])) {
