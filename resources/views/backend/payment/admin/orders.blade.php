@@ -91,6 +91,7 @@
                     </thead>
                     <tbody class="list" id="toggle">
                         @foreach($orders as $order)
+                        <?php dd($order->user) ?>
                         <tr>
                             <td class="pr-0"></td>
 
