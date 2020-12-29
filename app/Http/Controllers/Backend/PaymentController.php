@@ -62,6 +62,7 @@ class PaymentController extends Controller
     {
         if(auth()->user()->hasRole('Administrator')) {
             $orders = Order::orderBy('created_at', 'desc')->paginate(15);
+            dd($orders);
             $earned_this_month = $this->getAdminEarned('month');
             $balance = $this->getAdminEarned('balance');
             $total = $this->getAdminEarned('total');
