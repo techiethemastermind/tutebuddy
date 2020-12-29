@@ -106,6 +106,7 @@
                             </td>
 
                             <td>
+                                @if(isset($order->user))
                                 <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                     <div class="avatar avatar-sm mr-8pt">
 
@@ -121,6 +122,9 @@
 
                                     </div>
                                 </div>
+                                @else
+                                N/A
+                                @endif
                             </td>
 
                             <td>
