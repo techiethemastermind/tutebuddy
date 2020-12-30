@@ -387,7 +387,7 @@
                         </div>
                         <div class="col-12 col-md-4">
 
-                            <!-- <div class="form-group">
+                            <div class="form-group">
                                 <label class="form-label">Options</label>
                                 <div class="card">
                                     <div class="card-body">
@@ -408,7 +408,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
 
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.sidebar.thumb')</label>

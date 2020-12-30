@@ -42,7 +42,6 @@ class ShortCodeService
                 } else {
                     return '';
                 }
-                
             break;
 
             case 'site_name':
@@ -54,7 +53,8 @@ class ShortCodeService
             break;
 
             case 'verify_link':
-                return url('user/verify', auth()->user()->verify_token);
+                $user = $this->data['mail_data'];
+                return url('user/verify', $user->verify_token);
             break;
 
             case 'customer_contact_info':

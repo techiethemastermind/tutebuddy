@@ -64,6 +64,7 @@ return array (
       'checkout' => 'Checkout',
       'items' => 'Items',
       'product_added' => 'Product added to cart successfully',
+      'item' => 'Item',
     ),
     'course' => 
     array (

@@ -233,6 +233,7 @@
 
     var timer;
     var time = '{{ $duration }}'; // Min
+    var is_timer = false;
 
     $(function() {
 
@@ -255,7 +256,10 @@
         });
 
         $('#btn_start').on('click', function(e) {
-            getTimer(true);
+            if(!is_timer) {
+                getTimer(is_timer);
+                is_timer = true;
+            }
             $('div.tute-questions').removeClass('d-none');
             $(this).html('Finish Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
         });
@@ -279,7 +283,7 @@
             })
         });
 
-        function getTimer(status = true) {
+        function getTimer(status) {
 
             var x = time;
 

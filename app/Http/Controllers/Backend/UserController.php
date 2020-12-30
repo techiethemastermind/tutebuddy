@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\User;
 use Spatie\Permission\Models\Role;
@@ -17,6 +18,7 @@ use App\Models\AccessHistory;
 class UserController extends Controller
 {
     use FileUploadTrait;
+    use SoftDeletes;
 
     /**
      * Create a new controller instance.
@@ -116,9 +118,11 @@ class UserController extends Controller
 
             $btn_show = view('backend.buttons.show', ['show_route' => route('admin.users.show', $user->id)])->render();
             $btn_edit = view('backend.buttons.edit', ['edit_route' => route('admin.users.edit', $user->id)])->render();
-            $btn_delete = view('backend.buttons.delete', ['delete_route' => route('admin.users.destroy', $user->id)])->render();
 
-            $temp['actions'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+            // $btn_delete = view('backend.buttons.delete', ['delete_route' => route('admin.users.destroy', $user->id)])->render();
+            // $temp['actions'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+
+            $temp['actions'] = $btn_show . '&nbsp;' . $btn_edit;
 
             array_push($data, $temp);
         }
