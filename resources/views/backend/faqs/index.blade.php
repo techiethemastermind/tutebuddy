@@ -40,7 +40,7 @@
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
             <div class="table-responsive" data-toggle="lists">
-                <table class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='10'>
+                <table class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='50'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>

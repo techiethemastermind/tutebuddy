@@ -74,7 +74,7 @@
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
             <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-order js-lists-values-date">
-                <table id="tbl_sales" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='10'>
+                <table id="tbl_sales" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='50'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>

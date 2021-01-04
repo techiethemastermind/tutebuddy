@@ -42,7 +42,7 @@
                 <span class="page-separator__text bg-white mb-0"><strong>@lang('labels.backend.my_instructors.title')</strong></span>
             </div>
             <div class="table-responsive" data-toggle="lists">
-                <table id="tbl_instructors" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='15'>
+                <table id="tbl_instructors" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='50'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>

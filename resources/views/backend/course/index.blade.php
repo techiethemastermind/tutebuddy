@@ -111,7 +111,7 @@
                 data-lists-sort-desc="true"
                 data-lists-values='["js-lists-values-no"]'>
 
-                <table id="tbl_courses" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='10'>
+                <table id="tbl_courses" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='50'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
