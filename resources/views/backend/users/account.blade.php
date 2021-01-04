@@ -457,7 +457,7 @@ if(!isset($_GET["active"])) {
                                         <div class="col-sm-9">
                                             {!! Form::text('account_number', null, 
                                                 array(
-                                                    'placeholder' => "@lang('labels.backend.my_account.account_number_placeholder')",
+                                                    'placeholder' => "Account Number",
                                                     'class' => 'form-control',
                                                     'tute-no-empty' => true
                                                 )) !!}
