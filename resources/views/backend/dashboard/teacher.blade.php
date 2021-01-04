@@ -32,31 +32,36 @@
     @if(count($courses) > 0)
     <div class="page-section border-bottom-2">
         <div class="container page__container">
-
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($earned_this_month, 2) }}</h4>
-                            <div>@lang('labels.backend.dashboard.earning_this_month')</div>
+                    <a href="{{ route('admin.orders') }}">
+                        <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($earned_this_month, 2) }}</h4>
+                                <div>@lang('labels.backend.dashboard.earning_this_month')</div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4">
-                    <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
-                            <div>@lang('labels.backend.dashboard.account_balance')</div>
+                    <a href="{{ route('admin.orders') }}">
+                        <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
+                                <div>@lang('labels.backend.dashboard.account_balance')</div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-4">
-                    <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total, 2) }}</h4>
-                            <div>@lang('labels.backend.dashboard.total_sales')</div>
+                    <a href="{{ route('admin.orders') }}">
+                        <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total, 2) }}</h4>
+                                <div>@lang('labels.backend.dashboard.total_sales')</div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

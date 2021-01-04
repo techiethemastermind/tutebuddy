@@ -103,6 +103,7 @@ class LoginController extends Controller
         //     'user_id' => $user->id,
         //     'user_name' => $user->name,
         //     'user_email' => $user->email,
+        //     'role' => $user->getRoleNames()->first(),
         //     'logined_at' => \Carbon\Carbon::now()->toDateTimeString(),
         //     'logined_ip' => $request->getClientIp(),
         //     'logined_location' => $location

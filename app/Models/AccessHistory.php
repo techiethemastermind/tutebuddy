@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AccessHistory extends Model
 {
-    protected $fillable = ['user_id', 'user_name', 'user_email', 'logined_at', 'logined_ip', 'logined_location'];
+    protected $fillable = ['user_id', 'user_name', 'role', 'user_email', 'logined_at', 'logined_ip', 'logined_location'];
 
     public function user()
     {

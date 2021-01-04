@@ -41,12 +41,13 @@
     <div class="container page__container page-section">
         <div class="card mb-lg-32pt">
             <div class="table-responsive" data-toggle="lists">
-                <table id="tbl_history" class="table mb-0 thead-border-top-0 table-nowrap">
+                <table id="tbl_history" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='50'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a></th>
+                            <th>Name</th>
                             <th>Email</th>
+                            <th>Role</th>
                             <th>Access Time</th>
                             <th>IP address</th>
                             <th>Location</th>
@@ -78,6 +79,7 @@
                     { data: 'index'},
                     { data: 'name'},
                     { data: 'email'},
+                    { data: 'role'},
                     { data: 'access_time'},
                     { data: 'access_ip'},
                     { data: 'location'}

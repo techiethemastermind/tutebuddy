@@ -34,71 +34,87 @@
 
             <div class="row row mb-32pt">
                 <div class="col-lg-3">
-                    <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ $teachers_count }}</h4>
-                            <div><label class="form-label">@lang('labels.backend.dashboard.instructors')</label></div>
+                    <a href="{{ route('admin.users.index') }}?tab=teacher">
+                        <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ $teachers_count }}</h4>
+                                <div><label class="form-label">@lang('labels.backend.dashboard.instructors')</label></div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3">
-                    <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ $students_count }}</h4>
-                            <div><label class="form-label">@lang('labels.backend.dashboard.students')</label></div>
+                    <a href="{{ route('admin.users.index') }}?tab=student">
+                        <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ $students_count }}</h4>
+                                <div><label class="form-label">@lang('labels.backend.dashboard.students')</label></div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3">
-                    <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ $active_courses }}</h4>
-                            <div><label class="form-label">@lang('labels.backend.dashboard.active_courses')</label></div>
+                    <a href="{{ route('admin.courses.index') }}">
+                        <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ $active_courses }}</h4>
+                                <div><label class="form-label">@lang('labels.backend.dashboard.active_courses')</label></div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3">
-                    <div class="card border-1 border-left-3 border-left-dark text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ $enrolled_courses }}</h4>
-                            <div><label class="form-label">@lang('labels.backend.dashboard.enrolled_courses')</label></div>
+                    <a href="{{ route('admin.courses.index') }}">
+                        <div class="card border-1 border-left-3 border-left-dark text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ $enrolled_courses }}</h4>
+                                <div><label class="form-label">@lang('labels.backend.dashboard.enrolled_courses')</label></div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
             <div class="row row mb-32pt">
                 <div class="col-lg-3">
-                    <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total_sales, 2) }}</h4>
-                            <div><label class="form-label">@lang('labels.backend.dashboard.total_sales')</label></div>
+                    <a href="{{ route('admin.orders') }}">
+                        <div class="card border-1 border-left-3 border-left-accent text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total_sales, 2) }}</h4>
+                                <div><label class="form-label">@lang('labels.backend.dashboard.total_sales')</label></div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3">
-                    <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total_payments, 2) }}</h4>
-                            <div><label class="form-label">@lang('labels.backend.dashboard.total_payments')</label></div>
+                    <a href="{{ route('admin.orders') }}">
+                        <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total_payments, 2) }}</h4>
+                                <div><label class="form-label">@lang('labels.backend.dashboard.total_payments')</label></div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3">
-                    <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ $course_approval }}</h4>
-                            <div><label class="form-label">@lang('labels.backend.dashboard.courses_approval')</label></div>
+                    <a href="{{ route('admin.courses.index') }}">
+                        <div class="card border-1 border-left-3 border-left-primary text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ $course_approval }}</h4>
+                                <div><label class="form-label">@lang('labels.backend.dashboard.courses_approval')</label></div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-lg-3">
-                    <div class="card border-1 border-left-3 border-left-dark text-center mb-lg-0">
-                        <div class="card-body">
-                            <h4 class="h2 mb-0">{{ $live_lessons }}</h4>
-                            <div><label class="form-label">@lang('labels.backend.dashboard.live_lessons')</label></div>
+                    <a href="{{ route('admin.courses.index') }}">
+                        <div class="card border-1 border-left-3 border-left-dark text-center mb-lg-0">
+                            <div class="card-body">
+                                <h4 class="h2 mb-0">{{ $live_lessons }}</h4>
+                                <div><label class="form-label">@lang('labels.backend.dashboard.live_lessons')</label></div>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
 
@@ -403,6 +419,19 @@ $(function() {
             title: {
                 display: true,
                 text: 'Daily Signups'
+            },
+            scales: {
+                yAxes: [
+                    {
+                        ticks: {
+                            callback: function(label, index, labels) {
+                                if(Number.isInteger(label)) {
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         }
     });

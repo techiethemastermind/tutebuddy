@@ -1,7 +1,7 @@
 <button type="button"
     class="btn btn-danger btn-sm"
     data-action="delete"
-    @if(isset($tooltip) && $tooltip)
+    @if(!isset($no_tooltip))
     data-toggle="tooltip"
     data-title="delete"
     @endif

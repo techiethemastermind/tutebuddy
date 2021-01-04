@@ -1,7 +1,7 @@
 <a href="{{ $edit_route }}"
     class="btn btn-primary btn-sm"
     data-action="edit"
-    @if(isset($tooltip) && $tooltip)
+    @if(!isset($no_tooltip))
     data-toggle="tooltip"
     data-original-title="Edit Item"
     @endif

@@ -580,6 +580,7 @@ class UserController extends Controller
             $histories = $history_obj->where('user_name', 'like', '%' . $q . '%')
                 ->orWhere('user_email', 'like', '%' . $q . '%')
                 ->orWhere('logined_location', 'like', '%' . $q . '%')
+                ->orWhere('role', 'like', '%' . $q . '%')
                 ->get();
         } else {
             $histories = $history_obj->get();
@@ -589,6 +590,7 @@ class UserController extends Controller
             $temp['index'] = '';
             $temp['name'] = $history->user_name;
             $temp['email'] = $history->user_email;
+            $temp['role'] = $history->user->getRoleNames()->first();
             $temp['access_time'] = $history->logined_at;
             $temp['access_ip'] = $history->logined_ip;
             $temp['location'] = $history->logined_location;
