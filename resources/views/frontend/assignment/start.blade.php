@@ -30,8 +30,17 @@
                 </div>
                 <div class="nav-item navbar-list__item">
                     <div class="d-flex align-items-center flex-nowrap">
+
+                        <?php
+                            if($assignment->lesson->steps->count() > 0) {
+                                $route = route('lessons.show', [$assignment->course->slug, $assignment->lesson->slug, $assignment->lesson->steps[0]->step]);
+                            } else {
+                                $route = route('courses.show', [$assignment->course->slug]);
+                            }
+                        ?>
+
                         <div class="mr-16pt">
-                            <a href="{{ route('lessons.show', [$assignment->course->slug, $assignment->lesson->slug, $assignment->lesson->steps[0]->step]) }}">
+                            <a href="{{ $route }}">
                                 @if(!empty($assignment->course->course_image))
                                 <img src="{{ asset('storage/uploads/thumb/' . $assignment->course->course_image) }}"
                                     width="40" alt="Angular" class="rounded">
@@ -44,9 +53,9 @@
                                 @endif
                             </a>
                         </div>
+
                         <div class="flex">
-                            <a href="{{ route('lessons.show', [$assignment->course->slug, $assignment->lesson->slug, $assignment->lesson->steps[0]->step]) }}"
-                                class="card-title text-body mb-0">
+                            <a href="{{ $route }}" class="card-title text-body mb-0">
                                 {{ $assignment->course->title }} | {{ $assignment->lesson->title }}
                             </a>
                             <p class="lh-1 d-flex align-items-center mb-0">
