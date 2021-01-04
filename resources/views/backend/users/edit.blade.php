@@ -68,13 +68,13 @@
             @endcan
 
             @can('user_delete')
-            <div class="row" role="tablist">
+            <!-- <div class="row" role="tablist">
                 <div class="col-auto">
                     {!! Form::open(['method' => 'DELETE','route' => ['admin.users.destroy', $user->id],'style'=>'display:inline']) !!}
                     {!! Form::submit('Delete', ['class' => 'btn btn-outline-secondary']) !!}
                     {!! Form::close() !!}
                 </div>
-            </div>
+            </div> -->
             @endcan
         </div>
     </div>
