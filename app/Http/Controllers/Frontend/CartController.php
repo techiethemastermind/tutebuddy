@@ -18,6 +18,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Tax;
 use App\Models\Bundle;
+use App\Models\Transaction;
 
 class CartController extends Controller
 {
@@ -235,7 +236,7 @@ class CartController extends Controller
                     'status' => $payment['status']
                 ]);
 
-                DB::table('transactions')->insert([
+                $transaction = Transaction::create([
                     'user_id' => auth()->user()->id,
                     'transaction_id' => 'trans-' . str_random(8),
                     'amount' => $request->amount,

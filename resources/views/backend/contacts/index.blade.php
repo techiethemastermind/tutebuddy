@@ -122,4 +122,24 @@
 <script src="{{ asset('assets/js/toggle-check-all.js') }}"></script>
 <script src="{{ asset('assets/js/check-selected-row.js') }}"></script>
 
+<script>
+
+$(function() {
+    $(document).on('submit', 'form[name="delete_item"]', function(e) {
+
+        e.preventDefault();
+
+        $(this).ajaxSubmit({
+            success: function(res) {
+                if(res.success) {
+                    window.location.reload();
+                } else {
+                    swal("Warning!", res.message, "warning");
+                }
+            }
+        });
+    });
+})
+</script>
+
 @endpush

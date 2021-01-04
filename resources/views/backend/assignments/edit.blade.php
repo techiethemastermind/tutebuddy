@@ -168,7 +168,7 @@
                             <!-- Total Mark -->
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.assignments.create.total_marks')</label>
-                                <input type="number" name="total_mark" class="form-control" placeholder="5" value="{{ $assignment->total_mark }}">
+                                <input type="number" name="total_mark" class="form-control" placeholder="5" min="1" value="{{ $assignment->total_mark }}">
                             </div>
                         </div>
                     </div>
@@ -225,6 +225,12 @@ $(function() {
 
     $('select[name="course_id"]').on('change', function(e) {
         loadLessons($(this).val());
+    });
+
+    $('input[type="number"]').on('keypress', function(e) {
+        if(e.which == 45) {
+            return false;
+        }
     });
 
     // When add title, Hide Error msg

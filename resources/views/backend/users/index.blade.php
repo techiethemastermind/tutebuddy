@@ -52,7 +52,7 @@
             <div class="card-header p-0 nav">
                 <div id="tbl_selector" class="row no-gutters" role="tablist">
                     <div class="col-auto">
-                        <a href="{{ route('admin.getUsersByAjax', 'admins') }}" data-toggle="tab" role="tab" aria-selected="true"
+                        <a href="{{ route('admin.getUsersByAjax', 'admins') }}" id="tab_admin" data-toggle="tab" role="tab" aria-selected="true"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
                             <span class="h2 mb-0 mr-3 count-admins">{{ $count['admins'] }}</span>
                             <span class="flex d-flex flex-column">
@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="col-auto border-left border-right">
-                        <a href="{{ route('admin.getUsersByAjax', 'teachers') }}" data-toggle="tab" role="tab"
+                        <a href="{{ route('admin.getUsersByAjax', 'teachers') }}" id="tab_teacher" data-toggle="tab" role="tab"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                             <span class="h2 mb-0 mr-3 count-teachers">{{ $count['teachers'] }}</span>
                             <span class="flex d-flex flex-column">
@@ -74,7 +74,7 @@
                     </div>
 
                     <div class="col-auto border-left border-right">
-                        <a href="{{ route('admin.getUsersByAjax', 'students') }}" data-toggle="tab" role="tab"
+                        <a href="{{ route('admin.getUsersByAjax', 'students') }}" id="tab_student" data-toggle="tab" role="tab"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
                             <span class="h2 mb-0 mr-3 count-students">{{ $count['students'] }}</span>
                             <span class="flex d-flex flex-column">
@@ -168,6 +168,35 @@
                 }
             });
         });
+
+        var getUrlParameter = function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                }
+            }
+        };
+
+        var tab = getUrlParameter('tab');
+
+        if(tab == 'student') {
+            setTimeout(() => {
+                $('#tab_student').trigger('click');
+            }, 2000);
+        }
+
+        if(tab == 'teacher') {
+            setTimeout(() => {
+                $('#tab_teacher').trigger('click');
+            }, 2000);
+        }
     });
 </script>
 

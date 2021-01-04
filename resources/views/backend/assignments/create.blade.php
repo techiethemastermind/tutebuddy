@@ -136,7 +136,7 @@
                             <!-- Total Mark -->
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.assignments.create.total_marks')</label>
-                                <input type="number" name="total_mark" class="form-control" placeholder="5" value="5" tute-no-empty>
+                                <input type="number" name="total_mark" class="form-control" placeholder="5" value="5" min="1" tute-no-empty>
                             </div>
                         </div>
                     </div>
@@ -191,6 +191,12 @@ $(function() {
 
     $('select[name="course_id"]').on('change', function(e) {
         loadLessons($(this).val());
+    });
+
+    $('input[type="number"]').on('keypress', function(e) {
+        if(e.which == 45) {
+            return false;
+        }
     });
 
     $('#frm_assignments').on('submit', function(e) {

@@ -128,7 +128,7 @@
                                     <small class="text-50">{{ $item->course->category->name }}</small>
                                 </div>
                             </div>
-                            <a href="javascript(void:0)">{{ getCurrency(config('app.currency'))['symbol'] . $item->price }}</a>
+                            <span>{{ getCurrency(config('app.currency'))['symbol'] . $item->price }}</span>
                         </div>
                     </div>
                     @endforeach

@@ -187,7 +187,7 @@
                                 </td>
                                 <td>{{ $course->category->name }}</td>
                                 <td>
-                                    @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug), 'tooltip' => false])
+                                    @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug), 'no_tooltip' => true])
                                     <a href="{{ route('admin.courses.publish', $course->id) }}" class="btn btn-success btn-sm" data-action="publish">
                                         <i class="material-icons">arrow_upward</i>
                                     </a>
