@@ -605,6 +605,7 @@ return array (
       'upload_parent_description' => 'Upload a clear ID in png, jpeg or PDF format',
       'relationship_to_child' => 'Relationship to child',
       'create_child_account' => 'Create Child Account',
+      'bank_note' => 'Your current payment method is Bank Information',
     ),
     'payment' => 
     array (

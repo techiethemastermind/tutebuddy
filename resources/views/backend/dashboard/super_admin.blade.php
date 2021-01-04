@@ -135,7 +135,7 @@
             <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
                 <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-schedule"
                     data-lists-sort-desc="true" data-lists-values='["js-lists-values-no"]'>
-                    <table class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
+                    <table id="tbl_pending_courses" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='5'>
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
@@ -457,6 +457,28 @@ $(function() {
                 text: "Daily Orders ({{ config('app.currency') }})"
             }
         }
+    });
+
+    $('#tbl_pending_courses').on('click', 'a[data-action="publish"]', function(e) {
+
+        e.preventDefault();
+
+        var url = $(this).attr('href');
+        var tr = $(this).closest('tr');
+
+        $.ajax({
+            method: 'get',
+            url: url,
+            success: function(res) {
+                console.log(res);
+                if(res.success) {
+                    if(res.published == 1) {
+                        swal("Success!", 'Published successfully', "success");
+                        tr.remove();
+                    }
+                }
+            }
+        });
     });
 });
 

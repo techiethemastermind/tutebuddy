@@ -471,7 +471,7 @@ if(!isset($_GET["active"])) {
                                         <div class="col-sm-9">
                                             {!! Form::text('ifsc', null, 
                                                 array(
-                                                    'placeholder' => "@lang('labels.backend.my_account.ifsc_placeholder')",
+                                                    'placeholder' => "IFSC",
                                                     'class' => 'form-control',
                                                     'tute-no-empty' => true
                                                 )) !!}
@@ -485,7 +485,7 @@ if(!isset($_GET["active"])) {
                                         <div class="col-sm-9">
                                             {!! Form::text('account_holder_name', null, 
                                                 array(
-                                                    'placeholder' => "@lang('labels.backend.my_account.beneficiary_name')",
+                                                    'placeholder' => "Beneficiary Name",
                                                     'class' => 'form-control',
                                                     'tute-no-empty' => true
                                                 )) !!}
@@ -499,7 +499,7 @@ if(!isset($_GET["active"])) {
                                         <div class="col-sm-9">
                                             {!! Form::text('account_type', null, 
                                                 array(
-                                                    'placeholder' => "@lang('labels.backend.my_account.account_type')",
+                                                    'placeholder' => "Account Type",
                                                     'class' => 'form-control'
                                                 )) !!}
                                         </div>
