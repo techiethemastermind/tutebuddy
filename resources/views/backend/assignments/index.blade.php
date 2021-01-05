@@ -193,7 +193,7 @@ $(function() {
 
         swal({
             title: "Are you sure?",
-            text: "This course will recovered",
+            text: "This assignment will recovered",
             type: 'info',
             showCancelButton: true,
             showConfirmButton: true,
@@ -207,6 +207,34 @@ $(function() {
                     url: url,
                     success: function(res) {
                         if(res.success) {
+                            table.ajax.reload();
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    $('#tbl_assignments').on('click', 'a[data-action="forever-delete"]', function(e) {
+        e.preventDefault();
+        var route = $(this).attr('href');
+        swal({
+            title: "Are you sure?",
+            text: "This assignment will removed forever",
+            type: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
+
+        }, function(val) {
+            if (val) {
+                $.ajax({
+                    method: 'GET',
+                    url: route,
+                    success: function(res) {
+                        if (res.success) {
                             table.ajax.reload();
                         }
                     }

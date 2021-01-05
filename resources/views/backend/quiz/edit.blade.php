@@ -559,6 +559,12 @@ $(function() {
         $('#mdl_section').modal('toggle');
     });
 
+    $('input[type="number"]').on('keypress', function(e) {
+        if(e.which == 45) {
+            return false;
+        }
+    });
+
     $('#frm_section').on('submit', function(e){
         e.preventDefault();
 

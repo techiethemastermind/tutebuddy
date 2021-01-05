@@ -687,7 +687,7 @@ return array (
       'no_category' => 'No Category',
       'select_category' => 'Select a Category',
       'tags' => 'Tags',
-      'select_tags' => 'Select one or more tags.',
+      'select_tags' => 'Type keywords and press enter',
       'options' => 'Options',
       'group_course' => 'Group Course',
       'min_students' => 'Min Students',

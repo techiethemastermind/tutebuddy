@@ -393,6 +393,12 @@ $(function() {
         }
     });
 
+    $('input[type="number"]').on('keypress', function(e) {
+        if(e.which == 45) {
+            return false;
+        }
+    });
+
     // Add New Question
     $('#btn_new_question').on('click', function() {
 

@@ -371,9 +371,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>due date</td>
+                                <td>{{ $assignment->due_date }}</td>
                                 <td>{{ $assignment->total_mark }}</td>
-                                <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show', $assignment->id)])</td>
+                                <td>@include('backend.buttons.show', ['show_route' => route('student.assignment.show', [$assignment->lesson->slug, $assignment->id])])</td>
                             </tr>
                             @endforeach
                         </tbody>

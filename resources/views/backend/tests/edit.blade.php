@@ -455,6 +455,12 @@ $(function() {
         $('#mdl_question').modal('toggle');
     });
 
+    $('input[type="number"]').on('keypress', function(e) {
+        if(e.which == 45) {
+            return false;
+        }
+    });
+
     $('#frm_question').submit(function(e) {
 
         e.preventDefault();

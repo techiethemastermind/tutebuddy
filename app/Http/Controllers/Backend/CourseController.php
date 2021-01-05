@@ -398,19 +398,30 @@ class CourseController extends Controller
      */
     public function destroy($id) {
 
-        try {
-            Course::find($id)->delete();
+        $course = Course::find($id);
 
-            return response()->json([
-                'success' => true,
-                'action' => 'destroy'
-            ]);
-        } catch (Exception $e) {
+        if($course->enrolled_Students->count() > 0) {
 
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage()
+                'message' => 'This course have enrolled!'
             ]);
+
+        } else {
+            try {
+                $course->delete();
+    
+                return response()->json([
+                    'success' => true,
+                    'action' => 'destroy'
+                ]);
+            } catch (Exception $e) {
+    
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ]);
+            }
         }
     }
 

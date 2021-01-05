@@ -201,28 +201,56 @@ $(document).ready(function() {
             }
         });
     });
-});
 
-$('#courses').on('change', function() {
-    route = '/dashboard/ajax/quizs/list/' + $('#courses').val();
-    table.ajax.url(route).load();
-});
+    $('#tbl_quizs').on('click', 'a[data-action="restore"]', function(e) {
 
-$(document).on('submit', 'form[name="delete_item"]', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
 
-    e.preventDefault();
-
-    $(this).ajaxSubmit({
-        success: function(res) {
-            if(res.success) {
-                table.ajax.reload();
-            } else {
-                swal("Warning!", res.message, "warning");
+        swal({
+            title: "Are you sure?",
+            text: "This quiz will recovered",
+            type: 'info',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            dangerMode: false,
+        }, function (val) {
+            if(val) {
+                $.ajax({
+                    method: 'GET',
+                    url: url,
+                    success: function(res) {
+                        if(res.success) {
+                            table.ajax.reload();
+                        }
+                    }
+                });
             }
-        }
+        });
+    });
+
+    $('#courses').on('change', function() {
+        route = '/dashboard/ajax/quizs/list/' + $('#courses').val();
+        table.ajax.url(route).load();
+    });
+
+    $(document).on('submit', 'form[name="delete_item"]', function(e) {
+
+        e.preventDefault();
+
+        $(this).ajaxSubmit({
+            success: function(res) {
+                if(res.success) {
+                    table.ajax.reload();
+                } else {
+                    swal("Warning!", res.message, "warning");
+                }
+            }
+        });
     });
 });
-
 
 </script>
 

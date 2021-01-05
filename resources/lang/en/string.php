@@ -79,5 +79,10 @@ return array (
       'terms_and_conditions' => 'I agree to the <a href="/page/terms-and-conditions" class="text-primary">Terms and Conditions</a>',
       'create_account' => 'Create account',
     ),
+    'verify' => 
+    array (
+      'note' => 'Before proceeding, please check your email for a verification link.',
+      'not_received_email' => 'If you did not receive the email',
+    ),
   ),
 );

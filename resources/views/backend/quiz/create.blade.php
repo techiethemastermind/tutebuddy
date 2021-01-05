@@ -415,6 +415,12 @@ $(function() {
         loadLessons($(this).val());
     });
 
+    $('input[type="number"]').on('keypress', function(e) {
+        if(e.which == 45) {
+            return false;
+        }
+    });
+
     //=== Add new section
     $('#btn_new_section').on('click', function(e) {
         e.preventDefault();

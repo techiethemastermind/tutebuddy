@@ -12,7 +12,6 @@
                         @lang('labels.auth.verify.thankyou')
                     </div>
                 </div>
-
                 @lang('string.auth.verify.note')
                 @lang('string.auth.verify.not_received_email'),
                 <form id="frm_resend" class="d-inline" method="POST" action="{{ route('verification.resend') }}">

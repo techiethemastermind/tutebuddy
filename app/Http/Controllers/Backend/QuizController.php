@@ -328,7 +328,7 @@ class QuizController extends Controller
             }
 
             if($quiz->trashed()) {
-                $restore_route = route('admin.test.restore', $quiz->id);
+                $restore_route = route('admin.quizs.restore', $quiz->id);
                 $btn_restore = '<a href="'. $restore_route. '" class="btn btn-primary btn-sm" data-action="restore" data-toggle="tooltip"
                     data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
 
