@@ -623,6 +623,7 @@ return array (
         'total' => 'Total',
         'transaction_id' => 'Transaction ID',
         'payment_status' => 'Payment Status',
+        'type' => 'Type',
       ),
       'order_detail' => 
       array (

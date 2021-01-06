@@ -25,14 +25,26 @@
                         @csrf
                         <div class="form-group">
                             <label class="form-label" for="name">@lang('labels.auth.register.first_last_name') *:</label>
-                            <input id="name" type="text" name="name" class="form-control"
+                            <input id="name" type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                                 placeholder="@lang('labels.auth.register.first_last_name_placeholder')" tute-no-empty>
+
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="email">@lang('labels.auth.register.your_email') *:</label>
-                            <input id="email" type="email" name="email" class="form-control"
-                                placeholder="@lang('labels.auth.register.your_email_placeholder')" tute-no-empty>
+                            <input id="email" type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                                placeholder="@lang('labels.auth.register.your_email_placeholder')" value="{{ old('email') }}" tute-no-empty>
+
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -42,8 +54,13 @@
 
                         <div class="form-group mb-24pt">
                             <label class="form-label" for="password">@lang('labels.auth.register.password'):</label>
-                            <input id="password" type="password" name="password" class="form-control"
+                            <input id="password" type="password" name="password" class="form-control @error('password') is-invalid @enderror"
                                 placeholder="@lang('labels.auth.register.password_placeholder')" tute-no-empty>
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group mb-24pt">
                             <label class="form-label" for="password">@lang('labels.auth.register.confirm_password'):</label>

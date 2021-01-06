@@ -394,7 +394,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 18px;" class="pr-0"></th>
-                                <th>@lang('labels.backend.dashboard.subject')</th>
+                                <th>@lang('labels.backend.dashboard.table.subject')</th>
                                 <th>@lang('labels.backend.dashboard.table.student')</th>
                                 <th>@lang('labels.backend.dashboard.table.attachment')</th>
                                 <th>@lang('labels.backend.dashboard.table.action')</th>

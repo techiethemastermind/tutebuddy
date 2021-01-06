@@ -55,7 +55,7 @@
                                 <a href="javascript:void(0)" class="sort" data-sort="js-lists-values-date">@lang('labels.backend.table.date')</a>
                             </th>
                             <th> @lang('labels.backend.payment.table.amount') </th>
-                            <th> @lang('labels.backend.payment.type') </th>
+                            <th> @lang('labels.backend.payment.table.type') </th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle">
