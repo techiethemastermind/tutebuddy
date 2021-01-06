@@ -111,13 +111,17 @@
                     <div class="player__embed d-none">
                         <?php
                             $embed = Embed::make($step->video)->parseUrl();
-                            $embed->setAttribute([
-                                'id'=>'display_step_video',
-                                'class'=>'embed-responsive-item',
-                                'allowfullscreen' => ''
-                            ]);
+                            if($embed) {
+                                $embed->setAttribute([
+                                    'id'=>'display_step_video',
+                                    'class'=>'embed-responsive-item',
+                                    'allowfullscreen' => ''
+                                ]);
+                            }
                         ?>
+                        @if($embed)
                         {!! $embed->getHtml() !!}
+                        @endif
                     </div>
                 </div>
             </div>
