@@ -398,30 +398,19 @@ class CourseController extends Controller
      */
     public function destroy($id) {
 
-        $course = Course::find($id);
+        try {
+            Course::find($id)->delete();
 
-        if($course->enrolled_Students->count() > 0) {
+            return response()->json([
+                'success' => true,
+                'action' => 'destroy'
+            ]);
+        } catch (Exception $e) {
 
             return response()->json([
                 'success' => false,
-                'message' => 'This course have enrolled!'
+                'message' => $e->getMessage()
             ]);
-
-        } else {
-            try {
-                $course->delete();
-    
-                return response()->json([
-                    'success' => true,
-                    'action' => 'destroy'
-                ]);
-            } catch (Exception $e) {
-    
-                return response()->json([
-                    'success' => false,
-                    'message' => $e->getMessage()
-                ]);
-            }
         }
     }
 
@@ -583,9 +572,13 @@ class CourseController extends Controller
             }
 
             if(auth()->user()->hasRole('Administrator')) {
-                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish;
             } else {
-                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit;
+            }
+
+            if($course->enrolledStudents->count() < 1) {
+                $temp['action'] .= '&nbsp;' . $btn_delete;
             }
 
             if($course->trashed()) {
