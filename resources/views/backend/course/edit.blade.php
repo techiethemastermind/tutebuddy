@@ -149,10 +149,12 @@
                                         {{ \Carbon\Carbon::createFromTimeStamp(strtotime($lesson->updated_at))->diffForHumans() }}
                                     </span>
                                     <span class="btn-actions">
-                                        <a href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, 1]) }}"
+                                        @if($lesson->steps->count() > 0)
+                                        <a href="{{ route('lessons.show', [$lesson->course->slug, $lesson->slug, $lesson->steps[0]->step]) }}"
                                             class="btn btn-outline-secondary btn-sm btn-preview" target="_blank">
                                             <i class="material-icons">remove_red_eye</i>
                                         </a>
+                                        @endif
                                         <a href="{{ route('admin.lesson.getById', $lesson->id) }}"
                                             class="btn btn-outline-secondary btn-sm btn-edit">
                                             <i class="material-icons">edit</i>
