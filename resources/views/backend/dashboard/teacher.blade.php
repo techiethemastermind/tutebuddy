@@ -457,7 +457,7 @@
                                     N/A
                                     @endif
                                 </td>
-                                <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show', $result->assignment->id)])</td>
+                                <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show_result', $result->id)])</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -110,7 +110,7 @@
 
                             <div class="list-group-item">
                                 <button id="btn_submit" type="button" class="btn btn-accent">
-                                    @lang('labels.backend.discussions.edit_notify.update_question')
+                                    @lang('labels.backend.buttons.save')
                                 </button>
                             </div>
                         </div>
@@ -170,8 +170,26 @@
 
             $('#frm_discussions').ajaxSubmit({
                 success: function(res) {
-                    var url = '/dashboard/discussions/' + res.discussion_id + '/edit';
-                    window.location.href = url;
+                    if(res.success) {
+                        swal({
+                            title: "Successfully Stored",
+                            text: "Topic is stored successfully",
+                            type: 'success',
+                            showCancelButton: true,
+                            showConfirmButton: true,
+                            confirmButtonText: 'Confirm',
+                            cancelButtonText: 'Cancel',
+                            dangerMode: false,
+
+                        }, function(val) {
+                            if (val) {
+                                var url = '/dashboard/discussions/' + res.discussion_id + '/edit';
+                                window.location.href = url;
+                            }
+                        });
+                    } else {
+                        swal('Warning!', res.message, 'warning');
+                    }
                 }
             })
         });

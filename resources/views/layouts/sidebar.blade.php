@@ -185,13 +185,13 @@
                             </a>
                         </li>
 
+                        @if(auth()->user()->hasRole('Administrator'))
                         <li class="sidebar-menu-item {{ Request::is('dashboard/refund*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.refunds') }}">
                                 <span class="sidebar-menu-text">@lang('navs.sidebar.refunds')</span>
                             </a>
                         </li>
-
-                        @if(auth()->user()->hasRole('Administrator'))
+                        
                         <li class="sidebar-menu-item {{ Request::is('dashboard/contact*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.contacts.index') }}">
                                 <span class="sidebar-menu-text">@lang('navs.sidebar.contacts')</span>
