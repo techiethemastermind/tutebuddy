@@ -202,8 +202,10 @@ class CartController extends Controller
         $tax_amount = 0;
         $taxes = Tax::where('status', '=', 1)->get();
         if ($taxes != null) {
-            foreach ($taxes as $tax) {
-                $tax_amount += $total * $tax->rate / 100;
+            foreach ($taxes as $tax){
+                if($tax->condition == 'country' && in_array(auth()->user()->country, json_decode($tax->value))) {
+                    $tax_amount += $total * $tax->rate / 100;
+                }
             }
         }
 

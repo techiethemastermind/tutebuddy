@@ -147,7 +147,7 @@
       <div id="logo">
         <img src="{{ public_path('images/footer-bar-logo.png') }}">
       </div>
-      <h1>INVOICE {{ $order->id }}</h1>
+      <h1>INVOICE {{ $order->uuid }}</h1>
       <div id="company" class="clearfix">
         <div>{{ config('app.company') }}</div>
         <div>{{ config('app.name') }}</div>
@@ -160,6 +160,7 @@
         <div><span>ADDRESS</span> {{ $order->user->address }}, {{ $order->user->state }} {{ $order->user->zip }}, {{ $order->user->country }}</div>
         <div><span>EMAIL</span> <a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></div>
         <div><span>DATE</span> {{ \Carbon\Carbon::now()->parse($order->created_at)->format('M d, Y') }}</div>
+        <div><span>ORDERID</span>{{ $order->order_id }}</div>
       </div>
     </header>
     <main>
@@ -183,6 +184,11 @@
                 <td class="total">{{ getCurrency(config('app.currency'))['symbol'] . $item->amount }}</td>
             </tr>
             @endforeach
+
+            <tr>
+                <td colspan="4" class="service">Total: </td>
+                <td class="total">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</td>
+            </tr>
         </tbody>
       </table>
       <!-- <div id="notices">
