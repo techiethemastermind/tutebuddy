@@ -297,7 +297,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Marks (Optional)</label>
-                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)">
+                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)" tute-no-empty>
                 </div>
             </div>
 
@@ -464,9 +464,23 @@ $(function() {
     $('#frm_question').submit(function(e) {
 
         e.preventDefault();
+
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
                 var question = quill_new.root.innerHTML;
+
+                if(question == '<p><br></p>') {
+                    if($('#q_new_editor').siblings('.invalid-feedback').length < 1) {
+                        var err_msg = $('<div class="invalid-feedback" style="margin-top: -20px; display:block;">This field is required.</div>');
+                        err_msg.insertAfter($('#q_new_editor'));
+                    }
+                    return false;
+                }
+
+                if(!checkValidForm($(this))){
+                    return false;
+                }
+                
                 formData.push({
                     name: 'question',
                     type: 'text',
@@ -533,6 +547,7 @@ $(function() {
         $(this).ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
                 var question = quill_edit.root.innerHTML;
+                
                 formData.push({
                     name: 'question',
                     type: 'text',

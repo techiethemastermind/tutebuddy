@@ -92,7 +92,7 @@
                             @foreach($pending_orders  as $item)
                             <tr>
                                 <td></td>
-                                <td><a href="{{ route('admin.orders.detail', $item->order->id) }}">{{ $item->order->order_id }}</a></td>
+                                <td><a href="{{ route('admin.orders.detail', $item->order->id) }}">{{ $item->order->uuid }}</a></td>
                                 <td>{{ \Carbon\Carbon::parse($item->created_at)->format('M, d, Y') }}</td>
                                 <td>
                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
@@ -452,7 +452,7 @@
                                         }
                                     ?>
                                     @if(!empty($result->attachment_url))
-                                    <a href="{{ asset('/storage/uploads/' . $result->attachment_url ) }}" target="_blank">{!! $img !!}</a>
+                                    <a href="{{ asset('/storage/attachments/' . $result->attachment_url ) }}" target="_blank">{!! $img !!}</a>
                                     @else
                                     N/A
                                     @endif
