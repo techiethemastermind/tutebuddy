@@ -278,6 +278,7 @@
                 success: function(res) {
                     if(res.success) {
                         swal('Success!', res.message, 'success');
+                        window.location.href = "{{ route('admin.student.tests') }}";
                     }
                 }
             })

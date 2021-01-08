@@ -530,25 +530,25 @@
 
                 @foreach($testResults as $testResult)
 
-                    <div class="card-group-row__col col-md-6">
+                    <div class="card-group-row__col col-md-12">
 
                         <div class="card card-group-row__card card-sm">
                             <div class="card-body d-flex align-items-center">
-                                <a href="{{ route('student.test.result', [ $testResult->test->lesson->slug, $testResult->test->id]) }}"
+                                <a href="{{ route('admin.tests.show_result', $testResult->id) }}"
                                     class="avatar overlay overlay--primary avatar-4by3 mr-12pt">
                                     <img src="{{ asset('/storage/uploads/thumb/' . $testResult->test->course->course_image ) }}"
                                         alt="{{ $testResult->test->title }}" class="avatar-img rounded">
                                     <span class="overlay__content"></span>
                                 </a>
                                 <div class="flex mr-12pt">
-                                    <a class="card-title" href="{{ route('student.test.result', [ $testResult->test->lesson->slug, $testResult->test->id]) }}">{{ $testResult->test->title }}</a>
+                                    <a class="card-title" href="{{ route('admin.tests.show_result', $testResult->id) }}">{{ $testResult->test->title }}</a>
                                     <div class="card-subtitle text-50">
                                         {{ Carbon\Carbon::parse($testResult->updated_at)->diffForHumans() }}
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column align-items-center">
                                     <span class="lead text-headings lh-1">By: {{ $testResult->user->name }}</span>
-                                    <a class="card-title" href="{{ route('student.test.result', [ $testResult->test->lesson->slug, $testResult->test->id]) }}">
+                                    <a class="card-title" href="{{ route('admin.tests.show_result', $testResult->id) }}">
                                         <small class="text-50 text-uppercase text-headings">
                                             {{ $testResult->test->course->title }} | {{ $testResult->test->lesson->title }}
                                         </small>
