@@ -245,7 +245,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Marks (Optional)</label>
-                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)">
+                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)" min="1">
                 </div>
             </div>
 
@@ -294,7 +294,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Marks (Optional)</label>
-                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)">
+                    <input type="number" class="form-control" name="score" placeholder="Marks (Optional)" min="1">
                 </div>
             </div>
 
