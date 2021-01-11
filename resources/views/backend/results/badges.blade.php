@@ -77,16 +77,13 @@
     <div class="container page__container page-section">
 
         @foreach($badges as $item)
-
+        
+        <?php
+            $badge = get_badge($item->percent);
+        ?>
+        @if($badge)
         <div class="media d-table badge-d-table card">
             <div class="media-left d-table-cell mr-24pt">
-                <?php
-                    $badge = get_badge($item->percent);
-                    if(empty($badge)) {
-                        $badge['title'] = 'N/A';
-                        $badge['image'] = '';
-                    }
-                ?>
                 <div class="avatar avatar-xxl border badge-border">
                     <img src="{{ asset('/images/' . $badge['image']) }}" alt="Badge" class="avatar-img rounded">
                 </div>
@@ -125,6 +122,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
         @endforeach
 
