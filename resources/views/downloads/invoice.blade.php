@@ -160,7 +160,7 @@
         <div><span>ADDRESS</span> {{ $order->user->address }}, {{ $order->user->state }} {{ $order->user->zip }}, {{ $order->user->country }}</div>
         <div><span>EMAIL</span> <a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></div>
         <div><span>DATE</span> {{ \Carbon\Carbon::now()->parse($order->created_at)->format('M d, Y') }}</div>
-        <div><span>ORDERID</span>{{ $order->order_id }}</div>
+        <div><span>ORDERID</span>{{ $order->uuid }}</div>
       </div>
     </header>
     <main>
@@ -184,7 +184,6 @@
                 <td class="total">{{ getCurrency(config('app.currency'))['symbol'] . $item->amount }}</td>
             </tr>
             @endforeach
-
             <tr>
                 <td colspan="4" class="service">Total: </td>
                 <td class="total">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</td>

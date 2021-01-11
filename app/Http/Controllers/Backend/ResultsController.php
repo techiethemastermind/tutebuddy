@@ -128,7 +128,6 @@ class ResultsController extends Controller
         // Quizzes
         $quizs = Quiz::whereIn('lesson_id', $lesson_ids)->get();
 
-
         return view('backend.results.student_detail', compact('course', 'assignments', 'tests', 'quizs'));
     }
 

@@ -27,6 +27,14 @@ function get_badge($percent) {
     return false;
 }
 
+function get_result($percent) {
+    if($percent >= 35) {
+        return 'PASS';
+    } else {
+        return 'FAIL';
+    }
+}
+
 ?>
 
 <!-- Header Layout Content -->
@@ -164,7 +172,7 @@ function get_badge($percent) {
                                         @endif
                                     @endif
                                 </td>
-                                <td><strong>PASS</strong></td>
+                                <td><strong><?php echo get_result(round($assignment->result->mark / $assignment->total_mark * 100)); ?></strong></td>
                             </tr>
                             
                             @endforeach
@@ -246,7 +254,13 @@ function get_badge($percent) {
                                         @endif
                                     @endif
                                 </td>
-                                <td><strong>PASS</strong></td>
+                                <td>
+                                    @if($test->result)
+                                    <strong><?php echo get_result(round($test->result->mark / $test->score * 100)) ?></strong>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
                             </tr>
                             
                             @endforeach
@@ -328,7 +342,7 @@ function get_badge($percent) {
                                         @endif
                                     @endif
                                 </td>
-                                <td><strong>PASS</strong></td>
+                                <td><strong><?php echo get_result(round($quiz->result->quiz_result / $quiz->score * 100)) ?></strong></td>
                             </tr>
                             
                             @endforeach
