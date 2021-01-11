@@ -373,7 +373,18 @@
                                 </td>
                                 <td>{{ $assignment->due_date }}</td>
                                 <td>{{ $assignment->total_mark }}</td>
-                                <td>@include('backend.buttons.show', ['show_route' => route('student.assignment.show', [$assignment->lesson->slug, $assignment->id])])</td>
+                                <td>
+                                    @if($loop->iteration > 1)
+                                        @include('backend.buttons.show', [
+                                            'show_route' => route('student.assignment.show', [$assignment->lesson->slug, $assignment->id])
+                                        ])
+                                    @else
+                                        @include('backend.buttons.show', [
+                                            'show_route' => route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]),
+                                            'no_tooltip' => true
+                                        ])
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -457,7 +468,16 @@
                                     N/A
                                     @endif
                                 </td>
-                                <td>@include('backend.buttons.show', ['show_route' => route('admin.assignments.show_result', $result->id)])</td>
+                                <td>
+                                    @if($loop->iteration > 1)
+                                        @include('backend.buttons.show', ['show_route' => route('admin.assignments.show_result', $result->id)])
+                                    @else
+                                        @include('backend.buttons.show', [
+                                            'show_route' => route('admin.assignments.show_result', $result->id),
+                                            'no_tooltip' => true
+                                        ])
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

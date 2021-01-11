@@ -121,6 +121,11 @@
                 <div class="card">
                     <div class="card-body">
                         <form id="frm_result" method="POST" action="{{ route('admin.tests.result_answer') }}" enctype="multipart/form-data">@csrf
+
+                            <div class="form-group">
+                                <label for="" class="form-label">Total Mark: {{ $result->test->score }}</label>
+                            </div>
+
                             <div class="form-group">
                                 <label for="" class="form-label">test Mark</label>
                                 <input type="number" name="mark" class="form-control" value="{{ $result->mark }}">

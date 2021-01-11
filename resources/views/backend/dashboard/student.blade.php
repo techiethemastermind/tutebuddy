@@ -233,7 +233,11 @@
                                     @endif
                                 </td>
                                 <td>
-                                    @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug)])
+                                    @if($loop->iteration > 1)
+                                        @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug)])
+                                    @else
+                                        @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug), 'no_tooltip' => true])
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -291,7 +295,7 @@
                                 </td>
                                 <td>{{ $teacher->email }}</td>
                                 <td>
-                                    <a href="" target="_blank" class="btn btn-primary btn-sm">Follow</a>
+                                    <!-- <a href="" target="_blank" class="btn btn-primary btn-sm">Follow</a> -->
                                     <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-accent btn-sm">View Profile</a>
                                 </td>
                             </tr>
@@ -349,7 +353,18 @@
                                 </td>
                                 <td><strong>{{ $assignment->due_date }}</strong></td>
                                 <td><strong>{{ $assignment->total_mark }}</strong></td>
-                                <td>@include('backend.buttons.show', ['show_route' => route('student.assignment.show', [$assignment->lesson->slug, $assignment->id])])</td>
+                                <td>
+                                    @if($loop->iteration > 1)
+                                        @include('backend.buttons.show', [
+                                            'show_route' => route('student.assignment.show', [$assignment->lesson->slug, $assignment->id])
+                                        ])
+                                    @else
+                                        @include('backend.buttons.show', [
+                                            'show_route' => route('student.assignment.show', [$assignment->lesson->slug, $assignment->id]),
+                                            'no_tooltip' => true
+                                        ])
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

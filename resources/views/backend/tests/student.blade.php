@@ -76,7 +76,7 @@
                             <th style="width: 18px;" class="pr-0"></th>
                             <th> @lang('labels.backend.table.title') </th>
                             <th> @lang('labels.backend.table.duration') </th>
-                            <th> @lang('labels.backend.table.total_marks') </th>
+                            <th> @lang('labels.backend.table.marks') </th>
                             <th> @lang('labels.backend.table.actions') </th>
                         </tr>
                     </thead>

@@ -273,6 +273,7 @@ class StudentController extends Controller
             $result_data = [
                 'test_id' => $data['test_id'],
                 'content' => $data['content'],
+                'due_time' => $data['due_time'],
                 'user_id' => auth()->user()->id
             ];
     

@@ -188,9 +188,9 @@
                                 <td>{{ $course->category->name }}</td>
                                 <td>
                                     @if($loop->iteration < 2)
-                                    @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug), 'no_tooltip' => true])
+                                        @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug), 'no_tooltip' => true])
                                     @else
-                                    @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug)])
+                                        @include('backend.buttons.show', ['show_route' => route('courses.show', $course->slug)])
                                     @endif
                                     <a href="{{ route('admin.courses.publish', $course->id) }}" class="btn btn-success btn-sm" data-action="publish">
                                         <i class="material-icons">arrow_upward</i>

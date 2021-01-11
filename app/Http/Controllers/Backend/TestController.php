@@ -453,9 +453,28 @@ class TestController extends Controller
             $temp['mark'] = '<strong>' . $item->score . '</strong>';
 
             if($item->result && $item->result->count() > 0) {
+
+                $hours = floor($item->result->due_time / 3600);
+                $mins = floor($item->result->due_time % 3600 / 60);
+                $temp['duration'] = $hours . ' Hours ' . $mins . ' Mins';
+
                 $show_route = route('student.test.result', [$item->lesson->slug, $item->id]);
-                $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Review</a>';
+
+                if(!empty($item->result->mark)) {
+                    $temp['mark'] = '<strong>' . $item->result->mark . '/' . $item->score . '</strong>';
+                    $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Reviewed</a>';
+                } else {
+                    $temp['mark'] = '<strong>' . $item->score . '</strong>';
+                    $btn_show = '<a href="'. $show_route. '" class="btn btn-accent btn-sm">Reviewing</a>';
+                }
+
             } else {
+
+                $hours = floor($item->duration / 60);
+                $mins = $item->duration % 60;
+                $temp['duration'] = $hours . ' Hours ' . $mins . ' Mins';
+                $temp['mark'] = '<strong>' . $item->score . '</strong>';
+
                 $show_route = route('student.test.show', [$item->lesson->slug, $item->id]);
                 $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
             }

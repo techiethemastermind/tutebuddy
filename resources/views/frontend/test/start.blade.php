@@ -234,6 +234,7 @@
     var timer;
     var time = '{{ $duration }}'; // Min
     var is_timer = false;
+    var current_time;
 
     $(function() {
 
@@ -265,7 +266,9 @@
         });
 
         $('#frm_test').on('submit', function(e){
+
             e.preventDefault();
+
             $(this).ajaxSubmit({
                 beforeSubmit: function(formData, formObject, formOptions) {
 
@@ -274,11 +277,19 @@
                         type: 'text',
                         value: s_quill.root.innerHTML
                     });
+
+                    formData.push({
+                        name: 'due_time',
+                        type: 'integer',
+                        value: time - current_time
+                    });
                 },
                 success: function(res) {
                     if(res.success) {
                         swal('Success!', res.message, 'success');
-                        window.location.href = "{{ route('admin.student.tests') }}";
+                        setTimeout(() => {
+                            window.location.href = "{{ route('admin.student.tests') }}";
+                        }, 1500);
                     }
                 }
             })
@@ -317,6 +328,8 @@
                         }
                     });
                 }
+
+                current_time = x;
 
             }, 1000);
         }

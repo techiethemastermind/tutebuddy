@@ -17,7 +17,7 @@ function get_badge($percent) {
     }
 
     if($percent >= 80 && $percent < 90 ) {
-        return 'sliver-badge.png';
+        return 'silver-badge.png';
     }
 
     if($percent >= 90 && $percent < 100 ) {
@@ -54,7 +54,7 @@ function get_badge($percent) {
             <div class="row" role="tablist">
                 <div class="col-auto">
                     <a href="{{ route('admin.results.student') }}" class="btn btn-outline-secondary">
-                        @lang('labels.backend.general.back')
+                        @lang('labels.general.back')
                     </a>
                 </div>
             </div>

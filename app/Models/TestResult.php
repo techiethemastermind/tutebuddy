@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TestResult extends Model
 {
-    protected $fillable = ['test_id', 'user_id', 'content', 'attachment', 'mark', 'status'];
+    protected $fillable = ['test_id', 'user_id', 'content', 'due_time', 'attachment', 'mark', 'status'];
 
     protected static function boot()
     {

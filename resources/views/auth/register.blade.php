@@ -21,7 +21,7 @@
                 
                 <div class="col-lg-5 p-0 mx-auto">
                     
-                    <form method="POST" action="{{ route('register') }}" class="card card-body p-32pt">
+                    <form id="frm_register" method="POST" action="{{ route('register') }}" class="card card-body p-32pt">
                         @csrf
                         <div class="form-group">
                             <label class="form-label" for="name">@lang('labels.auth.register.first_last_name') *:</label>
@@ -55,17 +55,20 @@
                         <div class="form-group mb-24pt">
                             <label class="form-label" for="password">@lang('labels.auth.register.password'):</label>
                             <input id="password" type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                                placeholder="@lang('labels.auth.register.password_placeholder')" tute-no-empty>
+                                placeholder="@lang('labels.auth.register.password_placeholder')">
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                            <span class="invalid-feedback" role="alert">
+                                Must be at least 8 characters, At least 1 number, 1 lowercase, 1 uppercase letter, At least 1 special character from @#$%&
+                            </span>
                         </div>
                         <div class="form-group mb-24pt">
                             <label class="form-label" for="password">@lang('labels.auth.register.confirm_password'):</label>
                             <input id="password-confirm" type="password" name="password_confirmation" class="form-control"
-                                placeholder="@lang('labels.auth.register.confirm_password_placeholder')" tute-no-empty>
+                                placeholder="@lang('labels.auth.register.confirm_password_placeholder')">
                         </div>
                         <input type="hidden" name="role" value="{{ $reg_type }}">
 
@@ -185,6 +188,29 @@
         }
         $('select[name="timezone"]').timezones();
         $('select[name="timezone"] option[data-offset="'+ offset +'"]').prop('selected', true);
+
+        var pattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/;
+
+        $('#password').on('keyup', function(e) {
+            var rlt = checkPassword($(this).val());
+            if(!rlt) {
+                if(!$(this).hasClass('is-invalid')) {
+                    $(this).addClass('is-invalid');
+                }
+            } else {
+                $(this).removeClass('is-invalid');
+                $(this).addClass('is-valid');
+            }
+        });
+
+        function checkPassword(password) {
+            if(pattern.test(password)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
     });
 </script>
 
