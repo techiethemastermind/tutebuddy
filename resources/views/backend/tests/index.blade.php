@@ -189,6 +189,7 @@ $(function() {
                     }
                     
                     table.ajax.reload();
+                    $(document).find('.tooltip.show').remove();
                 }
             }
         });
@@ -216,6 +217,7 @@ $(function() {
                     success: function(res) {
                         if(res.success) {
                             table.ajax.reload();
+                            $(document).find('.tooltip.show').remove();
                         }
                     }
                 });
@@ -231,6 +233,7 @@ $(function() {
             success: function(res) {
                 if(res.success) {
                     table.ajax.reload();
+                    $(document).find('.tooltip.show').remove();
                 } else {
                     swal("Warning!", res.message, "warning");
                 }
