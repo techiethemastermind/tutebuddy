@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
                 $pending_courses = Course::where('published', 2)->limit(5)->get();
                 $withdraw_requests = Transaction::where('type', 'withdraw')->where('status', 'pending')->limit(5)->get();
-                $orders = Order::limit(5)->get();
+                $orders = Order::limit(5)->orderBy('created_at', 'desc')->get();
 
                 // Daily signup data
                 $days = Carbon::now()->daysInMonth;

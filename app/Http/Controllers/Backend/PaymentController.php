@@ -35,12 +35,12 @@ class PaymentController extends Controller
     public function getTransactions()
     {
         if(auth()->user()->hasRole('Instructor')) {
-            $transactions = Transaction::where('user_id', auth()->user()->id)->paginate(15);
+            $transactions = Transaction::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->paginate(15);
             return view('backend.payment.teacher.transactions', compact('transactions'));
         }
 
         if(auth()->user()->hasRole('Administrator')) {
-            $transactions = Transaction::paginate(15);
+            $transactions = Transaction::orderBy('created_at', 'desc')->paginate(15);
             return view('backend.payment.admin.transactions', compact('transactions'));
         }
         

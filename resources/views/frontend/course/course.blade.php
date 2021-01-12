@@ -144,7 +144,7 @@
                 @if(auth()->user()->hasRole('Administrator'))
                 <div class="">
                     @if($course->published == 2)
-                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-primary">Publish
+                    <a href="{{ route('admin.courses.publish', $course->id) }}" id="btn_publish" class="btn btn-primary">
                         @lang('labels.frontend.buttons.publish')
                     </a>
                     @endif
