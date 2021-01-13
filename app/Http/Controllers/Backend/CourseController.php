@@ -604,7 +604,6 @@ class CourseController extends Controller
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $courses = Course::whereIn('id', $course_ids)->get();
-        dd($courses);
         $count_all = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->count();
         $count_achieved = Course::whereIn('id', $course_ids)->where('end_date', '<=', Carbon::now()->format('Y-m-d'))->count();
         $count = [
