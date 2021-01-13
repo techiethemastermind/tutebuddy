@@ -127,7 +127,7 @@
                     { data: 'action' }
                 ],
                 oLanguage: {
-                    sEmptyTable: "You have no Assignments"
+                    sEmptyTable: "@lang('labels.backend.assignment.no_result')"
                 }
             }
         );

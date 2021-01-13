@@ -178,7 +178,7 @@ $(function() {
     // Init Quill Editor for Assignment Content
     var assignment_editor = new Quill('#assignment_editor', {
         theme: 'snow',
-        placeholder: 'Assignment Content',
+        placeholder: "@lang('labels.backend.assignment.content')",
         modules: {
             toolbar: toolbarOptions
         },
@@ -220,13 +220,13 @@ $(function() {
             success: function(res) {
                 if(res.success) {
                     swal({
-                        title: "Successfully Stored",
-                        text: "Assignment is stored successfully",
+                        title: "@lang('labels.backend.general.successfully_stored')",
+                        text: "@lang('labels.backend.assignment.successfully_stored')",
                         type: 'success',
                         showCancelButton: true,
                         showConfirmButton: true,
-                        confirmButtonText: 'Confirm',
-                        cancelButtonText: 'Cancel',
+                        confirmButtonText: "@lang('labels.backend.general.confirm')",
+                        cancelButtonText: "@lang('labels.backend.general.cancel')",
                         dangerMode: false,
 
                     }, function(val) {
@@ -256,13 +256,13 @@ $(function() {
                     $('select[name="lesson_id"]').html(res.options);
                     if(res.options == '') {
                         swal({
-                            title: "Warning!",
-                            text: "The course has no any lessons. Please add Lessons! \nClick confirm to add lessons",
+                            title: "@lang('labels.backend.general.warning')",
+                            text: "@lang('string.backend.load_lesson')",
                             type: 'warning',
                             showCancelButton: true,
                             showConfirmButton: true,
-                            confirmButtonText: 'Confirm',
-                            cancelButtonText: 'Cancel',
+                            confirmButtonText: "@lang('labels.backend.general.confirm')",
+                            cancelButtonText: "@lang('labels.backend.general.cancel')",
                             dangerMode: false,
                         }, function (val) {
                             if(val) {

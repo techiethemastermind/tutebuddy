@@ -77,7 +77,7 @@
                         </div>
                         @if($bundle->getRatingAttribute() > 0)
                         <div class="d-flex align-items-center mt-8pt">
-                            <small class="text-black-50 mr-8pt">Your rating</small>
+                            <small class="text-black-50 mr-8pt">@lang('labels.backend.general.your_rating')</small>
                             <div class="rating mr-8pt">
                                 @include('layouts.parts.rating', ['rating' => $bundle->getRatingAttribute()])
                             </div>
@@ -95,7 +95,9 @@
                                 </div>
                             </div>
                             <div class="col text-right">
-                                <a href="{{ route('bundles.show', $bundle->slug) }}" class="btn btn-outline-secondary">Begin</a>
+                                <a href="{{ route('bundles.show', $bundle->slug) }}" class="btn btn-outline-secondary">
+                                    @lang('labels.backend.paths.begin')
+                                </a>
                             </div>
                         </div>
 

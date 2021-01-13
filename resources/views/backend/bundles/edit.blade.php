@@ -353,12 +353,12 @@ $(function() {
             success: function(res) {
                 console.log(res);
                 if(res.success) {
-                    swal('Success!', 'Successfully Updated', 'success');
+                    swal("@lang('labels.backend.swal.success.title')", 'Successfully Updated', 'success');
                 }
             },
             error: function(err) {
                 var errMsg = getErrorMessage(err);
-                swal('Error!', errMsg, 'error');
+                swal("@lang('labels.backend.general.error')", errMsg, 'error');
             }
         })
     }

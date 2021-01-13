@@ -160,9 +160,8 @@
 
             $(this).ajaxSubmit({
                 success: function(res) {
-                    console.log(res);
                     if(res.success) {
-                        swal('Success!', 'Successfully Submitted!', 'success')
+                        swal("@lang('labels.backend.swal.success.title')", "@lang('labels.backend.swal.successfully_submitted')", 'success')
                     }
                 }
             });

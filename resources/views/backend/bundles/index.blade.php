@@ -167,7 +167,7 @@ $(function() {
                 { data: 'action' }
             ],
             oLanguage: {
-                sEmptyTable: "You have no Paths"
+                sEmptyTable: "@lang('labels.backend.paths.no_result')"
             }
         }
     );
@@ -185,9 +185,9 @@ $(function() {
                 console.log(res);
                 if(res.success) {
                     if(res.published == 1) {
-                        swal("Success!", 'Published successfully', "success");
+                        swal("@lang('labels.backend.swal.success.title')", "@lang('labels.backend.swal.successfully_published')", "success");
                     } else {
-                        swal("Success!", 'Unpublished successfully', "success");
+                        swal("@lang('labels.backend.swal.success.title')", "@lang('labels.backend.swal.successfully_unpublished')", "success");
                     }
                     
                     table.ajax.reload();
@@ -203,13 +203,13 @@ $(function() {
         var url = $(this).attr('href');
 
         swal({
-            title: "Are you sure?",
-            text: "This course will recovered",
+            title: "@lang('labels.backend.swal.title.are_you_sure')",
+            text: "@lang('labels.backend.swal.paths.description.restore')",
             type: 'info',
             showCancelButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: "@lang('labels.backend.general.confirm')",
+            cancelButtonText: "@lang('labels.backend.general.cancel')",
             dangerMode: false,
         }, function (val) {
             if(val) {
@@ -237,7 +237,7 @@ $(function() {
                     table.ajax.reload();
                     $(document).find('.tooltip.show').remove();
                 } else {
-                    swal("Warning!", res.message, "warning");
+                    swal("@lang('labels.backend.general.warning')", res.message, "warning");
                 }
             }
         });

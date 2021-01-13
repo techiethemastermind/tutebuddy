@@ -15,13 +15,13 @@
             <div class="flex d-flex flex-column flex-sm-row align-items-center mb-24pt mb-md-0">
 
                 <div class="mb-24pt mb-sm-0 mr-sm-24pt">
-                    <h2 class="mb-0">Customer Contacts</h2>
+                    <h2 class="mb-0">@lang('labels.backend.contacts.title')</h2>
 
                     <ol class="breadcrumb p-0 m-0">
                         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
 
                         <li class="breadcrumb-item active">
-                            Customer Contact
+                            @lang('labels.backend.contacts.title')
                         </li>
                     </ol>
                 </div>
@@ -29,7 +29,7 @@
 
             <div class="row" role="tablist">
                 <div class="col-auto mr-3">
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">Go To Home</a>
+                    <a href="{{ route('admin.dashboard') }}" class="btn btn-outline-secondary">@lang('labels.backend.dashboard.title')</a>
                 </div>
             </div>
         </div>

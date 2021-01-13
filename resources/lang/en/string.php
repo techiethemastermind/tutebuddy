@@ -71,6 +71,7 @@ return array (
       'terms_and_condition_note' => 'I agree to the <a href="/page/terms-and-conditions" class="text-primary">Terms and Conditions</a> on behalf of my ward/child',
       'legal_note' => 'I am the legal guardian of the child whose account I am creating and have the legal right to consent for this account.',
     ),
+    'load_lesson' => 'The course has no any lessons. Please add Lessons! \\nClick confirm to add lessons',
   ),
   'auth' => 
   array (

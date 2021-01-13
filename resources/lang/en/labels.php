@@ -357,6 +357,8 @@ return array (
       'description_note' => 'Shortly describe this course. It will show under title',
       'edit' => 'Edit Path',
       'courses' => 'Courses',
+      'no_result' => 'You have no Paths',
+      'begin' => 'Begin',
     ),
     'my_instructors' => 
     array (
@@ -416,6 +418,7 @@ return array (
         'marked_assignments' => 'Marked Assignments',
       ),
       'all' => 'All Assignments',
+      'no_result' => 'You have no Assignments',
     ),
     'general' => 
     array (
@@ -456,6 +459,12 @@ return array (
       'completed' => 'Completed',
       'in_progressing' => 'In Progressing',
       'detail' => 'Detail',
+      'successfully_stored' => 'Successfully Stored',
+      'confirm' => 'Confirm',
+      'cancel' => 'Cancel',
+      'warning' => 'Warning!',
+      'error' => 'Error!',
+      'your_rating' => 'Your rating',
     ),
     'my_quizzes' => 
     array (
@@ -862,6 +871,47 @@ return array (
     'my_students' => 
     array (
       'title' => 'My Students',
+    ),
+    'assignment' => 
+    array (
+      'content' => 'Assignment Content',
+      'successfully_stored' => 'Assignment is stored successfully',
+      'no_submitted' => 'You have no assignment submitted',
+    ),
+    'swal' => 
+    array (
+      'success' => 
+      array (
+        'title' => 'Success!',
+        'description' => 'Successfully Stored to Draft',
+      ),
+      'successfully_published' => 'Successfully Published',
+      'successfully_unpublished' => 'Unpublished successfully',
+      'title' => 
+      array (
+        'are_you_sure' => 'Are you sure?',
+      ),
+      'assignment' => 
+      array (
+        'description' => 
+        array (
+          'restore' => 'This assignment will recovered',
+          'forever_delete' => 'This assignment will removed forever',
+        ),
+      ),
+      'successfully_submitted' => 'Successfully Submitted!',
+      'paths' => 
+      array (
+        'description' => 
+        array (
+          'restore' => 'This course will recovered',
+        ),
+        'successfully_stored' => 'It will redirected to Editor',
+      ),
+    ),
+    'contacts' => 
+    array (
+      'title' => 'Customer Contacts',
     ),
   ),
   'general' => 

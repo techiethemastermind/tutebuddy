@@ -212,7 +212,7 @@ $(function() {
     // Init Quill Editor for Assignment Content
     var assignment_editor = new Quill('#assignment_editor', {
         theme: 'snow',
-        placeholder: 'Assignment Content',
+        placeholder: "@lang('labels.backend.assignment.content')",
         modules: {
             toolbar: toolbarOptions
         },
@@ -261,7 +261,7 @@ $(function() {
             },
             success: function(res) {
                 if(res.success) {
-                    swal('Success!', 'Successfully Stored to Draft', 'success');
+                    swal("@lang('labels.backend.swal.success.title')", "@lang('labels.backend.swal.success.description')", 'success');
                 }
             },
             error: function(err) {
@@ -292,7 +292,7 @@ $(function() {
             },
             success: function(res) {
                 if(res.success) {
-                    swal('Success!', 'Successfully Published', 'success');
+                    swal("@lang('labels.backend.swal.success.title')", "@lang('labels.backend.swal.successfully_published')", 'success');
                 }
             },
             error: function(err) {

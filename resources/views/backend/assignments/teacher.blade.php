@@ -131,7 +131,7 @@
                     { data: 'action' }
                 ],
                 oLanguage: {
-                    sEmptyTable: "You have no assignment submitted"
+                    sEmptyTable: "@lang('labels.backend.assignment.no_submitted')"
                 }
             }
         );

@@ -318,13 +318,13 @@ $(function() {
                 console.log(res);
                 if(res.success) {
                     swal({
-                        title: "Successfully Stored",
-                        text: "It will redirected to Editor",
+                        title: "@lang('labels.backend.swal.success.title')",
+                        text: "@lang('labels.backend.swal.paths.successfully_stored')",
                         type: 'success',
                         showCancelButton: true,
                         showConfirmButton: true,
-                        confirmButtonText: 'Confirm',
-                        cancelButtonText: 'Cancel',
+                        confirmButtonText: "@lang('labels.backend.general.confirm')",
+                        cancelButtonText: "@lang('labels.backend.general.cancel')",
                         dangerMode: false,
 
                     }, function(val) {
@@ -337,7 +337,7 @@ $(function() {
             },
             error: function(err) {
                 var errMsg = getErrorMessage(err);
-                swal('Error!', errMsg, 'error');
+                swal("@lang('labels.backend.general.error')", errMsg, 'error');
             }
         })
     }
