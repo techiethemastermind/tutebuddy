@@ -172,7 +172,13 @@ function get_result($percent) {
                                         @endif
                                     @endif
                                 </td>
-                                <td><strong><?php echo get_result(round($assignment->result->mark / $assignment->total_mark * 100)); ?></strong></td>
+                                <td>
+                                    @if($assignment->result)
+                                    <strong><?php echo get_result(round($assignment->result->mark / $assignment->total_mark * 100)); ?></strong>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
                             </tr>
                             
                             @endforeach
@@ -342,7 +348,13 @@ function get_result($percent) {
                                         @endif
                                     @endif
                                 </td>
-                                <td><strong><?php echo get_result(round($quiz->result->quiz_result / $quiz->score * 100)) ?></strong></td>
+                                <td>
+                                    @if($quiz->result)
+                                    <strong><?php echo get_result(round($quiz->result->quiz_result / $quiz->score * 100)) ?></strong>
+                                    @else
+                                    N/A
+                                    @endif
+                                </td>
                             </tr>
                             
                             @endforeach
