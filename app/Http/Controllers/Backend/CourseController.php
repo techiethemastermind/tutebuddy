@@ -603,9 +603,8 @@ class CourseController extends Controller
     public function studentCourses()
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
-        dd($course_ids);
         $count_all = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->count();
-        $count_achieved = Course::whereIn('id', $course_ids)->where('end_date', '<', Carbon::now()->format('Y-m-d'))->count();
+        $count_achieved = Course::whereIn('id', $course_ids)->where('end_date', '<=', Carbon::now()->format('Y-m-d'))->count();
         $count = [
             'all' => $count_all,
             'deleted' => $count_achieved
