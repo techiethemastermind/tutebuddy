@@ -163,6 +163,7 @@
                 </div>
                 <!-- // END Notifications dropdown -->
 
+                @if(auth()->user()->hasRole('Student'))
                 <!-- Mini card -->
                 <div class="nav-item ml-16pt nav-cart">
                     <a href="{{ route('cart.index') }}" class="nav-link btn-flush" type="button">
@@ -174,6 +175,7 @@
                         @endif
                     </a>
                 </div>
+                @endif
 
                 @if(count($locales) > 1)
                 <li class="nav-item">

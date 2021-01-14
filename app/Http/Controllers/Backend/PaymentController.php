@@ -187,7 +187,7 @@ class PaymentController extends Controller
     {
         $curl_headers = [
             'Content-Type: application/json',
-            'Authorization: Basic '. base64_encode(config('services.razorpayX.key') . ':' . config('services.razorpay.secret'))
+            'Authorization: Basic '. base64_encode(config('services.razorpayX.key') . ':' . config('services.razorpayX.secret'))
         ];
 
         $params = [
@@ -212,6 +212,7 @@ class PaymentController extends Controller
 
         $response = curl_exec($ch);
         $result = json_decode($response, true);
+        // dd($result);
         $payout_id = $result['id'];
         $status = $result['status'];
         curl_close($ch);
