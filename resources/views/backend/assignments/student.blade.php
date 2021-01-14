@@ -127,7 +127,7 @@
                     { data: 'action' }
                 ],
                 oLanguage: {
-                    sEmptyTable: "@lang('labels.backend.assignment.no_result')"
+                    sEmptyTable: "@lang('labels.backend.assignments.no_result')"
                 }
             }
         );
