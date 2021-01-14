@@ -161,7 +161,7 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
     var options = {
-        "key": "{{ env('RAZOR_KEY') }}",
+        "key": "{{ config('services.razorpay.key') }}",
         "name": "Tutebuddy Payment",
         "description": "Tutebuddy Payment Transaction",
         "image": "{{ asset('images/footer-bar-logo.png') }}",
