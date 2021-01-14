@@ -403,7 +403,10 @@ if(!isset($_GET["active"])) {
                         <div class="form-group">
                             <label class="form-label" for="new_pwd">@lang('labels.backend.my_account.new_password'):</label>
                             <input id="new_pwd" name="new_password" type="password" class="form-control" 
-                                placeholder="@lang('labels.backend.my_account.new_password_placeholder')" tute-no-empty>
+                                placeholder="@lang('labels.backend.my_account.new_password_placeholder')">
+                            <span class="invalid-feedback" role="alert">
+                                Must be at least 8 characters, At least 1 number, 1 lowercase, 1 uppercase letter, At least 1 special character from @#$%&
+                            </span>
                         </div>
 
                         <div class="form-group">
@@ -721,6 +724,28 @@ if(!isset($_GET["active"])) {
                     }
                 });
             });
+
+            var pattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/;
+
+            $('#new_pwd').on('keyup', function(e) {
+                var rlt = checkPassword($(this).val());
+                if(!rlt) {
+                    if(!$(this).hasClass('is-invalid')) {
+                        $(this).addClass('is-invalid');
+                    }
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).addClass('is-valid');
+                }
+            });
+
+            function checkPassword(password) {
+                if(pattern.test(password)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
         });
     </script>
 
