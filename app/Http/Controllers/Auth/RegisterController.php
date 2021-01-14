@@ -127,7 +127,7 @@ class RegisterController extends Controller
         $user = User::find($user_id);
 
         $data = [
-            'template_type' => 'register_verify',
+            'template_type' => 'Account_Verification',
             'mail_data' => $user
         ];
 
