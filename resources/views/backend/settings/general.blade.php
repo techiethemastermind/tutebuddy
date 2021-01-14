@@ -412,10 +412,15 @@
                                 </div>
 
                                 <div class="form-group offset-3">
-                                    <div class="controls form-inline ">
+                                    <div class="input-group controls form-inline ">
                                         <label for="" class="form-label col-lg-3 content-left">API Secret: </label>
-                                        <input class="form-control col-lg-8" type="text" name="services__razorpay__secret"
+                                        <input class="form-control col-lg-8" type="password" name="services__razorpay__secret"
                                             id="services__razorpay__secret" value="{{ config('services.razorpay.secret') }}">
+                                        <div class="input-group-append" id="show_secret" style="cursor: pointer;">
+                                            <div class="input-group-text">
+                                                <span class="fa fa-eye icon-16pt"></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -427,7 +432,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group offset-3">
+                                <!-- <div class="form-group offset-3">
                                     <div class="controls form-inline ">
                                         <label for="" class="form-label col-lg-3 content-left">RazorpayX API key: </label>
                                         <input class="form-control col-lg-8" type="text" name="services__razorpayX__key"
@@ -441,7 +446,7 @@
                                         <input class="form-control col-lg-8" type="text" name="services__razorpayX__secret"
                                             id="services__razorpayX__secret" value="{{ config('services.razorpayX.secret') }}">
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="form-group">
@@ -737,6 +742,17 @@
 $(document).ready(function() {
 
     // Init code
+    $('#show_secret').on('click', function(e) {
+        if($(this).find('span.fa').hasClass('fa-eye')) {
+            $('#services__razorpay__secret').attr('type', 'text');
+            $(this).find('span.fa').removeClass('fa-eye');
+            $(this).find('span.fa').addClass('fa-eye-slash');
+        } else {
+            $('#services__razorpay__secret').attr('type', 'password');
+            $(this).find('span.fa').addClass('fa-eye');
+            $(this).find('span.fa').removeClass('fa-eye-slash');
+        }
+    });
 });
 
 $('#frm_setting').submit(function(e) {

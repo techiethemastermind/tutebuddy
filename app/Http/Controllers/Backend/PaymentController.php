@@ -187,7 +187,7 @@ class PaymentController extends Controller
     {
         $curl_headers = [
             'Content-Type: application/json',
-            'Authorization: Basic '. base64_encode(config('services.razorpayX.key') . ':' . config('services.razorpayX.secret'))
+            'Authorization: Basic '. base64_encode(config('services.razorpay.key') . ':' . config('services.razorpay.secret'))
         ];
 
         $params = [
