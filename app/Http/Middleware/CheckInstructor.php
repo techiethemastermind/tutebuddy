@@ -15,11 +15,11 @@ class CheckInstructor
      */
     public function handle($request, Closure $next)
     {
-        if(auth()->user()->hasRole('Instructor')) {
-            if(!auth()->user()->profile && $request->route()->uri != 'dashboard/account') {
-                return redirect('dashboard/account');
-            }
-        }
+        // if(auth()->user()->hasRole('Instructor')) {
+        //     if(!auth()->user()->profile && $request->route()->uri != 'dashboard/account') {
+        //         return redirect('dashboard/account');
+        //     }
+        // }
         return $next($request);
     }
 }
