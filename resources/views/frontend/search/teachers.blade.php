@@ -78,7 +78,7 @@
                                 @if(!empty($teacher->avatar))
                                 <img src="{{ asset('/storage/avatars/' . $teacher->avatar) }}" alt="teacher" class="avatar-img">
                                 @else
-                                <img src="{{ asset('/storage/avatars/no-avatar.jpg') }}" alt="teacher" class="avatar-img">
+                                <img src="{{ asset('/images/no-avatar.jpg') }}" alt="teacher" class="avatar-img">
                                 @endif
                             </a>
                         </div>

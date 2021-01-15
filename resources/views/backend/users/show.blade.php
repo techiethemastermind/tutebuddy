@@ -52,7 +52,7 @@
                         @if($user->avatar)
                         <img src="{{asset('/storage/avatars/'. $user->avatar) }}" alt="people" width="120" class="rounded-circle" />
                         @else
-                        <img src="{{asset('/storage/avatars/no-avatar.jpg')}}" alt="people" width="120" class="rounded-circle" />
+                        <img src="{{asset('/images/no-avatar.jpg')}}" alt="people" width="120" class="rounded-circle" />
                         @endif
                     </a>
                     <div class="media-body">

@@ -45,7 +45,7 @@
                             @if(!empty($review->user->avatar))
                             <img src="{{asset('/storage/avatars/' . $review->user->avatar)}}" alt="people" class="avatar-img rounded-circle" />
                             @else
-                            <img src="{{asset('/storage/avatars/no-avatar.jpg')}}" alt="people" class="avatar-img rounded-circle" />
+                            <img src="{{asset('/images/no-avatar.jpg')}}" alt="people" class="avatar-img rounded-circle" />
                             @endif
                         </div>
                     </div>

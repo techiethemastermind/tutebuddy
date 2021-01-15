@@ -21,7 +21,7 @@ Route::get('ajax/email/contact', 'Frontend\PageController@sendContactEmail')->na
 Auth::routes();
 
 // Admin
-Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'namespace' => 'Backend', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'namespace' => 'Backend', 'middleware' => ['auth', 'profile']], function () {
 
     /*
      * These routes need view-backend permission

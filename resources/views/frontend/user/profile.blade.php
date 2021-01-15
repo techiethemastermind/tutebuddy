@@ -24,7 +24,7 @@
             @if(!empty($teacher->avatar))
             <img src="{{ asset('/storage/avatars/' . $teacher->avatar) }}" width="154" class="mr-md-32pt mb-32pt mb-md-0" alt="instructor">
             @else
-            <img src="{{ asset('/storage/avatars/no-avatar.jpg') }}" width="154" class="mr-md-32pt mb-32pt mb-md-0" alt="instructor">
+            <img src="{{ asset('/images/no-avatar.jpg') }}" width="154" class="mr-md-32pt mb-32pt mb-md-0" alt="instructor">
             @endif
             <div class="flex mb-32pt mb-md-0">
                 <h2 class="text-white mb-0">{{ $teacher->name }}</h2>
@@ -207,7 +207,7 @@
                                 @if(!empty($teacher->avatar))
                                 <img src="{{ asset('/storage/avatars/' . $teacher->avatar) }}" alt="teacher" class="avatar-img">
                                 @else
-                                <img src="{{ asset('/storage/avatars/no-avatar.jpg') }}" alt="teacher" class="avatar-img">
+                                <img src="{{ asset('/images/no-avatar.jpg') }}" alt="teacher" class="avatar-img">
                                 @endif
                                 <span class="overlay__content"><i class="overlay__action material-icons icon-40pt">face</i></span>
                             </a>

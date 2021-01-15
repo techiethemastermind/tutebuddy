@@ -52,7 +52,7 @@
                 <label class="form-label">Your photo</label>
                 <div class="media align-items-center">
                     <a href="" class="media-left mr-16pt">
-                        <img src="{{asset('/storage/avatars/no-avatar.jpg')}}" id="user_avatar" alt="people" width="56" class="rounded-circle" />
+                        <img src="{{asset('/images/no-avatar.jpg')}}" id="user_avatar" alt="people" width="56" class="rounded-circle" />
                     </a>
                     <div class="media-body">
                         <div class="custom-file">

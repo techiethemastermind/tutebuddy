@@ -142,7 +142,7 @@ if(!isset($_GET["active"])) {
                                             <img src="{{ asset('/storage/avatars/' . $user->avatar) }}"
                                                 id="user_avatar" alt="people" width="150" class="rounded-circle" />
                                         @else
-                                            <img src="{{ asset('/storage/avatars/no-avatar.jpg') }}"
+                                            <img src="{{ asset('/images/no-avatar.jpg') }}"
                                                 id="user_avatar" alt="people" width="150" class="rounded-circle" />
                                         @endif
                                     </div>
