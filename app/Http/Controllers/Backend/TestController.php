@@ -131,7 +131,7 @@ class TestController extends Controller
 
             $edit_route = route('admin.tests.edit', $item->id);
             $delete_route = route('admin.tests.destroy', $item->id);
-            $publish_route = route('admin.test.publish', $item->id);
+            // $publish_route = route('admin.test.publish', $item->id);
 
             $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
             $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
@@ -139,13 +139,13 @@ class TestController extends Controller
             $show_route = route('student.test.show', [$item->lesson->slug, $item->id]);
             $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
 
-            if($item->published == 0) {
-                $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
-                    data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
-            } else {
-                $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
-                    data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
-            }
+            // if($item->published == 0) {
+            //     $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
+            //         data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
+            // } else {
+            //     $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
+            //         data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
+            // }
 
             if($item->trashed()) {
                 $restore_route = route('admin.test.restore', $item->id);
@@ -159,11 +159,13 @@ class TestController extends Controller
 
                 $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
             } else {
-                if(auth()->user()->hasRole('Administrator')) {
-                    $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
-                } else {
-                    $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
-                }
+                // if(auth()->user()->hasRole('Administrator')) {
+                //     $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                // } else {
+                //     $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+                // }
+
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
             }
             array_push($data, $temp);
         }
