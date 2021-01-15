@@ -8,7 +8,6 @@
 Route::resource('users','UserController');
 Route::get('ajax/users/list/{type}', 'UserController@getList')->name('getUsersByAjax');
 Route::get('account', 'UserController@myAccount')->name('myaccount');
-Route::post('account/{id}/update', 'UserController@updateAccount')->name('myaccount.update');
 Route::post('child-account', 'UserController@childAccount')->name('myaccount.child');
 Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
 Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
@@ -30,7 +29,6 @@ Route::get('ajax/enrolled-students', 'UserController@getEnrolledStudentsByAjax')
 //===== Categories Routes =====//
 Route::resource('categories', 'CategoryController');
 Route::get('ajax/categories/table', 'CategoryController@getTableData')->name('table.getCategoriesByAjax');
-Route::get('ajax/categories/select', 'CategoryController@getSelet2Data')->name('select.getCategoriesByAjax');
 
 //===== Levels Routes =====//
 Route::resource('levels', 'LevelController');

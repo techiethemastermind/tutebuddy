@@ -104,7 +104,6 @@
                                 <label class="custom-file-label" for="avatar_file">Choose file</label>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="media-body">

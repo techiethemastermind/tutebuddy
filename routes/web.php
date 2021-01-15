@@ -35,6 +35,13 @@ Route::group(['prefix' => 'dashboard', 'as' => 'admin.', 'namespace' => 'Backend
 
 });
 
+Route::post('account/{id}/update', 'Backend\UserController@updateAccount')->name('admin.myaccount.update');
+Route::get('account/{id}/approve', 'Backend\UserController@approveAccount')->name('admin.account.approve');
+Route::get('account/{id}/decline', 'Backend\UserController@declineAccount')->name('admin.account.decline');
+
+Route::get('ajax/categories/select', 'Backend\CategoryController@getSelet2Data')->name('admin.select.getCategoriesByAjax');
+
+
 Route::group(['namespace' => 'Frontend'], function () {
     include_route_files(__DIR__ . '/frontend/');
 });

@@ -355,7 +355,7 @@ if(!isset($_GET["active"])) {
                             <div class="page-separator">
                                 <div class="page-separator__text bg-white">@lang('labels.backend.my_account.experience')</div>
                             </div>
-                            {!! Form::textarea('experience', null, array('placeholder' => "@lang('labels.backend.my_account.experience')", 'class' =>
+                            {!! Form::textarea('experience', null, array('placeholder' => "Experience", 'class' =>
                                 'form-control', 'rows' => 5)) !!}
                         </div>
 

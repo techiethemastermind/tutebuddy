@@ -220,6 +220,8 @@ class UserController extends Controller
     {    
         $input = $request->all();
 
+        dd($input);
+
         if(!empty($input['password'])) { 
             $input['password'] = Hash::make($input['password']);
         } else {
@@ -600,6 +602,36 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'data' => $data
+        ]);
+    }
+
+    /**
+     * Approve Account
+     */
+    public function approveAccount($id)
+    {
+        $user = User::find($id);
+        $user->profile = 1;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User profile Approved'
+        ]);
+    }
+
+    /**
+     * Decline Account
+     */
+    public function declineAccount($id)
+    {
+        $user = User::find($id);
+        $user->profile = 2;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User profile declined'
         ]);
     }
 }

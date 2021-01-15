@@ -42,28 +42,102 @@
     </div>
 
     <div class="page-section container page__container">
-        <div class="page-separator">
-            <div class="page-separator__text">Profile &amp; Privacy</div>
-        </div>
-        <div class="col-md-7 p-0">
+        <div class="">
             <div class="form-group">
-                <div class="media align-items-center">
-                    <a href="" class="media-left mr-16pt">
+                <div class="media">
+                    <a href="" class="media-left mr-32pt">
                         @if($user->avatar)
-                        <img src="{{asset('/storage/avatars/'. $user->avatar) }}" alt="people" width="120" class="rounded-circle" />
+                        <img src="{{asset('/storage/avatars/'. $user->avatar) }}" alt="people" width="250" class="rounded-circle" />
                         @else
-                        <img src="{{asset('/images/no-avatar.jpg')}}" alt="people" width="120" class="rounded-circle" />
+                        <img src="{{asset('/images/no-avatar.jpg')}}" alt="people" width="250" class="rounded-circle" />
                         @endif
                     </a>
                     <div class="media-body">
-                        <div class="form-group">
-                            <label class="form-label">Profile name</label>
-                            <p>{{ $user->name }}</p>
+
+                        <div class="page-separator">
+                            <div class="page-separator__text">Profile Information</div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body p-5 font-size-16pt">
+
+                                <div class="">
+                                    <label class="form-label font-size-16pt">Name: </label>
+                                    <span>{{ $user->name }}</span>
+                                </div>
+                                <div class="">
+                                    <label class="form-label font-size-16pt">Email Address: </label>
+                                    <span>{{ $user->email }}</span>
+                                </div>
+                                <div class="">
+                                    <label class="form-label font-size-16pt">Role: </label>
+                                    <span>{{ $user->getRoleNames()->first() }}</span>
+                                </div>
+                                <div class="">
+                                    <label class="form-label font-size-16pt">Phone: </label>
+                                    <span>{{ $user->phone }}</span>
+                                </div>
+                                <div class="">
+                                    <label class="form-label font-size-16pt">Address: </label>
+                                    <span>{{ $user->address }}, {{ $user->city }}, {{ $user->state }}, {{ $user->country }}</span>
+                                </div>
+                                <div class="">
+                                    <label class="form-label font-size-16pt">Timezone: </label>
+                                    <span>{{ $user->timezone }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if($user->hasRole('Instructor'))
+                        <div class="page-separator mt-32pt">
+                            <div class="page-separator__text">Instrutor Information</div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Email Address</label>
-                            <p>{{ $user->email }}</p>
+                            <h4>{{ $user->headline }}</h4>
+                            <p class="font-size-16pt">{{ $user->about }}</p>
+                        </div>
+
+                        @if(!empty($user->qualifications))
+
+                        <div class="card">
+                            <div class="card-body p-5">
+                                <h4>Professional Qualifications and Certifications</h4>
+                                @foreach(json_decode($user->qualifications) as $qualification)
+                                <p class="font-size-16pt mb-1"><strong>{{ $loop->iteration }}. </strong> {{ $qualification }}</p>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        @endif
+
+                        @if(!empty($user->qualifications))
+
+                        <div class="card">
+                            <div class="card-body p-5">
+                                <h4>Achievements</h4>
+                                @foreach(json_decode($user->achievements) as $achievement)
+                                <p class="font-size-16pt mb-1"><strong>{{ $loop->iteration }}. </strong> {{ $achievement }}</p>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        @endif
+
+                        @if(!empty($user->experience))
+
+                        <div class="card">
+                            <div class="card-body p-5">
+                                <h4>Experience</h4>
+                                <p class="font-size-16pt mb-1">{{ $user->experience }}</p>
+                            </div>
+                        </div>
+
+                        @endif
+                        @endif
+
+                        <div class="form-group">
+                            <button id="btn_approve" class="btn btn-primary" data-user-id="{{ $user->id }}">Approve</button>
+                            <button id="btn_decline" class="btn btn-accent" data-user-id="{{ $user->id }}">Decline</button>
                         </div>
                     </div>
                 </div>
@@ -73,5 +147,49 @@
 
 </div>
 <!-- // END Header Layout Content -->
+
+@push('after-scripts')
+
+<script>
+
+    $(function() {
+
+        $('#btn_approve').on('click', function(e) {
+            var user_id = $(this).attr('data-user-id');
+            var route = '/account/'+ user_id +'/approve';
+            $.ajax({
+                url: route,
+                method: 'GET',
+                success: function(res) {
+                    if(res.success) {
+                        swal('Success!', res.message, 'success');
+                    }
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        });
+
+        $('#btn_decline').on('click', function(e) {
+            var user_id = $(this).attr('data-user-id');
+            var route = '/account/'+ user_id +'/decline';
+            $.ajax({
+                url: route,
+                method: 'GET',
+                success: function(res) {
+                    if(res.success) {
+                        swal('Warning!', res.message, 'warning');
+                    }
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        });
+    });
+</script>
+
+@endpush
 
 @endsection
