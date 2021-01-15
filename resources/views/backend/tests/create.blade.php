@@ -129,7 +129,7 @@
                             <div class="form-group">
                                 <label class="form-label">Course</label>
                                 <div class="form-group mb-0">
-                                    <select name="course" class="form-control custom-select @error('course') is-invalid @enderror">
+                                    <select name="course_id" class="form-control custom-select @error('course') is-invalid @enderror">
                                         @foreach($courses as $course)
                                         <option value="{{ $course->id }}"> {{ $course->title }}
                                         </option>
@@ -355,8 +355,8 @@ $(function() {
         theme: 'snow'
     });
 
-    $('select[name="course"]').select2();
-    $('select[name="lesson"]').select2();
+    $('select[name="course_id"]').select2();
+    $('select[name="lesson_id"]').select2();
 
     // Timezone
     $('select[name="timezone"]').timezones();
@@ -375,9 +375,9 @@ $(function() {
         $('div[for="t_type_1"]').css('display', style);
     });
 
-    loadLessons($('select[name="course"]').val());
+    loadLessons($('select[name="course_id"]').val());
 
-    $('select[name="course"]').on('change', function(e) {
+    $('select[name="course_id"]').on('change', function(e) {
         loadLessons($(this).val());
     });
 

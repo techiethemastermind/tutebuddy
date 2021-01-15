@@ -320,6 +320,10 @@ return array (
       'lesson' => 'Lesson',
       'end_date' => 'End Date',
       'start_date' => 'Start Date',
+      'company' => 'Company',
+      'company_email' => 'Company Email',
+      'business_phone' => 'Business Phone',
+      'contact_type' => 'Contact Type',
     ),
     'lessons' => 
     array (
@@ -912,6 +916,20 @@ return array (
     'contacts' => 
     array (
       'title' => 'Customer Contacts',
+      'customer_information' => 'Customer Information',
+      'edit' => 'Edit Contact',
+      'full_name' => 'Full Name',
+      'company' => 'Company',
+      'company_email' => 'Company Email',
+      'business_phone' => 'Business Phone Number',
+      'ext' => 'Ext',
+      'mobile_number' => 'Mobile Number',
+      'best_time' => 'Best time to reach you:',
+      'message' => 'Message',
+      'contact_method_notice' => 'How would you like us to contact you?',
+      'by_email' => 'By Email',
+      'by_mobile_phone' => 'Call me on Mobile',
+      'by_business_phone' => 'Call me on Business Phone',
     ),
   ),
   'general' => 

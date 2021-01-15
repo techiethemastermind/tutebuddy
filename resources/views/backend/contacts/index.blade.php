@@ -47,11 +47,11 @@
                             <th style="width: 18px;" class="pr-0"></th>
                             <th style="width: 40px;">No.</th>
                             <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a></th>
-                            <th>Company</th>
-                            <th>Company Email</th>
-                            <th>Business Phone</th>
-                            <th>Contact Type</th>
-                            <th>Actions</th>
+                            <th>@lang('labels.backend.table.company')</th>
+                            <th>@lang('labels.backend.table.company_email')</th>
+                            <th>@lang('labels.backend.table.business_phone')</th>
+                            <th>@lang('labels.backend.table.contact_type')</th>
+                            <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="clients">
@@ -90,7 +90,7 @@
                     <li class="page-item disabled">
                         <a class="page-link" href="#" aria-label="Previous">
                             <span aria-hidden="true" class="material-icons">chevron_left</span>
-                            <span>Prev</span>
+                            <span>@lang('labels.backend.general.prev')</span>
                         </a>
                     </li>
                     <li class="page-item disabled">
@@ -100,7 +100,7 @@
                     </li>
                     <li class="page-item disabled">
                         <a class="page-link" href="#" aria-label="Next">
-                            <span>Next</span>
+                            <span>@lang('labels.backend.general.next')</span>
                             <span aria-hidden="true" class="material-icons">chevron_right</span>
                         </a>
                     </li>
@@ -134,7 +134,7 @@ $(function() {
                 if(res.success) {
                     window.location.reload();
                 } else {
-                    swal("Warning!", res.message, "warning");
+                    swal("@lang('labels.backend.general.warning')", res.message, "warning");
                 }
             }
         });

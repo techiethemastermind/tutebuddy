@@ -275,8 +275,10 @@
 
             if(available < amount) {
                 $('#amount').addClass('is-invalid');
-                var err_msg = $('<div class="invalid-feedback">Amount is added incorrectly.</div>');
-                err_msg.insertAfter($('#amount'));
+                if($('#amount').siblings('.invalid-feedback').length < 1) {
+                    var err_msg = $('<div class="invalid-feedback">Amount is added incorrectly.</div>');
+                    err_msg.insertAfter($('#amount'));
+                }
                 $('#amount').focus();
                 return false;
             }
@@ -302,7 +304,7 @@
                             dangerMode: false,
                         }, function (val) {
                             if(val) {
-                                window.location.reload;
+                                location.reload();
                             }
                         });
                     } else {
