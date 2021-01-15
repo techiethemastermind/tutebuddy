@@ -464,7 +464,12 @@ class AssignmentsController extends Controller
             $temp['mark'] = '<strong>' . $item->total_mark . '</strong>';
 
             if($item->result && $item->result->count() > 0) {
-                $btn_show = '<a href="'. route('student.assignment.result', [$lesson->slug, $item->id]). '" class="btn btn-success btn-sm">Review</a>';
+                $show_route = route('student.assignment.result', [$lesson->slug, $item->id]);
+                if(!empty($item->result->mark)) {
+                    $btn_show = '<a href="'. $show_route . '" class="btn btn-success btn-sm">Reviewed</a>';
+                } else {
+                    $btn_show = '<a href="'. $show_route . '" class="btn btn-accent btn-sm">Reviewing</a>';
+                }
             } else {
                 $btn_show = '<a href="'. route('student.assignment.show', [$lesson->slug, $item->id]). '" class="btn btn-primary btn-sm">Start</a>';
             }
