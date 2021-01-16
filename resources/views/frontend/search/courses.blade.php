@@ -143,15 +143,18 @@
                                                 <a href="" class="flex">
                                                     <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                                         <div class="avatar avatar-sm mr-8pt">
+                                                            @if(!empty($course->teachers[0]->avatar))
                                                             <img src="{{ asset('/storage/avatars/' . $course->teachers[0]->avatar) }}" alt="Avatar" class="avatar-img rounded-circle">
+                                                            @else
+                                                            <span class="avatar-title rounded-circle">{{ substr($course->teachers[0]->name, 0, 2) }}</span>
+                                                            @endif
                                                         </div>
                                                         <div class="media-body">
-
                                                             <div class="d-flex align-items-center">
                                                                 <div class="flex d-flex flex-column">
                                                                     <p class="mb-0"><strong class="js-lists-values-lead">{{ $course->teachers[0]->name }}</strong></p>
                                                                     <small class="js-lists-values-email text-50">
-                                                                        {{ $course->teachers[0]->headline }},
+                                                                        {{ $course->teachers[0]->headline }}
                                                                     </small>
                                                                 </div>
                                                             </div>
@@ -163,7 +166,7 @@
                                                     <span class="text-70 text-muted mr-8pt">Listed Courses: 12</span>
                                                     <span class="text-70 text-muted mr-8pt">Total Courses Contucted: 102</span>
                                                 </div>
-                            
+
                                                 @if(!$course->isEnrolled())
                                                 <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary btn-md">Enroll</a>
                                                 @else

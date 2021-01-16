@@ -604,8 +604,8 @@ class CourseController extends Controller
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $courses = Course::whereIn('id', $course_ids)->get();
-        $count_all = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->count();
-        $count_achieved = Course::whereIn('id', $course_ids)->where('end_date', '<=', Carbon::now()->format('Y-m-d'))->count();
+        $count_all = Course::whereIn('id', $course_ids)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->count();
+        $count_achieved = Course::whereIn('id', $course_ids)->where('end_date', '<', Carbon::now()->format('Y-m-d'))->count();
         $count = [
             'all' => $count_all,
             'deleted' => $count_achieved
@@ -620,7 +620,7 @@ class CourseController extends Controller
 
         switch($type) {
             case 'all':
-                $courses = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->get();
+                $courses = Course::whereIn('id', $course_ids)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->get();
             break;
 
             case 'deleted':
