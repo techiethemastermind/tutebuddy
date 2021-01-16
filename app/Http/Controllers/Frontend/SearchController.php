@@ -21,11 +21,11 @@ class SearchController extends Controller
 
         if(isset($params['_t']) && $params['_t'] == 'category') {
             
-            $courses_me = Course::where('category_id', $params['_k'])->where('end_date', '>', Carbon::now()->format('Y-m-d'));
+            $courses_me = Course::where('category_id', $params['_k'])->where('end_date', '>=', Carbon::now()->format('Y-m-d'));
 
             $subCategories = Category::where('parent', $params['_k'])->get();
             foreach($subCategories as $category) {
-                $courses_c = Course::where('category_id', $category->id)->where('end_date', '>', Carbon::now()->format('Y-m-d'));
+                $courses_c = Course::where('category_id', $category->id)->where('end_date', '>=', Carbon::now()->format('Y-m-d'));
                 $courses_me = $courses_me->union($courses_c);
             }
 
@@ -40,14 +40,14 @@ class SearchController extends Controller
                 foreach($categories as $category) {
                     $subCategories = Category::where('parent', $category->id)->get();
                     foreach($subCategories as $subcategory) {
-                        $courses_c = Course::where('category_id', $subcategory->id)->where('end_date', '>', Carbon::now()->format('Y-m-d'));
+                        $courses_c = Course::where('category_id', $subcategory->id)->where('end_date', '>=', Carbon::now()->format('Y-m-d'));
                         $courses_me = $courses_me->union($courses_c);
                     }
                 }
                 $courses = $courses_me->paginate(10);
                 $courses->setPath('search/courses?_q='. $params['_q']);
             } else {
-                $courses = Course::where('published', 1)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->paginate('10');
+                $courses = Course::where('published', 1)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->paginate('10');
             }
         }
         
