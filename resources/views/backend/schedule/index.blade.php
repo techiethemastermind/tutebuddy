@@ -508,6 +508,29 @@ $(document).ready(function() {
 
     });
 
+    /** Update Lesson */
+    $('#scheduleLessonModal').on('click', '.btn-lesson-update', function() {
+
+        var send_data = {
+            id: schedule_id,
+            start: $('#lesson_start_time').val(),
+            end: $('#lesson_end_time').val()
+        };
+
+        $.ajax({
+            method: 'POST',
+            url: "{{ route('admin.updateSchedule') }}",
+            data: send_data,
+            success: function(res) {
+
+                if (res.success) {
+                    calendar.refetchEvents();
+                    $('#scheduleLessonModal').modal('toggle');
+                }
+            }
+        });
+    });
+
     $('#scheduleLessonModal').on('click', '.btn-delete', function(e) {
 
         $.ajax({

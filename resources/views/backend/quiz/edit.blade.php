@@ -187,10 +187,11 @@
                                                     $update_route = route('admin.questions.update', $question->id);
                                                     $delete_route = route('admin.questions.delete', $question->id);
                                                 ?>
-                                                <a href="{{ $edit_route }}" data-update="{{ $update_route }}" class="dropdown-item question-edit">
+                                                <a href="{{ $edit_route }}" data-update="{{ $update_route }}" class="dropdown-item question-edit"
+                                                group_id="{{ $group->id }}">
                                                     @lang('labels.backend.quiz.edit_question')</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a href="{{ $delete_route }}" class="dropdown-item text-danger question-delete">
+                                                <a href="{{ $delete_route }}" class="dropdown-item text-danger question-delete" group_id="{{ $group->id }}">
                                                     @lang('labels.backend.quiz.delete_question')</a>
                                             </div>
                                         </div>
@@ -286,10 +287,10 @@
                             </div>
 
                             <!-- Total Marks -->
-                            <div class="form-group">
-                                <label class="form-label">Total Marks @lang('labels.backend.sidebar.quiz.total_marks')</label>
+                            <!-- <div class="form-group">
+                                <label class="form-label">@lang('labels.backend.sidebar.quiz.total_marks')</label>
                                 <input type="number" name="score" class="form-control" placeholder="@lang('labels.backend.sidebar.quiz.total_marks_placeholder')" min="1" value="{{ $quiz->score }}">
-                            </div>
+                            </div> -->
 
                             <!-- Quiz Process -->
                             <div class="form-group">
@@ -365,10 +366,10 @@
                     <input type="text" name="section_title" class="form-control" placeholder="@lang('labels.backend.quiz.modal.section_title_placeholder')" required>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label class="form-label">@lang('labels.backend.quiz.modal.section_marks')</label>
                     <input type="number" name="section_marks" class="form-control" placeholder="@lang('labels.backend.quiz.modal.section_marks_placeholder')">
-                </div>
+                </div> -->
 
             </div>
 
@@ -439,7 +440,7 @@
                 
                 <div class="form-group">
                     <label class="form-label">@lang('labels.backend.quiz.modal.completion_points')</label>
-                    <input name="score" type="text" class="form-control" value="1">
+                    <input name="score" type="number" class="form-control" value="1">
                 </div>
             </div>
 
@@ -654,6 +655,8 @@ $(function() {
         q_status = 'edit';
         var route = $(this).attr('href');
         var update_route = $(this).attr('data-update');
+        group_id = $(this).attr('group_id');
+
         $.ajax({
             method: 'GET',
             url: route,
@@ -771,6 +774,10 @@ $(function() {
                         ele_li.replaceWith($(res.html));
                     }
 
+                    if(res.section_score !== undefined) {
+                        $('#questions').find('div[group-id="' + group_id + '"]').find('h5.badge-pill').text(res.section_score);
+                    }
+
                     $('#mdl_question').modal('toggle');
                 }
             }
@@ -783,6 +790,7 @@ $(function() {
         e.preventDefault();
         var route = $(this).attr('href');
         var question_item = $(this).closest('li');
+        group_id = $(this).attr('group_id');
 
         swal({
             title: "Are you sure?",
@@ -801,6 +809,11 @@ $(function() {
                     url: route,
                     success: function(res) {
                         if (res.success) {
+
+                            if(res.section_score !== undefined) {
+                                $('#questions').find('div[group-id="' + group_id + '"]').find('h5.badge-pill').text(res.section_score);
+                            }
+
                             question_item.toggle( function() { 
                                 $(this).remove();
                                 adjustOrder();

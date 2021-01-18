@@ -142,15 +142,30 @@ class QuestionController extends Controller
             }
 
             if($question_data['model_type'] == Quiz::class) {
-                $html = $this->storeOptions($data, $question);
-            }
 
-            return response()->json([
-                'success' => true,
-                'question' => $question,
-                'count' => $question_count,
-                'html' => $html
-            ]);
+                // update section score
+                $scores = $this->setTotalMarks($question_data['model_id'], $question_data['group_id']);
+
+                $html = $this->storeOptions($data, $question);
+
+                return response()->json([
+                    'success' => true,
+                    'question' => $question,
+                    'count' => $question_count,
+                    'html' => $html,
+                    'section_score' => $scores['section_score']
+                ]);
+
+            } else {
+
+                return response()->json([
+                    'success' => true,
+                    'question' => $question,
+                    'count' => $question_count,
+                    'html' => $html
+                ]);
+            }
+            
         } catch (Exception $e) {
 
             return response()->json([
@@ -280,14 +295,26 @@ class QuestionController extends Controller
 
             if($update_data['model_type'] == Quiz::class) {
                 $data = $request->all();
-                $html = $this->storeOptions($data, $question);
-            }
 
-            return response()->json([
-                'success' => true,
-                'question' => $question,
-                'html' => $html
-            ]);
+                // update section score
+                $scores = $this->setTotalMarks($update_data['model_id'], $question->group_id);
+                $html = $this->storeOptions($data, $question);
+
+                return response()->json([
+                    'success' => true,
+                    'question' => $question,
+                    'html' => $html,
+                    'section_score' => $scores['section_score']
+                ]);
+
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'question' => $question,
+                    'html' => $html
+                ]);
+            }
+            
         } catch (Exception $e) {
 
             return response()->json([
@@ -303,11 +330,19 @@ class QuestionController extends Controller
     public function delete($id) {
 
         try {
-            Question::find($id)->delete();
+
+            // update question group
+            $question = Question::find($id);
+            $model_id = $question->model_id;
+            $group_id = $question->group_id;
+            $question->delete();
+
+            $scores = $this->setTotalMarks($model_id, $group_id);
 
             return response()->json([
                 'success' => true,
-                'action' => 'destroy'
+                'action' => 'destroy',
+                'section_score' => $scores['section_score']
             ]);
         } catch (Exception $e) {
 
@@ -333,9 +368,16 @@ class QuestionController extends Controller
     {
 
         if($request->action == 'new') {
+            // $section = QuestionGroup::create([
+            //     'title' => $request->section_title,
+            //     'score' => $request->section_marks,
+            //     'model_id' => $request->model_id,
+            //     'model_type' => Quiz::class
+            // ]);
+
             $section = QuestionGroup::create([
                 'title' => $request->section_title,
-                'score' => $request->section_marks,
+                'score' => 0, // Init value of section
                 'model_id' => $request->model_id,
                 'model_type' => Quiz::class
             ]);
@@ -450,9 +492,9 @@ class QuestionController extends Controller
                         <a href="#" data-toggle="dropdown" data-caret="false" class="text-muted"><i
                                 class="material-icons">more_horiz</i></a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="'. $edit_route .'" data-update="'. $update_route .'" class="dropdown-item question-edit">Edit Question</a>
+                            <a href="'. $edit_route .'" data-update="'. $update_route .'" class="dropdown-item question-edit" group_id="'. $data['group_id'] .'">Edit Question</a>
                             <div class="dropdown-divider"></div>
-                            <a href="'. $delete_route .'" class="dropdown-item text-danger question-delete">Delete Question</a>
+                            <a href="'. $delete_route .'" class="dropdown-item text-danger question-delete" group_id="'. $data['group_id'] .'">Delete Question</a>
                         </div>
                     </div>
                 </li>';
@@ -654,5 +696,27 @@ class QuestionController extends Controller
         }
 
         return $data;
+    }
+
+    function setTotalMarks($model_id, $group_id = NULL) {
+
+        $scores = [];
+
+        if($group_id) {
+            $question_group = QuestionGroup::find($group_id);
+            $section_score = Question::where('model_id', $model_id)->where('group_id', $group_id)->sum('score');
+            $question_group->score = $section_score;
+            $question_group->save();
+            $scores['section_score'] = $section_score;
+        }
+            
+        $total_score = Question::where('model_id', $model_id)->sum('score');
+        $quiz = Quiz::find($model_id);
+        $quiz->score = $total_score;
+        $quiz->save();
+
+        $scores['total_score'] = $total_score;
+
+        return $scores;
     }
 }

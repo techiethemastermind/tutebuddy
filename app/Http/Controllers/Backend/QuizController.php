@@ -108,7 +108,6 @@ class QuizController extends Controller
             'title' => $data['title'],
             'description' => $data['short_description'],
             'duration' => $duration,
-            'score' => $data['score'],
             'type' => $data['type'],
             'take_type' => $request->take_type
         ];
@@ -124,7 +123,8 @@ class QuizController extends Controller
     
                 return response()->json([
                     'success' => true,
-                    'action' => 'update'
+                    'action' => 'update',
+                    'quiz_id' => $data['model_id']
                 ]);
             } catch (Exception $e) {
     
@@ -155,7 +155,8 @@ class QuizController extends Controller
     
                 return response()->json([
                     'success' => true,
-                    'quiz' => $quiz
+                    'quiz' => $quiz,
+                    'quiz_id' => $quiz->id
                 ]);
             } catch (Exception $e) {
     

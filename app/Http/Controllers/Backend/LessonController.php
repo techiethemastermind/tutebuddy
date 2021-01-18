@@ -305,7 +305,7 @@ class LessonController extends Controller
     public function getStudentLiveSessionsByAjax($type)
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
+        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->pluck('id');
         $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
 
         if($type == 'all') {
@@ -338,7 +338,7 @@ class LessonController extends Controller
     function getStudentCounts()
     {
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
+        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->pluck('id');
         $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
         $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
         $all_count = count($schedules);
@@ -433,7 +433,7 @@ class LessonController extends Controller
     function getInstructorCounts()
     {
         $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
+        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->pluck('id');
         $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
         $schedules = Schedule::whereIn('lesson_id', $live_lesson_ids)->get();
         $all_count = count($schedules);
@@ -456,7 +456,7 @@ class LessonController extends Controller
     public function getInstructorLiveSessionsByAjax($type)
     {
         $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
-        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
+        $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->pluck('id');
         $live_lesson_ids = Lesson::whereIn('course_id', $course_ids)->where('lesson_type', 1)->pluck('id');
 
         if($type == 'all') {
