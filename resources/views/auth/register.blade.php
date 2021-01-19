@@ -81,7 +81,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">@lang('labels.auth.register.create_account')</button>
+                        <button type="button" id="btn_register" class="btn btn-primary">@lang('labels.auth.register.create_account')</button>
                         <input type="hidden" name="recaptcha_v3" id="recaptcha_v3">
                     </form>
                 </div>
@@ -211,13 +211,9 @@
             }
         }
 
-        $('#frm_register').on('submit', function(e) {
-            e.preventDefault();
-
-            if($('#password').hasClass('is-invalid')) {
-                return false;
-            } else {
-                $(this).submit();
+        $('#btn_register').on('click', function(e) {
+            if(!$('#password').hasClass('is-invalid')) {
+                $('#frm_register').submit();
             }
         });
 

@@ -292,16 +292,39 @@
 
                     <div class="d-flex align-items-center page-num-container" id="sec-{{ $lesson->id }}">
                         <div class="page-num">{{ $loop->iteration }}</div>
-                        @if($lesson->steps->count() > 0)
-                        <a href="{{ route('lessons.show', [$course->slug, $lesson->slug, $lesson->steps[0]->step]) }}">
-                            <h4>{{ $lesson->title }}
-                                @if($lesson->isCompleted())
-                                <span class="badge badge-dark badge-notifications ml-2 p-1">
-                                    <i class="material-icons m-0">check</i>
-                                </span>
-                                @endif
-                            </h4>
-                        </a>
+
+                        @if($lesson->lesson_type == 0)
+                        
+                            @if($lesson->steps->count() > 0)
+                            <a href="{{ route('lessons.show', [$course->slug, $lesson->slug, $lesson->steps[0]->step]) }}">
+                                <h4>{{ $lesson->title }}
+                                    @if($lesson->isCompleted())
+                                    <span class="badge badge-dark badge-notifications ml-2 p-1">
+                                        <i class="material-icons m-0">check</i>
+                                    </span>
+                                    @endif
+                                </h4>
+                            </a>
+                            @else
+                                <h4>{{ $lesson->title }}
+                                    @if($lesson->isCompleted())
+                                    <span class="badge badge-dark badge-notifications ml-2 p-1">
+                                        <i class="material-icons m-0">check</i>
+                                    </span>
+                                    @endif
+                                </h4>
+                            @endif
+
+                        @else
+                            <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}">
+                                <h4>{{ $lesson->title }}
+                                    @if($lesson->isCompleted())
+                                    <span class="badge badge-dark badge-notifications ml-2 p-1">
+                                        <i class="material-icons m-0">check</i>
+                                    </span>
+                                    @endif
+                                </h4>
+                            </a>
                         @endif
                     </div>
 

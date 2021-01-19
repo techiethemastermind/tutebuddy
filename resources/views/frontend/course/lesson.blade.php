@@ -157,7 +157,7 @@
             @else
             @if($lesson->isCompleted())
             <button disabled="disabled" class="btn btn-white">
-                Completed <i class="material-icons icon--right">done</i>
+                Finished <i class="material-icons icon--right">done</i>
             </button>
             @else
             <a href="{{ route('lesson.complete', $lesson->id) }}" class="btn btn-outline-white">
@@ -183,6 +183,7 @@
 
         </div>
     </div>
+
     <div class="navbar navbar-expand-sm navbar-light bg-white border-bottom-2 navbar-list p-0 m-0 align-items-center">
         <div class="container page__container">
             <ul class="nav navbar-nav flex align-items-sm-center">
