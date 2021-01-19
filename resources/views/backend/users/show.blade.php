@@ -45,13 +45,32 @@
         <div class="">
             <div class="form-group">
                 <div class="media">
-                    <a href="" class="media-left mr-32pt">
-                        @if($user->avatar)
-                        <img src="{{asset('/storage/avatars/'. $user->avatar) }}" alt="people" width="250" class="rounded-circle" />
-                        @else
-                        <img src="{{asset('/images/no-avatar.jpg')}}" alt="people" width="250" class="rounded-circle" />
-                        @endif
-                    </a>
+                    <div class="media-left mr-32pt">
+                        <div class="page-separator">
+                            <div class="page-separator__text">Profile photo</div>
+                        </div>
+                        <div class="card card-body font-size-16pt">
+                            @if($user->avatar)
+                            <img src="{{asset('/storage/avatars/'. $user->avatar) }}" alt="people" width="250" class="rounded-circle" />
+                            @else
+                            <img src="{{asset('/images/no-avatar.jpg')}}" alt="people" width="250" class="rounded-circle" />
+                            @endif
+                        </div>
+
+                        <div class="card card-body font-size-16pt">
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item d-flex">
+                                    <span class="flex form-label"><strong>Profile Status</strong></span>
+                                    @if($user->profile == 1)
+                                    <i class="material-icons text-primary profile-status">check</i>
+                                    @else
+                                    <i class="material-icons text-primary profile-status">close</i>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="media-body">
 
                         <div class="page-separator">
@@ -88,14 +107,19 @@
                         </div>
 
                         @if($user->hasRole('Instructor'))
+
+                        @if(!empty($user->about))
                         <div class="page-separator mt-32pt">
                             <div class="page-separator__text">Instrutor Information</div>
                         </div>
 
-                        <div class="form-group">
-                            <h4>{{ $user->headline }}</h4>
-                            <p class="font-size-16pt">{{ $user->about }}</p>
+                        <div class="card">
+                            <div class="card-body p-5">
+                                <h4>{{ $user->headline }}</h4>
+                                <p class="font-size-16pt">{{ $user->about }}</p>
+                            </div>
                         </div>
+                        @endif
 
                         @if(!empty($user->qualifications))
 
@@ -163,6 +187,7 @@
                 success: function(res) {
                     if(res.success) {
                         swal('Success!', res.message, 'success');
+                        $('i.profile-status').html('check');
                     }
                 },
                 error: function(err) {
@@ -180,6 +205,7 @@
                 success: function(res) {
                     if(res.success) {
                         swal('Warning!', res.message, 'warning');
+                        $('i.profile-status').html('close');
                     }
                 },
                 error: function(err) {

@@ -37,12 +37,12 @@
                                     <small class="text-muted">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($discussion->updated_at))->diffForHumans() }}</small>
                                 </p>
                                 <p>{{ $discussion->question }}</p>
-                                <div class="d-flex align-items-center">
+                                <!-- <div class="d-flex align-items-center">
                                     <a href="" class="text-50 d-flex align-items-center text-decoration-0">
                                         <i class="material-icons mr-1" style="font-size: inherit;">favorite_border</i> 30</a>
                                     <a href="" class="text-50 d-flex align-items-center text-decoration-0 ml-3">
                                         <i class="material-icons mr-1" style="font-size: inherit;">thumb_up</i> 130</a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -58,25 +58,29 @@
                                 @if(!empty($result->user->avatar))
                                 <img src="{{ asset('/storage/avatars/' . $result->user->avatar) }}" alt="people" class="avatar-img rounded-circle">
                                 @else
-                                <span class="avatar-title rounded-circle">{{ substr($result->user->avatar, 0, 2) }}</span>
+                                <span class="avatar-title rounded-circle">{{ substr($result->user->name, 0, 2) }}</span>
                                 @endif
                             </a>
                             <div class="flex comment-group">
                                 <a href="" class="text-body"><strong>{{ $result->user->name }}</strong></a><br>
                                 <p class="mt-1 text-70">{!! $result->content !!}</p>
+                                
                                 <div class="d-flex align-items-center">
                                     <small class="text-50 mr-2">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($result->updated_at))->diffForHumans() }}</small>
+                                    @if($result->user->id != auth()->user()->id)
                                     <button class="btn btn-sm btn-outline-secondary add-comment">@lang('labels.backend.discussion_detail.add')</button>
+                                    @endif
                                 </div>
                                 
                                 <div class="mt-3 card p-3 post-form d-none">
-                                    <form method="post" action="{{ route('admin.ajax.postComment') }}">@csrf
+                                    <form method="post" action="{{ route('admin.ajax.postComment') }}" class="reply-form">@csrf
                                         <div class="form-group">
                                             <label class="form-label">reply</label>
                                             <textarea class="form-control" name="content" rows="8" placeholder="Type here to reply to Matney ..."></textarea>
                                         </div>
                                         <input type="hidden" name="discussion_id" value="{{ $discussion->id }}">
                                         <input type="hidden" name="post_user_id" value="{{ $result->user->id }}">
+                                        <input type="hidden" name="parent" value="{{ $result->id }}">
                                         <button type="submit" class="btn btn-outline-secondary">@lang('labels.backend.discussion_detail.post')</button>
                                     </form>
                                 </div>
@@ -93,11 +97,11 @@
                                                     <a href="" class="text-body"><strong>{{ $child->user->name }}</strong></a>
                                                     <small class="ml-auto text-muted">{{ \Carbon\Carbon::createFromTimeStamp(strtotime($child->updated_at))->diffForHumans() }}</small>
                                                 </div>
-                                                <p class="mt-1 text-70">{!! $child->content !!}</p>
+                                                <p class="mb-1 text-70">{!! $child->content !!}</p>
 
                                                 <div class="d-flex align-items-center">
-                                                    <a href="" class="text-50 d-flex align-items-center text-decoration-0"><i class="material-icons mr-1" style="font-size: inherit;">favorite_border</i> 3</a>
-                                                    <a href="" class="text-50 d-flex align-items-center text-decoration-0 ml-3"><i class="material-icons mr-1" style="font-size: inherit;">thumb_up</i> 13</a>
+                                                    <!-- <a href="" class="text-50 d-flex align-items-center text-decoration-0"><i class="material-icons mr-1" style="font-size: inherit;">favorite_border</i> 3</a>
+                                                    <a href="" class="text-50 d-flex align-items-center text-decoration-0 ml-3"><i class="material-icons mr-1" style="font-size: inherit;">thumb_up</i> 13</a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -113,18 +117,24 @@
 
                     <hr>
 
-                    <div class="d-flex mt-64pt card card-body">
-                        <a href="" class="avatar avatar-sm mr-12pt">
-                            @if(!empty(auth()->user()->avatar))
-                            <img src="{{ asset('/storage/avatars/' . auth()->user()->avatar) }}" alt="people" class="avatar-img rounded-circle">
-                            @else
-                            <span class="avatar-title rounded-circle">{{ substr(auth()->user()->name, 0, 2) }}</span>
-                            @endif
-                        </a>
-                        <div class="flex">
+                    <div class="card card-body">
+                        <div class="d-flex mb-16pt">
+                            <a href="" class="avatar avatar-sm mr-12pt">
+                                @if(!empty(auth()->user()->avatar))
+                                <img src="{{ asset('/storage/avatars/' . auth()->user()->avatar) }}" alt="people" class="avatar-img rounded-circle">
+                                @else
+                                <span class="avatar-title rounded-circle">{{ substr(auth()->user()->name, 0, 2) }}</span>
+                                @endif
+                            </a>
+                            <div class="flex">
+                                <a href="" class="text-body"><strong>{{ $result->user->name }}</strong></a><br>
+                                <label class="form-label">@lang('labels.backend.general.your_reply')</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <form id="frm_commet" method="post" action="{{ route('admin.ajax.postComment') }}">@csrf
                                 <div class="form-group">
-                                    <label class="form-label">@lang('labels.backend.general.your_reply')</label>
+                                    
                                     <div id="comment_editor" style="height: 300px;"></div>
                                 </div>
                                 <input type="hidden" name="discussion_id" value="{{ $discussion->id }}">
@@ -134,6 +144,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-4">
 
                     <div class="page-separator">
@@ -149,7 +160,7 @@
                                 @if(!empty($item->user->avatar))
                                 <img src="{{ asset('/storage/avatars/' . $item->user->avatar) }}" alt="" class="avatar-img rounded-circle">
                                 @else
-                                <span class="avatar-title rounded-circle">{{ substr($item->user->avatar, 0, 2) }}</span>
+                                <span class="avatar-title rounded-circle">{{ substr($item->user->name, 0, 2) }}</span>
                                 @endif
                             </a>
                             <a href="" class="flex mr-2 text-body"><strong>{{ $item->user->name }}</strong></a>
@@ -197,6 +208,7 @@
 
         $('#frm_commet').on('submit', function(e){
             e.preventDefault();
+
             $(this).ajaxSubmit({
                 beforeSubmit: function(formData, formObject, formOptions) {
                     var content = comment_editor.root.innerHTML;
@@ -226,7 +238,7 @@
             }
         });
 
-        $('form').on('submit', function(e) {
+        $('form.reply-form').on('submit', function(e) {
             e.preventDefault();
 
             var form_group = $(this).closest('.comment-group');

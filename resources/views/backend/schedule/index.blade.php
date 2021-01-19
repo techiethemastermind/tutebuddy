@@ -30,6 +30,14 @@
         font-size: 10px;
         font-weight: 400;
     }
+    [dir=ltr] .custom-tooltip {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        will-change: transform;
+        max-width: 300px;
+        width: auto;
+    }
 </style>
 
 @endpush
@@ -322,11 +330,11 @@ $(document).ready(function() {
             url: '{{ route("admin.getScheduleData") }}',
             editable: true,
             success: function(content, xhr) {
+                console.log(content);
                 return content.data;
             }
         }],
         eventContent: function(info) {
-            console.log(info);
             var html = `<div class="fc-event-time">` + info.timeText + `</div>
                         <div class="fc-event-time mb-8pt"> `+ info.event._def.extendedProps.timezone +`</div>`;
             html += `<div class="fc-event-title-container">
@@ -348,7 +356,6 @@ $(document).ready(function() {
             $('#scheduleUpdateModal').modal('toggle');
         },
         eventClick: function(info) {
-
             schedule_id = info.event.id
             schedule_startStr = info.event.startStr;
             schedule_startTime = ("0" + info.event.start.getUTCHours()).slice(-2) + ':' + ("0" + info.event.start.getUTCMinutes()).slice(-2);
@@ -399,6 +406,33 @@ $(document).ready(function() {
             schedule_endStr = info.event.endStr;
 
             $('#scheduleUpdateModal').modal('toggle');
+        },
+        eventMouseEnter: function(info) {
+            var time = info.timeText;
+            var timezone = info.event._def.extendedProps.timezone;
+            var course_title = info.event._def.extendedProps.full_course_title;
+            var lesson_title = info.event._def.extendedProps.full_lesson_title;
+
+            var template = `<div class="custom-tooltip">
+                                <div class="card card-body">
+                                    <div class="card-title">Course: `+ course_title +`</div>
+                                    <div class="card-title">Lesson: `+ lesson_title +`</div>
+                                </div>
+                            </div>`;
+
+            $('body').find('div.custom-tooltip').remove();
+            $('body').append(template);
+
+            var width = $('body').find('div.custom-tooltip').width();
+            var height = $('body').find('div.custom-tooltip').height();
+
+            var x = $(info.el).offset().left - (width - $(info.el).width()) / 2;
+            var y = $(info.el).offset().top - height + 10;
+
+            $('body').find('div.custom-tooltip').css('transform', 'translate3d('+ x +'px, '+ y +'px, 0px)');
+        },
+        eventMouseLeave: function(info) {
+            $('body').find('div.custom-tooltip').remove();
         }
     });
     calendar.render();

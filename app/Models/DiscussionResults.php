@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiscussionResults extends Model
 {
-    protected $fillable = ['discussion_id', 'user_id', 'content', 'post_user_id'];
+    protected $fillable = ['discussion_id', 'user_id', 'content', 'post_user_id', 'parent'];
 
     public function user()
     {
@@ -20,11 +20,11 @@ class DiscussionResults extends Model
 
     public function parent()
     {
-        return $this->belongsTo(DiscussionResults::class, 'post_user_id', 'user_id');
+        return $this->belongsTo(DiscussionResults::class, 'parent', 'id');
     }
 
     public function childs()
     {
-        return $this->hasMany(DiscussionResults::class, 'post_user_id', 'user_id');
+        return $this->hasMany(DiscussionResults::class, 'parent', 'id');
     }
 }

@@ -60,7 +60,7 @@
                                     <div class="form-row align-items-center">
                                         <label class="col-md-3 col-form-label form-label">@lang('labels.backend.general.course')</label>
                                         <div class="col-md-9">
-                                            <select id="course" name="course" class="form-control custom-select">
+                                            <select id="course" name="course" class="form-control custom-select" tute-no-empty>
                                                 @foreach($courses as $course)
                                                 <option value="{{ $course->id }}">{{ $course->title }}</option>
                                                 @endforeach

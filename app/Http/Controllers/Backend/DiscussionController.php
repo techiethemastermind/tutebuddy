@@ -105,8 +105,20 @@ class DiscussionController extends Controller
      */
     public function create()
     {
-        $courses = Course::all();
         $topics = DB::table('discussion_topics')->get();
+        $courses = Course::all();
+        if(auth()->user()->hasRole('Student')) {
+            $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+            $courses = Course::whereIn('id', $course_ids)->get();
+        }
+        
+        if($courses->count() < 1) {
+            $message = 'You have no any courses';
+            if(auth()->user()->hasRole('Student')) {
+                $message = 'You have no any purchased courses';
+            }
+            return redirect()->route('admin.discussions.index')->with('error', $message);
+        }
         return view('backend.discussions.create', compact('courses', 'topics'));
     }
 
@@ -227,17 +239,18 @@ class DiscussionController extends Controller
         if(!empty($result->user->avatar)){
             $avatar = '<img src="' . asset('/storage/avatars/' . $result->user->avatar) . '" alt="people" class="avatar-img rounded-circle">';
         } else {
-            $avatar = '<span class="avatar-title rounded-circle">' . substr($result->user->avatar, 0, 2) . '</span>';
+            $avatar = '<span class="avatar-title rounded-circle">' . substr($result->user->name, 0, 2) . '</span>';
         }
 
-        $html = '<div class="d-flex mb-3">
-                    <a href="" class="avatar avatar-sm mr-12pt">'. $avatar .'</a>
-                    <div class="flex">
-                        <a href="" class="text-body"><strong>' . $result->user->name . '</strong></a><br>
-                        <p class="mt-1 text-70">' . $result->content . '</p>
-                        <div class="d-flex align-items-center">
-                            <small class="text-50 mr-2">' . Carbon::createFromTimeStamp(strtotime($result->updated_at))->diffForHumans() .'</small>
-                            <a href="" class="text-50"><small>Liked</small></a>
+        $html = '<div class="ml-sm-32pt mt-3 card p-3">
+                    <div class="d-flex">
+                        <a href="#" class="avatar avatar-sm mr-12pt">'. $avatar .'</a>
+                        <div class="flex">
+                            <div class="d-flex align-items-center">
+                                <a href="" class="text-body"><strong>' . $result->user->name . '</strong></a>
+                                <small class="ml-auto text-muted">' . Carbon::createFromTimeStamp(strtotime($result->updated_at))->diffForHumans() .'</small>
+                            </div>
+                            <p class="mb-1 text-70">' . $result->content . '</p>
                         </div>
                     </div>
                 </div>';

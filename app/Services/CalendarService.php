@@ -27,6 +27,7 @@ class CalendarService
                 foreach($schedules as $schedule) {
 
                     $course_title = (strlen($course->title) > 12) ? (substr($course->title, 0, 12) . '...') : $course->title;
+                    $full_course_title = $course->title;
 
                     // $schedule_start_time = timezone()->convertToLocal(Carbon::parse($schedule['date'] . ' ' . $schedule['start_time']));
                     // $base_date = Carbon::parse($schedule_start_time); // Base date of Schedule
@@ -62,6 +63,7 @@ class CalendarService
                                 $item = [
                                     'id' => $schedule->id,
                                     'title' => 'Course: '. $course_title,
+                                    'full_course_title' => $full_course_title,
                                     'start' => $start,
                                     'end' => $end,
                                     'display' => 'block',
@@ -76,6 +78,7 @@ class CalendarService
                                     if(!empty($lesson)) {
                                         $lesson_title = (strlen($lesson->title) > 10) ? (substr($lesson->title, 0, 10) . '...') : $lesson->title;
                                         $item['lesson'] = $lesson->position . '. ' . $lesson_title;
+                                        $item['full_lesson_title'] = $lesson->title;
                                     }
                                 }
     
