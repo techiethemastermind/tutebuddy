@@ -58,7 +58,7 @@
                             <td align="left" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-size: 0px; padding: 10px 25px; word-break: break-word;">
                                 <div style="font-family:Open sans, arial, sans-serif;font-size:16px;line-height:25px;text-align:left;color:#363A41;" align="left">
                                     <span class="label" style="font-weight: 700;">Contact Type:</span>
-                                    <span style="color:#25B9D7;font-weight:600; text-decoration: underline;">{{ $contact_types[$data->contact_type + 1] }}</span>
+                                    <span style="color:#25B9D7;font-weight:600; text-decoration: underline;">{{ $contact_types[$data->contact_type - 1] }}</span>
                                 </div>
                             </td>
                             </tr><tr>
