@@ -211,6 +211,16 @@
             }
         }
 
+        $('#frm_register').on('submit', function(e) {
+            e.preventDefault();
+
+            if($('#password').hasClass('is-invalid')) {
+                return false;
+            } else {
+                $(this).submit();
+            }
+        });
+
     });
 </script>
 
