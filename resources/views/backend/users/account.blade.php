@@ -66,6 +66,8 @@ if(!isset($_GET["active"])) {
 
     <div class="container page__container page-section">
 
+        @include('layouts.parts.alert-messages')
+
         <div class="flex" style="max-width: 100%">
             <div class="card dashboard-area-tabs p-relative o-hidden mb-0">
 
@@ -255,7 +257,8 @@ if(!isset($_GET["active"])) {
                         </div>
 
                         <div class="form-group text-right">
-                            <button type="submit" class="btn btn-primary">@lang('labels.backend.general.save_changes')</button>
+                            <button type="submit" class="btn btn-primary"
+                            @if($user->profile == 1 || $user->profile == 3) disabled @endif>@lang('labels.backend.general.save_changes')</button>
                         </div>
 
                         {!! Form::close() !!}
@@ -382,7 +385,8 @@ if(!isset($_GET["active"])) {
                             </div>
 
                             <div class="form-group text-right">
-                                <button type="submit" class="btn btn-primary">@lang('labels.backend.general.save_changes')</button>
+                                <button type="submit" class="btn btn-primary" 
+                                @if($user->profile == 1 || $user->profile == 3) disabled @endif>@lang('labels.backend.general.save_changes')</button>
                             </div>
                         </div>
 

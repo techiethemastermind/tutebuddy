@@ -512,6 +512,13 @@ class UserController extends Controller
             $user->save();
         }
 
+        if($user->hasRole('Instructor')) {
+            if($user->profile == 0 || $user->profile == 2) {
+                $user->profile = 3;
+                $user->save();
+            }
+        }
+
         return response()->json([
             'success' => true,
             'action' => 'update'

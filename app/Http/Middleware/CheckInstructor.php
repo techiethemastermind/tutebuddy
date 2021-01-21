@@ -23,6 +23,10 @@ class CheckInstructor
             if(auth()->user()->profile == 2 && $request->route()->uri != 'dashboard/account') {
                 return redirect('dashboard/account')->with('warning', 'Your profile declined, Please submit again');
             }
+
+            if(auth()->user()->profile == 3 && $request->route()->uri != 'dashboard/account') {
+                return redirect('dashboard/account')->with('warning', 'Your profile is pending. It will take 3 business days.');
+            }
         }
         return $next($request);
     }
