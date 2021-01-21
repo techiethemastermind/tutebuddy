@@ -27,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'uuid', 'name', 'email', 'password', 'role', 'active', 'verified', 'about', 'verify_token',
+        'uuid', 'name', 'email', 'username', 'nick_name', 'password', 'role', 'active', 'verified', 'about', 'verify_token',
         'remember_token', 'headline', 'phone_number', 'country', 'state', 'city', 'address', 'zip', 'timezone', 'profession',
         'qualifications', 'achievements', 'experience', 'last_login_at', 'last_login_ip'
     ];
@@ -85,11 +85,8 @@ class User extends Authenticatable
     // Get Child Account
     public function child()
     {
-        $child = DB::table('user_child')->where('user_id', $this->id)->first();
-        if(!empty($child)) {
-            return $this->find($child->child_id);
-        }
-        return null;
+        $child_ids = DB::table('user_child')->where('user_id', $this->id)->pluck('child_id');
+        return User::whereIn('id', $child_ids)->get();
     }
 
     // Get bank detail

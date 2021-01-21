@@ -508,7 +508,7 @@ if(!isset($_GET["active"])) {
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="list-group-item">
                                     <div class="form-group row align-items-center mb-0">
                                         <div class="col-sm-3"></div>
@@ -526,10 +526,71 @@ if(!isset($_GET["active"])) {
 
                     <!-- Tab for Child Account -->
                     <div id="child" class="tab-pane p-4 fade text-70">
-                        <div class="form-group">
+
+                        <div class="accordion js-accordion accordion--boxed mb-24pt" id="parent">
+
+                            @foreach($user->child() as $child)
+                            <div class="accordion__item" lesson-id="{{ $child->id }}">
+                                <a href="#" class="accordion__toggle collapsed" data-toggle="collapse"
+                                    data-target="#child-{{ $child->id }}" data-parent="#parent">
+                                    <span class="flex">{{ $child->name }}</span>
+                                    <span class="accordion__toggle-icon material-icons">keyboard_arrow_down</span>
+                                </a>
+                                <div class="accordion__menu collapse" id="child-{{ $child->id }}">
+                                    <div class="accordion__menu-link">
+                                        <form method="POST" action="{{ route('admin.myaccount.child.update') }}" class="w-100" enctype="multipart/form-data">@csrf
+
+                                            <div class="page-separator">
+                                                <div class="page-separator__text bg-transparent">&nbsp;</div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label">@lang('labels.backend.my_account.username'): </label>
+                                                <span class="font-size-16pt">{{ $child->username }}</span>
+                                                <input type="hidden" name="child_id" class="form-control" value="@if($child){{ $child->id }}@endif">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label">@lang('labels.backend.my_account.child_name')</label>
+                                                <input type="text" name="name" class="form-control"
+                                                    value="@if($child) {{ $child->name }} @endif" placeholder="@lang('labels.backend.my_account.child_name')">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label">@lang('labels.backend.my_account.child_nick_name')</label>
+                                                <input type="text" name="nick_name" class="form-control"
+                                                    value="@if($child) {{ $child->nick_name }} @endif" placeholder="Nick Name">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label">@lang('labels.backend.my_account.password')</label>
+                                                <input type="password" name="password" class="form-control" value="" 
+                                                    placeholder="@lang('labels.backend.my_account.password')">
+                                                <span class="invalid-feedback" role="alert">
+                                                    Must be at least 8 characters, At least 1 number, 1 lowercase, 1 uppercase letter, At least 1 special character from @#$%&
+                                                </span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="form-label">@lang('labels.backend.my_account.confirm_password')</label>
+                                                <input type="password" name="confirm_password" class="form-control" value="" 
+                                                    placeholder="@lang('labels.backend.my_account.password')">
+                                            </div>
+
+                                            <div class="form-group mt-32pt">
+                                                <button type="submit" class="btn btn-primary">@lang('labels.backend.my_account.update_child_account')</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+
+                        </div>
+
+                        <!-- <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="chkChild" @if($child) checked=""
-                                    @endif>
+                                <input type="checkbox" class="custom-control-input" id="chkChild" @if($user->child()) checked="" @endif>
                                 <label class="custom-control-label" for="chkChild">
                                     @lang('labels.backend.my_account.add_child_account.title')
                                 </label>
@@ -537,10 +598,16 @@ if(!isset($_GET["active"])) {
                                     @lang('labels.backend.my_account.add_child_account.description')
                                 </small>
                             </div>
+                        </div> -->
+
+                        <div class="form-group">
+                            <button type="button" id="btn_add_child" class="btn btn-outline-secondary btn-block mb-24pt mb-sm-0">+ Add Child</button>
                         </div>
 
-                        <form id="frm_child" method="POST" action="" enctype="multipart/form-data"
-                            style="display: none;">
+                        <!-- ============== -->
+
+                        <form id="frm_child" method="POST" action="{{ route('admin.myaccount.child') }}" enctype="multipart/form-data"
+                            style="display: none;">@csrf
 
                             <div class="page-separator">
                                 <div class="page-separator__text bg-transparent">&nbsp;</div>
@@ -549,23 +616,28 @@ if(!isset($_GET["active"])) {
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.my_account.child_name')</label>
                                 <input type="text" name="name" class="form-control"
-                                    value="@if($child) {{ $child->name }} @endif" placeholder="@lang('labels.backend.my_account.child_name')">
+                                    value="" placeholder="@lang('labels.backend.my_account.child_name')">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.my_account.child_nick_name')</label>
                                 <input type="text" name="nick_name" class="form-control"
-                                    value="@if($child) {{ $child->nick_name }} @endif" placeholder="Nick Name">
+                                    value="" placeholder="Nick Name">
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.my_account.password')</label>
-                                <input type="password" name="password" class="form-control" value="">
+                                <input type="password" name="password" class="form-control" value="" 
+                                    placeholder="@lang('labels.backend.my_account.password')">
+                                <span class="invalid-feedback" role="alert">
+                                    Must be at least 8 characters, At least 1 number, 1 lowercase, 1 uppercase letter, At least 1 special character from @#$%&
+                                </span>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.my_account.confirm_password')</label>
-                                <input type="password" name="confirm_password" class="form-control" value="">
+                                <input type="password" name="confirm_password" class="form-control" value="" 
+                                    placeholder="@lang('labels.backend.my_account.password')">
                             </div>
 
                             <div class="form-group align-items-end d-flex">
@@ -602,13 +674,13 @@ if(!isset($_GET["active"])) {
                                 </small>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="form-label">
                                     @lang('labels.backend.my_account.relationship_to_child')
                                 </label>
                                 <input type="text" name="relation" class="form-control"
                                     value="{{ $user->relationship }}">
-                            </div>
+                            </div> -->
 
                             <div class="form-group">
                                 <div class="custom-control custom-checkbox">
@@ -632,6 +704,7 @@ if(!isset($_GET["active"])) {
                                 <button type="submit" class="btn btn-primary">@lang('labels.backend.my_account.create_child_account')</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
                 </form>
@@ -660,16 +733,20 @@ if(!isset($_GET["active"])) {
             $('#' + active_tab).addClass('active');
             $('#' + active_tab).addClass('show');
 
-            if ($('#chkChild').prop('checked')) {
-                $('#frm_child').show();
-            };
+            // if ($('#chkChild').prop('checked')) {
+            //     $('#frm_child').show();
+            // };
 
-            $('#chkChild').on('change', function () {
-                if ($(this).prop('checked')) {
-                    $('#frm_child').show();
-                } else {
-                    $('#frm_child').hide();
-                }
+            // $('#chkChild').on('change', function () {
+            //     if ($(this).prop('checked')) {
+            //         $('#frm_child').show();
+            //     } else {
+            //         $('#frm_child').hide();
+            //     }
+            // });
+
+            $('#btn_add_child').on('click', function(e) {
+                $('#frm_child').show();
             });
 
             // Timezone
@@ -717,9 +794,15 @@ if(!isset($_GET["active"])) {
 
                 $(this).ajaxSubmit({
                     success: function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            swal("Success!", "Successfully updated", "success");
+                        // console.log(res);
+                        if(res.success) {
+                            swal("Success!", res.message, "success");
+                        } else {
+                            swal("Error!", res.message, "error");
+                        }
+
+                        if(res.action != undefined && res.action == 'child') {
+                            location.reload();
                         }
                     }
                 });
@@ -739,6 +822,18 @@ if(!isset($_GET["active"])) {
                 }
             });
 
+            $('input[name="password"]').on('keyup', function(e) {
+                var rlt = checkPassword($(this).val());
+                if(!rlt) {
+                    if(!$(this).hasClass('is-invalid')) {
+                        $(this).addClass('is-invalid');
+                    }
+                } else {
+                    $(this).removeClass('is-invalid');
+                    $(this).addClass('is-valid');
+                }
+            });
+
             function checkPassword(password) {
                 if(pattern.test(password)){
                     return true;
@@ -746,6 +841,7 @@ if(!isset($_GET["active"])) {
                     return false;
                 }
             }
+            
         });
     </script>
 

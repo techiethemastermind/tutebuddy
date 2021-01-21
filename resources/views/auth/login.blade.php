@@ -27,12 +27,12 @@
                     @csrf
 
                     <div class="form-group">
-                        <label class="form-label" for="email">@lang('labels.auth.login.email'):</label>
-                        <input id="email" name="email" type="text"
-                            class="form-control @error('email') is-invalid @enderror"
-                            placeholder="@lang('labels.auth.login.email_placeholder')">
+                        <label class="form-label" for="username">@lang('labels.auth.login.username'):</label>
+                        <input id="username" name="username" type="text"
+                            class="form-control @error('username') is-invalid @enderror"
+                            placeholder="@lang('labels.auth.login.username_placeholder')">
 
-                        @error('email')
+                        @error('username')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

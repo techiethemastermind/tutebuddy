@@ -41,6 +41,66 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    // /**
+    // * Get the login username to be used by the controller.
+    // *
+    // * @return string
+    // */
+    // public function username()
+    // {
+    //     $login = request()->input('identity');
+
+    //     $field = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+    //     request()->merge([$field => $login]);
+
+    //     return $field;
+    // }
+
+    // /**
+    //  * Validate the user login request.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return void
+    //  *
+    //  * @throws \Illuminate\Validation\ValidationException
+    //  */
+    // protected function validateLogin(Request $request)
+    // {
+    //     $messages = [
+    //         'identity.required' => 'Email or username cannot be empty',
+    //         'email.exists' => 'Email or username already registered',
+    //         'username.exists' => 'Username is already registered',
+    //         'password.required' => 'Password cannot be empty',
+    //     ];
+
+    //     $request->validate([
+    //         'identity' => 'required|string',
+    //         'password' => 'required|string',
+    //         'email' => 'string|exists:users',
+    //         'username' => 'string|exists:users',
+    //     ], $messages);
+    // }
+
+    public function login(Request $request)
+    {   
+        $input = $request->all();
+  
+        $this->validate($request, [
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+  
+        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password'])))
+        {
+            return redirect()->intended($this->redirectTo);
+        }else{
+            return redirect()->route('login')
+                ->with('error','Email-Address And Password Are Wrong.');
+        }
+          
+    }
+
     public function authenticated(Request $request, $user)
     {
         if($request->role == 'user' && $user->hasRole('Administrator')) {

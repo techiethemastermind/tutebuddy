@@ -14,6 +14,7 @@ use App\Http\Controllers\Traits\FileUploadTrait;
 use App\Models\Course;
 use App\Models\Bank;
 use App\Models\AccessHistory;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -220,8 +221,6 @@ class UserController extends Controller
     {    
         $input = $request->all();
 
-        dd($input);
-
         if(!empty($input['password'])) { 
             $input['password'] = Hash::make($input['password']);
         } else {
@@ -277,8 +276,92 @@ class UserController extends Controller
     public function myAccount()
     {
         $user = auth()->user();
-        $child = $user->child();
-        return view('backend.users.account', compact('user', 'child'));
+        return view('backend.users.account', compact('user'));
+    }
+
+    /**
+     * Create Child Account
+     */
+    public function childAccount(Request $request) {
+
+        $data = $request->all();
+        
+        // Generate Unique User Name
+        $user_name = $this->get_username($data['name']);
+        $message = 'Successfully Created';
+
+        try {
+            $user = User::create([
+                'uuid' => Str::uuid()->toString(),
+                'name' => $data['name'],
+                'email' => $user_name . '@tutebuddy.com',
+                'username' => $user_name,
+                'nick_name' => $data['nick_name'],
+                'password' => Hash::make($data['password']),
+                'verify_token' => str_random(40)
+            ]);
+
+            DB::table('user_child')->insert([
+                'user_id' => auth()->user()->id,
+                'child_id' => $user->id
+            ]);
+        } catch (Exception $e) {
+
+            $message = $e->getMessage();
+        }
+
+        $user->assignRole('Child');
+
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'action' => 'child'
+        ]);
+    }
+
+    /**
+     * Update child account
+     */
+    public function childAccountUpdate(Request $request) {
+        $data = array_filter($request->all());
+        $update_data = [
+            'name' => $data['name'],
+            'nick_name' => $data['nick_name']
+        ];
+
+        if(!empty($data['password'])) { 
+            $update_data['password'] = Hash::make($data['password']);
+        }
+
+        $child = User::where('id', $data['child_id'])->update($update_data);
+
+        if($child) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully Updated'
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong, Please try again!'
+            ]);
+        }
+    }
+
+    private function get_username($name) {
+        $slug = str_slug($name);
+    
+        if ($this->usernameExist($slug)) {
+        	$name = $name . '_1';
+            return $this->get_username($name);
+        }
+    
+        // otherwise, it's valid and can be used
+        return $slug;
+    }
+    
+    private function usernameExist($slug) {
+        return empty(User::where('user_name', $slug)->first()) ? false : true;
     }
 
     public function updateAccount(Request $request, $id)
@@ -400,7 +483,8 @@ class UserController extends Controller
             }
 
             return response()->json([
-                'success' => true
+                'success' => true,
+                'message' => 'Successfully Updated'
             ]);
         }
         

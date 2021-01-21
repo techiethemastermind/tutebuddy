@@ -9,6 +9,7 @@ Route::resource('users','UserController');
 Route::get('ajax/users/list/{type}', 'UserController@getList')->name('getUsersByAjax');
 Route::get('account', 'UserController@myAccount')->name('myaccount');
 Route::post('child-account', 'UserController@childAccount')->name('myaccount.child');
+Route::post('child-update', 'UserController@childAccountUpdate')->name('myaccount.child.update');
 Route::get('my/instructors', 'UserController@studentInstructors')->name('student.instructors');
 Route::get('ajax/my-instructors', 'UserController@getStudentInstructorsByAjax')->name('student.getStudentInstructorsByAjax');
 Route::get('access-history', 'UserController@getHistory')->name('users.access_history');

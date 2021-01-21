@@ -12,7 +12,7 @@
                 </span>
             </a>
             <!-- Sidebar Head -->
-            <div class="sidebar-heading">{{ auth()->user()->roles->pluck('name')[0] }}</div>
+            <div class="sidebar-heading">{{ auth()->user()->getRoleNames()->first() }}</div>
 
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
@@ -42,7 +42,7 @@
                 </li>
                 @endcan
 
-                @if(auth()->user()->hasRole('Instructor'))
+                @can('workspace_access')
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
@@ -84,9 +84,7 @@
 
                     </ul>
                 </li>
-                @endif
 
-                @if(auth()->user()->hasRole('Administrator') || auth()->user()->hasRole('Instructor'))
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#courses_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
@@ -202,7 +200,7 @@
                 </li>
                 @endif
 
-                @if(auth()->user()->hasRole('Student'))
+                @can('study_access')
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
@@ -320,8 +318,7 @@
                         <span class="sidebar-menu-text">@lang('navs.sidebar.my_badges')</span>
                     </a>
                 </li>
-
-                @endif
+                @endcan
 
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#community_menu">
@@ -359,7 +356,7 @@
                     </a>
                 </li>
 
-                @if(auth()->user()->hasRole('Student'))
+                @can('study_access')
                 <!-- My Payment History -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/order*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('admin.orders') }}">
@@ -367,11 +364,10 @@
                         <span class="sidebar-menu-text">@lang('navs.sidebar.my_payments')</span>
                     </a>
                 </li>
-                @endif
+                @endcan
             </ul>
 
-            @if(auth()->user()->hasRole('Administrator'))
-
+            @can('setting_access')
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu">
                 <!-- Sidebar Head -->
@@ -470,7 +466,7 @@
                     </ul>
                 </li>
             </ul>
-            @endif
+            @endcan
             
         </div>
     </div>

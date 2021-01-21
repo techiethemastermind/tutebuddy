@@ -619,6 +619,8 @@ return array (
       'relationship_to_child' => 'Relationship to child',
       'create_child_account' => 'Create Child Account',
       'bank_note' => 'Your current payment method is Bank Information',
+      'update_child_account' => 'Update Account',
+      'user_name' => 'User Name',
     ),
     'payment' => 
     array (
@@ -947,6 +949,8 @@ return array (
       'forgot_password' => 'Forgot your password?',
       'login_button' => 'Login',
       'sign_with' => 'or sign-in with',
+      'username' => 'User Name',
+      'username_placeholder' => 'User name or Email',
     ),
     'register' => 
     array (
