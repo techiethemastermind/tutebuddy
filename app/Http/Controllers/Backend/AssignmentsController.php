@@ -470,7 +470,7 @@ class AssignmentsController extends Controller
                 if(!empty($item->result->mark)) {
                     $btn_show = '<a href="'. $show_route . '" class="btn btn-success btn-sm">Reviewed</a>';
                 } else {
-                    $btn_show = '<a href="'. $show_route . '" class="btn btn-accent btn-sm">Reviewing</a>';
+                    $btn_show = '<a href="javascript:void(0)" class="btn btn-secondary btn-sm">Reviewing</a>';
                 }
             } else {
                 $btn_show = '<a href="'. route('student.assignment.show', [$lesson->slug, $item->id]). '" class="btn btn-primary btn-sm">Start</a>';

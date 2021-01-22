@@ -213,7 +213,7 @@
             </div>
             @if(auth()->user()->hasRole('Student'))
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button id="btn_submit" type="submit" class="btn btn-primary d-none">Submit</button>
             </div>
             @endif
             <input type="hidden" name="test_id" value="{{ $test->id }}">
@@ -262,6 +262,7 @@
                 is_timer = true;
             }
             $('div.tute-questions').removeClass('d-none');
+            $('#btn_submit').removeClass('d-none');
             $(this).html('Finish Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
         });
 

@@ -392,7 +392,7 @@ class BundlesController extends Controller
                     data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
 
                 $forever_delete_route = route('admin.bundle.foreverDelete', $bundle->id);
-                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="restore" data-toggle="tooltip"
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="delete" data-toggle="tooltip"
                     data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
 
                 $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete . '&nbsp' . $perment_delete;

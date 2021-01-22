@@ -150,6 +150,7 @@
                                     </div>
                                 </div>
 
+                                @if(auth()->user()->hasRole('Student'))
                                 <form action="{{ route('cart.checkout') }}" method="POST" id="frm_checkout">@csrf
                                     <input type="hidden" name="bundle_id" value="{{ $bundle->id }}">
                                     <input type="hidden" name="amount" value="{{ $bundle->group_price }}">
@@ -164,6 +165,7 @@
                                     <button type="submit" class="btn btn-accent btn-block mb-8pt">
                                         Add To Cart</button>
                                 </form>
+                                @endif
 
                             </div>
                             @endif

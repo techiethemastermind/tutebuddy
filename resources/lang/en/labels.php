@@ -910,7 +910,8 @@ return array (
       array (
         'description' => 
         array (
-          'restore' => 'This course will recovered',
+          'restore' => 'Selected Item will recovered',
+          'delete' => 'Selected Item will be deleted permanently',
         ),
         'successfully_stored' => 'It will redirected to Editor',
       ),

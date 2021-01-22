@@ -467,7 +467,7 @@ class TestController extends Controller
                     $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Reviewed</a>';
                 } else {
                     $temp['mark'] = '<strong>' . $item->score . '</strong>';
-                    $btn_show = '<a href="'. $show_route. '" class="btn btn-accent btn-sm">Reviewing</a>';
+                    $btn_show = '<a href="javascript:void(0)" class="btn btn-secondary btn-sm">Reviewing</a>';
                 }
 
             } else {

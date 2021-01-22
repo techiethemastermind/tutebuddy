@@ -84,9 +84,14 @@
                 <div class="card">
                     <div class="card-body">
                         <form id="frm_a_result" method="POST" action="{{ route('admin.assignments.result_answer') }}" enctype="multipart/form-data">@csrf
+                            
+                            <div class="form-group">
+                                <label for="" class="form-label">Total Mark: {{ $result->assignment->total_mark }}</label>
+                            </div>
+
                             <div class="form-group">
                                 <label for="" class="form-label">@lang('labels.backend.assignments.result.assignment_mark')</label>
-                                <input name="mark" class="form-control" value="{{ $result->mark }}">
+                                <input type="number" name="mark" class="form-control" max="{{ $result->assignment->total_mark }}" value="{{ $result->mark }}">
                             </div>
 
                             <div class="form-group">
@@ -165,6 +170,20 @@
                     }
                 }
             });
+        });
+
+        $('input[name="mark"]').on('keyup', function(e) {
+            if($(this).val() > parseInt($(this).attr('max'))) {
+
+                $(this).val('100');
+
+                if($(this).siblings('.invalid-feedback').length < 1) {
+                    var err_msg = $('<div class="invalid-feedback" style="display: block;">Marks is greater than total marks.</div>');
+                    err_msg.insertAfter($(this));
+                }
+            } else {
+                $(this).siblings('.invalid-feedback').remove();
+            }
         });
 
     });

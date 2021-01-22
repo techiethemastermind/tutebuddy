@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Invoice</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style>
+        * { font-family: DejaVu Sans, sans-serif; }
+    </style>
     <style>
         .clearfix:after {
             content: "";
@@ -175,18 +179,24 @@
           </tr>
         </thead>
         <tbody>
+            <?php
+              $currency_symbol = getCurrency(config('app.currency'))['symbol'];
+              if(getCurrency(config('app.currency'))['short_code'] == 'INR') {
+                $currency_symbol = '&#8377;';
+              }
+            ?>
             @foreach($order->items as $item)
             <tr>
                 <td class="service">{{ $item->course->title }}</td>
                 <td class="desc">{{ $item->course->short_description }}</td>
-                <td class="unit">{{ getCurrency(config('app.currency'))['symbol'] . $item->price }}</td>
-                <td>{{ getCurrency(config('app.currency'))['symbol'] . $item->tax }}</td>
-                <td class="total">{{ getCurrency(config('app.currency'))['symbol'] . $item->amount }}</td>
+                <td class="unit">{!! $currency_symbol . $item->price !!}</td>
+                <td>{!! $currency_symbol . $item->tax !!}</td>
+                <td class="total">{!! $currency_symbol . $item->amount !!}</td>
             </tr>
             @endforeach
             <tr>
                 <td colspan="4" class="service">Total: </td>
-                <td class="total">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</td>
+                <td class="total">{!! $currency_symbol . $order->amount !!}</td>
             </tr>
         </tbody>
       </table>

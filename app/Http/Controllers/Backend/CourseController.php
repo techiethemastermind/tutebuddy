@@ -588,7 +588,7 @@ class CourseController extends Controller
                 $btn_restore = '<a href="'. $restore_route. '" class="btn btn-info btn-sm" data-action="restore" data-toggle="tooltip"
                 data-original-title="Restore to Review"><i class="material-icons">arrow_back</i></a>';
 
-                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="restore" data-toggle="tooltip"
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="delete" data-toggle="tooltip"
                 data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
 
                 $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;

@@ -197,14 +197,19 @@ $(function() {
         });
     });
 
-    $('#tbl_bundles').on('click', 'a[data-action="restore"]', function(e) {
+    $('#tbl_bundles').on('click', 'a[data-action="restore"], a[data-action="delete"]', function(e) {
 
         e.preventDefault();
         var url = $(this).attr('href');
+        var swal_text = "@lang('labels.backend.swal.paths.description.delete')";
+
+        if($(this).attr('data-action') == 'restore') {
+            swal_text = "@lang('labels.backend.swal.paths.description.restore')";
+        }
 
         swal({
             title: "@lang('labels.backend.swal.title.are_you_sure')",
-            text: "@lang('labels.backend.swal.paths.description.restore')",
+            text: swal_text,
             type: 'info',
             showCancelButton: true,
             showConfirmButton: true,

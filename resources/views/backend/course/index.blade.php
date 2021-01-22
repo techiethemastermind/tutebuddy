@@ -217,14 +217,20 @@
             });
         });
 
-        $('#tbl_courses').on('click', 'a[data-action="restore"]', function(e) {
+        $('#tbl_courses').on('click', 'a[data-action="restore"], a[data-action="delete"]', function(e) {
 
             e.preventDefault();
             var url = $(this).attr('href');
 
+            var swal_text = "@lang('labels.backend.swal.paths.description.delete')";
+
+            if($(this).attr('data-action') == 'restore') {
+                swal_text = "@lang('labels.backend.swal.paths.description.restore')";
+            }
+
             swal({
                 title: "Are you sure?",
-                text: "This course will recovered",
+                text: swal_text,
                 type: 'info',
                 showCancelButton: true,
                 showConfirmButton: true,

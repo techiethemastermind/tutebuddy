@@ -133,8 +133,7 @@
                             <!-- Set Category -->
                             <div class="form-group">
                                 <label class="form-label">@lang('labels.backend.sidebar.category')</label>
-                                <select id="select_category" name="category" class="form-control custom-select" data-toggle="select">
-                                    <option value="">@lang('labels.backend.sidebar.no_category')</option>
+                                <select id="select_category" name="category_id" class="form-control custom-select" data-toggle="select">
                                     @foreach ($parentCategories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @if ($category->children()->count() > 0 )

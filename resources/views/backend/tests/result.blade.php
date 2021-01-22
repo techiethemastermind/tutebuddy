@@ -128,7 +128,7 @@
 
                             <div class="form-group">
                                 <label for="" class="form-label">test Mark</label>
-                                <input type="number" name="mark" class="form-control" value="{{ $result->mark }}">
+                                <input type="number" name="mark" class="form-control" max="{{ $result->test->score }}" value="{{ $result->mark }}">
                             </div>
 
                             <div class="form-group">
@@ -208,6 +208,20 @@
                     }
                 }
             });
+        });
+
+        $('input[name="mark"]').on('keyup', function(e) {
+            if($(this).val() > parseInt($(this).attr('max'))) {
+
+                $(this).val('100');
+
+                if($(this).siblings('.invalid-feedback').length < 1) {
+                    var err_msg = $('<div class="invalid-feedback" style="display: block;">Marks is greater than total marks.</div>');
+                    err_msg.insertAfter($(this));
+                }
+            } else {
+                $(this).siblings('.invalid-feedback').remove();
+            }
         });
 
     });

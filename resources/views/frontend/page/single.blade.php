@@ -113,6 +113,9 @@ $(function() {
             success: function(res) {
                 if(res.success) {
                     swal('Success!', 'Successfully Submitted', 'success');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
                 }
             },
             error: function(err) {
