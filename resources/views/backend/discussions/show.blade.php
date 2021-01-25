@@ -127,7 +127,7 @@
                                 @endif
                             </a>
                             <div class="flex">
-                                <a href="" class="text-body"><strong>{{ $result->user->name }}</strong></a><br>
+                                <a href="" class="text-body"><strong>{{ auth()->user()->name }}</strong></a><br>
                                 <label class="form-label">@lang('labels.backend.general.your_reply')</label>
                             </div>
                         </div>
