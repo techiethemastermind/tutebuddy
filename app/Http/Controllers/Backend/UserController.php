@@ -361,7 +361,7 @@ class UserController extends Controller
     }
     
     private function usernameExist($slug) {
-        return empty(User::where('user_name', $slug)->first()) ? false : true;
+        return empty(User::where('username', $slug)->first()) ? false : true;
     }
 
     public function updateAccount(Request $request, $id)
