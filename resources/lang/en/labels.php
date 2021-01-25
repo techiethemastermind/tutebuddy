@@ -621,6 +621,7 @@ return array (
       'bank_note' => 'Your current payment method is Bank Information',
       'update_child_account' => 'Update Account',
       'user_name' => 'User Name',
+      'username' => 'User Name',
     ),
     'payment' => 
     array (
