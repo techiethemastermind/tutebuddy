@@ -30,6 +30,7 @@
                                 @lang('labels.backend.table.course_name')</a></th>
                             <th>@lang('labels.backend.table.price') ({{ getCurrency(config('app.currency'))['symbol'] }})</th>
                             <th>@lang('labels.backend.table.course_type')</th>
+                            <th>Purchase by</th>
                             <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
@@ -91,6 +92,27 @@
                                 <td>
                                     <span class="badge badge-pill badge-accent p-2"> {{ $cart->attributes->product_type }} </span>
                                     <span class="badge badge-pill badge-primary p-2"> {{ $cart->attributes->price_type }} </span>
+                                </td>
+                                <td>
+                                    <?php
+                                        $user = auth()->user();
+                                        if($cart->attributes->child_id != '') {
+                                            $user = Auth::user()->find($cart->attributes->child_id);
+                                        }
+                                    ?>
+                                    <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                        <div class="avatar avatar-sm mr-8pt">
+                                            <span class="avatar-title rounded-circle">{{ substr($user->name, 0, 2) }}</span>
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex d-flex flex-column">
+                                                    <p class="mb-0"><strong class="js-lists-values-lead">{{ $user->name }}</strong></p>
+                                                    <small class="js-lists-values-email text-50">Student</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     <a class="text-danger" href="{{route('cart.remove', ['course'=>$item])}}">

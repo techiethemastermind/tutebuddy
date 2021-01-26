@@ -59,6 +59,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('cart/checkout', 'CartController@process')->name('cart.process');
     Route::post('cart/add', 'CartController@addToCart')->name('cart.addToCart');
 
+    Route::get('cart/childs', 'CartController@getChilds')->name('cart.getChilds');
+
 });
 
 // ==== Course Subscribe ==== //

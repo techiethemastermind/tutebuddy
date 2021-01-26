@@ -627,14 +627,17 @@
                                 <form action="{{ route('cart.process') }}" method="POST" id="frm_checkout">@csrf
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
                                     <input type="hidden" name="price_type" value="group">
-                                    <button class="btn btn-primary btn-block mb-8pt">Buy Now</button>
+                                    <input type="hidden" name="child" value="">
+                                    <button type="button" id="btn_checkout" class="btn btn-primary btn-block mb-8pt" 
+                                        data-action="checkout">Buy Now</button>
                                 </form>
 
                                 <form action="{{ route('cart.addToCart') }}" method="POST" id="frm_cart">@csrf
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
                                     <input type="hidden" name="price_type" value="group">
-                                    <button type="submit" class="btn btn-accent btn-block mb-8pt">
-                                        Add To Cart</button>
+                                    <input type="hidden" name="child" value="">
+                                    <button type="button" id="btn_addtocart" class="btn btn-accent btn-block mb-8pt" 
+                                        data-action="cart"> Add To Cart</button>
                                 </form>
 
                             </div>
@@ -939,6 +942,32 @@
 
 @endif
 
+<!-- Modal for childs -->
+<div class="modal fade" id="modal_childs" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Select a Child</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="childs_container" class="form-group p-3 font-size-16pt">
+                    <!-- Childs -->
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button id="btn_child_ok" class="btn btn-outline-primary">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('after-scripts')
 
 <!-- Quill -->
@@ -986,6 +1015,40 @@ $(function() {
     $('input[name="enroll_type"]').on('change', function() {
         $('#frm_checkout').find('input[name="price_type"]').val($(this).attr('enroll-type'));
         $('#frm_cart').find('input[name="price_type"]').val($(this).attr('enroll-type'));
+    });
+
+    $('#btn_checkout, #btn_addtocart').on('click', function(e) {
+        e.preventDefault();
+        var action = $(this).attr('data-action');
+        $.ajax({
+            method: 'GET',
+            url: "{{ route('cart.getChilds') }}",
+            success: function(res) {
+                if(res.success && res.result) {
+                    $.each(res.childs, function(idx, item) {
+                        var ele = `<div class="custom-control custom-radio mb-2">
+                            <input id="rad_child_` + item.id + `" name="radio_child" data-id="`+ item.id +`" type="radio" 
+                                data-action="`+ action +`" class="custom-control-input">
+                            <label for="rad_child_` + item.id + `" class="custom-control-label">`+ item.name +`</label>
+                        </div>`;
+
+                        $('#childs_container').append($(ele));
+                    });
+
+                    $('#modal_childs').modal('toggle');
+                } else {
+                    $('#frm_' + action).submit();
+                }
+            }
+        });
+    });
+
+    $('#btn_child_ok').on('click', function(e) {
+        var child_id = $('input[name="radio_child"]:checked', '#childs_container').attr('data-id');
+        var action = $('input[name="radio_child"]:checked', '#childs_container').attr('data-action');
+        $('#frm_' + action).find('input[name="child"]').val(child_id);
+        $('#modal_childs').modal('toggle');
+        $('#frm_' + action).submit();
     });
 
     // Ajax Header for Ajax Call

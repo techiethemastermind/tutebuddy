@@ -91,7 +91,8 @@ class CartController extends Controller
                         'image' => $product->course_image,
                         'product_type' => $product_type,
                         'price_type' => $request->price_type,
-                        'teachers' => $teachers
+                        'teachers' => $teachers,
+                        'child_id' => $request->child
                     ]);
         }
 
@@ -134,7 +135,8 @@ class CartController extends Controller
                         'image' => $product->course_image,
                         'product_type' => $product_type,
                         'price_type' => $request->price_type,
-                        'teachers' => $teachers
+                        'teachers' => $teachers,
+                        'child_id' => $request->child
                     ]);
         }
 
@@ -149,6 +151,31 @@ class CartController extends Controller
         $orderId = $this->getRazorOrderId($cartTotal);
 
         return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId', 'cartTotal'));
+    }
+
+    public function getChilds()
+    {
+        $childs = [];
+        if(auth()->user()->child()->count() > 0) {
+            foreach(auth()->user()->child() as $child) {
+                $item = [
+                    'id' => $child->id,
+                    'name' => $child->name
+                ];
+                array_push($childs, $item);
+            }
+
+            return response()->json([
+                'success' => true,
+                'result' => true,
+                'childs' => $childs
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'result' => false
+            ]);
+        }
     }
 
     public function clear(Request $request)
@@ -275,11 +302,22 @@ class CartController extends Controller
                         $new_orderItem->item_type = 'App\Models\Course';
                         $new_orderItem->save();
 
+                        $parent = ($item->attributes->child_id == '') ? 0 : 1;
+
                         DB::table('course_student')->insert([
                             'course_id' => $item->id,
                             'user_id' => auth()->user()->id,
-                            'type' => $item->attributes->price_type
+                            'type' => $item->attributes->price_type,
+                            'parent' => $parent
                         ]);
+
+                        if($item->attributes->child_id != '') {
+                            DB::table('course_student')->insert([
+                                'course_id' => $item->id,
+                                'user_id' => $item->attributes->child_id,
+                                'type' => $item->attributes->price_type
+                            ]);
+                        }
                     }
                 }
 
