@@ -265,6 +265,8 @@
                     </ul>
                 </li>
 
+
+                @can('search_access')
                 <li class="sidebar-menu-item">
                     <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#browse_menu">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
@@ -274,12 +276,13 @@
 
                     <ul class="sidebar-submenu collapse sm-indent" id="browse_menu" style="">
 
+                        
                         <li class="sidebar-menu-item {{ Request::is('search/courses*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('courses.search') }}">
                                 <span class="sidebar-menu-text">@lang('navs.sidebar.courses')</span>
                             </a>
                         </li>
-
+                        
                         <li class="sidebar-menu-item {{ Request::is('search/instructor*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('teachers.search') }}">
                                 <span class="sidebar-menu-text">@lang('navs.sidebar.instructors')</span>
@@ -291,9 +294,9 @@
                                 <span class="sidebar-menu-text">@lang('navs.sidebar.favorites')</span>
                             </a>
                         </li>
-
                     </ul>
                 </li>
+                @endcan
 
                 <!-- Course Performance (Result) -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/result*') ? 'active' : '' }}">
@@ -340,6 +343,7 @@
                     </ul>
                 </li>
 
+                @can('message_access')
                 <!-- Messages -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/message*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('admin.messages.index') }}">
@@ -347,6 +351,7 @@
                         <span class="sidebar-menu-text">@lang('navs.sidebar.messages')</span>
                     </a>
                 </li>
+                @endcan
 
                 <!-- My Account -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/account*') ? 'active' : '' }}">
@@ -356,7 +361,7 @@
                     </a>
                 </li>
 
-                @can('study_access')
+                @can('student_payment_access')
                 <!-- My Payment History -->
                 <li class="sidebar-menu-item {{ Request::is('dashboard/order*') ? 'active' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('admin.orders') }}">
