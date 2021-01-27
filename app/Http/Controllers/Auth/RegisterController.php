@@ -73,9 +73,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $username = $this->get_username($data['name']);
         $user = User::create([
             'uuid' => Str::uuid()->toString(),
             'name' => $data['name'],
+            'username' => $username,
             'email' => $data['email'],
             'timezone' => $data['timezone'],
             'password' => Hash::make($data['password']),
@@ -94,6 +96,22 @@ class RegisterController extends Controller
         // Mail::to($user->email)->send(new VerifyMail($user));
 
         return $user;
+    }
+
+    private function get_username($name) {
+        $slug = str_slug($name);
+    
+        if ($this->usernameExist($slug)) {
+        	$name = $name . '_1';
+            return $this->get_username($name);
+        }
+    
+        // otherwise, it's valid and can be used
+        return $slug;
+    }
+    
+    private function usernameExist($slug) {
+        return empty(User::where('username', $slug)->first()) ? false : true;
     }
 
     public function verifyUser($token)
