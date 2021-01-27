@@ -224,6 +224,12 @@
             }
         });
 
+        $('input[type="number"]').on('keypress', function(e) {
+            if(e.which == 45) {
+                return false;
+            }
+        });
+
     });
 </script>
 
