@@ -245,38 +245,57 @@ $(function() {
 
     function loadLessons(course) {
 
-        // Get Lessons by selected Course
-        $.ajax({
-            method: 'GET',
-            url: "{{ route('admin.lessons.getLessonsByCourse') }}",
-            data: {course_id: course},
-            success: function(res) {
-                if (res.success) {
-                    lesson_added = (res.lesson_id != null) ? true : false;
-                    $('select[name="lesson_id"]').html(res.options);
-                    if(res.options == '') {
-                        swal({
-                            title: "@lang('labels.backend.general.warning')",
-                            text: "@lang('string.backend.load_lesson')",
-                            type: 'warning',
-                            showCancelButton: true,
-                            showConfirmButton: true,
-                            confirmButtonText: "@lang('labels.backend.general.confirm')",
-                            cancelButtonText: "@lang('labels.backend.general.cancel')",
-                            dangerMode: false,
-                        }, function (val) {
-                            if(val) {
-                                window.location.href = '/dashboard/courses/' + course + '/edit';
-                            }
-                        });
+        console.log(course);
+
+        if(course != null) {
+            // Get Lessons by selected Course
+            $.ajax({
+                method: 'GET',
+                url: "{{ route('admin.lessons.getLessonsByCourse') }}",
+                data: {course_id: course},
+                success: function(res) {
+                    if (res.success) {
+                        lesson_added = (res.lesson_id != null) ? true : false;
+                        $('select[name="lesson_id"]').html(res.options);
+                        if(res.options == '') {
+                            swal({
+                                title: "@lang('labels.backend.general.warning')",
+                                text: "@lang('string.backend.load_lesson')",
+                                type: 'warning',
+                                showCancelButton: true,
+                                showConfirmButton: true,
+                                confirmButtonText: "@lang('labels.backend.general.confirm')",
+                                cancelButtonText: "@lang('labels.backend.general.cancel')",
+                                dangerMode: false,
+                            }, function (val) {
+                                if(val) {
+                                    window.location.href = '/dashboard/courses/' + course + '/edit';
+                                }
+                            });
+                        }
                     }
+                },
+                error: function(err) {
+                    var errMsg = getErrorMessage(err);
+                    console.log(errMsg);
                 }
-            },
-            error: function(err) {
-                var errMsg = getErrorMessage(err);
-                console.log(errMsg);
-            }
-        });
+            });
+        } else {
+            swal({
+                title: "@lang('labels.backend.general.warning')",
+                text: "There is no any courses. Please create courses",
+                type: 'warning',
+                showCancelButton: true,
+                showConfirmButton: true,
+                confirmButtonText: "@lang('labels.backend.general.confirm')",
+                cancelButtonText: "@lang('labels.backend.general.cancel')",
+                dangerMode: false,
+            }, function (val) {
+                if(val) {
+                    window.location.href = "{{ route('admin.courses.index') }}";
+                }
+            });
+        }
     }
 });
 </script>

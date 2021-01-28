@@ -460,6 +460,28 @@
                         @endforeach
                     </div>
 
+                    @if(auth()->check() && auth()->user()->child()->count() > 0)
+                        <div class="page-separator mt-4">
+                            <div class="page-separator__text">Purchase for Child</div>
+                        </div>
+
+                        <form action="{{ route('cart.process') }}" method="POST" id="frm_checkout">@csrf
+                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            <input type="hidden" name="price_type" value="group">
+                            <input type="hidden" name="child" value="">
+                            <button type="button" id="btn_checkout" class="btn btn-primary btn-block mb-8pt" 
+                                data-action="checkout">Buy Now</button>
+                        </form>
+
+                        <form action="{{ route('cart.addToCart') }}" method="POST" id="frm_cart">@csrf
+                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+                            <input type="hidden" name="price_type" value="group">
+                            <input type="hidden" name="child" value="">
+                            <button type="button" id="btn_addtocart" class="btn btn-accent btn-block mb-8pt" 
+                                data-action="cart"> Add To Cart</button>
+                        </form>
+                    @endif
+
                 </div>
             </div>
         </div>
@@ -575,6 +597,7 @@
                     </div>
                     @endforeach
                 </div>
+                
                 <div class="col-lg-5 justify-content-center">
 
                     <div class="card">
@@ -624,21 +647,41 @@
                                     </div>
                                 </div>
 
-                                <form action="{{ route('cart.process') }}" method="POST" id="frm_checkout">@csrf
+                                <form action="{{ route('cart.process') }}" method="POST">@csrf
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
                                     <input type="hidden" name="price_type" value="group">
                                     <input type="hidden" name="child" value="">
-                                    <button type="button" id="btn_checkout" class="btn btn-primary btn-block mb-8pt" 
-                                        data-action="checkout">Buy Now</button>
+                                    <button class="btn btn-primary btn-block mb-8pt" data-action="checkout">Buy Now</button>
                                 </form>
 
-                                <form action="{{ route('cart.addToCart') }}" method="POST" id="frm_cart">@csrf
+                                <form action="{{ route('cart.addToCart') }}" method="POST">@csrf
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
                                     <input type="hidden" name="price_type" value="group">
                                     <input type="hidden" name="child" value="">
-                                    <button type="button" id="btn_addtocart" class="btn btn-accent btn-block mb-8pt" 
-                                        data-action="cart"> Add To Cart</button>
+                                    <button class="btn btn-accent btn-block mb-8pt" data-action="cart"> Add To Cart</button>
                                 </form>
+
+                                @if(auth()->check() && auth()->user()->child()->count() > 0)
+                                    <div class="page-separator mt-4">
+                                        <div class="page-separator__text bg-alt">Purchase for Child</div>
+                                    </div>
+
+                                    <form action="{{ route('cart.process') }}" method="POST" id="frm_checkout">@csrf
+                                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                        <input type="hidden" name="price_type" value="group">
+                                        <input type="hidden" name="child" value="">
+                                        <button type="button" id="btn_checkout" class="btn btn-primary btn-block mb-8pt" 
+                                            data-action="checkout">Buy Now</button>
+                                    </form>
+
+                                    <form action="{{ route('cart.addToCart') }}" method="POST" id="frm_cart">@csrf
+                                        <input type="hidden" name="course_id" value="{{ $course->id }}">
+                                        <input type="hidden" name="price_type" value="group">
+                                        <input type="hidden" name="child" value="">
+                                        <button type="button" id="btn_addtocart" class="btn btn-accent btn-block mb-8pt" 
+                                            data-action="cart"> Add To Cart</button>
+                                    </form>
+                                @endif
 
                             </div>
                             @endif
@@ -956,7 +999,6 @@
                 <div id="childs_container" class="form-group p-3 font-size-16pt">
                     <!-- Childs -->
                 </div>
-
             </div>
 
             <div class="modal-footer">
@@ -1025,6 +1067,7 @@ $(function() {
             url: "{{ route('cart.getChilds') }}",
             success: function(res) {
                 if(res.success && res.result) {
+                    $('#childs_container').empty();
                     $.each(res.childs, function(idx, item) {
                         var ele = `<div class="custom-control custom-radio mb-2">
                             <input id="rad_child_` + item.id + `" name="radio_child" data-id="`+ item.id +`" type="radio" 

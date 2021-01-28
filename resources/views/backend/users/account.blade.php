@@ -801,12 +801,11 @@ if(!isset($_GET["active"])) {
                         // console.log(res);
                         if(res.success) {
                             swal("Success!", res.message, "success");
+                            if(res.action != undefined && res.action == 'child') {
+                                location.reload();
+                            }
                         } else {
                             swal("Error!", res.message, "error");
-                        }
-
-                        if(res.action != undefined && res.action == 'child') {
-                            location.reload();
                         }
                     }
                 });

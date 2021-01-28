@@ -302,22 +302,13 @@ class CartController extends Controller
                         $new_orderItem->item_type = 'App\Models\Course';
                         $new_orderItem->save();
 
-                        $parent = ($item->attributes->child_id == '') ? 0 : 1;
+                        $userId = ($item->attributes->child_id == '') ? auth()->user()->id : $item->attributes->child_id;
 
                         DB::table('course_student')->insert([
                             'course_id' => $item->id,
-                            'user_id' => auth()->user()->id,
-                            'type' => $item->attributes->price_type,
-                            'parent' => $parent
+                            'user_id' => $userId,
+                            'type' => $item->attributes->price_type
                         ]);
-
-                        if($item->attributes->child_id != '') {
-                            DB::table('course_student')->insert([
-                                'course_id' => $item->id,
-                                'user_id' => $item->attributes->child_id,
-                                'type' => $item->attributes->price_type
-                            ]);
-                        }
                     }
                 }
 

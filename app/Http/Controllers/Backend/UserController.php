@@ -285,6 +285,18 @@ class UserController extends Controller
     public function childAccount(Request $request) {
 
         $data = $request->all();
+
+        // Check name is duplicated or not
+        $child_ids = DB::table('user_child')->where('user_id', auth()->user()->id)->pluck('child_id');
+        $child_names = User::whereIn('id', $child_ids)->pluck('name')->toArray();
+
+        if(in_array($data['name'], $child_names)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Name is duplicated',
+                'action' => 'child'
+            ]);
+        }
         
         // Generate Unique User Name
         $user_name = $this->get_username($data['name']);
