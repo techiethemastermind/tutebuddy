@@ -86,6 +86,17 @@
                             placeholder="@lang('labels.backend.courses.fields.title')" value="" tute-no-empty>
                     </div>
 
+                    <label class="form-label">Slug</label>
+                    <div class="form-group mb-24pt">
+                        <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror"
+                            placeholder="slug" value="" tute-no-empty>
+                            @error('slug')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                    </div>
+
                     <label class="form-label">@lang('labels.backend.courses.fields.description')</label>
                     <div class="form-group mb-24pt">
                         <textarea name="short_description" class="form-control" cols="100%" rows="5"
@@ -507,6 +518,21 @@ $(document).ready(function() {
         placeholder: "@lang('labels.backend.courses.quil.course_description')",
         modules: {
             toolbar: toolbarOptions
+        }
+    });
+
+    // Slug Generate
+    $('input[name="title"]').on('focusout', function(e) {
+
+        if($('input[name="slug"]').val() == '') {
+            $.ajax({
+                method: 'GET',
+                url: "{{ route('admin.slug') }}",
+                data: {title: $(this).val()},
+                success: function(res) {
+                    $('input[name="slug"]').val(res.slug);
+                }
+            });
         }
     });
 

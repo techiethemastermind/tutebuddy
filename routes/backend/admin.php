@@ -55,6 +55,8 @@ Route::get('ajax/course/remove-favorite/{course_id}', 'CourseController@removeFa
 Route::get('my/courses', 'CourseController@studentCourses')->name('student.courses');
 Route::get('ajax/my-courses/{type}', 'CourseController@getStudentCoursesByAjax')->name('student.getMyCoursesByAjax');
 
+Route::get('ajax/slug', 'CourseController@getSlugByTitle')->name('slug');
+
 //===== Bundles Routes =====//
 Route::resource('bundles', 'BundlesController');
 Route::get('bundles/restore/{id}', 'BundlesController@restore')->name('bundle.restore');

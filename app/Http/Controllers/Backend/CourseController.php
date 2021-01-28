@@ -113,6 +113,34 @@ class CourseController extends Controller
     }
 
     /**
+     * Get Slug by Ajax
+     */
+    public function getSlugByTitle(Request $request)
+    {
+        $slug = $this->get_slug($request->title);
+        return response()->json([
+            'success' => true,
+            'slug' => $slug
+        ]);
+    }
+
+    private function get_slug($title) {
+        $slug = str_slug($title);
+    
+        if ($this->slugExist($slug)) {
+        	$title = $title . '_1';
+            return $this->get_slug($title);
+        }
+    
+        // otherwise, it's valid and can be used
+        return $slug;
+    }
+    
+    private function slugExist($slug) {
+        return empty(Course::where('slug', $slug)->first()) ? false : true;
+    }
+
+    /**
      * Store new course data
      */
     public function store(Request $request) {
@@ -138,7 +166,7 @@ class CourseController extends Controller
         $course_data = [
             'category_id' => $data['category'],
             'title' => $title,
-            'slug' => str_slug($title),
+            'slug' => $data['slug'],
             'short_description' => $data['short_description'],
             'description' => $data['course_description'],
             'level_id' => $data['level'],
@@ -285,7 +313,6 @@ class CourseController extends Controller
         $course_data = [
             'category_id' => $data['category'],
             'title' => $data['title'],
-            'slug' => str_slug($data['title']),
             'short_description' => $data['short_description'],
             'description' => $data['course_description'],
             'level_id' => $data['level'],
@@ -494,20 +521,26 @@ class CourseController extends Controller
             $temp = [];
             $temp['index'] = '';
             $temp['no'] = $i;
-            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                <div class="avatar avatar-sm mr-8pt">
-                                    <span class="avatar-title rounded bg-primary text-white">'
-                                        . substr($course->title, 0, 2) .
-                                    '</span>
-                                </div>
+            $avatar = '<div class="avatar avatar-sm mr-8pt">
+                            <span class="avatar-title rounded bg-primary text-white">CO</span>
+                        </div>';
+
+            if(!empty($course->course_image)) {
+                $avatar = '<div class="avatar avatar-sm mr-8pt">
+                                <img src="'. asset('storage/uploads/thumb/' . $course->course_image) .'" alt="Avatar" class="avatar-img rounded">
+                            </div>';
+            }
+
+            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">'. $avatar .'
                                 <div class="media-body">
                                     <div class="d-flex flex-column">
-                                        <small class="js-lists-values-project">
+                                        <small class="">
                                             <strong>' . $course->title . '</strong></small>
                                         <small class="js-lists-values-location text-50">'. $course->slug .'</small>
                                     </div>
                                 </div>
                             </div>';
+
             $temp['name'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
                                 <div class="avatar avatar-sm mr-8pt">
                                     <span class="avatar-title rounded-circle">' . substr($course->teachers[0]->name, 0, 2) . '</span>
