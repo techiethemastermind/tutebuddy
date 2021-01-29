@@ -349,9 +349,18 @@
                     </p>
 
                     <div class="mb-32pt">
-                        <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank"
-                            data-lesson-id="" class="btn btn-outline-accent-dodger-blue btn-block btn-live-session">Join
-                            To Live Session</a>
+                        @if($lesson->isCompleted())
+                        <button type="button" class="btn btn-outline-primary btn-block" disabled="">Finished</button>
+                        @else
+                            <?php $result = live_schedule($schedule->lesson); ?>
+                            @if($result['status'])
+                            <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank"
+                                data-lesson-id="" class="btn btn-outline-accent-dodger-blue btn-block btn-live-session">Join
+                                To Live Session</a>
+                            @else
+                            <button type="button" class="btn btn-outline-primary btn-block" disabled="">Scheduled</button>
+                            @endif
+                        @endif
                     </div>
                     @endif
 
