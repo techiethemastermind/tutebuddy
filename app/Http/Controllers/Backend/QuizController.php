@@ -194,7 +194,6 @@ class QuizController extends Controller
             'course_id' => $request->course_id,
             'lesson_id' => $request->lesson_id,
             'duration' => $duration,
-            'score' => $request->score,
             'title' => $request->title,
             'description' => $request->short_description,
             'type' => $request->type,
@@ -512,6 +511,7 @@ class QuizController extends Controller
             if(!empty($item->start_date)) {
                 $temp['due'] = '<strong>' . $item->start_date . '</strong>';
             }
+
             $temp['mark'] = '<strong>' . $item->score . '</strong>';
 
             if(empty($item->result)) {

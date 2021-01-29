@@ -201,126 +201,126 @@
                 @endif
 
                 @can('study_access')
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
-                        @lang('navs.sidebar.my_study')
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
+                    <li class="sidebar-menu-item">
+                        <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
+                            <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
+                            @lang('navs.sidebar.my_study')
+                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                        </a>
 
-                    <ul class="sidebar-submenu collapse sm-indent" id="study_menu" style="">
+                        <ul class="sidebar-submenu collapse sm-indent" id="study_menu" style="">
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/course*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.courses') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.courses')</span>
-                            </a>
-                        </li>
+                            <li class="sidebar-menu-item {{ Request::is('dashboard/my/course*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.student.courses') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.courses')</span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/live*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.liveSessions') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.live_lessons')</span>
-                            </a>
-                        </li>
+                            <li class="sidebar-menu-item {{ Request::is('dashboard/my/live*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.student.liveSessions') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.live_lessons')</span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/path*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.bundles') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.paths')</span>
-                            </a>
-                        </li>
+                            <li class="sidebar-menu-item {{ Request::is('dashboard/my/path*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.student.bundles') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.paths')</span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/instructor*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.instructors') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.instructors')</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                            <li class="sidebar-menu-item {{ Request::is('dashboard/my/instructor*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.student.instructors') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.instructors')</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#my_task_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment</span>
-                        My Tasks
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
+                    <li class="sidebar-menu-item">
+                        <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#my_task_menu">
+                            <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">assignment</span>
+                            My Tasks
+                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                        </a>
 
-                    <ul class="sidebar-submenu collapse sm-indent" id="my_task_menu" style="">
-                    
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/assignment*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.assignments') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.assignments')</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/quiz*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.quizs') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.quizzes')</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/my/test*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.student.tests') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.tests')</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-                @can('search_access')
-                <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#browse_menu">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
-                        @lang('navs.sidebar.browse')
-                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
-                    </a>
-
-                    <ul class="sidebar-submenu collapse sm-indent" id="browse_menu" style="">
-
+                        <ul class="sidebar-submenu collapse sm-indent" id="my_task_menu" style="">
                         
-                        <li class="sidebar-menu-item {{ Request::is('search/courses*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('courses.search') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.courses')</span>
-                            </a>
-                        </li>
-                        
-                        <li class="sidebar-menu-item {{ Request::is('search/instructor*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('teachers.search') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.instructors')</span>
-                            </a>
-                        </li>
+                            <li class="sidebar-menu-item {{ Request::is('dashboard/my/assignment*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.student.assignments') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.assignments')</span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-menu-item {{ Request::is('dashboard/courses/get/favorite*') ? 'active' : '' }}">
-                            <a class="sidebar-menu-button" href="{{ route('admin.courses.favorites') }}">
-                                <span class="sidebar-menu-text">@lang('navs.sidebar.favorites')</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                @endcan
+                            <li class="sidebar-menu-item {{ Request::is('dashboard/my/quiz*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.student.quizs') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.quizzes')</span>
+                                </a>
+                            </li>
 
-                <!-- Course Performance (Result) -->
-                <li class="sidebar-menu-item {{ Request::is('dashboard/result*') ? 'active' : '' }}">
-                    <a class="sidebar-menu-button" href="{{ route('admin.results.student') }}">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">poll</span>
-                        <span class="sidebar-menu-text">@lang('navs.sidebar.course_performance')</span>
-                    </a>
-                </li>
+                            <li class="sidebar-menu-item {{ Request::is('dashboard/my/test*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.student.tests') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.tests')</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-                <!-- Cert -->
-                <li class="sidebar-menu-item {{ Request::is('dashboard/certificate*') ? 'active' : '' }}">
-                    <a class="sidebar-menu-button" href="{{ route('admin.certificates.index') }}">
-                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">new_releases</span>
-                        <span class="sidebar-menu-text">@lang('navs.sidebar.my_certifications')</span>
-                    </a>
-                </li>
 
-                <!-- Badges -->
-                <li class="sidebar-menu-item {{ Request::is('dashboard/badges*') ? 'active' : '' }}">
-                    <a class="sidebar-menu-button" href="{{ route('admin.results.student.badges') }}">
-                        <i class="material-icons sidebar-menu-icon sidebar-menu-icon--left fa fa-medal"></i>
-                        <span class="sidebar-menu-text">@lang('navs.sidebar.my_badges')</span>
-                    </a>
-                </li>
+                    @can('search_access')
+                    <li class="sidebar-menu-item">
+                        <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#browse_menu">
+                            <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">import_contacts</span>
+                            @lang('navs.sidebar.browse')
+                            <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                        </a>
+
+                        <ul class="sidebar-submenu collapse sm-indent" id="browse_menu" style="">
+
+                            
+                            <li class="sidebar-menu-item {{ Request::is('search/courses*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('courses.search') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.courses')</span>
+                                </a>
+                            </li>
+                            
+                            <li class="sidebar-menu-item {{ Request::is('search/instructor*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('teachers.search') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.instructors')</span>
+                                </a>
+                            </li>
+
+                            <li class="sidebar-menu-item {{ Request::is('dashboard/courses/get/favorite*') ? 'active' : '' }}">
+                                <a class="sidebar-menu-button" href="{{ route('admin.courses.favorites') }}">
+                                    <span class="sidebar-menu-text">@lang('navs.sidebar.favorites')</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    @endcan
+
+                    <!-- Course Performance (Result) -->
+                    <li class="sidebar-menu-item {{ Request::is('dashboard/result*') ? 'active' : '' }}">
+                        <a class="sidebar-menu-button" href="{{ route('admin.results.student') }}">
+                            <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">poll</span>
+                            <span class="sidebar-menu-text">@lang('navs.sidebar.course_performance')</span>
+                        </a>
+                    </li>
+
+                    <!-- Cert -->
+                    <li class="sidebar-menu-item {{ Request::is('dashboard/certificate*') ? 'active' : '' }}">
+                        <a class="sidebar-menu-button" href="{{ route('admin.certificates.index') }}">
+                            <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">new_releases</span>
+                            <span class="sidebar-menu-text">@lang('navs.sidebar.my_certifications')</span>
+                        </a>
+                    </li>
+
+                    <!-- Badges -->
+                    <li class="sidebar-menu-item {{ Request::is('dashboard/badges*') ? 'active' : '' }}">
+                        <a class="sidebar-menu-button" href="{{ route('admin.results.student.badges') }}">
+                            <i class="material-icons sidebar-menu-icon sidebar-menu-icon--left fa fa-medal"></i>
+                            <span class="sidebar-menu-text">@lang('navs.sidebar.my_badges')</span>
+                        </a>
+                    </li>
                 @endcan
 
                 <li class="sidebar-menu-item">
@@ -370,6 +370,28 @@
                     </a>
                 </li>
                 @endcan
+
+                @if(auth()->user()->child()->count() > 0)
+
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#childs_menu">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">face</span>
+                        My Childs
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul class="sidebar-submenu collapse sm-indent" id="childs_menu" style="">
+                        @foreach(auth()->user()->child() as $child)
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/childs/', $child->id) ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.child', $child->id) }}">
+                                <span class="sidebar-menu-text">{{ $child->name }}</span>
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                    
+                <li>
+                @endif
             </ul>
 
             @can('setting_access')

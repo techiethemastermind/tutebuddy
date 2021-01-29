@@ -684,12 +684,16 @@ class CourseController extends Controller
             $temp = [];
             $temp['index'] = '';
             $temp['no'] = $i;
-            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                <div class="avatar avatar-sm mr-8pt">
-                                    <span class="avatar-title rounded bg-primary text-white">'
-                                        . substr($course->title, 0, 2) .
-                                    '</span>
-                                </div>
+            $avatar = '<div class="avatar avatar-sm mr-8pt">
+                            <span class="avatar-title rounded bg-primary text-white">CO</span>
+                        </div>';
+
+            if(!empty($course->course_image)) {
+                $avatar = '<div class="avatar avatar-sm mr-8pt">
+                                <img src="'. asset('storage/uploads/thumb/' . $course->course_image) .'" alt="Avatar" class="avatar-img rounded">
+                            </div>';
+            }
+            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">'. $avatar .'
                                 <div class="media-body">
                                     <div class="d-flex flex-column">
                                         <small class="js-lists-values-project">

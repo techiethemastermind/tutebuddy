@@ -229,3 +229,10 @@ Route::post('delete-locale', function () {
     \Barryvdh\TranslationManager\Models\Translation::where('locale', request('locale'))->delete();
     \Illuminate\Support\Facades\File::deleteDirectory(public_path('../resources/lang/' . request('locale')));
 })->name('delete-locale');
+
+//===== Childs Routes =====//
+Route::get('childs/{id}', 'ChildsController@getChild')->name('child');
+Route::get('childs/courses/{id}', 'ChildsController@getChildCourses')->name('child.courses');
+Route::get('childs/assignments/{id}', 'ChildsController@getChildAssignments')->name('child.assignments');
+Route::get('childs/tests/{id}', 'ChildsController@getChildTests')->name('child.tests');
+Route::get('childs/quizzes/{id}', 'ChildsController@getChildQuizzes')->name('child.quizzes');

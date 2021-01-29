@@ -106,7 +106,7 @@
             </div>
 
             <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date">
-                <table id="tbl_assignments" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='50'>
+                <table id="tbl_tests" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='50'>
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
@@ -140,7 +140,7 @@ $(function() {
         table.ajax.url( route ).load();
     });
 
-    var table = $('#tbl_assignments').DataTable(
+    var table = $('#tbl_tests').DataTable(
         {
             lengthChange: false,
             searching: false,
@@ -170,7 +170,7 @@ $(function() {
         }
     );
 
-    $('#tbl_assignments').on('click', 'a[data-action="publish"]', function(e) {
+    $('#tbl_tests').on('click', 'a[data-action="publish"]', function(e) {
 
         e.preventDefault();
 
@@ -195,7 +195,7 @@ $(function() {
         });
     });
 
-    $('#tbl_assignments').on('click', 'a[data-action="restore"]', function(e) {
+    $('#tbl_tests').on('click', 'a[data-action="restore"]', function(e) {
 
         e.preventDefault();
         var url = $(this).attr('href');

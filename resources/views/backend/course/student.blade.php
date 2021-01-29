@@ -138,6 +138,7 @@ $(function() {
             ajax: {
                 url: route,
                 complete: function(res) {
+                    console.log(res);
                     $.each(res.responseJSON.count, function(key, count){
                         $('#tbl_selector').find('span.count-' + key).text(count);
                     });
