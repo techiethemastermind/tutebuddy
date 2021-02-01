@@ -25,7 +25,7 @@
                 <div class="container page__container">
 
                     <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-24pt" style="white-space: nowrap;">
-                        <small class="flex text-muted text-headings text-uppercase mr-3 mb-2 mb-sm-0">Displaying 4 courses for each main categories</small>
+                        <small class="flex text-muted text-headings text-uppercase mr-3 mb-2 mb-sm-0">Displaying 8 courses for each main categories</small>
                     </div>
 
                     @foreach($parentCategories as $category)
@@ -37,7 +37,8 @@
                         <div class="d-flex flex">
                             <div class="flex">&nbsp;</div>
                             <div style="padding-left: 8px; background-color: #f5f7fa;">
-                                <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="btn btn-md btn-white float-right border-accent-dodger-blue">Browse All</a>
+                                <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" 
+                                class="btn btn-md btn-white float-right border">Browse All</a>
                             </div>
                         </div>
                     </div>

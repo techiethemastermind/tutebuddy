@@ -276,9 +276,12 @@
                                 @foreach($category->children as $sub1)
                                 <?php
                                     $sub_class = '';
-                                    $sub1_ids = $sub1->children->pluck('id')->toArray();
-                                    if(in_array((int)$category_id, $sub1_ids)) {
-                                        $sub_class = 'open';
+                                    if(isset($_GET['_k']) && $sub_class == '') {
+                                        $category_id = $_GET['_k'];
+                                        $sub1_ids = $sub1->children->pluck('id')->toArray();
+                                        if(in_array((int)$category_id, $sub1_ids)) {
+                                            $sub_class = 'open';
+                                        }
                                     }
                                 ?>
                                 <li class="sidebar-menu-item {{ $sub_class }}">

@@ -49,6 +49,16 @@
     <div class="page-section border-bottom-2">
         <div class="container page__container">
 
+            <div class="page-separator">
+                <div class="page-separator__text">Categories</div>
+                <div class="d-flex flex">
+                    <div class="flex">&nbsp;</div>
+                    <div style="padding-left: 8px; background-color: #f5f7fa;">
+                        <a href="{{ route('category.all') }}" class="btn btn-md btn-white float-right border">Browse All</a>
+                    </div>
+                </div>
+            </div>
+
             <div class="row card-group-row">
                 @foreach($parentCategories as $category)
                 <div class="col-lg-3 col-md-4 col-sm-6">
@@ -71,7 +81,7 @@
                     </div>
                 </div>
                 @endforeach
-            </div>
+            </div>            
         </div>
     </div>
 
