@@ -10,6 +10,22 @@
     [dir=ltr] .list-group-flush>.list-group-item {
         border-width: 0 0 5px;
     }
+    [dir=ltr] .sidebar-light .sidebar-submenu .sidebar-menu-text {
+        border-left: none;
+        padding-left: .25rem;
+    }
+    [dir=ltr] .sidebar-light .sidebar-submenu.sm-last {
+        padding-left: 1.25rem;
+    }
+    [dir=ltr] .sidebar-light .sidebar-submenu .sidebar-menu-text.active {
+        color: #0085eb;
+    }
+    [dir=ltr] .sidebar-light .open>.sidebar-menu-button .sidebar-menu-text {
+        color: #0085eb;
+    }
+    [dir=ltr] .sidebar-light.sidebar-right {
+        padding-bottom: 240px !important;
+    }
 </style>
 
 @endpush
@@ -28,6 +44,7 @@
                         <div class="mb-24pt mb-sm-0 mr-sm-24pt">
                             <h2 class="mb-0">@lang('labels.frontend.search.browse_course')</h2>
 
+                            @if(auth()->check())
                             <ol class="breadcrumb p-0 m-0">
                                 <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">@lang('labels.backend.dashboard.title')</a></li>
 
@@ -35,6 +52,7 @@
                                     @lang('labels.frontend.search.browse_course')
                                 </li>
                             </ol>
+                            @endif
 
                         </div>
                     </div>
@@ -215,21 +233,21 @@
                         <?php
                             $class = '';
                             if((isset($_GET['_t']) && $_GET['_k'] == $category->id) || (isset($_GET['_q']) && $_GET['_q'] == $category->name)) {
-                                $class = 'active';
+                                $class = 'active open';
                             }
 
                             if(isset($_GET['_k']) && $class == '') {
                                 $category_id = $_GET['_k'];
                                 $sub_ids = $category->children->pluck('id')->toArray();
                                 if(in_array((int)$category_id, $sub_ids)) {
-                                    $class = 'active';
+                                    $class = 'active open';
                                 }
                                 if($class == '') {
                                     $subs = $category->children;
                                     foreach($subs as $sub) {
                                         $sub1_ids = $sub->children->pluck('id')->toArray();
                                         if(in_array((int)$category_id, $sub1_ids)) {
-                                            $class = 'active';
+                                            $class = 'active open';
                                         }
                                         if($class != '') {
                                             break;
@@ -239,7 +257,8 @@
                             }
                         ?>
                         <li class="sidebar-menu-item {{ $class }}">
-                            <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" class="sidebar-menu-button">
+                            <a class="sidebar-menu-button js-sidebar-collapse" 
+                                data-toggle="collapse" href="#child_{{ $category->id }}">
                                 @if(!empty($category->thumb))
                                 <div class="avatar avatar-xs mr-3">
                                     <img src="{{ asset('/storage/uploads/' . $category->thumb) }}" alt="" class="avatar-img rounded" style="vertical-align: baseline;">
@@ -247,8 +266,43 @@
                                 @else
                                 <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">folder</span>
                                 @endif
-                                <span class="sidebar-menu-text">{{ $category->name }}</span>
+                                <span class="sidebar-menu-text" data-url="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}">
+                                    {{ $category->name }}
+                                </span>
+                                <span class="ml-auto sidebar-menu-toggle-icon"></span>
                             </a>
+
+                            <ul class="sidebar-submenu collapse sm-indent" id="child_{{ $category->id }}" style="">
+                                @foreach($category->children as $sub1)
+                                <?php
+                                    $sub_class = '';
+                                    $sub1_ids = $sub1->children->pluck('id')->toArray();
+                                    if(in_array((int)$category_id, $sub1_ids)) {
+                                        $sub_class = 'open';
+                                    }
+                                ?>
+                                <li class="sidebar-menu-item {{ $sub_class }}">
+                                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#sub_child_{{ $sub1->id }}">
+                                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">folder</span>
+                                        <span class="sidebar-menu-text @if($category_id == $sub1->id) active @endif" 
+                                            data-url="/search/courses?_q={{ $sub1->name }}&_t=category&_k={{ $sub1->id }}">
+                                            {{ $sub1->name }}
+                                        </span>
+                                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                    </a>
+
+                                    <ul class="sidebar-submenu collapse sm-last" id="sub_child_{{ $sub1->id }}" style="">
+                                        @foreach($sub1->children as $sub2)
+                                        <li class="sidebar-menu-item">
+                                            <a class="sidebar-menu-button" href="/search/courses?_q={{ $sub2->name }}&_t=category&_k={{ $sub2->id }}">
+                                                <span class="sidebar-menu-text @if($category_id == $sub2->id) active @endif">{{ $sub2->name }}</span>
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                @endforeach
+                            </ul>
                         </li>
                         @endforeach
                     </ul>
@@ -304,6 +358,14 @@ $(function(e) {
                 console.log(err);
             }
         });
+    });
+
+    $('span.sidebar-menu-text').on('click', function(e){
+        if($(this).attr('data-url') != undefined) {
+            window.location.href = $(this).attr('data-url');
+        } else {
+            return true;
+        }
     });
 });
 

@@ -13,6 +13,9 @@ Route::get('courses/review/{id}/delete', 'CoursesController@deleteReview')->name
 Route::get('search/courses', 'SearchController@courses')->name('courses.search');
 Route::get('search/instructors', 'SearchController@teachers')->name('teachers.search');
 
+// === Page route == //
+Route::get('category', 'CategoryController@index')->name('category.all');
+
 Route::get('ajax/search/courses/', 'SearchController@searchCourse')->name('ajax.search.course');
 Route::get('ajax/search/instructor', 'SearchController@searchInstructor')->name('ajax.search.instructor');
 

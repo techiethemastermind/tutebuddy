@@ -31,4 +31,13 @@ class Category extends Model
     {
         return $this->hasOne(Level::class);
     }
+
+    public function coursesWithSubs()
+    {
+        $categoryIds = Category::where('parent', $parentId = $this->id)
+            ->pluck('id')
+            ->push($parentId)
+            ->all();
+        return Course::whereIn('category_id', $categoryIds)->orderBy('created_at', 'desc')->limit(8)->get();
+    }
 }
