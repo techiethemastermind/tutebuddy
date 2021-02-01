@@ -29,13 +29,17 @@ class HomeController extends Controller
         $parentCategories = Category::where('parent', 0)->limit(8)->get();
 
         // Get Featured Courses
-        $featuredCourses = Course::where('featured', 1)->limit(8)->get();
+        // $featuredCourses = Course::where('featured', 1)->limit(8)->get();
+
+        $featuredCourses = Course::orderBy('created_at', 'desc')->limit(8)->get();
 
         // Top reviews
         $reviews = Review::orderBy('rating', 'desc')->limit(4)->get();
 
         // Top Paths
-        $bundles = Bundle::where('published', 1)->limit(6)->get();
+        // $bundles = Bundle::where('published', 1)->limit(6)->get();
+
+        $bundles = Bundle::orderBy('created_at', 'desc')->limit(6)->get();
 
         return view('frontend.index', compact('parentCategories', 'featuredCourses', 'reviews', 'bundles'));
     }
