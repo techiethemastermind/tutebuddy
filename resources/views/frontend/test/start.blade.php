@@ -211,7 +211,7 @@
                     <label for="file_doc" class="custom-file-label">Choose file</label>
                 </div>
             </div>
-            @if(auth()->user()->hasRole('Student'))
+            @if(auth()->user()->hasRole('Student') || auth()->user()->hasRole('Child'))
             <div class="form-group">
                 <button id="btn_submit" type="submit" class="btn btn-primary d-none">Submit</button>
             </div>

@@ -221,7 +221,7 @@
                         <label for="file_doc" class="custom-file-label">Choose file @lang('labels.frontend.general.choose_file')</label>
                     </div>
                 </div>
-                @if(auth()->user()->hasRole('Student'))
+                @if(auth()->user()->hasRole('Student') || auth()->user()->hasRole('Child'))
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">@lang('labels.frontend.buttons.submit')</button>
                 </div>

@@ -159,7 +159,7 @@
 
         <div class="border-left-2 pl-32pt pb-64pt tute-questions">
 
-            <form id="frm_quiz" method="POST" action="{{ route('student.quiz.save') }}">@csrf
+            <form id="frm_quiz" method="POST" action="{{ route('student.quiz.save') }}" class="d-none">@csrf
 
                 <input type="hidden" name="quiz_id" value="{{ $quiz->id }}">
 
@@ -244,13 +244,14 @@
                 </div>
                 @endforeach
 
+                @if((auth()->user()->hasRole('Student') || auth()->user()->hasRole('Child')) && $duration > 0)
+                <div class="form-group text-right">
+                    <button type="button" id="btn_complete" class="btn btn-primary mb-16pt mb-sm-0 ml-sm-16pt">Complete 
+                        <i class="material-icons icon--right">keyboard_arrow_right</i></a>
+                    </button>
+                </div>
+                @endif
             </form>
-
-            @if(auth()->user()->hasRole('Student') && $duration > 0)
-            <div class="form-group text-right">
-                <button id="btn_complete" class="btn btn-primary mb-16pt mb-sm-0 ml-sm-16pt">Complete <i class="material-icons icon--right">keyboard_arrow_right</i></a></button>
-            </div>
-            @endif
         </div>
     </div>
 </div>
@@ -303,13 +304,13 @@ $(function() {
         });
     });
 
-    console.log(status);
-
     if(type == 2 && status == 'started') {
         getTimer(true);
     }
 
     $('#btn_start').on('click', function(e) {
+
+        $('#frm_quiz').removeClass('d-none');
 
         if(take_type == '1') { // Allow pause in middle of take quiz
             if(timer == undefined) {
