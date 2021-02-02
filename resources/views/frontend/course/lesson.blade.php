@@ -235,7 +235,7 @@
                         <span class="rating__item"><span class="material-icons">star_border</span></span>
                         @endfor
                     </div>
-                    <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} ratings</small></p>
+                    <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} @lang('labels.frontend.general.ratings')</small></p>
                 </li>
             </ul>
         </div>
@@ -252,35 +252,35 @@
                     <div class="col-auto">
                         <a href="#lesson_info" data-toggle="tab" role="tab" aria-selected="true"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
-                            <span class="h5 mb-0 mr-3 count-all">Description</span>
+                            <span class="h5 mb-0 mr-3 count-all">@lang('labels.frontend.lesson.description')</span>
                         </a>
                     </div>
 
                     <div class="col-auto border-left">
                         <a href="#assignments" data-toggle="tab" role="tab" aria-selected="false"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
-                            <span class="h5 mb-0 mr-3 count-all">Assignments</span>
+                            <span class="h5 mb-0 mr-3 count-all">@lang('labels.frontend.lesson.assignments')</span>
                         </a>
                     </div>
 
                     <div class="col-auto border-left">
                         <a href="#submissions" data-toggle="tab" role="tab" aria-selected="false"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
-                            <span class="h5 mb-0 mr-3 count-all">Submissions</span>
+                            <span class="h5 mb-0 mr-3 count-all">@lang('labels.frontend.lesson.submissions')</span>
                         </a>
                     </div>
 
                     <div class="col-auto border-left">
                         <a href="#discusson" data-toggle="tab" role="tab" aria-selected="false"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
-                            <span class="h5 mb-0 mr-3 count-all">Discussion</span>
+                            <span class="h5 mb-0 mr-3 count-all">@lang('labels.frontend.lesson.discussion')</span>
                         </a>
                     </div>
 
                     <div class="col-auto border-left border-right">
                         <a href="#messages" data-toggle="tab" role="tab" aria-selected="false"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start">
-                            <span class="h5 mb-0 mr-3 count-all">Messages</span>
+                            <span class="h5 mb-0 mr-3 count-all">@lang('labels.frontend.lesson.messages')</span>
                         </a>
                     </div>
                 </div>
@@ -367,7 +367,7 @@
                                     </div>
                                     <div class="col-auto d-flex flex-column align-items-center justify-content-center">
                                         <h5 class="m-0">{{ $assignment->total_mark }}</h5>
-                                        <p class="lh-1 mb-0"><small class="text-70">Total Marks</small></p>
+                                        <p class="lh-1 mb-0"><small class="text-70">@lang('labels.frontend.lesson.total_marks')</small></p>
                                     </div>
                                 </div>
                             </div>
@@ -410,7 +410,7 @@
                                     </div>
                                     <div class="col-auto d-flex flex-column align-items-center justify-content-center">
                                         <h5 class="m-0"><span class="text-accent-red">{{ (int)$result->mark }}</span> / {{ $assignment->total_mark }}</h5>
-                                        <p class="lh-1 mb-0"><small class="text-70">Your Score</small></p>
+                                        <p class="lh-1 mb-0"><small class="text-70">@lang('labels.frontend.lesson.your_score')</small></p>
                                     </div>
                                 </div>
                             </div>
@@ -424,8 +424,8 @@
 
                 <div id="discusson" class="tab-pane fade text-70">
                     <div class="d-flex align-items-center mb-heading">
-                        <h4 class="m-0">Discussions</h4>
-                        <a href="{{ route('admin.discussions.create') }}" class="text-underline ml-auto">Ask a Question</a>
+                        <h4 class="m-0">@lang('labels.frontend.lesson.discussions')</h4>
+                        <a href="{{ route('admin.discussions.create') }}" class="text-underline ml-auto">@lang('labels.frontend.lesson.ask_question')</a>
                     </div>
 
                     <div class="border-top">
@@ -463,7 +463,7 @@
                                     </div>
                                     <div class="col-auto d-flex flex-column align-items-center justify-content-center">
                                         <h5 class="m-0">{{ $discussion->results->count() }}</h5>
-                                        <p class="lh-1 mb-0"><small class="text-70">answers</small></p>
+                                        <p class="lh-1 mb-0"><small class="text-70">@lang('labels.frontend.lesson.answers')</small></p>
                                     </div>
                                 </div>
                             </div>
@@ -476,7 +476,9 @@
 
                     </div>
 
-                    <a href="{{ route('admin.discussions.topics') }}" class="btn btn-outline-secondary mt-32pt">See all discussions for this lesson</a>
+                    <a href="{{ route('admin.discussions.topics') }}" class="btn btn-outline-secondary mt-32pt">
+                        @lang('string.frontend.lesson.all_discussions_description')
+                    </a>
                 </div>
             </div>
         </div>

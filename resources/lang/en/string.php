@@ -51,6 +51,19 @@ return array (
         'description' => 'What other students turned professionals have to say about us after learning with us and reaching their goals.',
       ),
     ),
+    'bundle' => 
+    array (
+      'unlock_description' => 'Get access to all videos in the Paths',
+      'have_account' => 'Have an account?',
+    ),
+    'lesson' => 
+    array (
+      'all_discussions_description' => 'See all discussions for this lesson',
+    ),
+    'category' => 
+    array (
+      'displaying_description' => 'Displaying 8 courses for each main categories',
+    ),
   ),
   'backend' => 
   array (

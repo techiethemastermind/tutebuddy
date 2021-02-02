@@ -74,11 +74,11 @@
             <nav class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
                 @if(auth()->user()->hasRole('Instructor'))
                 <div class="">
-                    <a href="{{ route('admin.quizs.edit', $quiz->id) }}" class="btn btn-accent">Edit</a>
+                    <a href="{{ route('admin.quizs.edit', $quiz->id) }}" class="btn btn-accent">@lang('labels.frontend.buttons.edit')</a>
                     @if($quiz->published == 0)
-                    <a href="{{ route('admin.quizs.publish', $quiz->id) }}" id="btn_publish" class="btn btn-primary">Publish</a>
+                    <a href="{{ route('admin.quizs.publish', $quiz->id) }}" id="btn_publish" class="btn btn-primary">@lang('labels.frontend.buttons.publish')</a>
                     @else
-                    <a href="{{ route('admin.quizs.publish', $quiz->id) }}" id="btn_publish" class="btn btn-info">Unpublish</a>
+                    <a href="{{ route('admin.quizs.publish', $quiz->id) }}" id="btn_publish" class="btn btn-info">@lang('labels.frontend.buttons.unpublish')</a>
                     @endif
                 </div>
                 @endif
@@ -112,14 +112,14 @@
                     </div>
                     @if($duration > 0)
                     <p class="text-white-50 hero__lead measure-hero-lead float-right" style="clear: both;">
-                        Since: {{ timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone, 'D M j H:i:s') }}
+                        @lang('labels.frontend.general.since'): {{ timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone, 'D M j H:i:s') }}
                     </p>
                     @else
                     <p class="text-white-50 hero__lead measure-hero-lead float-right mb-0" style="clear: both;">
-                        Quiz Unavailabe
+                        @lang('labels.frontend.quiz.unavailable')
                     </p>
                     <p class="text-white-50 font-size-16pt float-right" style="clear: both;">
-                        Start Time: {{ timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone, 'D M j H:i:s') }}
+                        @lang('labels.frontend.general.start_time'): {{ timezone()->convertFromTimezone($quiz->start_date, $quiz->timezone, 'D M j H:i:s') }}
                     </p>
                     @endif
                 </div>
@@ -133,7 +133,7 @@
             <ul class="nav navbar-nav flex navbar-list__item">
                 <li class="nav-item">
                     <i class="material-icons text-50 mr-8pt">tune</i>
-                    Please click start Button to see Quizzes:
+                    @lang('string.frontend.quiz.see_quizzes_description'):
                 </li>
             </ul>
             <div class="nav navbar-nav ml-sm-auto navbar-list__item">
@@ -141,7 +141,7 @@
                     @if($quiz->type == 1)
                     <a href="javascript:void(0)" id="btn_start"
                         class="btn justify-content-center btn-accent w-100 w-sm-auto mb-16pt mb-sm-0 ml-sm-16pt">
-                            Start Quiz
+                            @lang('labels.frontend.quiz.start')
                         <i class="material-icons icon--right">keyboard_arrow_right</i></a>
                     @endif
                 </div>
@@ -152,9 +152,9 @@
     <div class="container page__container">
         <div class="page-section">
             <div class="page-separator">
-                <div class="page-separator__text">Your Answer</div>
+                <div class="page-separator__text">@lang('labels.frontend.quiz.your_answer')</div>
             </div>
-            <p class="text-50 mb-0">Note: There can be multiple correct answers to this question.</p>
+            <p class="text-50 mb-0">@lang('string.frontend.quiz.answer_notes')</p>
         </div>
 
         <div class="border-left-2 pl-32pt pb-64pt tute-questions">
@@ -191,12 +191,12 @@
                                 <div class="text-right">
                                     <div class="chip chip-outline-secondary">
                                         @if($question->type == 0)
-                                            Single Answer
+                                            @lang('string.frontend.quiz.single_answer')
                                         @else
-                                            Multi Answer
+                                            @lang('string.frontend.quiz.multi_answer')
                                         @endif
                                     </div>
-                                    <div class="chip chip-outline-secondary">Score: {{ $question->score }}</div>
+                                    <div class="chip chip-outline-secondary">@lang('labels.frontend.general.score'): {{ $question->score }}</div>
                                 </div>
 
                                 <div class="options-wrap">
@@ -246,7 +246,7 @@
 
                 @if((auth()->user()->hasRole('Student') || auth()->user()->hasRole('Child')) && $duration > 0)
                 <div class="form-group text-right">
-                    <button type="button" id="btn_complete" class="btn btn-primary mb-16pt mb-sm-0 ml-sm-16pt">Complete 
+                    <button type="button" id="btn_complete" class="btn btn-primary mb-16pt mb-sm-0 ml-sm-16pt">@lang('labels.frontend.buttons.complete') 
                         <i class="material-icons icon--right">keyboard_arrow_right</i></a>
                     </button>
                 </div>
@@ -287,12 +287,12 @@ $(function() {
                 
                 if(res.success) {
                     swal({
-                        title: "Quiz Completed!",
-                        text: "Your Score will be loaded",
+                        title: "@lang('labels.frontend.quiz.alert.completed')",
+                        text: "@lang('labels.frontend.quiz.alert.description')",
                         type: 'warning',
                         showCancelButton: false,
                         showConfirmButton: true,
-                        confirmButtonText: 'Confirm',
+                        confirmButtonText: "@lang('labels.frontend.alert.button.confirm')",
                         dangerMode: false,
                     }, function (val) {
                         if(val) {
@@ -352,12 +352,12 @@ $(function() {
                 clearInterval(timer);
 
                 swal({
-                    title: "Time is up!",
-                    text: "Next Question will load",
+                    title: "@lang('labels.frontend.quiz.alert.time_up')",
+                    text: " @lang('labels.frontend.quiz.alert.time_up_text')",
                     type: 'warning',
                     showCancelButton: false,
                     showConfirmButton: true,
-                    confirmButtonText: 'Confirm',
+                    confirmButtonText: "@lang('labels.frontend.alert.button.confirm')",
                     dangerMode: false,
                 }, function (val) {
                     if(val) {
@@ -382,15 +382,15 @@ $(function() {
             success: function(res) {
                 if(res.success) {
                     if(res.published == 1) {
-                        swal("Success!", 'Published successfully', "success");
+                        swal("Success!", "@lang('labels.frontend.alert.publish_success')", "success");
                         button.text('Unpublish');
                         button.removeClass('btn-primary').addClass('btn-info');
                     } else {
-                        swal("Success!", 'Unpublished successfully', "success");
+                        swal("Success!", "@lang('labels.frontend.alert.unpublish_success')", "success");
                         button.text('Publish');
                         button.removeClass('btn-info').addClass('btn-primary');
                     }
-                    
+
                 }
             }
         });

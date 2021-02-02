@@ -46,6 +46,8 @@ return array (
       array (
         'title' => 'Feedback',
       ),
+      'categories' => 'Categories',
+      'browse_all' => 'Browse All',
     ),
     'search' => 
     array (
@@ -65,6 +67,9 @@ return array (
       'items' => 'Items',
       'product_added' => 'Product added to cart successfully',
       'item' => 'Item',
+      'created_by' => 'Created By:',
+      'student' => 'Student',
+      'empty' => 'Empty Cart',
     ),
     'course' => 
     array (
@@ -75,12 +80,35 @@ return array (
       'what_you_learn' => 'What you’ll learn',
       'about_teacher' => 'About the Teachers',
       'table_contents' => 'Table of Contents',
+      'start' => 'Start',
+      'end' => 'End',
+      'button' => 
+      array (
+        'join_to_live' => 'Join To Live Session',
+        'scheduled' => 'Scheduled',
+        'add_review' => 'Add review Now',
+      ),
+      'buy_now' => 'Buy Now',
+      'add_to_cart' => 'Add To Cart',
+      'private' => 'Private',
+      'group' => 'Group',
+      'purchase_for_child' => 'Purchase for Child',
+      'student_feedback' => 'Student Feedback',
+      'provide_your_review' => 'Provide your review',
+      'your_rating' => 'Your Rating',
+      'message' => 'Message',
+      'select_child' => 'Select a Child',
     ),
     'general' => 
     array (
       'back' => 'Back to LIST',
       'choose_file' => 'Choose File',
       'min' => 'Min',
+      'ratings' => 'Ratings',
+      'browse_all' => 'Browse All',
+      'preview' => 'Preview',
+      'no_rating' => 'No Rating',
+      'view_detail' => 'View Detail',
     ),
     'buttons' => 
     array (
@@ -105,6 +133,62 @@ return array (
       'submit_answer' => 'Submit Your Answers',
       'upload_doc' => 'Upload Document',
       'answer_placeholder' => 'Answer Content',
+    ),
+    'bundle' => 
+    array (
+      'instructor' => 'Instructor',
+      'about_bundle' => 'About Bundle',
+      'unlock' => 'Unlock Bundle',
+      'signup' => 'Sign up to unlock',
+      'login' => 'Login',
+      'group' => 'Group',
+      'individual' => 'Individual',
+      'buy_now' => 'Buy Now',
+      'add_to_cart' => 'Add To Cart',
+      'courses' => 'Courses',
+      'lessons' => 'Lessons',
+      'with' => 'with',
+      'your_rating' => 'Your rating',
+      'student_feedback' => 'Student Feedback',
+    ),
+    'button' => 
+    array (
+      'send' => 'Send',
+      'close' => 'Close',
+      'publish' => 'Publish',
+    ),
+    'alert' => 
+    array (
+      'unlock_this_course' => 'Unlock This Course!',
+      'unlock_this_course_description' => 'This Course will be unlocked',
+      'button' => 
+      array (
+        'confirm' => 'Confirm',
+        'cancel' => 'Cancel',
+      ),
+      'publish_success' => 'Published successfully',
+      'unpublish_success' => 'Unpublished Successfully',
+    ),
+    'courses' => 
+    array (
+      'title' => 'Courses',
+    ),
+    'lesson' => 
+    array (
+      'description' => 'Description',
+      'assignments' => 'Assignments',
+      'submissions' => 'Submissions',
+      'discussion' => 'Discussion',
+      'messages' => 'Messages',
+      'total_marks' => 'Total Marks',
+      'your_score' => 'Your Score',
+      'discussions' => 'Discussions',
+      'ask_question' => 'Ask a Question',
+      'answers' => 'answers',
+    ),
+    'treeview' => 
+    array (
+      'category' => 'Category',
     ),
   ),
   'backend' => 

@@ -70,10 +70,10 @@
                                                 <p class="card-title mb-1"><strong
                                                         class="js-lists-values-name">{{ $item->title }}</strong></p>
                                                 @if($cart->attributes->type == 'bundle')
-                                                <small class="js-lists-values-email text-50">Created By:
+                                                <small class="js-lists-values-email text-50">@lang('labels.frontend.cart.created_by')
                                                     {{ $item->user->name }}</small>
                                                 @else
-                                                <small class="js-lists-values-email text-50">Created By:
+                                                <small class="js-lists-values-email text-50">@lang('labels.frontend.cart.created_by')
                                                     {{ $item->teachers[0]->name }}</small>
                                                 @endif
                                                 @if($item->reviews->count() > 0)
@@ -108,7 +108,7 @@
                                             <div class="d-flex align-items-center">
                                                 <div class="flex d-flex flex-column">
                                                     <p class="mb-0"><strong class="js-lists-values-lead">{{ $user->name }}</strong></p>
-                                                    <small class="js-lists-values-email text-50">Student</small>
+                                                    <small class="js-lists-values-email text-50">@lang('labels.frontend.cart.student')</small>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,7 +123,7 @@
                             @endforeach
                         @else
                         <tr>
-                            <td colspan="7" class="card-title text-center">Empty Cart</td>
+                            <td colspan="7" class="card-title text-center">@lang('labels.frontend.cart.empty')</td>
                         </tr>
                         @endif
 

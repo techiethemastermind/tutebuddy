@@ -13,9 +13,9 @@
 
                     @if(auth()->check())
                         <a href="#" class="btn btn-outline-white mr-12pt"><i
-                                class="material-icons icon--left">favorite_border</i> Add Favorite</a>
+                                class="material-icons icon--left">favorite_border</i> @lang('labels.frontend.buttons.add_favorite')</a>
                         <a href="#" class="btn btn-outline-white mr-12pt"><i class="material-icons icon--left">share</i>
-                            Share</a>
+                            @lang('labels.frontend.buttons.share')</a>
                     @endif
                 </div>
             </div>
@@ -38,7 +38,7 @@
                                 <div class="media-body">
                                     <a class="card-title m-0"
                                         href="{{ route('profile.show', $bundle->user->uuid) }}">{{ $bundle->user->name }}</a>
-                                    <p class="text-50 lh-1 mb-0">Instructor</p>
+                                    <p class="text-50 lh-1 mb-0">@lang('labels.frontend.bundle.instructor')</p>
                                 </div>
                             </div>
                         </li>
@@ -54,7 +54,7 @@
                             <div class="rating rating-24">
                                 @include('layouts.parts.rating', ['rating' => $bundle_rating])
                             </div>
-                            <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} ratings</small></p>
+                            <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} @lang('labels.frontend.general.ratings')</small></p>
                         </li>
                     </ul>
                 </div>
@@ -66,7 +66,7 @@
         <div class="container page__container">
 
             <div class="page-separator">
-                <div class="page-separator__text">About Bundle</div>
+                <div class="page-separator__text">@lang('labels.frontend.bundle.about_bundle')</div>
             </div>
 
             <div class="row">
@@ -118,12 +118,12 @@
                                     class="icon-holder icon-holder--outline-secondary rounded-circle d-inline-flex mb-8pt">
                                     <i class="material-icons">timer</i>
                                 </span>
-                                <h4 class="card-title"><strong>Unlock Bundle</strong></h4>
-                                <p class="card-subtitle text-70 mb-24pt">Get access to all videos in the Paths</p>
+                                <h4 class="card-title"><strong>@lang('labels.frontend.bundle.unlock')</strong></h4>
+                                <p class="card-subtitle text-70 mb-24pt">@lang('string.frontend.bundle.unlock_description')</p>
 
                                 @if(!auth()->check())
-                                <a href="{{ route('register') }}" class="btn btn-accent mb-8pt">Sign up to unlock</a>
-                                <p class="mb-0">Have an account? <a href="{{ route('login') }}">Login</a></p>
+                                <a href="{{ route('register') }}" class="btn btn-accent mb-8pt">@lang('labels.frontend.bundle.signup')</a>
+                                <p class="mb-0">@lang('string.frontend.bundle.have_account') <a href="{{ route('login') }}">@lang('labels.frontend.bundle.login')</a></p>
                                 @endif
 
                             </div>
@@ -137,14 +137,14 @@
                                             <input id="enroll_group" name="enroll_type" type="radio" enroll-type="group"
                                                 data-amount="{{ $bundle->group_price }}" class="custom-control-input" checked="">
                                             <label for="enroll_group" class="card-title custom-control-label">
-                                                Group: {{ $bundle->group_price . config('app.currency') }}
+                                                @lang('labels.frontend.bundle.group'): {{ $bundle->group_price . config('app.currency') }}
                                             </label>
                                         </div>
                                         <div class="custom-control custom-radio">
                                             <input id="enroll_private" name="enroll_type" type="radio" enroll-type="private"
                                                 data-amount="{{ $bundle->private_price }}" class="custom-control-input">
                                             <label for="enroll_private" class="card-title custom-control-label">
-                                                Individual: {{ $bundle->private_price . config('app.currency') }}
+                                                @lang('labels.frontend.bundle.individual'): {{ $bundle->private_price . config('app.currency') }}
                                             </label>
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@
                                     <input type="hidden" name="bundle_id" value="{{ $bundle->id }}">
                                     <input type="hidden" name="amount" value="{{ $bundle->group_price }}">
                                     <input type="hidden" name="type" value="group">
-                                    <button class="btn btn-primary btn-block mb-8pt">Buy Now</button>
+                                    <button class="btn btn-primary btn-block mb-8pt">@lang('labels.frontend.bundle.buy_now')</button>
                                 </form>
 
                                 <form action="{{ route('cart.addToCart') }}" method="POST" id="frm_cart">@csrf
@@ -163,7 +163,7 @@
                                     <input type="hidden" name="amount" value="{{ $bundle->group_price }}">
                                     <input type="hidden" name="type" value="group">
                                     <button type="submit" class="btn btn-accent btn-block mb-8pt">
-                                        Add To Cart</button>
+                                        @lang('labels.frontend.bundle.add_to_cart')</button>
                                 </form>
                                 @endif
 
@@ -181,7 +181,7 @@
         <div class="container page__container">
 
             <div class="page-separator">
-                <div class="page-separator__text">Courses</div>
+                <div class="page-separator__text">@lang('labels.frontend.bundle.courses')</div>
             </div>
 
             <div class="row card-group-row">
@@ -238,7 +238,7 @@
                                         <span
                                             class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
                                         <p class="flex text-black-50 lh-1 mb-0">
-                                            <small>{{ $course->lessons->count() }} lessons</small></p>
+                                            <small>{{ $course->lessons->count() }} @lang('labels.frontend.bundle.lessons')</small></p>
                                     </div>
                                 </div>
                             </div>
@@ -257,7 +257,7 @@
                                 <div class="media-body">
                                     <div class="card-title mb-0">{{ $course->title }}</div>
                                     <p class="lh-1 mb-0">
-                                        <span class="text-black-50 small">with</span>
+                                        <span class="text-black-50 small">@lang('labels.frontend.bundle.with')</span>
                                         <span
                                             class="text-black-50 small font-weight-bold">{{ $course->teachers[0]->name }}</span>
                                     </p>
@@ -287,7 +287,7 @@
                                         <span
                                             class="material-icons icon-16pt text-black-50 mr-4pt">play_circle_outline</span>
                                         <p class="flex text-black-50 lh-1 mb-0">
-                                            <small>{{ $course->lessons->count() }} lessons</small></p>
+                                            <small>{{ $course->lessons->count() }} @lang('labels.frontend.bundle.lessons')</small></p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center">
@@ -300,7 +300,7 @@
                             </div>
 
                             <div class="d-flex align-items-center">
-                                <small class="text-black-50 mr-8pt">Your rating</small>
+                                <small class="text-black-50 mr-8pt">@lang('labels.frontend.bundle.your_rating')</small>
                                 <div class="rating mr-8pt">
                                     @include('layouts.parts.rating', ['rating' => $course->reviews->avg('rating')])
                                 </div>
@@ -320,7 +320,7 @@
 
         <div class="container page__container">
             <div class="page-separator">
-                <div class="page-separator__text">Student Feedback</div>
+                <div class="page-separator__text">@lang('labels.frontend.bundle.student_feedback')</div>
             </div>
             <div class="row mb-32pt">
                 <div class="col-md-3 mb-32pt mb-md-0">
@@ -328,7 +328,7 @@
                     <div class="rating rating-24">
                         @include('layouts.parts.rating', ['rating' => $bundle_rating])
                     </div>
-                    <p class="text-muted mb-0">{{ $total_ratings }} ratings</p>
+                    <p class="text-muted mb-0">{{ $total_ratings }} @lang('labels.frontend.general.ratings')</p>
                 </div>
                 <div class="col-md-9">
 

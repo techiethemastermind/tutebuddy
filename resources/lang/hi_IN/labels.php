@@ -46,6 +46,8 @@ return array (
       array (
         'title' => 'प्रतिपुष्टि',
       ),
+      'categories' => 'श्रेणियाँ',
+      'browse_all' => 'सभी ब्राउज़ करें',
     ),
   ),
 );

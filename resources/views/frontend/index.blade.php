@@ -50,11 +50,11 @@
         <div class="container page__container">
 
             <div class="page-separator">
-                <div class="page-separator__text">Categories</div>
+                <div class="page-separator__text">@lang('labels.frontend.home.categories')</div>
                 <div class="d-flex flex">
                     <div class="flex">&nbsp;</div>
                     <div style="padding-left: 8px; background-color: #f5f7fa;">
-                        <a href="{{ route('category.all') }}" class="btn btn-md btn-white float-right border">Browse All</a>
+                        <a href="{{ route('category.all') }}" class="btn btn-md btn-white float-right border">@lang('labels.frontend.home.browse_all')</a>
                     </div>
                 </div>
             </div>

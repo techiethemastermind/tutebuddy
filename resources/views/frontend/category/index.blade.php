@@ -25,7 +25,9 @@
                 <div class="container page__container">
 
                     <div class="d-flex flex-column flex-sm-row align-items-sm-center mb-24pt" style="white-space: nowrap;">
-                        <small class="flex text-muted text-headings text-uppercase mr-3 mb-2 mb-sm-0">Displaying 8 courses for each main categories</small>
+                        <small class="flex text-muted text-headings text-uppercase mr-3 mb-2 mb-sm-0">
+                            @lang('string.frontend.category.displaying_description')
+                        </small>
                     </div>
 
                     @foreach($parentCategories as $category)
@@ -38,7 +40,7 @@
                             <div class="flex">&nbsp;</div>
                             <div style="padding-left: 8px; background-color: #f5f7fa;">
                                 <a href="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}" 
-                                class="btn btn-md btn-white float-right border">Browse All</a>
+                                class="btn btn-md btn-white float-right border">@lang('labels.frontend.general.browse_all')</a>
                             </div>
                         </div>
                     </div>
@@ -61,7 +63,7 @@
                                     <span class="overlay__content">
                                         <span class="overlay__action d-flex flex-column text-center">
                                             <i class="material-icons icon-32pt">play_circle_outline</i>
-                                            <span class="card-title text-white">Preview</span>
+                                            <span class="card-title text-white">@lang('labels.frontend.general.preview')</span>
                                         </span>
                                     </span>
                                 </a>
@@ -86,7 +88,7 @@
                                             @if($course->reviews->count() > 0)
                                             @include('layouts.parts.rating', ['rating' => $course->reviews->avg('rating')])
                                             @else
-                                                <small class="text-50">No rating</small>
+                                                <small class="text-50">@lang('labels.frontend.general.no_rating')</small>
                                             @endif
                                         </div>
                                         <!-- <small class="text-50">6 hours</small> -->
@@ -144,12 +146,13 @@
                                         </div>
                                         <div class="d-flex align-items-center">
                                             <span class="material-icons icon-16pt text-black-50 mr-4pt">assessment</span>
-                                            <p class="flex text-black-50 lh-1 mb-0"><small>Beginner</small></p>
+                                            <p class="flex text-black-50 lh-1 mb-0"><small>{{ $course->category->name }}</small></p>
                                         </div>
                                     </div>
 
                                     <div class="col text-right">
-                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">View Detail</a>
+                                        <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary">
+                                        @lang('labels.frontend.general.view_detail')</a>
                                     </div>
                                 </div>
 
@@ -179,7 +182,7 @@
                         </form>
                     </div>
 
-                    <div class="sidebar-heading">Category</div>
+                    <div class="sidebar-heading">@lang('labels.frontend.treeview.category')</div>
                     <ul class="sidebar-menu">
                         @foreach($parentCategories as $category)
                         <?php

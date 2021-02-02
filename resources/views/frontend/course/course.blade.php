@@ -243,7 +243,7 @@
                             <div class="rating rating-24">
                                 @include('layouts.parts.rating', ['rating' => $course_rating])
                             </div>
-                            <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} ratings</small></p>
+                            <p class="lh-1 mb-0"><small class="text-muted">{{ $total_ratings }} @lang('labels.frontend.general.ratings')</small></p>
                         </li>
                     </ul>
                 </div>
@@ -339,12 +339,12 @@
                     <p class="text-70 mb-24pt">
                         <span class="mr-20pt">
                             <i class="material-icons text-muted icon--left">schedule</i>
-                            Start: {{ $schedule->start_time }}
+                            @lang('labels.frontend.course.start'): {{ $schedule->start_time }}
                         </span>
 
                         <span>
                             <i class="material-icons text-muted icon--left">schedule</i>
-                            End: {{ $schedule->end_time }}
+                            @lang('labels.frontend.course.end'): {{ $schedule->end_time }}
                         </span>
                     </p>
 
@@ -355,10 +355,12 @@
                             <?php $result = live_schedule($schedule->lesson); ?>
                             @if($result['status'])
                             <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank"
-                                data-lesson-id="" class="btn btn-outline-accent-dodger-blue btn-block btn-live-session">Join
-                                To Live Session</a>
+                                data-lesson-id="" class="btn btn-outline-accent-dodger-blue btn-block btn-live-session">
+                                @lang('labels.frontend.course.button.join_to_live')</a>
                             @else
-                            <button type="button" class="btn btn-outline-primary btn-block" disabled="">Scheduled</button>
+                            <button type="button" class="btn btn-outline-primary btn-block" disabled="">
+                                @lang('labels.frontend.course.button.scheduled')
+                            </button>
                             @endif
                         @endif
                     </div>
@@ -479,7 +481,7 @@
                             <input type="hidden" name="price_type" value="group">
                             <input type="hidden" name="child" value="">
                             <button type="button" id="btn_checkout" class="btn btn-primary btn-block mb-8pt" 
-                                data-action="checkout">Buy Now</button>
+                                data-action="checkout">@lang('labels.frontend.course.buy_now')</button>
                         </form>
 
                         <form action="{{ route('cart.addToCart') }}" method="POST" id="frm_cart">@csrf
@@ -487,7 +489,7 @@
                             <input type="hidden" name="price_type" value="group">
                             <input type="hidden" name="child" value="">
                             <button type="button" id="btn_addtocart" class="btn btn-accent btn-block mb-8pt" 
-                                data-action="cart"> Add To Cart</button>
+                                data-action="cart">@lang('labels.frontend.course.add_to_cart')</button>
                         </form>
                     @endif
 
@@ -638,7 +640,7 @@
                                             <input id="enroll_private" name="enroll_type" type="radio" enroll-type="private"
                                                 data-amount="{{ $course->private_price }}" class="custom-control-input" checked="">
                                             <label for="enroll_private" class="card-title custom-control-label">
-                                                Private: {{ getCurrency(config('app.currency'))['symbol'] . $course->private_price }}
+                                                @lang('labels.frontend.course.private'): {{ getCurrency(config('app.currency'))['symbol'] . $course->private_price }}
                                             </label>
                                         </div>
                                         @endif
@@ -648,7 +650,7 @@
                                             <input id="enroll_group" name="enroll_type" type="radio" enroll-type="group"
                                                 data-amount="{{ $course->group_price }}" class="custom-control-input" checked="">
                                             <label for="enroll_group" class="card-title custom-control-label">
-                                                Group: {{ getCurrency(config('app.currency'))['symbol'] . $course->group_price }}
+                                                @lang('labels.frontend.course.group'): {{ getCurrency(config('app.currency'))['symbol'] . $course->group_price }}
                                             </label>
                                         </div>
                                         @endif
@@ -660,19 +662,19 @@
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
                                     <input type="hidden" name="price_type" value="group">
                                     <input type="hidden" name="child" value="">
-                                    <button class="btn btn-primary btn-block mb-8pt" data-action="checkout">Buy Now</button>
+                                    <button class="btn btn-primary btn-block mb-8pt" data-action="checkout">@lang('labels.frontend.course.buy_now')</button>
                                 </form>
 
                                 <form action="{{ route('cart.addToCart') }}" method="POST">@csrf
                                     <input type="hidden" name="course_id" value="{{ $course->id }}">
                                     <input type="hidden" name="price_type" value="group">
                                     <input type="hidden" name="child" value="">
-                                    <button class="btn btn-accent btn-block mb-8pt" data-action="cart"> Add To Cart</button>
+                                    <button class="btn btn-accent btn-block mb-8pt" data-action="cart">@lang('labels.frontend.course.add_to_cart')</button>
                                 </form>
 
                                 @if(auth()->check() && auth()->user()->child()->count() > 0)
                                     <div class="page-separator mt-4">
-                                        <div class="page-separator__text bg-alt">Purchase for Child</div>
+                                        <div class="page-separator__text bg-alt">@lang('labels.frontend.course.purchase_for_child')</div>
                                     </div>
 
                                     <form action="{{ route('cart.process') }}" method="POST" id="frm_checkout">@csrf
@@ -680,7 +682,7 @@
                                         <input type="hidden" name="price_type" value="group">
                                         <input type="hidden" name="child" value="">
                                         <button type="button" id="btn_checkout" class="btn btn-primary btn-block mb-8pt" 
-                                            data-action="checkout">Buy Now</button>
+                                            data-action="checkout">@lang('labels.frontend.course.buy_now')</button>
                                     </form>
 
                                     <form action="{{ route('cart.addToCart') }}" method="POST" id="frm_cart">@csrf
@@ -688,7 +690,7 @@
                                         <input type="hidden" name="price_type" value="group">
                                         <input type="hidden" name="child" value="">
                                         <button type="button" id="btn_addtocart" class="btn btn-accent btn-block mb-8pt" 
-                                            data-action="cart"> Add To Cart</button>
+                                            data-action="cart">@lang('labels.frontend.course.add_to_cart')</button>
                                     </form>
                                 @endif
 
@@ -708,7 +710,7 @@
 
         <div class="container page__container">
             <div class="page-separator">
-                <div class="page-separator__text">Student Feedback</div>
+                <div class="page-separator__text">@lang('labels.frontend.course.student_feedback')</div>
             </div>
             <div class="row mb-32pt">
                 <div class="col-md-3 mb-32pt mb-md-0">
@@ -716,7 +718,7 @@
                     <div class="rating rating-24">
                         @include('layouts.parts.rating', ['rating' => $course_rating])
                     </div>
-                    <p class="text-muted mb-0">{{ $total_ratings }} ratings</p>
+                    <p class="text-muted mb-0">{{ $total_ratings }} @lang('labels.frontend.general.ratings')</p>
                 </div>
                 <div class="col-md-9">
 
@@ -764,7 +766,7 @@
                                 <span class="rating__item"><span class="material-icons">star</span></span>
                                 <span class="rating__item"><span class="material-icons">star</span></span>
                             </div>
-                            <span class="text-muted ml-8pt">{{ $ratings_5 }} ratings</span>
+                            <span class="text-muted ml-8pt">{{ $ratings_5 }} @lang('labels.frontend.general.ratings')</span>
                         </div>
                     </div>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
@@ -784,7 +786,7 @@
                                 <span class="rating__item"><span class="material-icons">star</span></span>
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                             </div>
-                            <span class="text-muted ml-8pt">{{ $ratings_4 }} ratings</span>
+                            <span class="text-muted ml-8pt">{{ $ratings_4 }} @lang('labels.frontend.general.ratings')</span>
                         </div>
                     </div>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
@@ -804,7 +806,7 @@
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                             </div>
-                            <span class="text-muted ml-8pt">{{ $ratings_3 }} ratings</span>
+                            <span class="text-muted ml-8pt">{{ $ratings_3 }} @lang('labels.frontend.general.ratings')</span>
                         </div>
                     </div>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
@@ -824,7 +826,7 @@
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                             </div>
-                            <span class="text-muted ml-8pt">{{ $ratings_2 }} ratings</span>
+                            <span class="text-muted ml-8pt">{{ $ratings_2 }} @lang('labels.frontend.general.ratings')</span>
                         </div>
                     </div>
                     <div class="row align-items-center mb-8pt" data-toggle="tooltip"
@@ -844,7 +846,7 @@
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                                 <span class="rating__item"><span class="material-icons">star_border</span></span>
                             </div>
-                            <span class="text-muted ml-8pt">{{ $ratings_1 }} ratings</span>
+                            <span class="text-muted ml-8pt">{{ $ratings_1 }} @lang('labels.frontend.general.ratings')</span>
                         </div>
                     </div>
 
@@ -887,13 +889,13 @@
         <div class="container page__container">
             <!-- Add Reviews -->
             <div class="page-separator">
-                <div class="page-separator__text">Provide your review</div>
+                <div class="page-separator__text">@lang('labels.frontend.course.provide_your_review')</div>
             </div>
 
             <div class="row">
                 <div class="col-md-12">
                     <div class="review-stars-item form-inline form-group">
-                        <span class="form-label">Your Rating: </span>
+                        <span class="form-label">@lang('labels.frontend.course.your_rating'):</span>
                         <div class="rating rating-24 position-relative">
                             <label>
                                 <input type="radio" name="stars" value="1">
@@ -939,10 +941,10 @@
                     @endphp
                     <form method="POST" action="{{ $review_route }}" id="frm_review">@csrf
                         <input type="hidden" name="rating" id="rating" value="0">
-                        <label for="review" class="form-label">Message:</label>
+                        <label for="review" class="form-label">@lang('labels.frontend.course.message'):</label>
                         <textarea name="review" class="form-control bg-light mb-3" id="review" rows="5"
                             cols="20"></textarea>
-                        <button type="submit" class="btn btn-primary" value="Submit">Add review Now</button>
+                        <button type="submit" class="btn btn-primary" value="Submit">@lang('labels.frontend.course.button.add_review')</button>
                     </form>
                 </div>
             </div>
@@ -987,8 +989,8 @@
         <input type="hidden" name="user_id" value="{{ $course->teachers[0]->id }}">
         <input type="hidden" name="course_id" value="{{ $course->id }}">
         <input type="hidden" name="thread_id" value="">
-        <button type="submit" class="btn btn-primary btn-block">Send</button>
-        <button type="button" id="btn_enroll_end" class="btn btn-accent btn-block">Close</button>
+        <button type="submit" class="btn btn-primary btn-block">@lang('labels.frontend.button.send')</button>
+        <button type="button" id="btn_enroll_end" class="btn btn-accent btn-block">@lang('labels.frontend.button.close')</button>
     </form>
 </div>
 
@@ -999,7 +1001,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Select a Child</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">@lang('labels.frontend.course.select_child')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -1012,7 +1014,7 @@
 
             <div class="modal-footer">
                 <div class="form-group">
-                    <button id="btn_child_ok" class="btn btn-outline-primary">Buy Now</button>
+                    <button id="btn_child_ok" class="btn btn-outline-primary">@lang('labels.frontend.course.buy_now')</button>
                 </div>
             </div>
         </div>
@@ -1118,13 +1120,13 @@ $(function() {
         var course_id = $(this).attr('course-id');
 
         swal({
-            title: "Unlock This Course!",
-            text: "This Course will be unlocked",
+            title: "@lang('labels.frontend.alert.unlock_this_course')",
+            text: "@lang('labels.frontend.alert.unlock_this_course_description')",
             type: 'success',
             showCancelButton: true,
             showConfirmButton: true,
-            confirmButtonText: 'Confirm',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: "@lang('labels.frontend.alert.button.confirm')",
+            cancelButtonText: "@lang('labels.frontend.alert.button.cancel')",
             dangerMode: false,
         }, function(val) {
             if (val) {
@@ -1217,12 +1219,12 @@ $(function() {
                 console.log(res);
                 if(res.success) {
                     if(res.published == 1) {
-                        swal("Success!", 'Published successfully', "success");
+                        swal("Success!", "@lang('labels.frontend.alert.publish_success')", "success");
                         button.text('Unpublish');
                         button.removeClass('btn-primary').addClass('btn-info');
                     } else {
-                        swal("Success!", 'Unpublished successfully', "success");
-                        button.text('Publish');
+                        swal("Success!", "@lang('labels.frontend.alert.unpublish_success')", "success");
+                        button.text("@lang('labels.frontend.button.publish')");
                         button.removeClass('btn-info').addClass('btn-primary');
                     }
                     
