@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Category extends Model
 {
@@ -38,6 +39,10 @@ class Category extends Model
             ->pluck('id')
             ->push($parentId)
             ->all();
-        return Course::whereIn('category_id', $categoryIds)->orderBy('created_at', 'desc')->limit(8)->get();
+        return Course::whereIn('category_id', $categoryIds)
+            ->where('end_date', '>=', Carbon::now()->format('Y-m-d'))
+            ->orderBy('created_at', 'desc')
+            ->limit(8)
+            ->get();
     }
 }

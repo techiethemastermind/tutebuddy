@@ -21,21 +21,24 @@ class SearchController extends Controller
 
         if(isset($params['_t']) && $params['_t'] == 'category') {
             
-            $courses_me = Course::where('category_id', $params['_k'])->where('end_date', '>=', Carbon::now()->format('Y-m-d'));
+            $categoryIds = Category::where('parent', $parentId = $params['_k'])
+                ->pluck('id')
+                ->push($parentId)
+                ->all();
+            $courses = Course::whereIn('category_id', $categoryIds)
+                ->where('end_date', '>=', Carbon::now()->format('Y-m-d'))
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
 
-            $subCategories = Category::where('parent', $params['_k'])->get();
-            foreach($subCategories as $category) {
-                $courses_c = Course::where('category_id', $category->id)->where('end_date', '>=', Carbon::now()->format('Y-m-d'));
-                $courses_me = $courses_me->union($courses_c);
-            }
-
-            $courses = $courses_me->paginate(10);
             $courses->setPath('search?_q='. $params['_q'] .'&_t='. $params['_t'] .'&_k='. $params['_k']);
 
         } else {
             
             if(isset($params['_q'])) {
-                $courses_me = Course::where('title', 'like', '%' . $params['_q'] . '%')->where('published', 1)->where('end_date', '>', Carbon::now()->format('Y-m-d'));
+                $courses_me = Course::where('title', 'like', '%' . $params['_q'] . '%')
+                    ->where('published', 1)
+                    ->where('end_date', '>', Carbon::now()->format('Y-m-d'));
+                    
                 $categories = Category::where('name', 'like', '%' . $params['_q'] . '%')->get();
                 foreach($categories as $category) {
                     $subCategories = Category::where('parent', $category->id)->get();
@@ -128,7 +131,7 @@ class SearchController extends Controller
         $search = [];
 
         foreach($courses as $course) {
-            $image = ($course->course_image) ? asset('/storage/uploads/thumb/' . $course->course_image) : asset('/storage/uploads/no-image.jpg');
+            $image = ($course->course_image) ? asset('/storage/uploads/thumb/' . $course->course_image) : asset('/assets/img/no-image.jpg');
             $cat_id = isset($course->category) ? $course->category->id : '';
             array_push($search, [
                     'title' => $course->title,
@@ -148,7 +151,7 @@ class SearchController extends Controller
         $search = [];
 
         foreach($categories as $category) {
-            $image = ($category->thumb) ? asset('/storage/uploads/' . $category->thumb) : asset('/storage/uploads/no-image.jpg');
+            $image = ($category->thumb) ? asset('/storage/uploads/' . $category->thumb) : asset('/assets/img/no-image.jpg');
             array_push($search, [
                     'title' => $category->name,
                     'description' => $category->description,
