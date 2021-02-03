@@ -224,7 +224,9 @@
                                 <span class="sidebar-menu-text" data-url="/search/courses?_q={{ $category->name }}&_t=category&_k={{ $category->id }}">
                                     {{ $category->name }}
                                 </span>
+                                @if($category->children->count() > 0)
                                 <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                @endif
                             </a>
 
                             <ul class="sidebar-submenu collapse sm-indent" id="child_{{ $category->id }}" style="">
@@ -235,7 +237,9 @@
                                         <span class="sidebar-menu-text" data-url="/search/courses?_q={{ $sub1->name }}&_t=category&_k={{ $sub1->id }}">
                                             {{ $sub1->name }}
                                         </span>
+                                        @if($sub1->children->count() > 0)
                                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                                        @endif
                                     </a>
 
                                     <ul class="sidebar-submenu collapse sm-last" id="sub_child_{{ $sub1->id }}" style="">
@@ -273,8 +277,10 @@
         });
 
         $('span.sidebar-menu-text').on('click', function(e){
+            e.preventDefault();
             if($(this).attr('data-url') != undefined) {
                 window.location.href = $(this).attr('data-url');
+                return false;
             } else {
                 return true;
             }

@@ -53,6 +53,14 @@ class SearchController extends Controller
                 $courses = Course::where('published', 1)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->paginate('10');
             }
         }
+
+        if($request->ajax()) {
+            $html = view('layouts.parts.search-results', ['courses' => $courses])->render();
+            return response()->json([
+                'success' => true,
+                'html' => $html
+            ]);
+        }
         
         return view('frontend.search.courses', compact('parentCategories', 'courses'));
     }
