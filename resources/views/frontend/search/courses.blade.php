@@ -251,6 +251,7 @@ $(function(e) {
     $('a.sidebar-menu-button').on('click', function(e){
         e.preventDefault();
         // $('li.sidebar-menu-item').removeClass('open');
+        $('span.sidebar-menu-text').removeClass('active');
         var route = $(this).attr('data-url');
 
         if(route == undefined) {
@@ -258,15 +259,20 @@ $(function(e) {
             $(this).find('.sidebar-menu-text').addClass('active');
         }
 
+        var li = $(this).closest('.sidebar-menu-item');
+
         $.ajax({
             method: 'GET',
             url: route,
             success: function(res) {
                 if(res.success) {
                     $('#search_result').html(res.html);
+                    if(li.siblings('.open').length > 0) {
+                        li.siblings('.open').removeClass('open');
+                    }
                 }
             }
-        })
+        });
     });
 });
 
