@@ -60,25 +60,32 @@
             <div class="py-64pt text-center text-sm-left">
                 <div class="container d-flex flex-column justify-content-center align-items-center">
                     <h3 class="text-white-70">{{ $test->title }}</h3>
-                    <p class="lead text-white-50 measure-lead-max mb-0">Submited on
+                    <p class="lead text-white-50 measure-lead-max mb-0">@lang('labels.frontend.test.submit_on')
                         {{ Carbon\Carbon::parse($test->result->updated_at)->diffForHumans() }}</p>
-                    <h1 class="text-white mb-24pt">Your Score: {{ $test->result->mark }}</h1>
+                    <h1 class="text-white mb-24pt">@lang('labels.frontend.test.your_score') : {{ $test->result->mark }}</h1>
                 </div>
             </div>
         </div>
     </div>
 
+    <?php
+        $hours = floor($test->result->duration / 60);
+        $mins = $test->result->duration % 60;
+
+        $duration = $hours . ' Hours ' . $mins . ' Mins';
+    ?>
+
     <div class="navbar navbar-expand-sm navbar-light navbar-submenu navbar-list p-0 m-0 align-items-center">
         <div class="container page__container">
             <ul class="nav navbar-nav flex align-items-sm-center">
-                <li class="nav-item navbar-list__item">{{ $test->result->mark }} Score</li>
+                <li class="nav-item navbar-list__item">{{ $test->result->mark }} @lang('labels.frontend.general.score')</li>
                 <li class="nav-item navbar-list__item">
                     <i class="material-icons text-muted icon--left">schedule</i>
-                    12 minutes
+                    {{ $duration }}
                 </li>
                 <li class="nav-item navbar-list__item">
                     <i class="material-icons text-muted icon--left">assessment</i>
-                    Intermediate
+                    {{ $test->course->category->name }}
                 </li>
             </ul>
         </div>
@@ -124,15 +131,15 @@
 
     <div class="container page__container page-section">
         <div class="page-separator">
-            <div class="page-separator__text">Summry From Teacher</div>
+            <div class="page-separator__text">@lang('labels.frontend.test.teacher_summary')</div>
         </div>
 
         <div class="font-size-16pt text-black-100 mb-32pt">{!! $test->result->answer !!}</div>
-        <div class="font-size-16pt text-black-100 mb-32pt"><strong>Mark</strong>: {{ $test->result->mark }}</div>
+        <div class="font-size-16pt text-black-100 mb-32pt"><strong>@lang('labels.frontend.general.mark')</strong>: {{ $test->result->mark }}</div>
 
         @if(!empty($test->result->answer_attach))
         <div class="form-group mb-24pt card card-body">
-            <label class="form-label">Answer Attachement:</label>
+            <label class="form-label">@lang('labels.frontend.test.answer_attach'):</label>
             <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                 <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
                     @php $ext = pathinfo($test->result->answer_attach, PATHINFO_EXTENSION); @endphp
@@ -145,7 +152,7 @@
                 <div class="flex">
                     <a href="{{ asset('/storage/attachments/' . $test->result->answer_attach) }}">
                         <div class="form-label mb-4pt">{{ $test->result->answer_attach }}</div>
-                        <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                        <p class="card-subtitle text-black-70">@lang('labels.frontend.test.attach_click').</p>
                     </a>
                 </div>
             </div>

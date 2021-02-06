@@ -38,7 +38,7 @@
                     </div>
                 </p>
             </div>
-            <a href="" class="btn btn-outline-white">Follow</a>
+            <!-- <a href="" class="btn btn-outline-white">Follow</a> -->
         </div>
     </div>
 
@@ -50,11 +50,11 @@
                     <div class="card">
                         <div class="list-group list-group-flush">
                             <div class="list-group-item d-flex">
-                                <span class="flex form-label"><strong>Tutor ID verified</strong></span>
+                                <span class="flex form-label"><strong>@lang('labels.frontend.profile.teacher_id')</strong></span>
                                 <i class="material-icons text-primary">check</i>
                             </div>
                             <div class="list-group-item d-flex">
-                                <span class="flex form-label"><strong>Tutor Profile verified</strong></span>
+                                <span class="flex form-label"><strong>@lang('labels.frontend.profile.teacher_profile')</strong></span>
                                 <i class="material-icons text-primary">check</i>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Professions</label>
+                                <label class="form-label">@lang('labels.frontend.profile.professions')</label>
                                 @if(!empty($teacher->profession))
                                 <div class="mt-8pt">
                                     @php $pros = json_decode($teacher->profession); @endphp
@@ -116,7 +116,7 @@
 
                     <div class="card">
                         <div class="card-body p-5">
-                            <h4>Achievements</h4>
+                            <h4>@lang('labels.frontend.profile.achievements')</h4>
                             @foreach(json_decode($teacher->achievements) as $achievement)
                             <p class="font-size-16pt mb-1"><strong>{{ $loop->iteration }}. </strong> {{ $achievement }}</p>
                             @endforeach
@@ -129,7 +129,7 @@
 
                     <div class="card">
                         <div class="card-body p-5">
-                            <h4>Experience</h4>
+                            <h4>@lang('labels.frontend.profile.experience')</h4>
                             <p class="font-size-16pt mb-1">{{ $teacher->experience }}</p>
                         </div>
                     </div>
@@ -189,7 +189,7 @@
     <div class="page-section">
         <div class="container page__container">
             <div class="page-separator">
-                <div class="page-separator__text">Similar Instructors</div>
+                <div class="page-separator__text">@lang('labels.frontend.profile.teacher.similar_teacher')</div>
             </div>
 
             <div class="row card-group-row">

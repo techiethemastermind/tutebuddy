@@ -65,11 +65,11 @@
             <nav class="nav navbar-nav ml-sm-auto align-items-center align-items-sm-end d-none d-lg-flex">
                 @if(auth()->user()->hasRole('Instructor'))
                 <div class="">
-                    <a href="{{ route('admin.tests.edit', $test->id) }}" class="btn btn-accent">Edit</a>
+                    <a href="{{ route('admin.tests.edit', $test->id) }}" class="btn btn-accent">@lang('labels.frontend.buttons.edit')</a>
                     @if($test->published == 0)
-                    <a href="{{ route('admin.test.publish', $test->id) }}" id="btn_publish" class="btn btn-primary">Publish</a>
+                    <a href="{{ route('admin.test.publish', $test->id) }}" id="btn_publish" class="btn btn-primary">@lang('labels.frontend.buttons.publish')</a>
                     @else
-                    <a href="{{ route('admin.test.publish', $test->id) }}" id="btn_publish" class="btn btn-info">Unpublish</a>
+                    <a href="{{ route('admin.test.publish', $test->id) }}" id="btn_publish" class="btn btn-info">@lang('labels.frontend.buttons.unpublish')</a>
                     @endif
                 </div>
                 @endif
@@ -111,14 +111,14 @@
             <ul class="nav navbar-nav flex navbar-list__item">
                 <li class="nav-item">
                     <i class="material-icons text-50 mr-8pt">tune</i>
-                    Please click to see Test Problems:
+                    @lang('labels.frontend.test.click')
                 </li>
             </ul>
             <div class="nav navbar-nav ml-sm-auto navbar-list__item">
                 <div class="nav-item d-flex flex-column flex-sm-row ml-sm-16pt">
                     <a href="javascript:void(0)" id="btn_start"
                         class="btn justify-content-center btn-accent w-100 w-sm-auto mb-16pt mb-sm-0 ml-sm-16pt">
-                            Start Test
+                            @lang('labels.frontend.test.button.start')
                         <i class="material-icons icon--right">keyboard_arrow_right</i></a>
                 </div>
             </div>
@@ -145,7 +145,7 @@
 
                 @if(!empty($question->attachment))
                 <div class="form-group mb-24pt">
-                    <label class="form-label">Attached Document:</label>
+                    <label class="form-label">@lang('labels.frontend.test.attached_doc'):</label>
                     <div class="d-flex col-md align-items-center border-bottom border-md-0 mb-16pt mb-md-0 pb-16pt pb-md-0">
                         <div class="w-64 h-64 d-inline-flex align-items-center justify-content-center mr-16pt">
                             @php $ext = pathinfo($question->attachment, PATHINFO_EXTENSION); @endphp
@@ -158,7 +158,7 @@
                         <div class="flex">
                             <a href="{{ asset('/storage/attachments/' . $question->attachment) }}">
                                 <div class="form-label mb-4pt">{{ $question->attachment }}</div>
-                                <p class="card-subtitle text-black-70">Click to See Attached Document.</p>
+                                <p class="card-subtitle text-black-70">@lang('labels.frontend.test.attached_doc').</p>
                             </a>
                         </div>
                     </div>
@@ -205,15 +205,15 @@
             @endif
 
             <div class="form-group">
-                <label class="form-label">Upload Doc</label>
+                <label class="form-label">@lang('labels.frontend.test.upload_doc')</label>
                 <div class="custom-file">
                     <input type="file" id="file_doc" name="doc_file" class="custom-file-input" accept=".doc, .docx, .pdf, .txt" tute-file>
-                    <label for="file_doc" class="custom-file-label">Choose file</label>
+                    <label for="file_doc" class="custom-file-label">@lang('labels.frontend.general.choose_file')</label>
                 </div>
             </div>
             @if(auth()->user()->hasRole('Student') || auth()->user()->hasRole('Child'))
             <div class="form-group">
-                <button id="btn_submit" type="submit" class="btn btn-primary d-none">Submit</button>
+                <button id="btn_submit" type="submit" class="btn btn-primary d-none">@lang('labels.frontend.buttons.submit')</button>
             </div>
             @endif
             <input type="hidden" name="test_id" value="{{ $test->id }}">
@@ -250,7 +250,7 @@
         // Set Submitted tests if it is exist
         var s_quill = new Quill('#submit_content', {
             theme: 'snow',
-            placeholder: 'Answer Content',
+            placeholder: "@lang('labels.frontend.test.answer_placeholder')",
             modules: {
                 toolbar: toolbarOptions
             },
@@ -316,12 +316,12 @@
                     clearInterval(timer);
 
                     swal({
-                        title: "Time is up!",
-                        text: "Next Question will load",
+                        title: "@lang('labels.frontend.test.alert.time_up')",
+                        text: "@lang('labels.frontend.test.alert.time_up_text')",
                         type: 'warning',
                         showCancelButton: false,
                         showConfirmButton: true,
-                        confirmButtonText: 'Confirm',
+                        confirmButtonText: "@lang('labels.frontend.alert.button.confirm')",
                         dangerMode: false,
                     }, function (val) {
                         if(val) {
@@ -349,12 +349,12 @@
                     console.log(res);
                     if(res.success) {
                         if(res.published == 1) {
-                            swal("Success!", 'Published successfully', "success");
+                            swal("Success!", "@lang('labels.frontend.alert.publish_success')", "success");
                             button.text('Unpublish');
                             button.removeClass('btn-primary').addClass('btn-info');
                         } else {
-                            swal("Success!", 'Unpublished successfully', "success");
-                            button.text('Publish');
+                            swal("Success!", "@lang('labels.frontend.alert.unpublish_success')", "success");
+                            button.text("@lang('labels.frontend.buttons.publish')");
                             button.removeClass('btn-info').addClass('btn-primary');
                         }
                         

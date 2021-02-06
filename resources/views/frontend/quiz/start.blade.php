@@ -387,7 +387,7 @@ $(function() {
                         button.removeClass('btn-primary').addClass('btn-info');
                     } else {
                         swal("Success!", "@lang('labels.frontend.alert.unpublish_success')", "success");
-                        button.text('Publish');
+                        button.text("@lang('labels.frontend.buttons.publish')");
                         button.removeClass('btn-info').addClass('btn-primary');
                     }
 

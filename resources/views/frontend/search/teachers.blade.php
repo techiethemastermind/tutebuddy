@@ -94,16 +94,23 @@
                                         <small class="text-50">{{ $teacher->reviews->count() }}</small>
                                     </div>
                                     <p class="text-70 font-size-16pt">{{ str_limit($teacher->about, 150) }}
-                                        <a href="{{ route('profile.show', $teacher->uuid) }}" style="color: #005ea6;">Read More</a>
+                                        <a href="{{ route('profile.show', $teacher->uuid) }}" style="color: #005ea6;">
+                                            @lang('labels.frontend.general.read_more')
+                                        </a>
                                     </p>
                                 </div>
                                 <div class="col-md-2">
-                                    <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-primary btn-block">Get Started</a>
+                                    <a href="{{ route('profile.show', $teacher->uuid) }}" class="btn btn-primary btn-block">
+                                        @lang('labels.frontend.search.teacher.get_start')
+                                    </a>
                                 </div>
                             </div>
                             <div class="mr-3 text-70">
                                 @if(!empty($teacher->qualifications))
-                                <i class="material-icons mr-8pt">school</i> <small class="text-100">Qualifications: </small>
+                                <i class="material-icons mr-8pt">school</i>
+                                <small class="text-100">
+                                    @lang('labels.frontend.search.teacher.qualifications'):
+                                </small>
                                 @foreach(json_decode($teacher->qualifications) as $qualification)
                                 <small>{{ $qualification }}</small>
                                 @endforeach
@@ -126,7 +133,9 @@
             @else
 
             <div class="card card-body">
-                <p class="card-title">No result</p>
+                <p class="card-title">
+                    @lang('labels.frontend.search.teacher.no_results'):
+                </p>
             </div>
 
             @endif

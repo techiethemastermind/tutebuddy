@@ -55,6 +55,12 @@ return array (
       'find_instructors' => 'Find Instructors',
       'browse_courses' => 'Browse Courses',
       'browse_teachers' => 'Browse Teachers',
+      'teacher' => 
+      array (
+        'get_start' => 'Get Started',
+        'qualifications' => 'Qualifications',
+        'no_results' => 'No Teachers',
+      ),
     ),
     'cart' => 
     array (
@@ -109,6 +115,12 @@ return array (
       'preview' => 'Preview',
       'no_rating' => 'No Rating',
       'view_detail' => 'View Detail',
+      'edit' => 'Edit',
+      'since' => 'Since',
+      'start_time' => 'Start Time',
+      'score' => 'Score',
+      'read_more' => 'Read More',
+      'mark' => 'Mark',
     ),
     'buttons' => 
     array (
@@ -120,6 +132,7 @@ return array (
       'share' => 'Share',
       'follow' => 'Follow',
       'view_profile' => 'View Profile',
+      'complete' => 'Complete',
     ),
     'assignment' => 
     array (
@@ -189,6 +202,54 @@ return array (
     'treeview' => 
     array (
       'category' => 'Category',
+    ),
+    'quiz' => 
+    array (
+      'unavailable' => 'Quiz Unavailabe',
+      'start' => 'Start Quiz',
+      'your_answer' => 'Your Answer',
+      'single_answer' => 'Single Answer',
+      'multi_answer' => 'Multi Answer',
+      'alert' => 
+      array (
+        'completed' => 'Quiz Completed!',
+        'description' => 'Your Score will be loaded',
+        'time_up' => 'Time is up!',
+        'time_up_text' => 'Next Question will load',
+      ),
+    ),
+    'test' => 
+    array (
+      'click' => 'Please click to see Test Problems',
+      'button' => 
+      array (
+        'start' => 'Start Test',
+      ),
+      'attached_doc' => 'Attached Document',
+      'upload_doc' => 'Upload Document',
+      'answer_placeholder' => 'Answer Content',
+      'alert' => 
+      array (
+        'time_up' => 'Time is up!',
+        'time_up_text' => 'Time is up.',
+      ),
+      'submit_on' => 'Submitted on',
+      'your_score' => 'Your Score',
+      'teacher_summary' => 'Summry From Teacher',
+      'answer_attach' => 'Answer Attachement',
+      'attach_click' => 'Click to See Attached Document',
+    ),
+    'profile' => 
+    array (
+      'teacher_id' => 'Tutor ID verified',
+      'teacher_profile' => 'Tutor Profile verified',
+      'achievements' => 'Achievements',
+      'experience' => 'Experience',
+      'teacher' => 
+      array (
+        'similar_teacher' => 'Similar Instructors',
+      ),
+      'professions' => 'Professions',
     ),
   ),
   'backend' => 
