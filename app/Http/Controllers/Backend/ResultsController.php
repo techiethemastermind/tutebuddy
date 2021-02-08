@@ -81,7 +81,7 @@ class ResultsController extends Controller
                                         <div class="flex d-flex flex-column">
                                             <p class="mb-0"><strong class="js-lists-values-lead">'
                                             . $course->teachers[0]->name . '</strong></p>
-                                            <small class="js-lists-values-email text-50">'. auth()->user()->roles->pluck('name')[0] . '</small>
+                                            <small class="js-lists-values-email text-50">'. $course->teachers[0]->roles->pluck('name')[0] . '</small>
                                         </div>
                                     </div>
                                 </div>

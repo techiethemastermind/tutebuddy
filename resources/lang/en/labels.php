@@ -425,6 +425,7 @@ return array (
         'url' => 'URL',
         'url_note' => 'Enter a valid video URL.',
       ),
+      'actived_my_courses' => 'Current Courses',
     ),
     'table' => 
     array (
@@ -614,6 +615,7 @@ return array (
       'warning' => 'Warning!',
       'error' => 'Error!',
       'your_rating' => 'Your rating',
+      'actived' => 'Activated',
     ),
     'my_quizzes' => 
     array (
@@ -785,6 +787,7 @@ return array (
         'transaction_id' => 'Transaction ID',
         'payment_status' => 'Payment Status',
         'type' => 'Type',
+        'billed_name' => 'Billed For',
       ),
       'order_detail' => 
       array (

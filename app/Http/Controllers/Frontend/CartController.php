@@ -304,6 +304,9 @@ class CartController extends Controller
 
                         $userId = ($item->attributes->child_id == '') ? auth()->user()->id : $item->attributes->child_id;
 
+                        $new_order->user_for = $userId;
+                        $new_order->save();
+
                         DB::table('course_student')->insert([
                             'course_id' => $item->id,
                             'user_id' => $userId,

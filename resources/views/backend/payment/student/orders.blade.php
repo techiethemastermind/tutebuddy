@@ -44,6 +44,7 @@
                         <th style="width: 18px;" class="pr-0"></th>
                         <th>@lang('labels.backend.table.no')</th>
                         <th>@lang('labels.backend.payment.table.order_id')</th>
+                        <th>@lang('labels.backend.payment.table.billed_name')</th>
                         <th>@lang('labels.backend.table.date')</th>
                         <th class="">@lang('labels.backend.payment.table.amount')</th>
                         <th>@lang('labels.backend.table.status')</th>
@@ -58,6 +59,7 @@
                         <td>
                             <a href="{{ route('admin.orders.detail', $order->id) }}" class="text-underline">{{ $order->uuid }}</a>
                         </td>
+                        <td>{{ $order->userFor->name }}</td>
                         <td>{{ \Carbon\Carbon::parse($order->created_at)->format('M d Y h:i A') }}</td>
                         <td class="">{{ getCurrency(config('app.currency'))['symbol'] . $order->amount }}</td>
                         <td>

@@ -44,12 +44,12 @@
                 <div id="tbl_selector" class="row no-gutters" role="tablist">
 
                     <div class="col-auto">
-                        <a href="{{ route('admin.student.getMyCoursesByAjax', 'all') }}" data-toggle="tab" role="tab" aria-selected="true"
+                        <a href="{{ route('admin.student.getMyCoursesByAjax', 'actived') }}" data-toggle="tab" role="tab" aria-selected="true"
                             class="dashboard-area-tabs__tab card-body d-flex flex-row align-items-center justify-content-start active">
-                            <span class="h2 mb-0 mr-3 count-all">{{ $count['all'] }}</span>
+                            <span class="h2 mb-0 mr-3 count-actived">{{ $count['actived'] }}</span>
                             <span class="flex d-flex flex-column">
-                                <strong class="card-title">@lang('labels.backend.general.all')</strong>
-                                <small class="card-subtitle text-50">@lang('labels.backend.courses.all_my_courses')</small>
+                                <strong class="card-title">@lang('labels.backend.general.actived')</strong>
+                                <small class="card-subtitle text-50">@lang('labels.backend.courses.actived_my_courses')</small>
                             </span>
                         </a>
                     </div>

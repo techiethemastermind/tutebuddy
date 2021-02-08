@@ -144,15 +144,30 @@ class PaymentController extends Controller
      */
     public function processRefund($id)
     {
-        $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
         $refund = Refund::find($id);
         $pay_id = $refund->order->payment_id;
+
+        $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
         $payment = $api->payment->fetch($pay_id);
         $refund_payment = $payment->refund();
 
         if($refund_payment) {
             $refund->status = 1;
             $refund->save();
+
+            // Deactive Course
+            $order_id = $refund->order_id;
+            $order = Order::find($order_id);
+            $orderItems = $order->items;
+            foreach($orderItems as $item) {
+                $item_type = $item->item_type;
+                if($item_type == 'App\Models\Course') {
+                    DB::table('course_student')
+                        ->where('course_id', $item->item_id)
+                        ->where('user_id', $order->user_for)
+                        ->delete();
+                }
+            }
 
             return response()->json([
                 'success' => true

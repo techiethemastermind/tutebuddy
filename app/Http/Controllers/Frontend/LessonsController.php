@@ -189,7 +189,7 @@ class LessonsController extends Controller
             return view('frontend.live', compact('join_room', 'is_room_run'));
         }
 
-        if(auth()->user()->hasRole('Student')) {
+        if(auth()->user()->hasRole('Student') || auth()->user()->hasRole('Child')) {
 
             $join_room = '';
 

@@ -98,7 +98,7 @@
                     </div>
 
                     <div class="sidebar-heading">Category</div>
-                    <ul class="sidebar-menu">
+                    <ul id="right_side" class="sidebar-menu">
                         @foreach($parentCategories as $category)
                         <?php
                             $class = '';
@@ -248,7 +248,7 @@ $(function(e) {
         });
     });
 
-    $('a.sidebar-menu-button').on('click', function(e){
+    $('#right_side a.sidebar-menu-button').on('click', function(e){
         e.preventDefault();
         // $('li.sidebar-menu-item').removeClass('open');
         $('span.sidebar-menu-text').removeClass('active');
