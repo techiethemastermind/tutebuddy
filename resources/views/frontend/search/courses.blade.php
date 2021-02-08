@@ -10,20 +10,20 @@
     [dir=ltr] .list-group-flush>.list-group-item {
         border-width: 0 0 5px;
     }
-    [dir=ltr] .sidebar-light .sidebar-submenu .sidebar-menu-text {
+    [dir=ltr] #right_side .sidebar-submenu .sidebar-menu-text {
         border-left: none;
         padding-left: .25rem;
     }
-    [dir=ltr] .sidebar-light .sidebar-submenu.sm-last {
+    [dir=ltr] #right_side .sidebar-submenu.sm-last {
         padding-left: 1.25rem;
     }
-    [dir=ltr] .sidebar-light .sidebar-submenu .sidebar-menu-text.active {
+    [dir=ltr] #right_side .sidebar-submenu .sidebar-menu-text.active {
         color: #0085eb;
     }
-    [dir=ltr] .sidebar-light .open>.sidebar-menu-button .sidebar-menu-text {
+    [dir=ltr] #right_side .open>.sidebar-menu-button .sidebar-menu-text {
         color: #0085eb;
     }
-    [dir=ltr] .sidebar-light.sidebar-right {
+    [dir=ltr] #right_side .sidebar-light.sidebar-right {
         padding-bottom: 240px !important;
     }
 </style>
