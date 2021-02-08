@@ -265,7 +265,6 @@
                         </ul>
                     </li>
 
-
                     @can('search_access')
                     <li class="sidebar-menu-item">
                         <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#browse_menu">
@@ -276,7 +275,6 @@
 
                         <ul class="sidebar-submenu collapse sm-indent" id="browse_menu" style="">
 
-                            
                             <li class="sidebar-menu-item {{ Request::is('search/courses*') ? 'active' : '' }}">
                                 <a class="sidebar-menu-button" href="{{ route('courses.search') }}">
                                     <span class="sidebar-menu-text">@lang('navs.sidebar.courses')</span>

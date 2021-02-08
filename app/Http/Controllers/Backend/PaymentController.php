@@ -149,16 +149,29 @@ class PaymentController extends Controller
 
         $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
         $payment = $api->payment->fetch($pay_id);
+        // $refunds = $payment->refunds();
         $refund_payment = $payment->refund();
+        // $refund_payment = $payment->refund(array('amount' => 100));
 
         if($refund_payment) {
             $refund->status = 1;
             $refund->save();
 
+            $transaction = Transaction::create([
+                'user_id' => auth()->user()->id,
+                'transaction_id' => 'trans-' . str_random(8),
+                'amount' => $refund_payment->amount,
+                'type' => 'refund',
+                'order_id' => $refund->order->id,
+                'status' => $refund_payment->status,
+                'payout_id' => $refund_payment->id
+            ]);
+
             // Deactive Course
             $order_id = $refund->order_id;
             $order = Order::find($order_id);
             $orderItems = $order->items;
+
             foreach($orderItems as $item) {
                 $item_type = $item->item_type;
                 if($item_type == 'App\Models\Course') {

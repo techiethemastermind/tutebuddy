@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Review;
 use App\Models\Bundle;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -31,7 +32,7 @@ class HomeController extends Controller
         // Get Featured Courses
         // $featuredCourses = Course::where('featured', 1)->limit(8)->get();
 
-        $featuredCourses = Course::orderBy('created_at', 'desc')->limit(8)->get();
+        $featuredCourses = Course::where('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('created_at', 'desc')->limit(8)->get();
 
         // Top reviews
         $reviews = Review::orderBy('rating', 'desc')->limit(4)->get();
