@@ -11,6 +11,9 @@
 [dir=ltr] .sidebar-light .sidebar-submenu.sm-last {
     padding-left: 1.25rem;
 }
+[dir=ltr] .sidebar-right {
+    padding-bottom: 240px !important;
+}
 </style>
 @endpush
 

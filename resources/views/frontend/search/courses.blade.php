@@ -23,7 +23,7 @@
     [dir=ltr] #right_side .open>.sidebar-menu-button .sidebar-menu-text {
         color: #0085eb;
     }
-    [dir=ltr] #right_side .sidebar-right {
+    [dir=ltr] .sidebar-right {
         padding-bottom: 240px !important;
     }
 </style>
