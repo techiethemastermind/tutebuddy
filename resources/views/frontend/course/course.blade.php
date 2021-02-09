@@ -1066,8 +1066,7 @@ $(function() {
     });
 
     $('input[name="enroll_type"]').on('change', function() {
-        $('#frm_checkout').find('input[name="price_type"]').val($(this).attr('enroll-type'));
-        $('#frm_cart').find('input[name="price_type"]').val($(this).attr('enroll-type'));
+        $('input[name="price_type"]').val($(this).attr('enroll-type'));
     });
 
     $('#btn_checkout, #btn_addtocart').on('click', function(e) {
