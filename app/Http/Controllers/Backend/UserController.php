@@ -103,9 +103,19 @@ class UserController extends Controller
             $temp['email'] = $user->email;
 
             if($user->verified) {
-                $temp['status'] = '<label class="badge badge-success">Yes</label>';
+                $temp['status'] = '<label class="badge badge-primary" data-toggle="tooltip" data-original-title="Verified">Good</label>';
             } else {
-                $temp['status'] = '<label class="badge badge-warning">No</label>';
+                $temp['status'] = '<label class="badge badge-warning" data-toggle="tooltip" data-original-title="Not verified">No</label>';
+            }
+
+            if($user->getRoleNames()->first() == 'Instructor') {
+                if($user->profile == 1) {
+                    $temp['status'] .= '<label class="badge badge-success ml-4pt" data-toggle="tooltip" data-original-title="Profile Approved">Approve</label>';
+                }
+
+                if($user->profile == 2) {
+                    $temp['status'] .= '<label class="badge badge-yellow ml-4pt" data-toggle="tooltip" data-original-title="Profile is Pending">Pending</label>';
+                }
             }
 
             $temp['roles'] = '';

@@ -94,7 +94,7 @@
                             <th style="width: 18px;" class="pr-0"></th>
                             <th><a href="javascript:void(0)" class="sort" data-sort="js-lists-values-name">Name</a></th>
                             <th>Email</th>
-                            <th>Verified</th>
+                            <th>Status</th>
                             <th>Role</th>
                             <th>Group</th>
                             <th>Actions</th>
