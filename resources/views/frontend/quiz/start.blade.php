@@ -191,9 +191,9 @@
                                 <div class="text-right">
                                     <div class="chip chip-outline-secondary">
                                         @if($question->type == 0)
-                                            @lang('string.frontend.quiz.single_answer')
+                                            @lang('labels.frontend.quiz.single_answer')
                                         @else
-                                            @lang('string.frontend.quiz.multi_answer')
+                                            @lang('labels.frontend.quiz.multi_answer')
                                         @endif
                                     </div>
                                     <div class="chip chip-outline-secondary">@lang('labels.frontend.general.score'): {{ $question->score }}</div>
@@ -210,7 +210,7 @@
                                                 <label for="option_s{{$option->id}}_q{{$question->id}}" class="custom-control-label">{{ $option->option_text }}</label>
                                             </div>
                                             @endforeach
-                                            @endif
+                                        @endif
 
                                         @if($question->type == 1)
                                             @foreach($question->options as $option)
@@ -361,7 +361,8 @@ $(function() {
                     dangerMode: false,
                 }, function (val) {
                     if(val) {
-                        load_question(t_step);
+                        $('#btn_complete').trigger('click');
+                        // window.location.href = "{!! route('admin.student.quizs') !!}";
                     }
                 });
             }

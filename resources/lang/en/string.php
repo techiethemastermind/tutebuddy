@@ -64,6 +64,11 @@ return array (
     array (
       'displaying_description' => 'Displaying 8 courses for each main categories',
     ),
+    'quiz' => 
+    array (
+      'see_quizzes_description' => 'Please click start Button to see Quizzes',
+      'answer_notes' => 'Note: There can be multiple correct answers to this question.',
+    ),
   ),
   'backend' => 
   array (
