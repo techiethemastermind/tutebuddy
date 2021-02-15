@@ -823,6 +823,7 @@ return array (
         'withdraw_money' => 'Withdraw Money',
         'amount' => 'Amount',
         'currency' => 'Currency',
+        'total_earning' => 'Total Earnings',
       ),
       'withdraw' => 'Withdraw',
       'transactions' => 

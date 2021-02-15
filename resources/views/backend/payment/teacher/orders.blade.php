@@ -61,7 +61,7 @@
                 <div class="card border-1 border-left-3 border-left-accent-yellow text-center mb-lg-0">
                     <div class="card-body">
                         <h4 class="h2 mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($total, 2) }}</h4>
-                        <div>@lang('labels.backend.payment.sales.total_sales')</div>
+                        <div>@lang('labels.backend.payment.sales.total_earning')</div>
                     </div>
                 </div>
             </div>
@@ -75,12 +75,12 @@
                         <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance, 2) }}</h4>
                     </div>
                     <div class="col-md-3">
-                        <label for="">@lang('labels.backend.payment.sales.account_fee') (20%)</label>
-                        <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance * 0.2, 2) }}</h4>
+                        <label for="">@lang('labels.backend.payment.sales.account_fee') ({{ config('account.fee') }}%)</label>
+                        <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance * (config('account.fee') / 100), 2) }}</h4>
                     </div>
                     <div class="col-md-3">
                         <label for="">@lang('labels.backend.payment.sales.available_to_withdraw')</label>
-                        <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance - ($balance * 0.2), 2) }}</h4>
+                        <h4 class="mb-0">{{ getCurrency(config('app.currency'))['symbol'] . number_format($balance - ($balance * (config('account.fee') / 100)), 2) }}</h4>
                     </div>
                     <div class="col-md-3">
                         <label for=""></label>

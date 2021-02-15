@@ -159,8 +159,9 @@
         <div><a href="">{{ config('site_contact_email') }}</a></div>
       </div>
       <div id="project">
-        <div><span>PROJECT</span> Tutebuddy LMS</div>
-        <div><span>CLIENT</span> {{ $order->user->name }}</div>
+        <div><span>SUBJECT</span> Tutebuddy LMS</div>
+        <div><span>FROM: </span> Tutebuddy</div>
+        <div><span>TO</span> {{ $order->user->name }}</div>
         <div><span>ADDRESS</span> {{ $order->user->address }}, {{ $order->user->state }} {{ $order->user->zip }}, {{ $order->user->country }}</div>
         <div><span>EMAIL</span> <a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></div>
         <div><span>DATE</span> {{ \Carbon\Carbon::now()->parse($order->created_at)->format('M d, Y') }}</div>

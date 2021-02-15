@@ -268,6 +268,7 @@ class PaymentController extends Controller
         $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
         $purchased_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('course_id');
         $earned = 0;
+        $subdays = auth()->user()->withhold;
 
         switch($type) {
             case 'month':
@@ -277,7 +278,9 @@ class PaymentController extends Controller
                 $end = new Carbon('last day of this month');
 
                 // Get courses end_date is in this month
-                $course_ids_this_month = Course::whereBetween('end_date', [$start->format('Y-m-d')." 00:00:00", $now->format('Y-m-d')." 23:59:59"])
+                $course_ids_this_month = Course::whereBetween('end_date', [
+                        $start->subDays($subdays)->format('Y-m-d')." 00:00:00",
+                        $now->subDays($subdays)->format('Y-m-d')." 23:59:59"])
                     ->whereIn('id', $purchased_ids)
                     ->pluck('id');
 
@@ -291,7 +294,7 @@ class PaymentController extends Controller
             case 'balance':
                 $now = Carbon::now();
                 // Get courses end_date to today
-                $course_ids_since_now = Course::where('end_date', '<', $now->format('Y-m-d')." 23:59:59")
+                $course_ids_since_now = Course::where('end_date', '<', $now->subDays($subdays)->format('Y-m-d')." 23:59:59")
                     ->whereIn('id', $purchased_ids)
                     ->pluck('id');
 
@@ -304,7 +307,7 @@ class PaymentController extends Controller
             case 'total':
                 $now = Carbon::now();
                 // Get courses end_date to today
-                $course_ids_since_now = Course::where('end_date', '<', $now->format('Y-m-d')." 23:59:59")
+                $course_ids_since_now = Course::where('end_date', '<', $now->subDays($subdays)->format('Y-m-d')." 23:59:59")
                     ->whereIn('id', $purchased_ids)
                     ->pluck('id');
 

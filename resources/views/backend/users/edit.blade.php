@@ -266,21 +266,22 @@
                                     'form-control')) !!}
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Address</label>
-                            {!! Form::text('address', null, array('placeholder' => 'Address', 'class' =>
-                            'form-control')) !!}
-                        </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Address</label>
+                                    {!! Form::text('address', null, array('placeholder' => 'Address', 'class' =>
+                                    'form-control')) !!}
+                                </div>
+                            </div>
 
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-label">Timezone</label>
                                     <select name="timezone" class="form-control"></select>
                                 </div>
                             </div>
+
                         </div>
 
                         @if($user->hasRole('Instructor'))
@@ -305,6 +306,21 @@
                             @endif
                             </select>
                         </div>
+
+                            @if(auth()->user()->hasRole('Administrator'))
+                                <div class="page-separator mt-32pt">
+                                    <div class="page-separator__text">Withhold Period</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            {!! Form::text('withhold', null, array('placeholder' => '30', 'class' =>
+                                            'form-control')) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
 
                         @endif
 
