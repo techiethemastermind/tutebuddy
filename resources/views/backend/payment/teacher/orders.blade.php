@@ -308,7 +308,7 @@
                             }
                         });
                     } else {
-                        swal('Error!', 'Something went wrong. Please try again', 'error');
+                        swal('Error!', res.message, 'error');
                     }
                 }
             });

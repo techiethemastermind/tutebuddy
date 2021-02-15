@@ -218,6 +218,13 @@ class PaymentController extends Controller
             'Authorization: Basic '. base64_encode(config('services.razorpay.key') . ':' . config('services.razorpay.secret'))
         ];
 
+        if(!auth()->user()->bank) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bank Account is not added! Please confirm in your account setting.'
+            ]);
+        }
+
         $params = [
             'account_number' => config('services.razorpayX.number'),
             'fund_account_id' => auth()->user()->bank->fund_account_id,
@@ -300,7 +307,8 @@ class PaymentController extends Controller
 
                 $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('price');
                 $withdraws = Transaction::where('user_id', auth()->user()->id)->where('type', 'withdraw')->sum('amount');
-                $balance = $total - $withdraws;
+                $refunds = Transaction::where('user_id', auth()->user()->id)->where('type', 'refund')->sum('amount');
+                $balance = $total - $withdraws - $refunds;
                 return $balance;
             break;
 
@@ -312,7 +320,8 @@ class PaymentController extends Controller
                     ->pluck('id');
 
                 $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('price');
-                return $total;
+                $refunds = Transaction::where('user_id', auth()->user()->id)->where('type', 'refund')->sum('amount');
+                return $total - $refunds;
             break;
         }
         
