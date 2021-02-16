@@ -55,7 +55,7 @@ class Assignment extends Model
 
     public function result()
     {
-        return $this->hasOne(AssignmentResult::class);
+        return $this->hasOne(AssignmentResult::class)->where('user_id', auth()->user()->id);
         // return AssignmentResult::where('assignment_id', $this->id)->where('user_id', auth()->user()->id)->first();
     }
 }

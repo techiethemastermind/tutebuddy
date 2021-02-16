@@ -63,7 +63,7 @@ class Quiz extends Model
 
     public function result()
     {
-        return $this->hasOne(QuizResults::class);
+        return $this->hasOne(QuizResults::class)->where('user_id', auth()->user()->id);
     }
 
     public function chapterStudents()

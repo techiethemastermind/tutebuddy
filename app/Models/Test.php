@@ -55,7 +55,7 @@ class Test extends Model
 
     public function result()
     {
-        return $this->hasOne(TestResult::class);
+        return $this->hasOne(TestResult::class)->where('user_id', auth()->user()->id);
     }
 
     public function questions()
