@@ -71,10 +71,13 @@ class DiscussionController extends Controller
 
     public function getTopics(Request $request)
     {
+        // Get purchased Course IDs
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        
         if(isset($request->_q)) {
-            $discussions = Discussion::where('title', 'like', '%' . $request->_q . '%')->paginate(5);
+            $discussions = Discussion::where('title', 'like', '%' . $request->_q . '%')->whereIn('course_id', $course_ids)->paginate(5);
         } else {
-            $discussions = Discussion::paginate(5);
+            $discussions = Discussion::whereIn('course_id', $course_ids)->paginate(5);
         }
 
         if(isset($request->_t)) {
@@ -106,7 +109,11 @@ class DiscussionController extends Controller
     public function create()
     {
         $topics = DB::table('discussion_topics')->get();
-        $courses = Course::all();
+
+        // Get purchased Course IDs
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $courses = Course::whereIn('id', $course_ids)->get();
+
         if(auth()->user()->hasRole('Student')) {
             $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
             $courses = Course::whereIn('id', $course_ids)->get();
@@ -162,7 +169,10 @@ class DiscussionController extends Controller
 
     public function edit($id)
     {
-        $courses = Course::all();
+        // Get purchased Course IDs
+        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $courses = Course::whereIn('id', $course_ids)->get();
+
         $discussion = Discussion::find($id);
         $topics = DB::table('discussion_topics')->get();
         return view('backend.discussions.edit', compact('discussion', 'courses', 'topics'));
