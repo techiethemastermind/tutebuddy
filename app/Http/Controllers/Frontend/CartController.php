@@ -153,15 +153,26 @@ class CartController extends Controller
         return view('frontend.cart.checkout', compact('total', 'taxData', 'orderId', 'cartTotal'));
     }
 
-    public function getChilds()
+    public function getChilds($course_id)
     {
         $childs = [];
         if(auth()->user()->child()->count() > 0) {
             foreach(auth()->user()->child() as $child) {
-                $item = [
-                    'id' => $child->id,
-                    'name' => $child->name
-                ];
+                $purchased_course_ids = $child->purchasedCourses();
+                if(in_array($course_id, $purchased_course_ids)) {
+                    $item = [
+                        'id' => $child->id,
+                        'name' => $child->name,
+                        'status' => 1 // 1 is purchased
+                    ];
+                } else {
+                    $item = [
+                        'id' => $child->id,
+                        'name' => $child->name,
+                        'status' => 0 // 0 is not purchased
+                    ];
+                }
+                
                 array_push($childs, $item);
             }
 

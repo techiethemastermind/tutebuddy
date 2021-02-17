@@ -66,15 +66,8 @@ class User extends Authenticatable
     }
 
     public function purchasedCourses(){
-        $orders = Order::where('status','=',1)
-            ->where('user_id','=',$this->id)
-            ->pluck('id');
-        $courses_id = OrderItem::whereIn('order_id',$orders)
-            ->where('item_type','=',"App\Models\Course")
-            ->pluck('item_id');
-        $courses = Course::whereIn('id',$courses_id)
-            ->get();
-        return $courses;
+        $course_ids = DB::table('course_student')->where('user_id', $this->id)->pluck('course_id')->toArray();
+        return $course_ids;
     }
 
     //Get Certificates

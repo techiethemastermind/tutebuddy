@@ -473,7 +473,7 @@
 
                     @if(auth()->check() && auth()->user()->child()->count() > 0)
                         <div class="page-separator mt-4">
-                            <div class="page-separator__text">Purchase for Child</div>
+                            <div class="page-separator__text">@lang('labels.frontend.course.purchase_for_child')</div>
                         </div>
 
                         <form action="{{ route('cart.process') }}" method="POST" id="frm_checkout">@csrf
@@ -1074,15 +1074,21 @@ $(function() {
         var action = $(this).attr('data-action');
         $.ajax({
             method: 'GET',
-            url: "{{ route('cart.getChilds') }}",
+            url: "{{ route('cart.getChilds', $course->id) }}",
             success: function(res) {
                 if(res.success && res.result) {
                     $('#childs_container').empty();
                     $.each(res.childs, function(idx, item) {
+                        var status = '';
+                        var notice = '';
+                        if(item.status == '1') {
+                            status = 'disabled=true';
+                            notice = ' (Already Enrolled)';
+                        }
                         var ele = `<div class="custom-control custom-radio mb-2">
                             <input id="rad_child_` + item.id + `" name="radio_child" data-id="`+ item.id +`" type="radio" 
-                                data-action="`+ action +`" class="custom-control-input">
-                            <label for="rad_child_` + item.id + `" class="custom-control-label">`+ item.name +`</label>
+                                data-action="`+ action +`" class="custom-control-input" `+ status +`>
+                            <label for="rad_child_` + item.id + `" class="custom-control-label">`+ item.name + notice + `</label>
                         </div>`;
 
                         $('#childs_container').append($(ele));
@@ -1090,7 +1096,7 @@ $(function() {
 
                     $('#modal_childs').modal('toggle');
                 } else {
-                    $('#frm_' + action).submit();
+                    // $('#frm_' + action).submit();
                 }
             }
         });
