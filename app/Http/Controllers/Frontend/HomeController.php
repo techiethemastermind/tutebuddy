@@ -35,7 +35,7 @@ class HomeController extends Controller
         $featuredCourses = Course::where('end_date', '>=', Carbon::now()->format('Y-m-d'))->orderBy('created_at', 'desc')->limit(8)->get();
 
         // Top reviews
-        $reviews = Review::orderBy('rating', 'desc')->limit(4)->get();
+        $reviews = Review::where('rating', '5')->orderBy('created_at', 'desc')->limit(4)->get();
 
         // Top Paths
         // $bundles = Bundle::where('published', 1)->limit(6)->get();

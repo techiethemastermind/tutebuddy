@@ -242,6 +242,8 @@ $(function() {
     $('#btn_draft').on('click', function(e) {
         e.preventDefault();
 
+        btnLoading($(this), true);
+
         $('#frm_assignments').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
                 var content = assignment_editor.root.innerHTML;
@@ -263,8 +265,10 @@ $(function() {
                 if(res.success) {
                     swal("@lang('labels.backend.swal.success.title')", "@lang('labels.backend.swal.success.description')", 'success');
                 }
+                btnLoading($('#btn_draft'), false);
             },
             error: function(err) {
+                btnLoading($('#btn_draft'), false);
                 console.log(err);
             }
         });
@@ -272,6 +276,8 @@ $(function() {
 
     $('#btn_publish').on('click', function(e) {
         e.preventDefault();
+
+        btnLoading($(this), true);
 
         $('#frm_assignments').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
@@ -294,9 +300,11 @@ $(function() {
                 if(res.success) {
                     swal("@lang('labels.backend.swal.success.title')", "@lang('labels.backend.swal.successfully_published')", 'success');
                 }
+                btnLoading($('#btn_publish'), false);
             },
             error: function(err) {
                 console.log(err);
+                btnLoading($('#btn_publish'), false);
             }
         });
     });

@@ -736,6 +736,13 @@ $(function() {
 
     // Event when click save course button id="btn_save_course"
     function save_course(action) {
+
+        if(action == 'draft') {
+            btnLoading($('#btn_save_course'), true);
+        } else {
+            btnLoading($('#btn_publish_course'), true);
+        }
+
         $('#frm_course').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
                 var content = course_quill.root.innerHTML;
@@ -759,6 +766,12 @@ $(function() {
                     swal("Success!", "Successfully Updated!", "success");
                 } else {
                     swal("Error!", res.message, "error");
+                }
+
+                if(action == 'draft') {
+                    btnLoading($('#btn_save_course'), false);
+                } else {
+                    btnLoading($('#btn_publish_course'), false);
                 }
             },
             error: function(err) {

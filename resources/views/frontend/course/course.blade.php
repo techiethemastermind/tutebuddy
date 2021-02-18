@@ -65,6 +65,12 @@
     color: #ffc926;
 }
 
+[dir=ltr] div.invalid-text {
+    color: #ed0b4c;
+    font-weight: 500;
+    margin-left: 15px;
+}
+
 /* Button used to open the chat form - fixed at the bottom of the page */
 .open-button {
     background-color: #0085eb;
@@ -882,7 +888,7 @@
         </div>
     </div>
 
-    @if(auth()->check() && auth()->user()->hasRole('Student'))
+    @if(auth()->check() && auth()->user()->hasRole('Student') && $course->isEnrolled())
     <div id="review_section"
         class="page-section border-bottom-2 bg-alt @if($course->isReviewed() == true) d-none @endif">
 
@@ -894,7 +900,7 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="review-stars-item form-inline form-group">
+                    <div id="star_rate" class="review-stars-item form-inline form-group mb-0">
                         <span class="form-label">@lang('labels.frontend.course.your_rating'):</span>
                         <div class="rating rating-24 position-relative">
                             <label>
@@ -939,12 +945,14 @@
                     $review_route = route('courses.review', ['id'=>$course->id]);
                     }
                     @endphp
-                    <form method="POST" action="{{ $review_route }}" id="frm_review">@csrf
-                        <input type="hidden" name="rating" id="rating" value="0">
+                    <form method="POST" action="{{ $review_route }}" id="frm_review" class="mt-3">@csrf
+                        <input type="hidden" name="rating" id="rating" value="">
                         <label for="review" class="form-label">@lang('labels.frontend.course.message'):</label>
-                        <textarea name="review" class="form-control bg-light mb-3" id="review" rows="5"
-                            cols="20"></textarea>
-                        <button type="submit" class="btn btn-primary" value="Submit">@lang('labels.frontend.course.button.add_review')</button>
+                        <textarea name="review" class="form-control bg-light" id="review" rows="5"
+                            cols="20" tute-no-empty></textarea>
+                        <button id="btn_review" type="submit" class="btn btn-primary mt-3" value="Submit">
+                            @lang('labels.frontend.course.button.add_review')
+                        </button>
                     </form>
                 </div>
             </div>
@@ -1039,10 +1047,25 @@ $(function() {
 
     $('input[name="stars"]').on('click', function() {
         $('#rating').val($(this).val());
+        $('#star_rate').find('div.invalid-text').remove();
+        $('#star_rate').removeClass('invalid');
     });
 
     $('#frm_review').on('submit', function(e) {
         e.preventDefault();
+
+        if($('#rating').val() == '') {
+            if($('#star_rate').find('.invalid-text').length < 1) {
+                var err_msg = $('<div class="invalid-text">Star rate is required.</div>');
+                $('#star_rate').append(err_msg);
+            }
+            $('#star_rate').addClass('invalid');
+        }
+
+        if(!checkValidForm($(this))) {
+            return false;
+        }
+
         $(this).ajaxSubmit({
             success: function(res) {
                 if(res.success) {

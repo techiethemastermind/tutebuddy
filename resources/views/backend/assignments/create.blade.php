@@ -202,6 +202,8 @@ $(function() {
     $('#frm_assignments').on('submit', function(e) {
         e.preventDefault();
 
+        btnLoading($('#btn_publish'), true);
+
         if(!checkValidForm($(this))){
             return false;
         }
@@ -223,7 +225,7 @@ $(function() {
                         title: "@lang('labels.backend.general.successfully_stored')",
                         text: "@lang('labels.backend.assignment.successfully_stored')",
                         type: 'success',
-                        showCancelButton: true,
+                        showCancelButton: false,
                         showConfirmButton: true,
                         confirmButtonText: "@lang('labels.backend.general.confirm')",
                         cancelButtonText: "@lang('labels.backend.general.cancel')",
@@ -235,9 +237,12 @@ $(function() {
                             window.location.href = url;
                         }
                     });
+
+                    btnLoading($('#btn_publish'), false);
                 }
             },
             error: function(err) {
+                btnLoading($('#btn_publish'), false);
                 console.log(err);
             }
         });

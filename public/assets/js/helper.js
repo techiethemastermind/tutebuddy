@@ -148,8 +148,19 @@ function checkValidForm(Form)
         }
     });
 
-    if(invalid_found) return false;
     return (invalid_found) ? false : true;
+}
+
+function btnLoading(Button, status)
+{
+    if(status) {
+        Button.addClass('is-loading');
+        Button.addClass('is-loading-sm');
+        Button.attr('disabled', true);
+    } else {
+        Button.removeClass('is-loading');
+        Button.removeAttr('disabled');
+    }
 }
 
 // ===  Global Element Events === //

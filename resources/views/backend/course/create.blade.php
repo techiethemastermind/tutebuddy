@@ -1066,6 +1066,14 @@ $(document).ready(function() {
             return false;
         }
 
+        if(action == 'draft') {
+            btnLoading($('#btn_save_course'), true);
+        }
+
+        if(action == 'pending') {
+            btnLoading($('#btn_publish_course'), true);
+        }
+
         $('#frm_course').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
@@ -1096,7 +1104,7 @@ $(document).ready(function() {
                         title: "Successfully Stored",
                         text: "It will redirected to Editor",
                         type: 'success',
-                        showCancelButton: true,
+                        showCancelButton: false,
                         showConfirmButton: true,
                         confirmButtonText: 'Confirm',
                         cancelButtonText: 'Cancel',
@@ -1108,6 +1116,14 @@ $(document).ready(function() {
                             window.location.href = url;
                         }
                     });
+                }
+
+                if(action == 'draft') {
+                    btnLoading($('#btn_save_course'), false);
+                }
+
+                if(action == 'pending') {
+                    btnLoading($('#btn_publish_course'), false);
                 }
             },
             error: function(err) {
