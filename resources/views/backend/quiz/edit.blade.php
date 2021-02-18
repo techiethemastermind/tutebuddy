@@ -830,6 +830,8 @@ $(function() {
 
         e.preventDefault();
 
+        btnLoading($(this), true);
+
         $('#frm_quiz').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
@@ -845,6 +847,8 @@ $(function() {
                 } else {
                     swal('Warning!', res.message, 'warning');
                 }
+
+                btnLoading($('#btn_quiz_save'), false);
             }
         });
     });
@@ -853,6 +857,8 @@ $(function() {
     $('#btn_quiz_publish').on('click', function(e) {
 
         e.preventDefault();
+
+        btnLoading($(this), true);
 
         $('#frm_quiz').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
@@ -869,6 +875,8 @@ $(function() {
                 } else {
                     swal('Warning!', res.message, 'warning');
                 }
+
+                btnLoading($('#btn_quiz_publish'), false);
             }
         });
     });

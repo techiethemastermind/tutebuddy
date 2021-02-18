@@ -233,7 +233,7 @@ $(function() {
 
                     }, function(val) {
                         if (val) {
-                            var url = '/dashboard/assignments/' + res.assignment_id + '/edit';
+                            var url = "{{ route('admin.assignments.index') }}";
                             window.location.href = url;
                         }
                     });

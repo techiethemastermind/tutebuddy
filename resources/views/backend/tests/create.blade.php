@@ -94,7 +94,7 @@
 
                     <div class="card">
                         <div class="card-header text-center">
-                            <button type="submit" class="btn btn-accent">Save changes</button>
+                            <button type="submit" class="btn btn-accent" id="btn_save_test">Save changes</button>
                         </div>
                         <div class="list-group list-group-flush" id="save_status">
                             <div class="list-group-item d-flex">
@@ -582,28 +582,32 @@ $(function() {
             return false;
         }
 
+        btnLoading($('#btn_save_test'), true);
+
         $(this).ajaxSubmit({
             success: function(res) {
-                if(res.success) {
-                    if(res.success) {
-                    swal({
-                            title: "Successfully Stored",
-                            text: "Test is stored successfully",
-                            type: 'success',
-                            showCancelButton: true,
-                            showConfirmButton: true,
-                            confirmButtonText: 'Confirm',
-                            cancelButtonText: 'Cancel',
-                            dangerMode: false,
 
-                        }, function(val) {
-                            if (val) {
-                                var url = '/dashboard/tests/' + res.test_id + '/edit';
-                                window.location.href = url;
-                            }
-                        });
-                    }
+                if(res.success) {
+                    swal({
+                        title: "Successfully Stored",
+                        text: "Test is stored successfully",
+                        type: 'success',
+                        showCancelButton: true,
+                        showConfirmButton: true,
+                        confirmButtonText: 'Confirm',
+                        cancelButtonText: 'Cancel',
+                        dangerMode: false,
+
+                    }, function(val) {
+                        if (val) {
+                            // var url = '/dashboard/tests/' + res.test_id + '/edit';
+                            var url = "{{ route('admin.test.index') }}";
+                            window.location.href = url;
+                        }
+                    });
                 }
+
+                btnLoading($('#btn_save_test'), false);
             },
             error: function(err) {
                 console.log(err);

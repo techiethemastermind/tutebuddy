@@ -257,8 +257,13 @@ if(!isset($_GET["active"])) {
                         </div>
 
                         <div class="form-group text-right">
-                            <button type="submit" class="btn btn-primary"
-                            @if($user->profile == 1 || $user->profile == 3) disabled @endif>@lang('labels.backend.general.save_changes')</button>
+                            @if($user->profile == 0)
+                            <button type="submit" class="btn btn-primary">@lang('labels.backend.general.save_changes')</button>
+                            @elseif($user->profile == 3)
+                            <button type="submit" class="btn btn-primary" disabled>@lang('labels.backend.general.save_changes')</button>
+                            @elseif($user->profile == 1)
+                            <button type="submit" class="btn btn-primary">@lang('labels.backend.buttons.update')</button>
+                            @endif
                         </div>
 
                         {!! Form::close() !!}
@@ -385,8 +390,13 @@ if(!isset($_GET["active"])) {
                             </div>
 
                             <div class="form-group text-right">
-                                <button type="submit" class="btn btn-primary" 
-                                @if($user->profile == 1 || $user->profile == 3) disabled @endif>@lang('labels.backend.general.save_changes')</button>
+                                @if($user->profile == 0)
+                                <button type="submit" class="btn btn-primary">@lang('labels.backend.general.save_changes')</button>
+                                @elseif($user->profile == 3)
+                                <button type="submit" class="btn btn-primary" disabled>@lang('labels.backend.general.save_changes')</button>
+                                @elseif($user->profile == 1)
+                                <button type="submit" class="btn btn-primary">@lang('labels.backend.buttons.update')</button>
+                                @endif
                             </div>
                         </div>
 

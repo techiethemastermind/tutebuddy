@@ -105,10 +105,12 @@
                                 <span class="text-70 text-muted mr-8pt">Total Courses Contucted: 102</span>
                             </div>
 
-                            @if(!$course->isEnrolled())
-                            <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary btn-md">Enroll</a>
-                            @else
-                            <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-success btn-md">Enrolled</a>
+                            @if(!auth()->user()->hasRole('Child'))
+                                @if(!$course->isEnrolled())
+                                <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-primary btn-md">Enroll</a>
+                                @else
+                                <a href="{{ route('courses.show', $course->slug) }}" class="btn btn-success btn-md">Enrolled</a>
+                                @endif
                             @endif
                         </div>
                     </div>

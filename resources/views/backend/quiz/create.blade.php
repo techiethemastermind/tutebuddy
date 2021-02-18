@@ -718,6 +718,8 @@ $(function() {
             return false;
         }
 
+        btnLoading($(this), true);
+
         $('#frm_quiz').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
                 formData.push({
@@ -727,7 +729,7 @@ $(function() {
                 });
             },
             success: function(res) {
-                console.log(res);
+                
                 if(res.success) {
                     swal({
                         title: "Successfully Stored",
@@ -741,13 +743,16 @@ $(function() {
 
                     }, function(val) {
                         if (val) {
-                            var url = '/dashboard/quizs/' + res.quiz_id + '/edit';
+                            // var url = '/dashboard/quizs/' + res.quiz_id + '/edit';
+                            var url = "{{ route('admin.quizs.index') }}";
                             window.location.href = url;
                         }
                     });
                 } else {
                     swal('Warning!', res.message, 'warning');
                 }
+
+                btnLoading($('#btn_quiz_save'), false);
             }
         });
     });

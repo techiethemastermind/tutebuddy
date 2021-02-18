@@ -304,6 +304,12 @@ $(function() {
             return false;
         }
 
+        if(action == 'draft') {
+            btnLoading($('#btn_save_bundle'), true);
+        } else {
+            btnLoading($('#btn_publish_bundle'), true);
+        }
+
         $('#frm_bundle').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
@@ -314,13 +320,13 @@ $(function() {
                 });
             },
             success: function(res) {
-                console.log(res);
+                
                 if(res.success) {
                     swal({
                         title: "@lang('labels.backend.swal.success.title')",
                         text: "@lang('labels.backend.swal.paths.successfully_stored')",
                         type: 'success',
-                        showCancelButton: true,
+                        showCancelButton: false,
                         showConfirmButton: true,
                         confirmButtonText: "@lang('labels.backend.general.confirm')",
                         cancelButtonText: "@lang('labels.backend.general.cancel')",
@@ -329,9 +335,16 @@ $(function() {
                     }, function(val) {
                         if (val) {
                             var url = '/dashboard/bundles/' + res.bundle_id + '/edit';
+                            var url = "{{ route('admin.bundles.index') }}";
                             window.location.href = url;
                         }
                     });
+                }
+
+                if(action == 'draft') {
+                    btnLoading($('#btn_save_bundle'), false);
+                } else {
+                    btnLoading($('#btn_publish_bundle'), false);
                 }
             },
             error: function(err) {

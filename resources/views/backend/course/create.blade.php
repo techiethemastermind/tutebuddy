@@ -1112,7 +1112,8 @@ $(document).ready(function() {
 
                     }, function(val) {
                         if (val) {
-                            var url = '/dashboard/courses/' + res.course_id + '/edit';
+                            // var url = '/dashboard/courses/' + res.course_id + '/edit';
+                            var url = "{{ route('admin.courses.index') }}";
                             window.location.href = url;
                         }
                     });

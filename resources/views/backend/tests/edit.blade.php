@@ -615,6 +615,8 @@ $(function() {
     $('#btn_draft').on('click', function(e) {
         e.preventDefault();
 
+        btnLoading($(this), true);
+
         $('#frm_test').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
@@ -628,8 +630,10 @@ $(function() {
                 if(res.success) {
                     swal('Success!', 'Successfully Stored to Draft', 'success');
                 }
+                btnLoading($('#btn_draft'), false);
             },
             error: function(err) {
+                btnLoading($('#btn_draft'), false);
                 console.log(err);
             }
         });
@@ -637,6 +641,8 @@ $(function() {
 
     $('#btn_publish').on('click', function(e) {
         e.preventDefault();
+
+        btnLoading($(this), true);
 
         $('#frm_test').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
@@ -651,8 +657,10 @@ $(function() {
                 if(res.success) {
                     swal('Success!', 'Successfully Published', 'success');
                 }
+                btnLoading($('#btn_publish'), false);
             },
             error: function(err) {
+                btnLoading($('#btn_publish'), false);
                 console.log(err);
             }
         });

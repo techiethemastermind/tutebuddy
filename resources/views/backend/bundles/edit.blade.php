@@ -341,6 +341,12 @@ $(function() {
             return false;
         }
 
+        if(action == 'draft') {
+            btnLoading($('#btn_save_bundle'), true);
+        } else {
+            btnLoading($('#btn_publish_bundle'), true);
+        }
+
         $('#frm_bundle').ajaxSubmit({
             beforeSubmit: function(formData, formObject, formOptions) {
 
@@ -351,14 +357,25 @@ $(function() {
                 });
             },
             success: function(res) {
-                console.log(res);
                 if(res.success) {
                     swal("@lang('labels.backend.swal.success.title')", 'Successfully Updated', 'success');
+                }
+
+                if(action == 'draft') {
+                    btnLoading($('#btn_save_bundle'), false);
+                } else {
+                    btnLoading($('#btn_publish_bundle'), false);
                 }
             },
             error: function(err) {
                 var errMsg = getErrorMessage(err);
                 swal("@lang('labels.backend.general.error')", errMsg, 'error');
+
+                if(action == 'draft') {
+                    btnLoading($('#btn_save_bundle'), false);
+                } else {
+                    btnLoading($('#btn_publish_bundle'), false);
+                }
             }
         })
     }
