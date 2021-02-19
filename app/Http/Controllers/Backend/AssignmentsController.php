@@ -393,11 +393,14 @@ class AssignmentsController extends Controller
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
-        $assignment_ids = AssignmentResult::where('user_id', auth()->user()->id)->pluck('assignment_id');
+        $assignment_ids = Assignment::whereIn('lesson_id', $lesson_ids)->pluck('id');
+        $assignment_results = AssignmentResult::where('user_id', auth()->user()->id)->whereIn('assignment_id', $assignment_ids);
+        $marked_assignment_ids = $assignment_results->pluck('assignment_id');
+        $assignment_result_ids = $assignment_results->pluck('id');
 
         $count = [
-            'all' => Assignment::whereIn('lesson_id', $lesson_ids)->count(),
-            'marked' => Assignment::whereIn('id', $assignment_ids)->count()
+            'all' => Assignment::whereIn('id', $assignment_ids)->count(),
+            'marked' => Assignment::whereIn('id', $marked_assignment_ids)->count()
         ];
 
         return view('backend.assignments.student', compact('count'));
@@ -409,16 +412,19 @@ class AssignmentsController extends Controller
         $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
         $course_ids = Course::whereIn('id', $course_ids)->where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
         $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
-        $assignment_ids = AssignmentResult::where('user_id', auth()->user()->id)->pluck('assignment_id');
+        $assignment_ids = Assignment::whereIn('lesson_id', $lesson_ids)->pluck('id');
+        $assignment_results = AssignmentResult::where('user_id', auth()->user()->id)->whereIn('assignment_id', $assignment_ids);
+        $marked_assignment_ids = $assignment_results->pluck('assignment_id');
+        $assignment_result_ids = $assignment_results->pluck('id');
 
         switch($type) {
 
             case 'all':
-                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
+                $assignments = Assignment::whereIn('id', $assignment_ids)->get();
             break;
 
             case 'marked':
-                $assignments = Assignment::whereIn('id', $assignment_ids)->get();
+                $assignments = Assignment::whereIn('id', $marked_assignment_ids)->get();
             break;
 
         }
@@ -426,8 +432,8 @@ class AssignmentsController extends Controller
         $data = $this->getStudentData($assignments);
 
         $count = [
-            'all' => Assignment::whereIn('lesson_id', $lesson_ids)->count(),
-            'marked' => Assignment::whereIn('id', $assignment_ids)->count()
+            'all' => Assignment::whereIn('id', $assignment_ids)->count(),
+            'marked' => Assignment::whereIn('id', $marked_assignment_ids)->count()
         ];
 
         return response()->json([
@@ -466,11 +472,19 @@ class AssignmentsController extends Controller
             $temp['mark'] = '<strong>' . $item->total_mark . '</strong>';
 
             if($item->result && $item->result->count() > 0) {
+
+                $temp['mark'] = '<strong>' . (int)$item->result->mark . ' / ' . $item->total_mark . '</strong>';
+
                 $show_route = route('student.assignment.result', [$lesson->slug, $item->id]);
-                if(!empty($item->result->mark)) {
-                    $btn_show = '<a href="'. $show_route . '" class="btn btn-success btn-sm">Reviewed</a>';
-                } else {
-                    $btn_show = '<a href="javascript:void(0)" class="btn btn-secondary btn-sm">Reviewing</a>';
+
+                if($item->result->status == 0) {
+                    $btn_show = '<a href="javascript:void(0)" class="btn btn-secondary btn-sm">Under Review</a>';
+                }
+                if($item->result->status == 1) {
+                    $btn_show = '<a href="'. $show_route . '" class="btn btn-success btn-sm">Completed</a>';
+                }
+                if($item->result->status == 2) {
+                    $btn_show = '<a href="'. route('student.assignment.show', [$lesson->slug, $item->id]). '" class="btn btn-primary btn-sm">Resubmit</a>';
                 }
             } else {
                 $btn_show = '<a href="'. route('student.assignment.show', [$lesson->slug, $item->id]). '" class="btn btn-primary btn-sm">Start</a>';
@@ -620,7 +634,7 @@ class AssignmentsController extends Controller
         $result->mark = $data['mark'];
         $result->answer = $data['answer'];
         $result->answer_attach = $data['answer_attach'];
-        $result->status = 1;
+        $result->status = $data['status'];
         $result->submit_date = Carbon::now();
 
         $result->save();

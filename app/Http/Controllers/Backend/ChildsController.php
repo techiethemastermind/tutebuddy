@@ -189,7 +189,8 @@ class ChildsController extends Controller
                     $btn_show = '<a href="javascript:void(0)" class="btn btn-secondary btn-sm">Reviewing</a>';
                 }
             } else {
-                $btn_show = '<a href="'. route('student.assignment.show', [$lesson->slug, $item->id]). '" class="btn btn-primary btn-sm">Start</a>';
+                // $btn_show = '<a href="'. route('student.assignment.show', [$lesson->slug, $item->id]). '" class="btn btn-primary btn-sm">Start</a>';
+                $btn_show = 'N/A';
             }
 
             $temp['action'] = $btn_show . '&nbsp;';
@@ -268,7 +269,8 @@ class ChildsController extends Controller
                 $temp['mark'] = '<strong>' . $item->score . '</strong>';
 
                 $show_route = route('student.test.show', [$item->lesson->slug, $item->id]);
-                $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
+                // $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
+                $btn_show = 'N/A';
             }
 
             $temp['action'] = $btn_show . '&nbsp;';
@@ -346,7 +348,8 @@ class ChildsController extends Controller
                         $btn_show = '<button class="btn btn-outline-primary btn-sm" disabled>Scheduled</button>';
                     }
                 } else {
-                    $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
+                    // $btn_show = '<a href="'. $show_route. '" class="btn btn-primary btn-sm">Start</a>';
+                    $btn_show = 'N/A';
                 }
                 
             } else {

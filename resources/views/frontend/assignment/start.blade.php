@@ -275,6 +275,22 @@
                 success: function(res) {
                     if(res.success) {
                         swal('Success!', res.message, 'success');
+                        swal({
+                            title: "Success!",
+                            text: res.message,
+                            type: 'success',
+                            showCancelButton: false,
+                            showConfirmButton: true,
+                            confirmButtonText: "@lang('labels.backend.general.confirm')",
+                            cancelButtonText: "@lang('labels.backend.general.cancel')",
+                            dangerMode: false,
+
+                        }, function(val) {
+                            if (val) {
+                                var url = "{{ route('admin.student.assignments') }}";
+                                window.location.href = url;
+                            }
+                        });
                     }
                 }
             })
@@ -291,7 +307,6 @@
                 method: 'get',
                 url: url,
                 success: function(res) {
-                    console.log(res);
                     if(res.success) {
                         if(res.published == 1) {
                             swal("Success!", 'Published successfully', "success");

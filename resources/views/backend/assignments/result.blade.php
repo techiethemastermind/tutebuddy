@@ -91,12 +91,13 @@
 
                             <div class="form-group">
                                 <label for="" class="form-label">@lang('labels.backend.assignments.result.assignment_mark')</label>
-                                <input type="number" name="mark" class="form-control" max="{{ $result->assignment->total_mark }}" value="{{ $result->mark }}">
+                                <input type="number" name="mark" class="form-control" max="{{ $result->assignment->total_mark }}" 
+                                    value="{{ $result->mark }}" tute-no-empty>
                             </div>
 
                             <div class="form-group">
                                 <label for="" class="form-label">@lang('labels.backend.assignments.result.summary')</label>
-                                <textarea name="answer" rows="10" class="form-control">{{ $result->answer }}</textarea>
+                                <textarea name="answer" rows="10" class="form-control" tute-no-empty>{{ $result->answer }}</textarea>
                             </div>
 
                             @if(!empty($result->answer_attach))
@@ -129,6 +130,14 @@
                             </div>
 
                             <input type="hidden" name="result_id" value="{{ $result->id }}">
+                            <input type="hidden" id="result_status" name="status" value="1">
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input id="chk_status" type="checkbox"  @if($result->status == 1) checked="" @endif class="custom-control-input">
+                                    <label for="chk_status" class="custom-control-label">Make it Complete</label>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <button class="btn btn-primary">@lang('labels.backend.buttons.submit')</button>
@@ -162,6 +171,16 @@
 
         $('#frm_a_result').on('submit', function(e) {
             e.preventDefault();
+
+            if(!checkValidForm($(this))) {
+                return false;
+            }
+
+            if ($('#chk_status').is(":checked")) {
+                $('#result_status').val(1);
+            } else {
+                $('#result_status').val(2);
+            }
 
             $(this).ajaxSubmit({
                 success: function(res) {
