@@ -30,6 +30,14 @@
                     </ol>
                 </div>
             </div>
+
+            <div class="row" role="tablist">
+                <div class="col-auto mr-3">
+                    <a href="{{ route('admin.instructor.submitedTests') }}" class="btn btn-outline-secondary">
+                        @lang('labels.general.back')
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 

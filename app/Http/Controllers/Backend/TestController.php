@@ -27,11 +27,14 @@ class TestController extends Controller
      */
     public function index()
     {
+        $course_ids = Course::where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+
         $count = [
-            'all' => Test::all()->count(),
-            'published' => Test::where('published', 1)->count(),
-            'pending' => Test::where('published', 0)->count(),
-            'deleted' => Test::onlyTrashed()->count()
+            'all' => Test::whereIn('lesson_id', $lesson_ids)->count(),
+            'published' => Test::whereIn('lesson_id', $lesson_ids)->where('published', 1)->count(),
+            'pending' => Test::whereIn('lesson_id', $lesson_ids)->where('published', 0)->count(),
+            'deleted' => Test::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
         ];
 
         return view('backend.tests.index', compact('count'));
@@ -42,30 +45,33 @@ class TestController extends Controller
      */
     public function getList($type) {
 
+        $course_ids = Course::where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+
         switch ($type) {
             case 'all':
-                $tests = Test::all();
+                $tests = Test::whereIn('lesson_id', $lesson_ids)->get();
             break;
             case 'published':
-                $tests = Test::where('published', 1)->get();
+                $tests = Test::whereIn('lesson_id', $lesson_ids)->where('published', 1)->get();
             break;
             case 'pending':
-                $tests = Test::where('published', 0)->get();
+                $tests = Test::whereIn('lesson_id', $lesson_ids)->where('published', 0)->get();
             break;
             case 'deleted':
-                $tests = Test::onlyTrashed()->get();
+                $tests = Test::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->get();
             break;
             default:
-                $tests = Test::all();
+                $tests = Test::whereIn('lesson_id', $lesson_ids)->get();
         }
 
         $data = $this->getArrayData($tests);
 
         $count = [
-            'all' => Test::all()->count(),
-            'published' => Test::where('published', 1)->count(),
-            'pending' => Test::where('published', 0)->count(),
-            'deleted' => Test::onlyTrashed()->count()
+            'all' => Test::whereIn('lesson_id', $lesson_ids)->count(),
+            'published' => Test::whereIn('lesson_id', $lesson_ids)->where('published', 1)->count(),
+            'pending' => Test::whereIn('lesson_id', $lesson_ids)->where('published', 0)->count(),
+            'deleted' => Test::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
         ];
 
         return response()->json([
@@ -128,6 +134,20 @@ class TestController extends Controller
                                 </div>
                             </div>
                         </div>';
+
+            if($item->published == 1) {
+                $temp['status'] = '<div class="d-flex flex-column">
+                                        <small class="js-lists-values-status text-50 mb-4pt">Published</small>
+                                        <span class="indicator-line rounded bg-primary"></span>
+                                    </div>';
+            }
+
+            if($item->published == 0) {
+                $temp['status'] = '<div class="d-flex flex-column">
+                                        <small class="js-lists-values-status text-50 mb-4pt">Drafted</small>
+                                        <span class="indicator-line rounded bg-warning"></span>
+                                    </div>';
+            }
 
             $edit_route = route('admin.tests.edit', $item->id);
             $delete_route = route('admin.tests.destroy', $item->id);
@@ -464,7 +484,7 @@ class TestController extends Controller
 
                 if(!empty($item->result->mark)) {
                     $temp['mark'] = '<strong>' . $item->result->mark . '/' . $item->score . '</strong>';
-                    $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Reviewed</a>';
+                    $btn_show = '<a href="'. $show_route. '" class="btn btn-success btn-sm">Marked</a>';
                 } else {
                     $temp['mark'] = '<strong>' . $item->score . '</strong>';
                     $btn_show = '<a href="javascript:void(0)" class="btn btn-secondary btn-sm">Reviewing</a>';
@@ -583,6 +603,18 @@ class TestController extends Controller
                 $temp['attachment'] = '<a href="'. asset('/storage/attachments/' . $result->attachment ) .'" target="_blank">'. $img .'</a>';
             } else {
                 $temp['attachment'] = 'N/A';
+            }
+
+            $temp['status'] = '<div class="d-flex flex-column">
+                                        <small class="js-lists-values-status text-50 mb-4pt">Pending</small>
+                                        <span class="indicator-line rounded bg-accent"></span>
+                                    </div>';
+
+            if($result->status == 1) {
+                $temp['status'] = '<div class="d-flex flex-column">
+                                        <small class="js-lists-values-status text-50 mb-4pt">Marked</small>
+                                        <span class="indicator-line rounded bg-success"></span>
+                                    </div>';
             }
 
             $btn_show = view('backend.buttons.show', ['show_route' => route('admin.tests.show_result', $result->id)]);

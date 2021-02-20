@@ -81,6 +81,7 @@
                             <th>@lang('labels.backend.table.subject')</th>
                             <th>@lang('labels.backend.table.student')</th>
                             <th>@lang('labels.backend.table.attachment')</th>
+                            <th>@lang('labels.backend.table.status')</th>
                             <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
@@ -128,6 +129,7 @@
                     { data: 'subject' },
                     { data: 'student' },
                     { data: 'attachment' },
+                    { data: 'status' },
                     { data: 'action' }
                 ],
                 oLanguage: {

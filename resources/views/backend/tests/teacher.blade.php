@@ -78,10 +78,11 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th>Subject</th>
-                            <th>Student</th>
-                            <th>Attachment</th>
-                            <th>Action</th>
+                            <th>@lang('labels.backend.table.subject')</th>
+                            <th>@lang('labels.backend.table.student')</th>
+                            <th>@lang('labels.backend.table.attachment')</th>
+                            <th>@lang('labels.backend.table.status')</th>
+                            <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="toggle"></tbody>
@@ -128,6 +129,7 @@
                     { data: 'subject' },
                     { data: 'student' },
                     { data: 'attachment' },
+                    { data: 'status' },
                     { data: 'action' }
                 ],
                 oLanguage: {

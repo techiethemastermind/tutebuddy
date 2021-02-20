@@ -29,14 +29,170 @@ class AssignmentsController extends Controller
      */
     public function index()
     {
+        $course_ids = Course::where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+
         $count = [
-            'all' => Assignment::all()->count(),
-            'published' => Assignment::where('published', 1)->count(),
-            'pending' => Assignment::where('published', 0)->count(),
-            'deleted' => Assignment::onlyTrashed()->count()
+            'all' => Assignment::whereIn('lesson_id', $lesson_ids)->count(),
+            'published' => Assignment::whereIn('lesson_id', $lesson_ids)->where('published', 1)->count(),
+            'pending' => Assignment::whereIn('lesson_id', $lesson_ids)->where('published', 0)->count(),
+            'deleted' => Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
         ];
 
         return view('backend.assignments.index', compact('count'));
+    }
+
+    /**
+     * List data for Datatable
+     */
+    public function getList($type) {
+
+        $course_ids = Course::where('end_date', '>', Carbon::now()->format('Y-m-d'))->pluck('id');
+        $lesson_ids = Lesson::whereIn('course_id', $course_ids)->pluck('id');
+
+        switch ($type) {
+            case 'all':
+                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
+            break;
+            case 'published':
+                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->where('published', 1)->get();
+            break;
+            case 'pending':
+                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->where('published', 0)->get();
+            break;
+            case 'deleted':
+                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->get();
+            break;
+            default:
+                $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
+        }
+
+        $data = $this->getArrayData($assignments);
+
+        $count = [
+            'all' => Assignment::whereIn('lesson_id', $lesson_ids)->count(),
+            'published' => Assignment::whereIn('lesson_id', $lesson_ids)->where('published', 1)->count(),
+            'pending' => Assignment::whereIn('lesson_id', $lesson_ids)->where('published', 0)->count(),
+            'deleted' => Assignment::whereIn('lesson_id', $lesson_ids)->onlyTrashed()->count()
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+            'count' => $count
+        ]);
+    }
+
+    public function getArrayData($assignments) {
+        $data = [];
+        $i = 0;
+
+        foreach($assignments as $item) {
+            $lesson = Lesson::find($item->lesson->id);
+            $course = $lesson->course;
+            $i++;
+            $temp = [];
+            $temp['index'] = '';
+            $temp['no'] = $i;
+            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded bg-primary text-white">'
+                                        . substr($item->title, 0, 2) .
+                                    '</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex flex-column">
+                                        <small class="js-lists-values-project">
+                                            <strong>' . $item->title . '</strong></small>
+                                    </div>
+                                </div>
+                            </div>';
+            $temp['course'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                <div class="avatar avatar-sm mr-8pt">
+                                    <span class="avatar-title rounded-circle">' . substr($course->title, 0, 2) . '</span>
+                                </div>
+                                <div class="media-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex d-flex flex-column">
+                                            <p class="mb-0"><strong class="js-lists-values-lead">'
+                                            . $course->title . '</strong></p>
+                                            <small class="js-lists-values-email text-50">Teacher</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+
+            $temp['lesson'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                            <div class="avatar avatar-sm mr-8pt">
+                                <span class="avatar-title rounded-circle">' . substr($lesson->title, 0, 2) . '</span>
+                            </div>
+                            <div class="media-body">
+                                <div class="d-flex align-items-center">
+                                    <div class="flex d-flex flex-column">
+                                        <p class="mb-0"><strong class="js-lists-values-lead">'
+                                        . $lesson->title . '</strong></p>
+                                        <small class="js-lists-values-email text-50">Teacher</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+
+            if($item->published == 1) {
+                $temp['status'] = '<div class="d-flex flex-column">
+                                        <small class="js-lists-values-status text-50 mb-4pt">Published</small>
+                                        <span class="indicator-line rounded bg-primary"></span>
+                                    </div>';
+            }
+
+            if($item->published == 0) {
+                $temp['status'] = '<div class="d-flex flex-column">
+                                        <small class="js-lists-values-status text-50 mb-4pt">Drafted</small>
+                                        <span class="indicator-line rounded bg-warning"></span>
+                                    </div>';
+            }
+
+            $edit_route = route('admin.assignments.edit', $item->id);
+            $delete_route = route('admin.assignments.destroy', $item->id);
+            // $publish_route = route('admin.assignment.publish', $item->id);
+            $show_route = route('student.assignment.show', [$item->lesson->slug, $item->id]);
+
+            $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
+            $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
+            $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
+
+            // if($item->published == 0) {
+            //     $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
+            //         data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
+            // } else {
+            //     $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
+            //         data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
+            // }
+
+            if($item->trashed()) {
+                $restore_route = route('admin.assignment.restore', $item->id);
+                $btn_restore = '<a href="'. $restore_route. '" class="btn btn-primary btn-sm" data-action="restore" data-toggle="tooltip"
+                    data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
+
+                $forever_delete_route = route('admin.assignment.foreverDelete', $item->id);
+
+                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="forever-delete" data-toggle="tooltip"
+                data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
+
+                $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
+            } else {
+                // if(auth()->user()->hasRole('Administrator')) {
+                //     $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
+                // } else {
+                //     $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+                // }
+
+                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
+            }
+
+            array_push($data, $temp);
+        }
+
+        return $data;
     }
 
     /**
@@ -166,44 +322,6 @@ class AssignmentsController extends Controller
     }
 
     /**
-     * List data for Datatable
-     */
-    public function getList($type) {
-
-        switch ($type) {
-            case 'all':
-                $assignments = Assignment::all();
-            break;
-            case 'published':
-                $assignments = Assignment::where('published', 1)->get();
-            break;
-            case 'pending':
-                $assignments = Assignment::where('published', 0)->get();
-            break;
-            case 'deleted':
-                $assignments = Assignment::onlyTrashed()->get();
-            break;
-            default:
-                $assignments = Assignment::all();
-        }
-
-        $data = $this->getArrayData($assignments);
-
-        $count = [
-            'all' => Assignment::all()->count(),
-            'published' => Assignment::where('published', 1)->count(),
-            'pending' => Assignment::where('published', 0)->count(),
-            'deleted' => Assignment::onlyTrashed()->count()
-        ];
-
-        return response()->json([
-            'success' => true,
-            'data' => $data,
-            'count' => $count
-        ]);
-    }
-
-    /**
      * Publish or Unpublish
      */
     public function publish($id)
@@ -286,104 +404,6 @@ class AssignmentsController extends Controller
             'success' => true,
             'options' => $html
         ]);
-    }
-
-    public function getArrayData($assignments) {
-        $data = [];
-        $i = 0;
-
-        foreach($assignments as $item) {
-            $lesson = Lesson::find($item->lesson->id);
-            $course = $lesson->course;
-            $i++;
-            $temp = [];
-            $temp['index'] = '';
-            $temp['no'] = $i;
-            $temp['title'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                <div class="avatar avatar-sm mr-8pt">
-                                    <span class="avatar-title rounded bg-primary text-white">'
-                                        . substr($item->title, 0, 2) .
-                                    '</span>
-                                </div>
-                                <div class="media-body">
-                                    <div class="d-flex flex-column">
-                                        <small class="js-lists-values-project">
-                                            <strong>' . $item->title . '</strong></small>
-                                    </div>
-                                </div>
-                            </div>';
-            $temp['course'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                                <div class="avatar avatar-sm mr-8pt">
-                                    <span class="avatar-title rounded-circle">' . substr($course->title, 0, 2) . '</span>
-                                </div>
-                                <div class="media-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex d-flex flex-column">
-                                            <p class="mb-0"><strong class="js-lists-values-lead">'
-                                            . $course->title . '</strong></p>
-                                            <small class="js-lists-values-email text-50">Teacher</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>';
-
-            $temp['lesson'] = '<div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
-                            <div class="avatar avatar-sm mr-8pt">
-                                <span class="avatar-title rounded-circle">' . substr($lesson->title, 0, 2) . '</span>
-                            </div>
-                            <div class="media-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex d-flex flex-column">
-                                        <p class="mb-0"><strong class="js-lists-values-lead">'
-                                        . $lesson->title . '</strong></p>
-                                        <small class="js-lists-values-email text-50">Teacher</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-
-            $edit_route = route('admin.assignments.edit', $item->id);
-            $delete_route = route('admin.assignments.destroy', $item->id);
-            // $publish_route = route('admin.assignment.publish', $item->id);
-            $show_route = route('student.assignment.show', [$item->lesson->slug, $item->id]);
-
-            $btn_edit = view('backend.buttons.edit', ['edit_route' => $edit_route]);
-            $btn_show = view('backend.buttons.show', ['show_route' => $show_route]);
-            $btn_delete = view('backend.buttons.delete', ['delete_route' => $delete_route]);
-
-            // if($item->published == 0) {
-            //     $btn_publish = '<a href="'. $publish_route. '" class="btn btn-success btn-sm" data-action="publish" data-toggle="tooltip"
-            //         data-title="Publish"><i class="material-icons">arrow_upward</i></a>';
-            // } else {
-            //     $btn_publish = '<a href="'. $publish_route. '" class="btn btn-info btn-sm" data-action="publish" data-toggle="tooltip"
-            //         data-title="UnPublish"><i class="material-icons">arrow_downward</i></a>';
-            // }
-
-            if($item->trashed()) {
-                $restore_route = route('admin.assignment.restore', $item->id);
-                $btn_restore = '<a href="'. $restore_route. '" class="btn btn-primary btn-sm" data-action="restore" data-toggle="tooltip"
-                    data-original-title="Restore"><i class="material-icons">arrow_back</i></a>';
-
-                $forever_delete_route = route('admin.assignment.foreverDelete', $item->id);
-
-                $perment_delete = '<a href="'. $forever_delete_route. '" class="btn btn-accent btn-sm" data-action="forever-delete" data-toggle="tooltip"
-                data-original-title="Delete Forever"><i class="material-icons">delete_forever</i></a>';
-
-                $temp['action'] = $btn_restore . '&nbsp;' . $perment_delete;
-            } else {
-                // if(auth()->user()->hasRole('Administrator')) {
-                //     $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_publish . '&nbsp;' . $btn_delete;
-                // } else {
-                //     $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
-                // }
-
-                $temp['action'] = $btn_show . '&nbsp;' . $btn_edit . '&nbsp;' . $btn_delete;
-            }
-
-            array_push($data, $temp);
-        }
-
-        return $data;
     }
 
     // Student Dashboard
@@ -586,6 +606,18 @@ class AssignmentsController extends Controller
                 $temp['attachment'] = '<a href="'. asset('/storage/attachments/' . $result->attachment_url ) .'" target="_blank">'. $img .'</a>';
             } else {
                 $temp['attachment'] = 'N/A';
+            }
+
+            $temp['status'] = '<div class="d-flex flex-column">
+                                        <small class="js-lists-values-status text-50 mb-4pt">Pending</small>
+                                        <span class="indicator-line rounded bg-accent"></span>
+                                    </div>';
+
+            if($result->status == 1) {
+                $temp['status'] = '<div class="d-flex flex-column">
+                                        <small class="js-lists-values-status text-50 mb-4pt">Marked</small>
+                                        <span class="indicator-line rounded bg-success"></span>
+                                    </div>';
             }
 
             $btn_show = view('backend.buttons.show', ['show_route' => route('admin.assignments.show_result', $result->id)]);

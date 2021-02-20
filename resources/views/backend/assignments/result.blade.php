@@ -133,14 +133,8 @@
                             <input type="hidden" id="result_status" name="status" value="1">
 
                             <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input id="chk_status" type="checkbox"  @if($result->status == 1) checked="" @endif class="custom-control-input">
-                                    <label for="chk_status" class="custom-control-label">Make it Complete</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <button class="btn btn-primary">@lang('labels.backend.buttons.submit')</button>
+                                <button type="button" id="btn_resubmit" class="btn btn-primary">@lang('labels.backend.buttons.resubmit')</button>
+                                <button type="button" id="btn_complete" class="btn btn-accent">@lang('labels.backend.buttons.complete')</button>
                             </div>
                         </form>
                     </div>
@@ -176,12 +170,6 @@
                 return false;
             }
 
-            if ($('#chk_status').is(":checked")) {
-                $('#result_status').val(1);
-            } else {
-                $('#result_status').val(2);
-            }
-
             $(this).ajaxSubmit({
                 success: function(res) {
                     if(res.success) {
@@ -189,6 +177,20 @@
                     }
                 }
             });
+        });
+
+        $('#btn_resubmit').on('click', function(e) {
+            e.preventDefault();
+            $('#result_status').val(2);
+
+            $('#frm_a_result').submit();
+        });
+
+        $('#btn_complete').on('click', function(e) {
+            e.preventDefault();
+            $('#result_status').val(1);
+            
+            $('#frm_a_result').submit();
         });
 
         $('input[name="mark"]').on('keyup', function(e) {

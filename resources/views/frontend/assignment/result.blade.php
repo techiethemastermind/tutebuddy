@@ -198,7 +198,9 @@
                 </div>
 
                 <div class="form-group">
+                    @if($assignment->result->status != 1)
                     <button type="submit" class="btn btn-primary">@lang('labels.frontend.buttons.submit')</button>
+                    @endif
                 </div>
                 <input type="hidden" name="assignment_id" value="{{ $assignment->id }}">
             </form>

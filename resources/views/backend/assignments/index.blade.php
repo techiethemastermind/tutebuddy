@@ -106,6 +106,7 @@
                             <th> @lang('labels.backend.table.title') </th>
                             <th> @lang('labels.backend.table.course') </th>
                             <th> @lang('labels.backend.table.lesson') </th>
+                            <th> @lang('labels.backend.table.status') </th>
                             <th> @lang('labels.backend.table.actions') </th>
                         </tr>
                     </thead>
@@ -154,6 +155,7 @@ $(function() {
                 { data: 'title' },
                 { data: 'course'},
                 { data: 'lesson'},
+                { data: 'status'},
                 { data: 'action' }
             ],
             oLanguage: {

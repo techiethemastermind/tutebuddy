@@ -375,6 +375,8 @@ return array (
       'edit' => 'Edit',
       'cancel' => 'Cancel',
       'update' => 'Update',
+      'resubmit' => 'Resubmit',
+      'complete' => 'Complete',
     ),
     'courses' => 
     array (

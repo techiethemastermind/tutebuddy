@@ -110,11 +110,12 @@
                     <thead>
                         <tr>
                             <th style="width: 18px;" class="pr-0"></th>
-                            <th> Sr No. </th>
-                            <th> Title </th>
-                            <th> Course </th>
-                            <th> lesson </th>
-                            <th> Actions </th>
+                            <th> @lang('labels.backend.table.no') </th>
+                            <th> @lang('labels.backend.table.title') </th>
+                            <th> @lang('labels.backend.table.course') </th>
+                            <th> @lang('labels.backend.table.lesson') </th>
+                            <th> @lang('labels.backend.table.status') </th>
+                            <th> @lang('labels.backend.table.actions') </th>
                         </tr>
                     </thead>
                     <tbody class="list"></tbody>
@@ -162,6 +163,7 @@ $(function() {
                 { data: 'title' },
                 { data: 'course'},
                 { data: 'lesson'},
+                { data: 'status' },
                 { data: 'action' }
             ],
             oLanguage: {

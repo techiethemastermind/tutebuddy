@@ -592,7 +592,7 @@ $(function() {
                         title: "Successfully Stored",
                         text: "Test is stored successfully",
                         type: 'success',
-                        showCancelButton: true,
+                        showCancelButton: false,
                         showConfirmButton: true,
                         confirmButtonText: 'Confirm',
                         cancelButtonText: 'Cancel',
@@ -601,7 +601,7 @@ $(function() {
                     }, function(val) {
                         if (val) {
                             // var url = '/dashboard/tests/' + res.test_id + '/edit';
-                            var url = "{{ route('admin.test.index') }}";
+                            var url = "{{ route('admin.tests.index') }}";
                             window.location.href = url;
                         }
                     });
