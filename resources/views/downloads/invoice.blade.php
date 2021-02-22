@@ -151,7 +151,7 @@
       <div id="logo">
         <img src="{{ public_path('images/footer-bar-logo.png') }}">
       </div>
-      <h1>INVOICE {{ $order->uuid }}</h1>
+      <h1>INVOICE {{ $item->order->uuid }} {{ $item->id }}</h1>
       <div id="company" class="clearfix">
         <div>{{ config('app.company') }}</div>
         <div>{{ config('app.name') }}</div>
@@ -159,13 +159,13 @@
         <div><a href="">{{ config('site_contact_email') }}</a></div>
       </div>
       <div id="project">
-        <div><span>SUBJECT</span> Tutebuddy LMS</div>
-        <div><span>FROM: </span> Tutebuddy</div>
-        <div><span>TO</span> {{ $order->user->name }}</div>
-        <div><span>ADDRESS</span> {{ $order->user->address }}, {{ $order->user->state }} {{ $order->user->zip }}, {{ $order->user->country }}</div>
-        <div><span>EMAIL</span> <a href="mailto:{{ $order->user->email }}">{{ $order->user->email }}</a></div>
-        <div><span>DATE</span> {{ \Carbon\Carbon::now()->parse($order->created_at)->format('M d, Y') }}</div>
-        <div><span>ORDERID</span>{{ $order->uuid }}</div>
+        <div><span>COURSE</span> {{ $item->course->title }} </div>
+        <div style="padding-bottom: 15px;"><span>FROM: </span> {{ $item->course->teachers->first()->name }} (Instructor) </div>
+        <div><span>TO</span> {{ $item->order->user->name }}</div>
+        <div><span>ADDRESS</span> {{ $item->order->user->address }}, {{ $item->order->user->state }} {{ $item->order->user->zip }}, {{ $item->order->user->country }}</div>
+        <div><span>EMAIL</span> <a href="mailto:{{ $item->order->user->email }}">{{ $item->order->user->email }}</a></div>
+        <div><span>DATE</span> {{ \Carbon\Carbon::now()->parse($item->order->created_at)->format('M d, Y') }}</div>
+        <div><span>ORDERID</span>{{ $item->order->uuid }}</div>
       </div>
     </header>
     <main>
@@ -186,7 +186,6 @@
                 $currency_symbol = '&#8377;';
               }
             ?>
-            @foreach($order->items as $item)
             <tr>
                 <td class="service">{{ $item->course->title }}</td>
                 <td class="desc">{{ $item->course->short_description }}</td>
@@ -194,10 +193,9 @@
                 <td>{!! $currency_symbol . $item->tax !!}</td>
                 <td class="total">{!! $currency_symbol . $item->amount !!}</td>
             </tr>
-            @endforeach
             <tr>
                 <td colspan="4" class="service">Total: </td>
-                <td class="total">{!! $currency_symbol . $order->amount !!}</td>
+                <td class="total">{!! $currency_symbol . $item->order->amount !!}</td>
             </tr>
         </tbody>
       </table>

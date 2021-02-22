@@ -194,18 +194,31 @@ class PaymentController extends Controller
     public function downloadInvoice($id)
     {
         $order = Order::find($id);
-        $pdf = \PDF::loadView('downloads.invoice', compact('order'));
 
-        $invoice_name = 'Invoice_' . $order->order_id . '.pdf';
+        foreach($order->items as $item) {
+            $pdf = \PDF::loadView('downloads.invoice', compact('item'));
+            $invoice_name = 'Invoice_' . $order->order_id . $item->id . '.pdf';
+            if (!file_exists(public_path('storage/invoices'))) {
+                mkdir(public_path('storage/invoices'), 0777);
+            }
+            $pdf->save(public_path('storage/invoices/' . $invoice_name))->setPaper('', 'portrait');
 
-        if (!file_exists(public_path('storage/invoices'))) {
-            mkdir(public_path('storage/invoices'), 0777);
+            $file = public_path('storage/invoices/' . $invoice_name);
+            return Response::download($file);
         }
 
-        $pdf->save(public_path('storage/invoices/' . $invoice_name))->setPaper('', 'portrait');
+        // $pdf = \PDF::loadView('downloads.invoice', compact('order'));
 
-        $file = public_path('storage/invoices/' . $invoice_name);
-        return Response::download($file);
+        // $invoice_name = 'Invoice_' . $order->order_id . '.pdf';
+
+        // if (!file_exists(public_path('storage/invoices'))) {
+        //     mkdir(public_path('storage/invoices'), 0777);
+        // }
+
+        // $pdf->save(public_path('storage/invoices/' . $invoice_name))->setPaper('', 'portrait');
+
+        // $file = public_path('storage/invoices/' . $invoice_name);
+        // return Response::download($file);
     }
 
     /**

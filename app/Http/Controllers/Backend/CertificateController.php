@@ -33,12 +33,14 @@ class CertificateController extends Controller
         }
         $hours = floor($d / 60);
         $cert_number = $certificate->cert_number;
+        $instructor = $certificate->course->teachers->first();
         $data = [
             'name' => auth()->user()->name,
             'course_name' => $certificate->course->title,
             'date' => Carbon::now()->format('d M, Y'),
             'hours' => $hours,
-            'cert_number' => $cert_number
+            'cert_number' => $cert_number,
+            'instructor' => $instructor
         ];
         return view('backend.certificates.show', compact('data'));
     }
@@ -113,13 +115,15 @@ class CertificateController extends Controller
             $hours = floor($d / 60);
 
             $cert_number = $this->getCertNumber();
-
+            $instructor = $certificate->course->teachers->first();
+            
             $data = [
                 'name' => auth()->user()->name,
                 'course_name' => $course->title,
                 'date' => Carbon::now()->format('d M, Y'),
                 'hours' => $hours,
-                'cert_number' => $cert_number
+                'cert_number' => $cert_number,
+                'instructor' => $instructor
             ];
             $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
             $certificate->name = auth()->user()->id;

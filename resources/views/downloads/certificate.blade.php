@@ -52,9 +52,26 @@
         <div class="col-12 align-self-center block" style="top: 46%;">
             <p style="font-family: Baskerville Old Face; font-size: 24px; color: #b68746; margin-right: 62px;">{{ $data['hours'] }}</p>
         </div>
-        <div class="col-12 align-self-center block" style="top: 53%;">
+
+        <div class="col-12 align-self-center block" style="top: 52%;">
             <p style="font-family: Baskerville Old Face; font-size: 24px; color: #b68746;">{{ $data['course_name'] }}</p>
         </div>
+
+        <div class="col-12 align-self-center block" style="top: 59%;">
+            <?php
+                $qualifications = '';
+                foreach(json_decode($data['instructor']->qualifications) as $item) {
+                    $qualifications .= $item . ', ';
+                }
+            ?>
+            <p style="font-family: Baskerville Old Face; font-size: 20px; color: #4c4c4c; padding: 0 15%;">
+                By Instructor: {{ $data['instructor']->name }}, 
+                {{ $qualifications }}
+                {{ $data['instructor']->city }},
+                {{ $data['instructor']->country }}
+            </p>
+        </div>
+
         <div class="col-12 align-self-center block" style="top: 71%; width: 50%;">
             <p style="font-family: Baskerville Old Face; font-size: 24px; color: #714b1d;">{{ $data['date'] }}</p>
         </div>
