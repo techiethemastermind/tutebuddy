@@ -132,10 +132,12 @@
                             <input type="hidden" name="result_id" value="{{ $result->id }}">
                             <input type="hidden" id="result_status" name="status" value="1">
 
+                            @if($result->status != 1)
                             <div class="form-group">
                                 <button type="button" id="btn_resubmit" class="btn btn-primary">@lang('labels.backend.buttons.resubmit')</button>
                                 <button type="button" id="btn_complete" class="btn btn-accent">@lang('labels.backend.buttons.complete')</button>
                             </div>
+                            @endif
                         </form>
                     </div>
                 </div>
