@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Header Layout Content -->
-<div class="mdk-header-layout__content page-content ">
+<div class="mdk-header-layout__content page-content">
 
     <div class="page-section bg-primary mb-32pt">
         <div class="container page__container">

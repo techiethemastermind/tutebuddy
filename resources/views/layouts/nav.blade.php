@@ -13,11 +13,11 @@
         </div>
     </div>
     <div class="mdk-header__content justify-content-center">
-        @else
-        <div class="mdk-header__content">
-            @endif
+    @else
+    <div class="mdk-header__content">
+    @endif
 
-            <?php
+    <?php
         $nav_class = (\Request::route()->getName() == 'homepage') ? 'navbar-dark navbar-dark-dodger-blue bg-transparent will-fade-background' : 'navbar-light navbar-light-dodger-blue navbar-shadow';
     ?>
 
