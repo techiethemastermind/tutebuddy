@@ -404,7 +404,7 @@ class LessonController extends Controller
 
             if($schedule->lesson->lesson_type == 1) {
                 $route = route('lessons.live', [$schedule->lesson->slug, $schedule->lesson->id]);
-                $result = live_schedule($schedule->lesson);
+                $result = live_schedule($schedule);
 
                 if($result['status']) {
                     $temp['action'] = '<a href="'. $route .'" target="_blank" class="btn btn-primary btn-sm">Join</a>';

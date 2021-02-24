@@ -406,17 +406,15 @@ if (!function_exists('str_random')) {
 
 if (!function_exists('live_schedule')) {
 
-    function live_schedule($lesson) {
+    function live_schedule($schedule) {
 
         $data = [
             'status' => false
         ];
 
-        if($lesson->lesson_type == 0) {
+        if($schedule->lesson->lesson_type == 0) {
             return $data;
         }
-
-        $schedule = $lesson->schedule;
 
         if(Carbon\Carbon::parse($schedule->date)->dayOfWeek == Carbon\Carbon::now()->dayOfWeek) {
             $now = timezone()->convertFromTimezone(Carbon\Carbon::now(), $schedule->timezone, 'H:i:s');

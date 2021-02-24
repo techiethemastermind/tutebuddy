@@ -320,7 +320,13 @@ class UserController extends Controller
                 'username' => $user_name,
                 'nick_name' => $data['nick_name'],
                 'password' => Hash::make($data['password']),
-                'verify_token' => str_random(40)
+                'verify_token' => str_random(40),
+                'country' => auth()->user()->country,
+                'state' => auth()->user()->state,
+                'city' => auth()->user()->city,
+                'address' => auth()->user()->address,
+                'zip' => auth()->user()->zip,
+                'timezone' => auth()->user()->timezone
             ]);
 
             DB::table('user_child')->insert([
