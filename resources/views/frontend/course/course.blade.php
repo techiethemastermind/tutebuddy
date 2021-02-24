@@ -700,6 +700,14 @@
                                     </form>
                                 @endif
 
+                                <div class="page-separator mt-4">
+                                    <div class="page-separator__text bg-alt">Pre Enroll</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="button" id="btn_enroll_start" class="btn btn-accent btn-block mb-8pt">Chat with Instructor</button>
+                                </div>
+
                             </div>
                             @endif
 
@@ -970,9 +978,9 @@
 @if(auth()->check())
 
 <!-- Enroll Chat -->
-<button id="btn_enroll_start" class="open-button">
+<!-- <button id="btn_enroll_start" class="open-button">
     <span class="material-icons icon-32pt">chat</span>
-</button>
+</button> -->
 
 <div class="chat-popup" id="dv_enroll_chat">
     <form method="POST" action="{{ route('admin.messages.sendEnrollChat') }}" class="form-container">@csrf
