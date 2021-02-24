@@ -135,7 +135,7 @@
                                             $route = route('lessons.show', [$schedule->course->slug, $schedule->lesson->slug, 1]);
                                         }
 
-                                        $result = live_schedule($schedule->lesson);
+                                        $result = live_schedule($schedule);
                                         ?>
                                         @if($result['status'])
                                         <a href="{{ $route }}" target="_blank" class="btn btn-primary btn-sm">Join</a>

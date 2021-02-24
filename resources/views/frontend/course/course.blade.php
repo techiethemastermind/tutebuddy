@@ -358,7 +358,7 @@
                         @if($lesson->isCompleted())
                         <button type="button" class="btn btn-outline-primary btn-block" disabled="">Finished</button>
                         @else
-                            <?php $result = live_schedule($schedule->lesson); ?>
+                            <?php $result = live_schedule($schedule); ?>
                             @if($result['status'])
                             <a href="{{ route('lessons.live', [$lesson->slug, $lesson->id]) }}" target="_blank"
                                 data-lesson-id="" class="btn btn-outline-accent-dodger-blue btn-block btn-live-session">
