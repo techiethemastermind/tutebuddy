@@ -36,7 +36,7 @@
     <input type="hidden" class="form-control" id="live_url" value="{{ $join_room }}">
     <img src="{{ asset('images/logo.png') }}" alt="Online Learning Platform" class="logo" />
 
-    @if(auth()->user()->hasRole('Student') && !$is_room_run)
+    @if(auth()->user()->hasRole('Student') && !$is_room_run || auth()->user()->hasRole('Student') && !$is_room_run)
     <div class="card card-body">
         <label class="card-title">Please wait until create meeting room by Instructor...</label>
     </div>
@@ -241,6 +241,10 @@
         }
 
         if("{{ auth()->user()->hasRole('Student') }}" == '1' && '{{ $is_room_run }}' == '1') {
+            redirect();
+        }
+
+        if("{{ auth()->user()->hasRole('Child') }}" == '1' && '{{ $is_room_run }}' == '1') {
             redirect();
         }
 
