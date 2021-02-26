@@ -20,6 +20,7 @@ use App\Models\Assignment;
 use App\Models\AssignmentResult;
 
 use Carbon\Carbon;
+use App\Helpers\General\Timezone;
 
 class LessonsController extends Controller
 {
@@ -157,22 +158,32 @@ class LessonsController extends Controller
 
             $endpoint = config('liveapp.url') . 'bigbluebutton/api/create?' . $room_str_checksum;
 
-            // Create room
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $endpoint);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $now = timezone()->convertFromTimezone(Carbon::now(), $schedule->timezone, 'H:i:s');
+            $end_time = timezone()->convertFromTimezone(Carbon::now()->toDateString() . ' '. $schedule->end_time, $schedule->timezone, 'H:i:s');
+            $updated_time = timezone()->convertFromTimezone($lesson->updated_at, $schedule->timezone, 'H:i:s');
+            $diff_during_time = strtotime($end_time) - strtotime($now);
+            $diff_update_time = strtotime($end_time) - strtotime($updated_time);
 
-            $output = curl_exec($ch);
-            curl_close($ch);
+            if(!empty($lesson->meeting_id) && $diff_during_time < 0 || $diff_update_time > $duration) {
+                // Create room
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $endpoint);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-            $json = json_encode(simplexml_load_string($output));
-            $array = json_decode($json, true);
+                $output = curl_exec($ch);
+                curl_close($ch);
 
-            if($array['returncode'] == 'SUCCESS') {
-                $meetingId = $array['meetingID'];
-                $lesson->meeting_id = $meetingId;
-                $lesson->save();
+                $json = json_encode(simplexml_load_string($output));
+                $array = json_decode($json, true);
 
+                if($array['returncode'] == 'SUCCESS') {
+                    $meetingId = $array['meetingID'];
+                    $lesson->meeting_id = $meetingId;
+                    $lesson->save();
+
+                    $is_room_run = true;
+                }
+            } else {
                 $is_room_run = true;
             }
 

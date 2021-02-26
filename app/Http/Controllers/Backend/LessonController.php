@@ -407,7 +407,7 @@ class LessonController extends Controller
                 $result = live_schedule($schedule);
 
                 if($result['status']) {
-                    $temp['action'] = '<a href="'. $route .'" target="_blank" class="btn btn-primary btn-sm">Join</a>';
+                    $temp['action'] = '<a href="'. $route .'" target="_blank" class="btn btn-primary btn-sm link-join">Join</a>';
                 } else {
                     $temp['action'] = '<button type="button" class="btn btn-md btn-outline-primary" disabled>Scheduled</button>';
                 }

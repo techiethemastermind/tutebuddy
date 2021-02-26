@@ -134,6 +134,12 @@
                 }
             }
         );
+
+        $(document).on('click', 'a.link-join', function(e) {
+            var url = $(this).attr('href');
+            $(this).css('pointer-events', 'none');
+            return true;
+        });
     });
 
 </script>
