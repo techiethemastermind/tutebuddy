@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Schedule;
 use App\Models\Lesson;
+use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
 
@@ -16,7 +17,8 @@ use App\Services\ColorService;
 class ScheduleController extends Controller
 {
     public function index() {
-        $courses = Course::all();
+        $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+        $courses = Course::whereIn('id', $course_ids)->where('end_date', '>=', Carbon::now()->format('Y-m-d'))->get();
         return view('backend.schedule.index', compact('courses'));
     }
 
