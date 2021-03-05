@@ -20,7 +20,7 @@ function get_badge($percent) {
         return 'silver-badge.png';
     }
 
-    if($percent >= 90 && $percent < 100 ) {
+    if($percent >= 90 && $percent <= 100 ) {
         return 'gold-badge.png';
     }
 
@@ -29,7 +29,7 @@ function get_badge($percent) {
 
 function get_result($percent) {
     if($percent >= 35) {
-        return 'PASS';
+        return '<span class="text-success text-bold">PASS</span>';
     } else {
         return 'FAIL';
     }
@@ -313,7 +313,7 @@ function get_result($percent) {
                                             <div class="d-flex flex-column">
                                                 <small class="js-lists-values-project">
                                                     @if($quiz->result)
-                                                    <strong>{{ (int)$quiz->result->quiz_result }} / {{ $quiz->score }}</strong>
+                                                    <strong>{{ (int)$quiz->result->quiz_score }} / {{ $quiz->score }}</strong>
                                                     @else
                                                     <strong>(Not Taken) / {{ $quiz->score }}</strong>
                                                     @endif
@@ -329,7 +329,7 @@ function get_result($percent) {
                                     <div class="d-flex flex-column">
                                         <small class="js-lists-values-status text-50 mb-4pt">
                                         @if($quiz->result)
-                                        {{ round($quiz->result->quiz_result / $quiz->score * 100) }}% 
+                                        {{ $quiz->result->quiz_result }}% 
                                         @else
                                         N/A
                                         @endif
@@ -340,7 +340,7 @@ function get_result($percent) {
                                 <td>N/A</td>
                                 <td>
                                     @if($quiz->result)
-                                        <?php $badge = get_badge(round($quiz->result->quiz_result / $quiz->score * 100)) ?>
+                                        <?php $badge = get_badge($quiz->result->quiz_result) ?>
                                         @if($badge)
                                         <div class="avatar avatar-sm mr-8pt">
                                             <img src="{{ asset('/images/' . $badge) }}" alt="Avatar" class="avatar-img rounded-circle">
@@ -350,7 +350,7 @@ function get_result($percent) {
                                 </td>
                                 <td>
                                     @if($quiz->result)
-                                    <strong><?php echo get_result(round($quiz->result->quiz_result / $quiz->score * 100)) ?></strong>
+                                    <strong><?php echo get_result($quiz->result->quiz_result) ?></strong>
                                     @else
                                     N/A
                                     @endif

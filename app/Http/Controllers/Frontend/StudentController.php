@@ -204,6 +204,7 @@ class StudentController extends Controller
 
         $score = floor(( $quiz_score / $total_score ) * 100);
         
+        $quiz->result->quiz_score = $quiz_score;
         $quiz->result->quiz_result = $score;
         $quiz->result->save();
     }
