@@ -7,6 +7,13 @@
 <!-- jQuery Datatable CSS -->
 <link type="text/css" href="{{ asset('assets/plugin/datatables.min.css') }}" rel="stylesheet">
 
+<style>
+    /* tr[role="row"]:hover {
+        box-shadow: 0px 0px 3px 0px black;
+        cursor: pointer;
+    } */
+</style>
+
 @endpush
 
 
@@ -51,6 +58,7 @@
                             <th>@lang('labels.backend.table.start_date')</th>
                             <th>@lang('labels.backend.table.end_date')</th>
                             <th>@lang('labels.backend.table.status')</th>
+                            <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
                     <tbody class="list"></tbody>
@@ -80,7 +88,8 @@
                     { data: 'course'},
                     { data: 'start_date' },
                     { data: 'end_date' },
-                    { data: 'status' }
+                    { data: 'status' },
+                    { data: 'actions'}
                 ],
                 oLanguage: {
                     sEmptyTable: "You have no enrolled students"

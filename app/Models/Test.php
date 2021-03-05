@@ -53,9 +53,13 @@ class Test extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function result()
+    public function result($user_id = null)
     {
-        return $this->hasOne(TestResult::class)->where('user_id', auth()->user()->id);
+        if(!$user_id) {
+            return $this->hasOne(TestResult::class)->where('user_id', auth()->user()->id);
+        } else {
+            return $this->hasOne(TestResult::class)->where('user_id', $user_id)->first();
+        }
     }
 
     public function questions()

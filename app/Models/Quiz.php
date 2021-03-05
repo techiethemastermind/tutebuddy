@@ -61,9 +61,13 @@ class Quiz extends Model
         return $this->hasOne(Step::class, 'quiz', 'id');
     }
 
-    public function result()
+    public function result($user_id = null)
     {
-        return $this->hasOne(QuizResults::class)->where('user_id', auth()->user()->id);
+        if(!$user_id) {
+            return $this->hasOne(QuizResults::class)->where('user_id', auth()->user()->id);
+        } else {
+            return $this->hasOne(QuizResults::class)->where('user_id', $user_id)->first();
+        }
     }
 
     public function chapterStudents()

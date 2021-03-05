@@ -131,13 +131,20 @@ class Course extends Model
         return $hours . 'h ' . $minutes . 'm';
     }
 
-    public function progress()
+    public function progress($user = null)
     {
         if(auth()->check()) {
-            $completed_lessons = \Auth::user()->chapters()
-                ->where('model_type', Lesson::class)
-                ->where('course_id', $this->id)
-                ->pluck('model_id')->toArray();
+            if(!$user) {
+                $completed_lessons = \Auth::user()->chapters()
+                    ->where('model_type', Lesson::class)
+                    ->where('course_id', $this->id)
+                    ->pluck('model_id')->toArray();
+            } else {
+                $completed_lessons = $user->chapters()
+                    ->where('model_type', Lesson::class)
+                    ->where('course_id', $this->id)
+                    ->pluck('model_id')->toArray();
+            }
             
             if (count($completed_lessons) > 0) {
                 return intval(count($completed_lessons) / $this->lessons->count() * 100);

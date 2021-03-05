@@ -650,10 +650,6 @@ class UserController extends Controller
                                             <p class="mb-0"><strong class="js-lists-values-name">'. $student['user']->name .'</strong></p>
                                             <small class="js-lists-values-email text-50">'. $student['user']->email .'</small>
                                         </div>
-                                        <div class="d-flex align-items-center ml-24pt">
-                                            <i class="material-icons text-20 icon-16pt">comment</i>
-                                            <small class="ml-4pt"><strong class="text-50">1</strong></small>
-                                        </div>
                                     </div>
                                 </div>
                             </div>';
@@ -661,15 +657,18 @@ class UserController extends Controller
             $temp['start_date'] = '<strong>'. $student['course']->start_date .'</strong>';
             $temp['end_date'] = '<strong>'. $student['course']->end_date .'</strong>';
 
-            if($student['course']->progress() > 99) {
+            if($student['course']->progress($student['user']) > 99) {
                 $status = '<span class="indicator-line rounded bg-success"></span>';
             } else {
                 $status = '<span class="indicator-line rounded bg-primary"></span>';
             }
             $temp['status'] = '<div class="d-flex flex-column">
-                                    <small class="js-lists-values-status text-50 mb-4pt">'. $student['course']->progress() .'%</small>
+                                    <small class="js-lists-values-status text-50 mb-4pt">'. $student['course']->progress($student['user']) .'%</small>
                                     '. $status .'
                                 </div>';
+
+            $temp['actions'] = '<a href="'. route('admin.results.studentDetail', [$student['user']->id, $student['course']->id]) .'" class="btn-accent btn-sm">Detail</a>';
+            $temp['actions'] .= '<a href="#" class="btn-primary btn-sm ml-2">Certificate</a>';
 
             array_push($data, $temp);
         }

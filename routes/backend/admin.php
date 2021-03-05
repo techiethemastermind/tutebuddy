@@ -217,6 +217,8 @@ Route::get('results', 'ResultsController@student')->name('results.student');
 Route::get('ajax/results', 'ResultsController@getStudentTableData')->name('results.getTableDataByAjax');
 Route::get('results/detail/{id}', 'ResultsController@getResultDetail')->name('results.detail');
 
+Route::get('results/performance/{user_id}/{course_id}', 'ResultsController@getStudentResultDetail')->name('results.studentDetail');
+
 //=== My Badges ===//
 Route::get('badges', 'ResultsController@badges')->name('results.student.badges');
 

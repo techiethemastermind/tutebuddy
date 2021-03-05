@@ -12,6 +12,7 @@ use App\Models\Lesson;
 use App\Models\Assignment;
 use App\Models\Test;
 use App\Models\Quiz;
+use App\User;
 
 class ResultsController extends Controller
 {
@@ -129,6 +130,25 @@ class ResultsController extends Controller
         $quizs = Quiz::whereIn('lesson_id', $lesson_ids)->get();
 
         return view('backend.results.student_detail', compact('course', 'assignments', 'tests', 'quizs'));
+    }
+
+    public function getStudentResultDetail($user_id, $course_id)
+    {
+        $user = User::find($user_id);
+        $course = Course::find($course_id);
+        
+        $lesson_ids = Lesson::where('course_id', $course_id)->pluck('id');
+
+        // Assignments
+        $assignments = Assignment::whereIn('lesson_id', $lesson_ids)->get();
+
+        // Tests
+        $tests = Test::whereIn('lesson_id', $lesson_ids)->get();
+
+        // Quizzes
+        $quizs = Quiz::whereIn('lesson_id', $lesson_ids)->get();
+
+        return view('backend.results.student_performance', compact('user', 'course', 'assignments', 'tests', 'quizs'));
     }
 
     /**
