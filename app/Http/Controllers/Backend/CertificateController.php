@@ -94,15 +94,71 @@ class CertificateController extends Controller
     }
 
     /**
+     * Generate certificate for completed course by student
+     */
+    // public function generateCertificate(Request $request)
+    // {
+    //     $course = Course::whereHas('students', function ($query) {
+    //         $query->where('id', \Auth::id());
+    //     })->where('id', '=', $request->course_id)->first();
+
+    //     if (($course != null) && ($course->progress() == 100)) {
+    //         $certificate = Certificate::firstOrCreate([
+    //             'user_id' => auth()->user()->id,
+    //             'course_id' => $request->course_id
+    //         ]);
+
+    //         $d = 0;
+    //         foreach($certificate->course->lessons as $lesson) {
+    //             $d += $lesson->lessonDuration();
+    //         }
+    //         $hours = floor($d / 60);
+
+    //         $cert_number = $this->getCertNumber();
+    //         $instructor = $certificate->course->teachers->first();
+            
+    //         $data = [
+    //             'name' => auth()->user()->name,
+    //             'course_name' => $course->title,
+    //             'date' => Carbon::now()->format('d M, Y'),
+    //             'hours' => $hours,
+    //             'cert_number' => $cert_number,
+    //             'instructor' => $instructor
+    //         ];
+    //         $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
+    //         $certificate->name = auth()->user()->id;
+    //         $certificate->url = $certificate_name;
+    //         $certificate->cert_number = $cert_number;
+    //         $certificate->save();
+
+    //         $pdf = \PDF::loadView('downloads.certificate', compact('data'))->setPaper('', 'landscape');
+
+    //         $pdf->save(public_path('storage/certificates/' . $certificate_name));
+
+    //         $send_data = [
+    //             'template_type' => 'Course_Certificate_Available',
+    //             'mail_data' => [
+    //                 'model_type' => Certificate::class,
+    //                 'model_id' => $certificate->id
+    //             ]
+    //         ];
+
+    //         Mail::to(auth()->user()->email)->send(new SendMail($send_data));
+
+    //         return back()->withFlashSuccess(trans('alerts.frontend.course.completed'));
+    //     }
+    //     return abort(404);
+    // }
+
+    /**
      * Generate certificate for completed course
      */
     public function generateCertificate(Request $request)
     {
-        $course = Course::whereHas('students', function ($query) {
-            $query->where('id', \Auth::id());
-        })->where('id', '=', $request->course_id)->first();
+        $course = Course::find($request->course_id);
+        $user = \App\User::find($request->user_id);
 
-        if (($course != null) && ($course->progress() == 100)) {
+        if (($course != null) && ($course->progress($user) == 100)) {
             $certificate = Certificate::firstOrCreate([
                 'user_id' => auth()->user()->id,
                 'course_id' => $request->course_id

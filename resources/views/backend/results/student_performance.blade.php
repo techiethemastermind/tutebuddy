@@ -68,14 +68,21 @@ function get_result($percent) {
             </div>
             <div class="row" role="tablist">
                 <div class="col-auto ml-2">
+                    @if(!$course->isUserCertified())
                     <form method="post" action="{{route('admin.certificates.generate')}}" style="display: inline-block;">
                         @csrf
                         <input type="hidden" value="{{$course->id}}" name="course_id">
+                        <input type="hidden" value="{{$user->id}}" name="user_id">
                         <button class="btn btn-primary">
                             <i class="material-icons icon--left">done</i>
                             @lang('labels.backend.course.generate_certificate')
                         </button>
                     </form>
+                    @else
+                    <button disabled="disabled" class="btn btn-primary">
+                        <i class="material-icons icon--left">done</i> @lang('labels.frontend.course.certified')
+                    </button>
+                    @endif
                 </div>
             </div>
         </div>
