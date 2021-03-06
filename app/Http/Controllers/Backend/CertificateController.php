@@ -201,9 +201,9 @@ class CertificateController extends Controller
 
             Mail::to(auth()->user()->email)->send(new SendMail($send_data));
 
-            return back()->withFlashSuccess(trans('alerts.frontend.course.completed'));
+            return back()->with('success', trans('alerts.frontend.course.completed'));
         }
-        return abort(404);
+        return back()->with('warning', 'Sorry, This course is not 100%, So can not create certification');
     }
 
     /**
