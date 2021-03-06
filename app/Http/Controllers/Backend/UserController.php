@@ -654,8 +654,19 @@ class UserController extends Controller
                                 </div>
                             </div>';
             $temp['course'] = '<strong>'. $student['course']->title .'</strong>';
-            $temp['start_date'] = '<strong>'. $student['course']->start_date .'</strong>';
-            $temp['end_date'] = '<strong>'. $student['course']->end_date .'</strong>';
+            
+            // $temp['start_date'] = '<strong>'. $student['course']->start_date .'</strong>';
+            // $temp['end_date'] = '<strong>'. $student['course']->end_date .'</strong>';
+
+            $course_student = DB::table('course_student')
+                                ->where('course_id', $student['course']->id)
+                                ->where('user_id', $student['user']->id)
+                                ->first();
+            if($course_student->created_at != '') {
+                $temp['enrolled_date'] = \Carbon\Carbon::parse($course_student->created_at)->format('Y-m-d');
+            } else {
+                $temp['enrolled_date'] = 'N/A';
+            }
 
             if($student['course']->progress($student['user']) > 99) {
                 $status = '<span class="indicator-line rounded bg-success"></span>';
@@ -668,7 +679,7 @@ class UserController extends Controller
                                 </div>';
 
             $temp['actions'] = '<a href="'. route('admin.results.studentDetail', [$student['user']->id, $student['course']->id]) .'" class="btn-accent btn-sm">Detail</a>';
-            $temp['actions'] .= '<a href="#" class="btn-primary btn-sm ml-2">Certificate</a>';
+            // $temp['actions'] .= '<a href="#" class="btn-primary btn-sm ml-2">Certificate</a>';
 
             array_push($data, $temp);
         }

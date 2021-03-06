@@ -192,7 +192,7 @@
                         @lang('labels.frontend.buttons.share')</a>
                     @endif
 
-                    @if($course->progress() == 100)
+                    <!-- @if($course->progress() == 100)
                         @if(!$course->isUserCertified())
                         <form method="post" action="{{route('admin.certificates.generate')}}" style="display: inline-block;">
                             @csrf
@@ -207,7 +207,7 @@
                             <i class="material-icons icon--left">done</i> @lang('labels.frontend.course.certified')
                         </button>
                         @endif
-                    @endif
+                    @endif -->
 
                 </div>
             </div>

@@ -472,6 +472,8 @@ return array (
       'company_email' => 'Company Email',
       'business_phone' => 'Business Phone',
       'contact_type' => 'Contact Type',
+      'enrolled_date' => 'Enrolled Date',
+      'process' => 'Progress',
     ),
     'lessons' => 
     array (
@@ -618,6 +620,7 @@ return array (
       'error' => 'Error!',
       'your_rating' => 'Your rating',
       'actived' => 'Activated',
+      'course_progress' => 'Course Progress',
     ),
     'my_quizzes' => 
     array (
@@ -1085,6 +1088,10 @@ return array (
       'by_email' => 'By Email',
       'by_mobile_phone' => 'Call me on Mobile',
       'by_business_phone' => 'Call me on Business Phone',
+    ),
+    'course' => 
+    array (
+      'generate_certificate' => 'Generate Certification',
     ),
   ),
   'general' => 

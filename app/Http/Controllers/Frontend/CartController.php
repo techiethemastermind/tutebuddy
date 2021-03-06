@@ -321,7 +321,8 @@ class CartController extends Controller
                         DB::table('course_student')->insert([
                             'course_id' => $item->id,
                             'user_id' => $userId,
-                            'type' => $item->attributes->price_type
+                            'type' => $item->attributes->price_type,
+                            'created_at' => \Carbon\Carbon::now()
                         ]);
                     }
                 }

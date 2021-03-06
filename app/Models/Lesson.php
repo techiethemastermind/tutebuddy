@@ -54,9 +54,19 @@ class Lesson extends Model
     /**
      * Get completed status
      */
-    public function isCompleted()
+    public function isCompleted($user_id = null)
     {
-        $c = ChapterStudent::where('model_type', Lesson::class)->where('model_id', $this->id)->get();
+        if(!$user_id) {
+            $c = ChapterStudent::where('model_type', Lesson::class)
+            ->where('model_id', $this->id)
+            ->where('user_id', auth()->user()->id)
+            ->get();
+        } else {
+            $c = ChapterStudent::where('model_type', Lesson::class)
+            ->where('model_id', $this->id)
+            ->where('user_id', $user_id)
+            ->get();
+        }
 
         if(count($c) > 0) {
             return true;

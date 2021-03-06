@@ -66,7 +66,18 @@ function get_result($percent) {
                     </a>
                 </div>
             </div>
-
+            <div class="row" role="tablist">
+                <div class="col-auto ml-2">
+                    <form method="post" action="{{route('admin.certificates.generate')}}" style="display: inline-block;">
+                        @csrf
+                        <input type="hidden" value="{{$course->id}}" name="course_id">
+                        <button class="btn btn-primary">
+                            <i class="material-icons icon--left">done</i>
+                            @lang('labels.backend.course.generate_certificate')
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -74,7 +85,103 @@ function get_result($percent) {
 
         <div class="form-group mb-32pt">
             <p class="font-size-16pt mb-8pt"><strong>@lang('labels.backend.general.course'):</strong> {{ $course->title }}</p>
-            <p class="font-size-16pt"><strong>@lang('labels.backend.general.student'):</strong> {{ $user->name }}</p>
+            <p class="font-size-16pt mb-8pt"><strong>@lang('labels.backend.general.student'):</strong> {{ $user->name }}</p>
+            <p class="font-size-16pt"><strong>@lang('labels.backend.general.course_progress'):</strong> {{ $course->progress($user) }}%</p>
+        </div>
+
+        <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
+
+            <div class="table-responsive" data-toggle="lists">
+
+                <table id="tbl_result" class="table mb-0 thead-border-top-0 table-nowrap">
+                    <thead>
+                        <tr>
+                            <th>@lang('labels.backend.table.lesson')</th>
+                            <th>@lang('labels.backend.table.type')</th>
+                            <th>@lang('labels.backend.table.date')</th>
+                            <th>@lang('labels.backend.table.status')</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="list">
+                        @foreach($course->lessons as $lesson)
+                        <tr>
+                            <td>
+                                <div class="media flex-nowrap align-items-center" style="white-space: nowrap;">
+                                    <div class="avatar avatar-sm mr-8pt">
+
+                                        @if(!empty($lesson->image))
+                                        <img src="{{ asset('storage/uploads/thumb/' . $lesson->image) }}" alt="Avatar" class="avatar-img rounded-circle">
+                                        @else
+                                        <span class="avatar-title rounded-circle">{{ substr($lesson->title, 0, 2) }}</span>
+                                        @endif
+                                    </div>
+                                    <div class="media-body">
+
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex d-flex flex-column">
+                                                <p class="mb-0"><strong class="js-lists-values-lead">{{ $lesson->title }}</strong></p>
+                                                <small class="js-lists-values-email text-50">{{ substr($lesson->short_text, 0, 30) }}...</small>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </td>
+                                
+                            <td>
+                                @if($lesson->lesson_type == 1)
+                                <div class="d-flex align-items-center">
+                                    <a href="#" class="text-warning"><i class="material-icons mr-8pt">star</i></a>
+                                    <a href="#" class="text-70"><span class="js-lists-values-employer-name">Live Lesson</span></a>
+                                </div>
+                                @else
+                                <div class="d-flex align-items-center">
+                                    <a href="#" class="text-primary"><i class="material-icons mr-8pt">star</i></a>
+                                    <a href="#" class="text-70"><span class="js-lists-values-employer-name">General Lesson</span></a>
+                                </div>
+                                @endif
+                            </td>
+                            <td>
+                                <?php 
+                                    $chapter = \App\Models\ChapterStudent::where('model_type', \App\Models\Lesson::class)
+                                        ->where('model_id', $lesson->id)
+                                        ->where('user_id', $user->id)
+                                        ->where('course_id', $course->id)
+                                        ->first();
+  
+                                    if($chapter) {
+                                        $date = $chapter->created_at->format('m/d/Y');
+                                        $date_human = $chapter->created_at->diffForHumans();
+                                    } else {
+                                        $date = \Carbon\Carbon::parse($lesson->created_at)->format('m/d/Y');
+                                        $date_human = \Carbon\Carbon::parse($lesson->created_at)->diffForHumans();
+                                    }
+                                    
+                                ?>
+                                <div class="d-flex flex-column">
+                                    <small class="js-lists-values-date"><strong>{{ $date }}</strong></small>
+                                    <small class="text-50">{{ $date_human }}</small>
+                                </div>
+                            </td>
+                            <td>
+                                @if($lesson->isCompleted($user->id))
+                                <div class="d-flex flex-column">
+                                    <small class="js-lists-values-status text-50 mb-4pt">Completed</small>
+                                    <span class="indicator-line rounded bg-success"></span>
+                                </div>
+                                @else
+                                <div class="d-flex flex-column">
+                                    <small class="js-lists-values-status text-50 mb-4pt">Not Taken</small>
+                                    <span class="indicator-line rounded bg-primary"></span>
+                                </div>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">

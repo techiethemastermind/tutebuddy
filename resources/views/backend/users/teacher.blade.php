@@ -55,9 +55,8 @@
                             <th style="width: 18px;" class="pr-0"></th>
                             <th>@lang('labels.backend.table.name')</th>
                             <th>@lang('labels.backend.table.course')</th>
-                            <th>@lang('labels.backend.table.start_date')</th>
-                            <th>@lang('labels.backend.table.end_date')</th>
-                            <th>@lang('labels.backend.table.status')</th>
+                            <th>@lang('labels.backend.table.enrolled_date')</th>
+                            <th>@lang('labels.backend.table.process')</th>
                             <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
@@ -86,8 +85,7 @@
                     { data: 'index'},
                     { data: 'name' },
                     { data: 'course'},
-                    { data: 'start_date' },
-                    { data: 'end_date' },
+                    { data: 'enrolled_date' },
                     { data: 'status' },
                     { data: 'actions'}
                 ],
