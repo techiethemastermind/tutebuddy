@@ -327,7 +327,7 @@ $(function() {
                 $(this).html('Finish Quiz <i class="material-icons icon--right">keyboard_arrow_right</i>');
             } else {
                 clearInterval(timer);
-                console.log('finish quiz');
+                $('#btn_complete').trigger('click');
             }
         }
     });
