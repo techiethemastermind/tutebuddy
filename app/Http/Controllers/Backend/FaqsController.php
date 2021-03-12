@@ -102,5 +102,5 @@ class FaqsController extends Controller
         return back()->withFlashSuccess('success', 'Deleted Successfully');
 
     }
-    
+
 }

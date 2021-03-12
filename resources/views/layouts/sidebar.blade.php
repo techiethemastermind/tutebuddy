@@ -390,6 +390,32 @@
                     
                 <li>
                 @endif
+
+                @can('help_access')
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#help">
+                        <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">help</span>
+                        Help
+                        <span class="ml-auto sidebar-menu-toggle-icon"></span>
+                    </a>
+
+                    <ul class="sidebar-submenu collapse sm-indent" id="help" style="">
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/faqs*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.faqs.index') }}">
+                                <span class="sidebar-menu-text">Faqs</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/helps*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="#">
+                                <span class="sidebar-menu-text">Tickets</span>
+                            </a>
+                        </li>
+                    </ul>
+                    
+                <li>
+                @endcan
             </ul>
 
             @can('setting_access')

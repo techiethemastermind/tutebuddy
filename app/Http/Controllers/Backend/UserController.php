@@ -483,6 +483,14 @@ class UserController extends Controller
 
                 $response = curl_exec($ch);
                 $result = json_decode($response, true);
+
+                if(!empty($result['error'])) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $result['error']['code'] . ': ' . $result['error']['description']
+                    ]);
+                }
+
                 $fund_account_id = $result['id'];
                 curl_close($ch);
 
