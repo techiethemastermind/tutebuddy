@@ -44,13 +44,13 @@
 
                 @can('workspace_access')
                 <li class="sidebar-menu-item">
-                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#study_menu">
+                    <a class="sidebar-menu-button js-sidebar-collapse" data-toggle="collapse" href="#workspace">
                         <span class="material-icons sidebar-menu-icon sidebar-menu-icon--left">laptop_chromebook</span>
                         @lang('navs.sidebar.workspace.title')
                         <span class="ml-auto sidebar-menu-toggle-icon"></span>
                     </a>
 
-                    <ul class="sidebar-submenu collapse sm-indent" id="study_menu" style="">
+                    <ul class="sidebar-submenu collapse sm-indent" id="workspace" style="">
 
                         <li class="sidebar-menu-item {{ Request::is('dashboard/live-sessions*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.instructor.liveSessions') }}">
@@ -184,6 +184,12 @@
                         </li>
 
                         @if(auth()->user()->hasRole('Administrator'))
+                        <li class="sidebar-menu-item {{ Request::is('dashboard/withdraw*') ? 'active' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('admin.instructor.withdraws') }}">
+                                <span class="sidebar-menu-text">@lang('navs.sidebar.withdraws')</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-menu-item {{ Request::is('dashboard/refund*') ? 'active' : '' }}">
                             <a class="sidebar-menu-button" href="{{ route('admin.refunds') }}">
                                 <span class="sidebar-menu-text">@lang('navs.sidebar.refunds')</span>

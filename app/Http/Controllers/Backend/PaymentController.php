@@ -238,6 +238,16 @@ class PaymentController extends Controller
             ]);
         }
 
+        $balance = $this->getEarned('balance');
+        $available = $balance - ($balance * (config('account.fee') / 100));
+
+        if($available < $request->amount) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Available amount is less than requested amount. Please try again with correct amount'
+            ]);
+        }
+
         $params = [
             'account_number' => config('services.razorpayX.number'),
             'fund_account_id' => auth()->user()->bank->fund_account_id,
@@ -265,19 +275,59 @@ class PaymentController extends Controller
         $status = $result['status'];
         curl_close($ch);
 
+        $transaction_id = 'trans-' . str_random(8);
+
+        // Widthdraw transaction
         $transaction = Transaction::create([
             'user_id' => auth()->user()->id,
-            'transaction_id' => 'trans-' . str_random(8),
+            'transaction_id' => $transaction_id,
             'amount' => $request->amount,
             'type' => 'withdraw',
             'payout_id' => $payout_id,
             'status' => $status
         ]);
 
+        // Account fee transaction
+        $fee_amount = $request->amount / (1 - (config('account.fee') / 100)) - $request->amount;
+        $fee_transaction = Transaction::create([
+            'user_id' => auth()->user()->id,
+            'transaction_id' => $transaction_id,
+            'amount' => $fee_amount,
+            'type' => 'fee'
+        ]);
+
         return response()->json([
             'success' => true,
             'transaction' => $transaction->id
         ]);
+    }
+
+    /**
+     * Display all withdraws for students
+     * Super admin
+     */
+    public function instructorWithdraws()
+    {
+        $instructors = User::role('Instructor')->get();
+        $results = [];
+
+        foreach($instructors as $instructor)
+        {
+            $temp = [];
+            $temp['user'] = $instructor;
+
+            // Get account fees
+            $fees = Transaction::where('user_id', $instructor->id)->where('type', 'fee')->sum('amount');
+            $temp['fee'] = $fees;
+
+            // Get withdraws
+            $withdraws_amount = Transaction::where('user_id', $instructor->id)->where('type', 'withdraw')->sum('amount');
+            $temp['withdraw'] = $withdraws_amount;
+
+            array_push($results, $temp);
+        }
+
+        return view('backend.payment.teacher.withdraws', compact('results'));
     }
 
     /**
@@ -321,7 +371,8 @@ class PaymentController extends Controller
                 $total = OrderItem::whereIn('item_id', $course_ids_since_now)->sum('price');
                 $withdraws = Transaction::where('user_id', auth()->user()->id)->where('type', 'withdraw')->sum('amount');
                 $refunds = Transaction::where('user_id', auth()->user()->id)->where('type', 'refund')->sum('amount');
-                $balance = $total - $withdraws - $refunds;
+                $fees = Transaction::where('user_id', auth()->user()->id)->where('type', 'fee')->sum('amount');
+                $balance = $total - $withdraws - $refunds - $fees;
                 return $balance;
             break;
 
@@ -337,7 +388,6 @@ class PaymentController extends Controller
                 return $total - $refunds;
             break;
         }
-        
     }
 
     /**

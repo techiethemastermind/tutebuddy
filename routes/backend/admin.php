@@ -208,6 +208,7 @@ Route::get('refunds/process/{id}', 'PaymentController@processRefund')->name('ref
 
 //==== Withdraw ====//
 Route::post('withdraw', 'PaymentController@withdraw')->name('withdraw');
+Route::get('withdraws', 'PaymentController@instructorWithdraws')->name('instructor.withdraws');
 
 //==== Contacts Route ====//
 Route::resource('contacts', 'ContactsController');

@@ -68,5 +68,6 @@ return array (
     'my_payments' => 'My Payments',
     'system' => 'System',
     'history' => 'Access History',
+    'withdraws' => 'Withdraws',
   ),
 );

@@ -793,6 +793,8 @@ return array (
         'payment_status' => 'Payment Status',
         'type' => 'Type',
         'billed_name' => 'Billed For',
+        'instructor' => 'Instructor',
+        'fee' => 'Account Fee',
       ),
       'order_detail' => 
       array (
@@ -835,6 +837,10 @@ return array (
       array (
         'title' => 'My Transactions',
         'no_results' => 'No Transactions',
+      ),
+      'withdraws' => 
+      array (
+        'title' => 'Withdraws',
       ),
     ),
     'genearl' => 
