@@ -266,6 +266,8 @@
 
         $('#btn_confirm').on('click', function(e) {
             e.preventDefault();
+            $(this).attr('disabled', 'true');
+
             var form = $('#frm_withdraw');
 
             checkValidForm(form);
@@ -307,9 +309,13 @@
                                 location.reload();
                             }
                         });
+
                     } else {
                         swal('Error!', res.message, 'error');
                     }
+
+                    $('#amount').val('');
+                    $('#btn_confirm').removeAttr('disabled');
                 }
             });
         });
