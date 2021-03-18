@@ -233,7 +233,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <div class="dropdown-header">
-                            <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->roles->pluck('name')[0] }})
+                            <strong>{{ auth()->user()->name }}</strong> ({{ auth()->user()->getRoleNames()->first()) }})
                         </div>
                         <a class="dropdown-item" href="{{ route('admin.myaccount') }}">@lang('navs.my_account')</a>
                         <a class="dropdown-item" href="">@lang('navs.help_center')</a>
