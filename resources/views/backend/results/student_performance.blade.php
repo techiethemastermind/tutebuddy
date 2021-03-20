@@ -68,7 +68,7 @@ function get_result($percent) {
             </div>
             <div class="row" role="tablist">
                 <div class="col-auto ml-2">
-                    @if(!$course->isUserCertified())
+                    @if(!$user->certificates()->where('course_id', '=', $course->id)->first())
                     <form method="post" action="{{route('admin.certificates.generate')}}" style="display: inline-block;">
                         @csrf
                         <input type="hidden" value="{{$course->id}}" name="course_id">

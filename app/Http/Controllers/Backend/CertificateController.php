@@ -160,7 +160,7 @@ class CertificateController extends Controller
 
         if (($course != null) && ($course->progress($user) == 100)) {
             $certificate = Certificate::firstOrCreate([
-                'user_id' => auth()->user()->id,
+                'user_id' => $request->user_id,
                 'course_id' => $request->course_id
             ]);
 
@@ -199,9 +199,9 @@ class CertificateController extends Controller
                 ]
             ];
 
-            Mail::to(auth()->user()->email)->send(new SendMail($send_data));
+            Mail::to($user->email)->send(new SendMail($send_data));
 
-            return back()->with('success', trans('alerts.frontend.course.completed'));
+            return back()->with('success', trans('labels.frontend.alert.certificate_generated'));
         }
         return back()->with('warning', 'Sorry, This course is not 100%, So can not create certification');
     }

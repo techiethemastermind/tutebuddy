@@ -181,6 +181,7 @@ return array (
       ),
       'publish_success' => 'Published successfully',
       'unpublish_success' => 'Unpublished Successfully',
+      'certificate_generated' => 'Certificate Generated!',
     ),
     'courses' => 
     array (
