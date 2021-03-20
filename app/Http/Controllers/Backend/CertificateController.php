@@ -31,7 +31,7 @@ class CertificateController extends Controller
         foreach($certificate->course->lessons as $lesson) {
             $d += $lesson->lessonDuration();
         }
-        $hours = floor($d / 60);
+        $hours = number_format(($d / 60), 2, '.', '');
         $cert_number = $certificate->cert_number;
         $instructor = $certificate->course->teachers->first();
         $data = [
@@ -168,21 +168,21 @@ class CertificateController extends Controller
             foreach($certificate->course->lessons as $lesson) {
                 $d += $lesson->lessonDuration();
             }
-            $hours = floor($d / 60);
+            $hours = number_format(($d / 60), 2, '.', '');
 
             $cert_number = $this->getCertNumber();
             $instructor = $certificate->course->teachers->first();
             
             $data = [
-                'name' => auth()->user()->name,
+                'name' => $user->name,
                 'course_name' => $course->title,
                 'date' => Carbon::now()->format('d M, Y'),
                 'hours' => $hours,
                 'cert_number' => $cert_number,
                 'instructor' => $instructor
             ];
-            $certificate_name = 'Certificate-' . $course->id . '-' . auth()->user()->id . '.pdf';
-            $certificate->name = auth()->user()->id;
+            $certificate_name = 'Certificate-' . $course->id . '-' . $user->id . '.pdf';
+            $certificate->name = $user->id;
             $certificate->url = $certificate_name;
             $certificate->cert_number = $cert_number;
             $certificate->save();
@@ -212,7 +212,7 @@ class CertificateController extends Controller
     public function download(Request $request)
     {
         $certificate = Certificate::findOrFail($request->certificate_id);
-        if($certificate != null){
+        if($certificate != null) {
             $file = public_path() . "/storage/certificates/" . $certificate->url;
             return Response::download($file);
         }
