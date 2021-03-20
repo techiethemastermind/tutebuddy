@@ -31,14 +31,27 @@ class CertificateController extends Controller
         foreach($certificate->course->lessons as $lesson) {
             $d += $lesson->lessonDuration();
         }
-        $hours = number_format(($d / 60), 2, '.', '');
+        $hours = floor($d / 60);
+        $mins = $d % 60;
+        $hour_str = '';
+
+        if($hours > 1) {
+            $hour_str = $hours . 'h';
+        } else {
+            $hour_str = '00:';
+        }
+
+        if($mins > 0) {
+            $hour_str .= $mins . 'm';
+        }
+
         $cert_number = $certificate->cert_number;
         $instructor = $certificate->course->teachers->first();
         $data = [
             'name' => auth()->user()->name,
             'course_name' => $certificate->course->title,
             'date' => Carbon::now()->format('d M, Y'),
-            'hours' => $hours,
+            'hours' => $hour_str,
             'cert_number' => $cert_number,
             'instructor' => $instructor
         ];
@@ -168,7 +181,19 @@ class CertificateController extends Controller
             foreach($certificate->course->lessons as $lesson) {
                 $d += $lesson->lessonDuration();
             }
-            $hours = number_format(($d / 60), 2, '.', '');
+            $hours = floor($d / 60);
+            $mins = $d % 60;
+            $hour_str = '';
+
+            if($hours > 1) {
+                $hour_str = $hours . 'h';
+            } else {
+                $hour_str = '00:';
+            }
+
+            if($mins > 0) {
+                $hour_str .= $mins . 'm';
+            }
 
             $cert_number = $this->getCertNumber();
             $instructor = $certificate->course->teachers->first();
@@ -177,7 +202,7 @@ class CertificateController extends Controller
                 'name' => $user->name,
                 'course_name' => $course->title,
                 'date' => Carbon::now()->format('d M, Y'),
-                'hours' => $hours,
+                'hours' => $hour_str,
                 'cert_number' => $cert_number,
                 'instructor' => $instructor
             ];

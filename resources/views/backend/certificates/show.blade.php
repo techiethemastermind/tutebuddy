@@ -94,7 +94,7 @@
             <p style="font-family: Baskerville Old Face; font-size: 20px; color: #714b1d;">Certificate No: {{ $data['cert_number'] }}</p>
         </div>
         
-        <img width="100%" src="{{ asset('images/certificate.jpg') }}" style="overflow: hidden; z-index: -1;">
+        <img width="100%" src="{{ asset('images/certificate-new.jpg') }}" style="overflow: hidden; z-index: -1;">
     </div>
 </div>
 </body>
