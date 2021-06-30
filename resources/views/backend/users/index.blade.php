@@ -86,7 +86,7 @@
                 </div>
             </div>
 
-            <div class="table-responsive" data-toggle="lists" data-lists-values='["js-lists-values-name", "js-lists-values-email"]'>
+            <div class="table" data-toggle="lists" data-lists-values='["js-lists-values-name", "js-lists-values-email"]'>
 
                 <table id="tbl_users" class="table mb-0 thead-border-top-0 table-nowrap">
                     <thead>

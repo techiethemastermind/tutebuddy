@@ -147,6 +147,8 @@
                         swal('Success!', 'Successfully processed refund', 'success');
                         $('#btn_refund').val('Sent Refund');
                         $('#btn_refund').attr('disabled', 'disabled');
+                    } else {
+                        swal('Error!', res.message);
                     }
                 }
             });

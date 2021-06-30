@@ -148,10 +148,49 @@ class PaymentController extends Controller
         $pay_id = $refund->order->payment_id;
 
         $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
+
+        // Check Already refunded or not.
+        $refunded_payments = $api->payment->fetch($pay_id)->refunds();
+
+        if(count($refunded_payments->items) > 0) {
+            foreach($refunded_payments->items as $item) {
+                $refund->status = 1;
+                $refund->save();
+
+                $transaction = Transaction::create([
+                    'user_id' => auth()->user()->id,
+                    'transaction_id' => 'trans-' . str_random(8),
+                    'amount' => $item->amount,
+                    'type' => 'refund',
+                    'order_id' => $refund->order->id,
+                    'status' => $item->status,
+                    'payout_id' => $item->id
+                ]);
+
+                // Deactive Course
+                $order_id = $refund->order_id;
+                $order = Order::find($order_id);
+                $orderItems = $order->items;
+
+                foreach($orderItems as $item) {
+                    $item_type = $item->item_type;
+                    if($item_type == 'App\Models\Course') {
+                        DB::table('course_student')
+                            ->where('course_id', $item->item_id)
+                            ->where('user_id', $order->user_for)
+                            ->delete();
+                    }
+                }
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Already refunded!'
+            ]);
+        }
+
         $payment = $api->payment->fetch($pay_id);
-        // $refunds = $payment->refunds();
         $refund_payment = $payment->refund();
-        // $refund_payment = $payment->refund(array('amount' => 100));
 
         if($refund_payment) {
             $refund->status = 1;
@@ -270,7 +309,14 @@ class PaymentController extends Controller
 
         $response = curl_exec($ch);
         $result = json_decode($response, true);
-        // dd($result);
+        
+        if($result['error']) {
+            return response()->json([
+                'success' => false,
+                'message' => $result['error']['description']
+            ]);
+        }
+
         $payout_id = $result['id'];
         $status = $result['status'];
         curl_close($ch);
