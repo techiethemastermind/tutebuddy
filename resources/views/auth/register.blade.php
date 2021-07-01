@@ -189,7 +189,19 @@
         $('select[name="timezone"]').timezones();
         $('select[name="timezone"] option[data-offset="'+ offset +'"]').prop('selected', true);
 
-        var pattern = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/;
+        var pattern_pwd = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/;
+        var pattern_name = /^[a-zA-Z]+ [a-zA-Z]+$/;
+
+        $('#name').on('blur', function(e) {
+            if(!pattern_name.test($(this).val())) {
+                if(!$(this).hasClass('is-invalid')) {
+                    $(this).addClass('is-invalid');
+                }
+            } else {
+                $(this).removeClass('is-invalid');
+                $(this).addClass('is-valid');
+            }
+        });
 
         $('#password').on('keyup', function(e) {
             var rlt = checkPassword($(this).val());
@@ -204,7 +216,7 @@
         });
 
         function checkPassword(password) {
-            if(pattern.test(password)){
+            if(pattern_pwd.test(password)){
                 return true;
             }else{
                 return false;
@@ -212,8 +224,16 @@
         }
 
         $('#btn_register').on('click', function(e) {
-            if(!$('#password').hasClass('is-invalid')) {
-                $('#frm_register').submit();
+            var isCheckedTerms = $('#chk_terms').is(":checked");
+
+            if($('#frm_register').find('.is-invalid').length > 0) {
+                swal('Error!', 'Please fix invalid fields', 'error');
+            } else {
+                if(isCheckedTerms) {
+                    $('#frm_register').submit();
+                } else {
+                    swal('Error!', 'Please Check our Terms and Conditions ', 'error');
+                }
             }
         });
 

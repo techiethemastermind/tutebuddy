@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
+            <div class="table" data-toggle="lists" data-lists-sort-by="js-lists-values-date"
                 data-lists-sort-desc="true"
                 data-lists-values='["js-lists-values-no"]'>
 

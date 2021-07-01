@@ -31,6 +31,7 @@
                             <th>@lang('labels.backend.table.price') ({{ getCurrency(config('app.currency'))['symbol'] }})</th>
                             <th>@lang('labels.backend.table.course_type')</th>
                             <th>Purchase by</th>
+                            <th>@lang('labels.backend.table.actions')</th>
                         </tr>
                     </thead>
                     <tbody class="list" id="items">
@@ -112,6 +113,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                </td>
+                                <td>
+                                    <a class="text-danger" href="{{route('checkout.remove', ['course'=>$item])}}">
+                                        <i class="fa fa-times"></i>
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach

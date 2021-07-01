@@ -68,7 +68,7 @@
                             <label for="payment_cc" id="label-type" class="col-md-4 col-form-label form-label">
                             @lang('labels.backend.payment.order_detail.payment_date'): </label>
                             <div role="group" aria-labelledby="label-type" class="col-md-8">
-                                <strong>{{ \Carbon\Carbon::parse($order->created_at)->format('M d Y h:i A') }}</strong>
+                                <strong>{{ \Carbon\Carbon::parse(timezone()->convertToLocal(\Carbon\Carbon::parse($order->created_at)))->format('M d Y h:i A') }}</strong>
                             </div>
                         </div>
                     </div>

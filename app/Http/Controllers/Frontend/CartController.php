@@ -208,6 +208,19 @@ class CartController extends Controller
         return redirect(route('cart.index'));
     }
 
+    public function checkoutRemove(Request $request)
+    {
+        Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
+        if(Cart::session(auth()->user()->id)->getContent()->count() < 2){
+            Cart::session(auth()->user()->id)->clearCartConditions();
+            Cart::session(auth()->user()->id)->removeConditionsByType('tax');
+            Cart::session(auth()->user()->id)->removeConditionsByType('coupon');
+            Cart::session(auth()->user()->id)->clear();
+        }
+        Cart::session(auth()->user()->id)->remove($request->course);
+        return redirect(route('cart.checkout'));
+    }
+
     private function applyTax($target)
     {
         //Apply Conditions on Cart

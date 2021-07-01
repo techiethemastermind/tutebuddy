@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('cart/checkout', 'CartController@process')->name('cart.process');
     Route::post('cart/add', 'CartController@addToCart')->name('cart.addToCart');
+    Route::get('cart/checkout/remove', 'CartController@checkoutRemove')->name('checkout.remove');
 
     Route::get('cart/childs/{course_id}', 'CartController@getChilds')->name('cart.getChilds');
 
