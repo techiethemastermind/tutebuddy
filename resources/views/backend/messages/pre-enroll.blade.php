@@ -101,7 +101,7 @@
 
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
 
-            <div class="table-responsive" data-toggle="lists" data-lists-sort-by="js-lists-values-date">
+            <div class="table" data-toggle="lists" data-lists-sort-by="js-lists-values-date">
                 <table id="tbl_results" class="table mb-0 thead-border-top-0 table-nowra" data-page-length='50'>
                     <thead>
                         <tr>
@@ -176,7 +176,7 @@ $(function() {
     $('#tbl_results').on('click', 'button.start-chat', function() {
         var course_id = $(this).attr('data-course');
         var user_id = $(this).attr('data-user');
-        timer = setInterval(loadMessage, 2000);
+        timer = setInterval(loadMessage(course_id, user_id), 2000);
         $('#dv_enroll_chat').toggle('medium');
     });
 
