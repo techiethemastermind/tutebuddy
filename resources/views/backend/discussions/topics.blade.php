@@ -118,7 +118,7 @@
 
                 @else
                     <div class="list-group-item p-3">
-                        <span class="card-title">No Discussions. @lang('labels.backend.discussions.topics.no_result')</span>
+                        <span class="card-title">@lang('labels.backend.discussions.topics.no_result')</span>
                     </div>
                 @endif
 

@@ -47,7 +47,7 @@
             <div class="page-separator__text">@lang('labels.backend.discussions.title')</div>
         </div>
         <div class="card dashboard-area-tabs p-relative o-hidden mb-lg-32pt">
-            <div class="table-responsive" data-toggle="lists">
+            <div class="table" data-toggle="lists">
                 <table id="tbl_topics" class="table mb-0 thead-border-top-0 table-nowrap" data-page-length='50'>
                     <thead>
                         <tr>

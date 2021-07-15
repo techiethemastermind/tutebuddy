@@ -72,7 +72,11 @@ class DiscussionController extends Controller
     public function getTopics(Request $request)
     {
         // Get purchased Course IDs
-        $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        if(auth()->user()->hasRole('Student')) {
+            $course_ids = DB::table('course_student')->where('user_id', auth()->user()->id)->pluck('course_id');
+        } else {
+            $course_ids = Course::pluck('id');
+        }
         
         if(isset($request->_q)) {
             $discussions = Discussion::where('title', 'like', '%' . $request->_q . '%')->whereIn('course_id', $course_ids)->paginate(5);

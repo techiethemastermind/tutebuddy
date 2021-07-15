@@ -26,11 +26,16 @@
             </div>
 
             <div class="row" role="tablist">
-                <div class="col-auto mr-3">
+                <div class="col-auto">
                     @if($refund->status == 1)
                     <button id="btn_refund" class="btn btn-accent" disabled>Sent Refund</button>
                     @else
                     <button id="btn_refund" class="btn btn-accent">Send Refund</button>
+                    @endif
+                </div>
+                <div class="col-auto pl-0">
+                    @if($refund->status != 1)
+                    <button id="btn_dismiss" class="btn btn-primary">Dismiss</button>
                     @endif
                 </div>
             </div>

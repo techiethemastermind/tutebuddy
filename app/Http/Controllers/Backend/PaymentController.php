@@ -72,7 +72,7 @@ class PaymentController extends Controller
             $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
             $purchased_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('course_id');
             $order_ids = OrderItem::whereIn('item_id', $purchased_ids)->pluck('order_id');
-            $orders = Order::whereIn('id', $order_ids)->paginate(15);
+            $orders = Order::whereIn('id', $order_ids)->orderBy('created_at', 'desc')->paginate(15);
             $earned_this_month = $this->getEarned('month');
             $balance = $this->getEarned('balance');
             $total = $this->getEarned('total');
@@ -126,8 +126,16 @@ class PaymentController extends Controller
      */
     public function getRefunds()
     {
-        $refunds = Refund::paginate(15);
-        return view('backend.payment.admin.refunds', compact('refunds'));
+        if(auth()->user()->hasRole('Instructor')) {
+            $course_ids = DB::table('course_user')->where('user_id', auth()->user()->id)->pluck('course_id');
+            $purchased_ids = DB::table('course_student')->whereIn('course_id', $course_ids)->pluck('course_id');
+            $order_ids = OrderItem::whereIn('item_id', $purchased_ids)->pluck('order_id');
+            $refunds = Refund::whereIn('order_id', $order_ids)->orderBy('created_at', 'desc')->paginate(15);
+            return view('backend.payment.teacher.refunds', compact('refunds'));
+        } else {
+            $refunds = Refund::orderBy('created_at', 'desc')->paginate(15);
+            return view('backend.payment.admin.refunds', compact('refunds'));
+        }
     }
 
     /**
@@ -137,6 +145,16 @@ class PaymentController extends Controller
     {
         $refund = Refund::find($id);
         return view('backend.payment.admin.refund-detail', compact('refund'));
+    }
+
+    /**
+     * Refund Reply
+     */
+
+    public function refundReply($id)
+    {
+        $refund = Refund::find($id);
+        return view('backend.payment.teacher.refund-reply', compact('refund'));
     }
 
     /**

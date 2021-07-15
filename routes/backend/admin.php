@@ -206,6 +206,8 @@ Route::get('refunds', 'PaymentController@getRefunds')->name('refunds');
 Route::get('refunds/detail/{id}', 'PaymentController@refundDetail')->name('refund.detail');
 Route::get('refunds/process/{id}', 'PaymentController@processRefund')->name('refund.process');
 
+Route::get('refunds/reply/{id}', 'PaymentController@refundReply')->name('refund.reply');
+
 //==== Withdraw ====//
 Route::post('withdraw', 'PaymentController@withdraw')->name('withdraw');
 Route::get('withdraws', 'PaymentController@instructorWithdraws')->name('instructor.withdraws');
