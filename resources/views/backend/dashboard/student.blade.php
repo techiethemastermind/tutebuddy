@@ -450,8 +450,13 @@
                             <div class="card-body d-flex align-items-center">
                                 <a href="{{ route('student.test.show', [ $testResult->test->lesson->slug, $testResult->test->id]) }}"
                                     class="avatar overlay overlay--primary avatar-4by3 mr-12pt">
+                                    @if(!empty($testResult->test->course))
                                     <img src="{{ asset('/storage/uploads/thumb/' . $testResult->test->course->course_image ) }}"
                                         alt="{{ $testResult->test->title }}" class="avatar-img rounded">
+                                    @else
+                                    <img src="{{ asset('/assets/img/no-image-thumb.jpg') }}"
+                                        alt="{{ $testResult->test->title }}" class="avatar-img rounded">
+                                    @endif
                                     <span class="overlay__content"></span>
                                 </a>
                                 <div class="flex mr-12pt">
